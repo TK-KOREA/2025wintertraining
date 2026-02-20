@@ -86,6 +86,7 @@
         .day-active:hover {
             background-color: #1e3a8a;
             color: white;
+            border-color: #1e3a8a;
             transform: translateY(-2px);
         }
 
@@ -275,7 +276,7 @@
     </a>
 
     <script>
-        // 메시지 데이터 (실제 로마숫자 내용 반영)
+        // 메시지 데이터 (전체 12개 전문 반영)
         const messages = [
             { id: 1, title: "예수님의 증거를 위한 하나님의 신실한 증인", outlines: [
                 "Ⅰ. 그리스도는 하나님의 신실한 증인, 곧 하나님의 증거와 표현이시다. 그리스도께서 하나님을 표현하시는 것이 곧 하나님을 증언하시는 것이다 — 계 1:5, 3:14.",
@@ -314,13 +315,47 @@
                 "Ⅱ. 우리는 하나님의 생명이 사람 안에서 직면하는 장애물들이 무엇인지 보아야 한다.",
                 "Ⅲ. 우리가 생명나무이신 그리스도를 먹으려면, 반드시 모든 일에서 그분께 첫째 위치를 드려야 한다. 그분께 첫째 위치를 드리는 것은 그분의 사랑에 강권되어 우리의 삶에서 그분을 모든 것으로 여기고 취함으로, 그분을 첫째가는 사랑으로 사랑하는 것이다 — 계 2:4-5, 골 1:18하, 고후 5:14-15, 막 12:30, 시 73:25-26, 80:17-19."
             ]},
-            { id: 12, title: "상과 벌을 가지고 오시는 그리스도", outlines: [
+            { id: 6, title: "영원한 왕이신 그리스도께서 땅을 소유하러 오심과 하나님의 비밀이 이루어짐", outlines: [
+                "Ⅰ. 요한계시록 11장 15절부터 18절까지와 12장 10절은 우리가 영원한 왕이신 그리스도를 체험하고 누릴 수 있음을 보여 준다.",
+                "Ⅱ. 요한계시록 10장 1절부터 7절까지에서 우리는 땅을 소유하러 오시는 그리스도에 대한 분명한 이상을 본다.",
+                "Ⅲ. “하나님의 비밀이 이루어질 것인데” — 계 10:7."
+            ]},
+            { id: 7, title: "교회들에게 말씀하시는 그 영과 다윗의 열쇠를 가지신 분과 이기는 이들과 함께 정찬을 드실 분", outlines: [
+                "Ⅰ. 요한계시록 2장과 3장에서 그리스도는 모든 교회들에게 말씀하시는 그 영이시다.",
+                "Ⅱ. 회복된 교회(빌라델비아)에서 그리스도는 (하나님의 왕국을 건축하기 위한 다윗 집으로 예표된) 하나님의 집의 열쇠(보물 창고의 열쇠)가 어깨 위에 놓인 분으로 나타나신다 — 사 22:22, 계 3:7.",
+                "Ⅲ. 회복되었다가 타락한 교회 안에서 그리스도는 이기는 이들과 함께 정찬을 드실 분으로 나타나시고, 또한 그분께서 이기시고 나서 그분의 아버지의 보좌에 아버지와 함께 앉으신 것과 같이 이기는 이들에게 그분의 보좌에 그분과 함께 앉도록 해 주실 분으로 나타나신다 — 계 3:20-21."
+            ]},
+            { id: 8, title: "사내아이, 하늘에서의 전쟁, 이기는 성도들", outlines: [
+                "Ⅰ. “그 여자가 아들, 곧 쇠막대기로 모든 민족을 다스릴 사내아이를 낳았으며, 그 아이는 하나님과 하나님의 보좌로 이끌려 올라갔습니다.” — 계 12:5.",
+                "Ⅱ. “그때 하늘에서 전쟁이 일어났습니다.” — 계 12:7상.",
+                "Ⅲ. “우리 하나님의 구원과 능력과 왕국과 그분의 그리스도의 권위가 이제 나타났다. 왜냐하면 우리 하나님 앞에서 밤낮으로 우리 형제들을 비난하던 그 비난자가 내던져졌기 때문이다. 그들은 어린양의 피와 자기들이 증언하는 말로 그(마귀)를 이겼으며, 또한 죽기까지 자기들의 혼생명을 사랑하지 않았다.” — 계 12:10-11."
+            ]},
+            { id: 9, title: "이기는 첫 열매들이 따르는 어린양", outlines: [
+                "Ⅰ. 요한계시록 14장 1절부터 5절까지는 그리스도께서 이기는 첫 열매들이 따르는 어린양이심을 계시한다.",
+                "Ⅱ. 우리가 어린양을 따라가며 성숙에 이르러 첫 열매들이 되려면, 반드시 믿음으로 하나님과 동행함으로 죽음을 피하고 하나님을 기쁘시게 해 드리는 증거를 지녀야 한다.",
+                "Ⅲ. 어린양을 따라가며 성숙에 이르러 첫 열매들이 되려면, 우리는 반드시 주님께서 맡기신 봉사를 신실히 수행하여 그분의 집안 식구들에게 양식이신 하나님을 나누어 주어야 한다. 그럴 때 우리는 오는 왕국에서 그리스도를 우리의 보상으로 얻을 수 있다 — 마 24:45-51."
+            ]},
+            { id: 10, title: "왕국을 세우시는 분이신 그리스도와 모든 왕의 왕이시자 모든 주인의 주님이신 하나님의 말씀", outlines: [
+                "Ⅰ. 그리스도는 왕국을 세우시는 분이시다 — 계 20:1-6.",
+                "Ⅱ. 요한계시록 19장 11절부터 16절까지와 19절부터 21절까지에서 그리스도는 모든 왕의 왕이시자 모든 주인의 주님이신 하나님의 말씀으로 계시되신다.",
+                "Ⅲ. 그리스도는 땅을 소유하신 후에 왕국 안에서 왕으로서 땅을 통치하실 것이며, 그분의 이기는 믿는 이들과 함께 민족들을 다스리실 것이다 — 계 20:4, 6, 2:26-27."
+            ]},
+            { id: 11, title: "어린양-하나님께서 성안에 있는 보좌에 계심", outlines: [
+                "Ⅰ. 어린양-하나님께서 성안에 있는 보좌에 계신다 — 계 4:2-3, 22:1-5, 21:23.",
+                "Ⅱ. 보좌는 우리의 그리스도인 생활의 중심이다.",
+                "Ⅲ. 에스겔서 1장은 우리의 영적인 체험에서 가장 높은 지점이 맑은 하늘과 그 위에 있는 보좌를 갖는 것임을 계시한다. 이러한 지점에 이르는 것은 우리가 모든 것에서 하나님께 으뜸의 지위를 드리며 하나님의 권위와 행정에 완전히 복종한다는 것을 의미한다 — 겔 1:22, 26.",
+                "Ⅳ. 에스겔서 1장은 보좌에 계신 분께서 사람처럼 보이시지만 그분께 여호와의 영광의 모습이 있음을 계시하는데, 이것은 보좌에 앉아 계신 분께서 하나님이시자 사람이시라는 것을 가리킨다. 이분은 하나님-사람 곧 하나님과 사람이 연합되신 예수 그리스도이시다 — 겔 1:26, 28.",
+                "Ⅴ. 에스겔서 1장은 보좌에 계신 사람의 모습에 두 방면이 있다고 말한다. 곧 그분의 허리부터 그 위의 모습은 호박금의 모습이고, 그분의 허리부터 그 아래의 모습은 불의 모습이다 — 겔 1:27.",
+                "Ⅵ. 에스겔서 1장은 보좌에 앉아 계신 사람 주위에 있는 빛나는 광채인 무지개가 있음을 말해 주며, 이 무지개는 보좌에 계신 주님 주위에 있는 광채와 영광을 상징한다 — 겔 1:28, 계 4:3."
+            ]},
+            { id: 12, title: "상과 벌을 가지고 오시는 그리스도, 어두운 곳을 비추는 등불, 샛별로서 이기는 이들에게 은밀히 나타나심", outlines: [
                 "Ⅰ. “보아라, 내가 속히 가겠다. 내가 줄 상벌이 나에게 있으니, 각 사람에게 그의 일에 따라 갚아 주겠다.” — 계 22:12.",
                 "Ⅱ. “우리에게는 신언자가 말한 더 확실한 말씀이 있습니다. 어두운 곳을 비추는 등불에 주의를 기울이는 것처럼, 여러분은 날이 밝고 샛별이 여러분의 마음속에 떠오를 때까지, 이 말씀에 주의를 기울이는 것이 좋습니다.” — 벧후 1:19.",
                 "Ⅲ. “나는 다윗의 뿌리이고 자손이며, 빛나는 샛별이다.” — 계 22:16하."
             ]}
         ];
 
+        // 아코디언 생성 함수
         function renderAccordion() {
             const container = document.getElementById('accordion-container');
             messages.forEach(msg => {
@@ -352,9 +387,10 @@
             });
         }
 
+        // 링크 유효성 실시간 확인 함수
         async function checkLinks() {
             const buttons = document.querySelectorAll('.day-btn');
-            buttons.forEach(async (btn) => {
+            const checks = Array.from(buttons).map(async (btn) => {
                 const url = btn.getAttribute('data-url');
                 try {
                     const response = await fetch(url, { method: 'HEAD', mode: 'cors' });
@@ -368,9 +404,10 @@
                     btn.classList.remove('checking');
                 }
             });
+            await Promise.allSettled(checks);
         }
 
-        // Audio Player Logic with Enhanced Autoplay
+        // 오디오 플레이어 로직 (비동기 재생 오류 방지)
         function initAudioPlayer() {
             const music = document.getElementById('bg-music');
             const playPauseBtn = document.getElementById('play-pause-btn');
@@ -390,7 +427,6 @@
                         container.classList.add('border-blue-200');
                     }
                 } catch (err) {
-                    // Autoplay likely blocked by browser
                     console.log("Autoplay blocked, waiting for interaction.");
                     playIcon.className = 'fas fa-play ml-1';
                     musicAnim.classList.remove('playing');
@@ -408,19 +444,15 @@
                 }
             });
 
-            // Browser Autoplay Fallback: Play on first interaction with the window
+            // 첫 상호작용 시 자동 재생 시도
             const interactionHandler = () => {
-                if (music.paused) {
-                    playMusic();
-                }
+                if (music.paused) { playMusic(); }
                 window.removeEventListener('click', interactionHandler);
                 window.removeEventListener('touchstart', interactionHandler);
             };
-
             window.addEventListener('click', interactionHandler);
             window.addEventListener('touchstart', interactionHandler);
 
-            // Attempt autoplay immediately
             playMusic();
         }
 
@@ -430,6 +462,7 @@
             initAudioPlayer();
         };
 
+        // UI 상호작용
         const backToTopBtn = document.getElementById('backToTop');
         window.addEventListener('scroll', () => {
             const show = window.pageYOffset > 400;
