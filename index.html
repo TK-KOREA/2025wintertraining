@@ -42,56 +42,120 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
-        .message-nav-item:hover {
-            background-color: #ebf2ff;
-            color: #1e40af;
+        /* Accordion Styles */
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        details[open] summary i {
+            transform: rotate(180deg);
         }
 
-        .content-card {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            margin-bottom: 2rem;
+        .accordion-item {
+            transition: all 0.3s ease;
+        }
+        
+        .accordion-item[open] {
+            background-color: white;
+            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        .roman-num {
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 2.5rem;
+            display: inline-block;
+        }
+
+        .content-inner {
+            border-top: 1px solid #f1f5f9;
+        }
+
+        /* Day Buttons */
+        .day-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.4rem 0.9rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-decoration: none;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Active State (Link exists) */
+        .day-active {
+            background-color: #ebf2ff;
+            border-color: #bfdbfe;
+            color: #1e3a8a;
+            cursor: pointer;
+        }
+
+        .day-active:hover {
+            background-color: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+            transform: translateY(-2px);
+        }
+
+        /* Disabled State (Link doesn't exist) */
+        .day-disabled {
+            background-color: #f1f5f9;
+            color: #94a3b8;
+            cursor: default;
+            opacity: 0.6;
+        }
+
+        /* Loading animation while checking */
+        .checking {
+            position: relative;
             overflow: hidden;
         }
-
-        .message-title {
-            background-color: #f8fafc;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 1.5rem;
+        .checking::after {
+            content: "";
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: skeleton-loading 1.5s infinite;
+        }
+        @keyframes skeleton-loading {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
     </style>
 </head>
 <body class="text-slate-800">
 
     <!-- Navigation -->
-    <nav class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50">
+    <nav class="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center space-x-3">
-                    <span class="font-bold text-lg md:text-xl tracking-tight text-slate-900">2025 겨울훈련</span>
+                    <span class="font-bold text-lg md:text-xl tracking-tight text-slate-900 serif-font">2025 겨울훈련</span>
                 </div>
                 <div class="hidden lg:flex space-x-8 font-medium text-sm">
-                    <a href="#motto" class="hover:text-blue-700 transition">표어</a>
-                    <a href="#index" class="hover:text-blue-700 transition">메시지 목록</a>
-                    <a href="#messages" class="hover:text-blue-700 transition">상세 개요</a>
+                    <a href="#motto" class="hover:text-blue-700 transition">훈련 표어</a>
+                    <a href="#index" class="hover:text-blue-700 transition">메시지 개요</a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-bold uppercase">Training (4)</span>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-bold uppercase tracking-wider">Part (4)</span>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero-bg text-white py-24 px-4 text-center">
+    <header class="hero-bg text-white py-28 px-4 text-center">
         <div class="max-w-4xl mx-auto">
-            <h2 class="text-accent font-medium tracking-widest mb-4 uppercase">Experiencing, Enjoying, and Expressing Christ</h2>
+            <h2 class="text-accent font-medium tracking-widest mb-4 uppercase text-sm">Experiencing, Enjoying, and Expressing Christ</h2>
             <h1 class="text-4xl md:text-6xl font-bold mb-8 serif-font leading-tight">
                 2025 겨울훈련 추구 자료에<br>오신 것을 환영합니다.
             </h1>
             <div class="w-24 h-1 bg-accent mx-auto mb-8"></div>
-            <p class="text-xl md:text-2xl text-slate-200 mb-4 serif-font italic font-light">
+            <p class="text-lg md:text-xl text-slate-200 serif-font italic font-light">
                 "그리스도를 체험하고 누리고 표현함 (4)"
             </p>
         </div>
@@ -101,365 +165,57 @@
     <section id="motto" class="max-w-5xl mx-auto px-4 py-20">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-slate-900 mb-2">훈련 표어</h2>
-            <p class="text-slate-500">이번 훈련의 핵심 이상과 누림</p>
+            <p class="text-slate-500">이번 훈련의 핵심 누림을 담은 네 가지 표어</p>
         </div>
         
         <div class="space-y-6">
-            <div class="motto-card p-8 rounded-r-xl">
-                <p class="text-lg md:text-xl leading-relaxed serif-font">
+            <div class="motto-card p-8 rounded-r-xl shadow-sm border border-slate-100">
+                <p class="text-lg leading-relaxed serif-font">
                     그리스도는 여호와이시자 또한 사람으로서 하나님의 백성에게 공급하시며 그들을 돌보시고 감싸 주시는 왕이시다. 그분은 다스리시는 왕이시며, 바람을 피하는 곳과 폭풍우를 가리는 곳 같고 메마른 곳에 흐르는 시냇물 같으며 황무지의 큰 바위 그늘 같은 사람이시다.
                 </p>
             </div>
-            <div class="motto-card p-8 rounded-r-xl">
-                <p class="text-lg md:text-xl leading-relaxed serif-font">
+            <div class="motto-card p-8 rounded-r-xl shadow-sm border border-slate-100">
+                <p class="text-lg leading-relaxed serif-font">
                     우리가 생명나무이신 그리스도를 먹으려면, 반드시 모든 일에서 그분께 첫째 위치를 드려야 한다. 그분께 첫째 위치를 드리는 것은 그분의 사랑에 강권되어 우리의 삶에서 그분을 모든 것으로 여기고 취함으로, 그분을 첫째가는 사랑으로 사랑하는 것이다.
                 </p>
             </div>
-            <div class="motto-card p-8 rounded-r-xl">
-                <p class="text-lg md:text-xl leading-relaxed serif-font">
+            <div class="motto-card p-8 rounded-r-xl shadow-sm border border-slate-100">
+                <p class="text-lg leading-relaxed serif-font">
                     그들은 어린양의 피와 자기들이 증언하는 말로 비난자를 이겼으며, 또한 죽기까지 자기들의 혼생명을 사랑하지 않았다.
                 </p>
             </div>
-            <div class="motto-card p-8 rounded-r-xl">
-                <p class="text-lg md:text-xl leading-relaxed serif-font">
+            <div class="motto-card p-8 rounded-r-xl shadow-sm border border-slate-100">
+                <p class="text-lg leading-relaxed serif-font">
                     왕국 안에서 주님은 그분의 백성에게 해로서 공개적으로 나타나실 것이지만, 대환난 전에 주님은 그분의 이기는 이들에게 샛별로서 은밀히 나타나셔서 그들을 휴거시키실 것이다.
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- Message Index (Quick Navigation) -->
-    <section id="index" class="bg-slate-200 py-16 px-4">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-2xl font-bold mb-8 text-center">메시지 목록</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <a href="#msg1" class="message-nav-item bg-white p-4 rounded-lg flex items-center space-x-3 transition shadow-sm border border-slate-300">
-                    <span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 text-sm">1</span>
-                    <span class="text-sm font-medium truncate">예수님의 증거를 위한 하나님의 신실한 증인</span>
-                </a>
-                <a href="#msg2" class="message-nav-item bg-white p-4 rounded-lg flex items-center space-x-3 transition shadow-sm border border-slate-300">
-                    <span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 text-sm">2</span>
-                    <span class="text-sm font-medium truncate">죽음과 음부의 열쇠를 가지신 그리스도</span>
-                </a>
-                <a href="#msg3" class="message-nav-item bg-white p-4 rounded-lg flex items-center space-x-3 transition shadow-sm border border-slate-300">
-                    <span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 text-sm">3</span>
-                    <span class="text-sm font-medium truncate">금등잔대들 가운데를 거니시는 그리스도</span>
-                </a>
-                <a href="#msg4" class="message-nav-item bg-white p-4 rounded-lg flex items-center space-x-3 transition shadow-sm border border-slate-300">
-                    <span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 text-sm">4</span>
-                    <span class="text-sm font-medium truncate">사자-어린양</span>
-                </a>
-                <a href="#msg5" class="message-nav-item bg-white p-4 rounded-lg flex items-center space-x-3 transition shadow-sm border border-slate-300">
-                    <span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 text-sm">5</span>
-                    <span class="text-sm font-medium truncate">생명나무</span>
-                </a>
-                <a href="#msg6" class="message-nav-item bg-white p-4 rounded-lg flex items-center space-x-3 transition shadow-sm border border-slate-300">
-                    <span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 text-sm">6</span>
-                    <span class="text-sm font-medium truncate">영원한 왕이신 그리스도</span>
-                </a>
-                <a href="#msg7" class="message-nav-item bg-white p-4 rounded-lg flex items-center space-x-3 transition shadow-sm border border-slate-300">
-                    <span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 text-sm">7</span>
-                    <span class="text-sm font-medium truncate">교회들에게 말씀하시는 그 영</span>
-                </a>
-                <a href="#msg8" class="message-nav-item bg-white p-4 rounded-lg flex items-center space-x-3 transition shadow-sm border border-slate-300">
-                    <span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 text-sm">8</span>
-                    <span class="text-sm font-medium truncate">사내아이, 하늘에서의 전쟁</span>
-                </a>
-                <a href="#msg9" class="message-nav-item bg-white p-4 rounded-lg flex items-center space-x-3 transition shadow-sm border border-slate-300">
-                    <span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 text-sm">9</span>
-                    <span class="text-sm font-medium truncate">이기는 첫 열매들이 따르는 어린양</span>
-                </a>
-                <a href="#msg10" class="message-nav-item bg-white p-4 rounded-lg flex items-center space-x-3 transition shadow-sm border border-slate-300">
-                    <span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 text-sm">10</span>
-                    <span class="text-sm font-medium truncate">왕국을 세우시는 분이신 그리스도</span>
-                </a>
-                <a href="#msg11" class="message-nav-item bg-white p-4 rounded-lg flex items-center space-x-3 transition shadow-sm border border-slate-300">
-                    <span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 text-sm">11</span>
-                    <span class="text-sm font-medium truncate">성안의 보좌에 계신 어린양-하나님</span>
-                </a>
-                <a href="#msg12" class="message-nav-item bg-white p-4 rounded-lg flex items-center space-x-3 transition shadow-sm border border-slate-300">
-                    <span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 text-sm">12</span>
-                    <span class="text-sm font-medium truncate">상과 벌을 가지고 오시는 그리스도</span>
-                </a>
+    <!-- Message Accordion Section -->
+    <section id="index" class="bg-slate-100 py-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-3">메시지 개요 및 매일 추구</h2>
+                <p class="text-slate-500 mb-4">제목을 클릭하여 상세 개요와 일일 추구(Day 1-6) 링크를 확인하세요.</p>
+                <div class="flex justify-center items-center space-x-4 text-xs">
+                    <div class="flex items-center"><span class="w-3 h-3 bg-blue-800 rounded-sm mr-1"></span> 활성 (추구 가능)</div>
+                    <div class="flex items-center"><span class="w-3 h-3 bg-slate-300 rounded-sm mr-1"></span> 비활성 (준비 중)</div>
+                </div>
+            </div>
+            
+            <div id="accordion-container" class="space-y-4">
+                <!-- 메시지 아코디언은 JavaScript로 생성됩니다. -->
             </div>
         </div>
     </section>
 
-    <!-- Detailed Content -->
-    <main id="messages" class="max-w-4xl mx-auto px-4 py-20">
-        
-        <!-- MSG 1 -->
-        <article id="msg1" class="content-card">
-            <div class="message-title">
-                <span class="text-blue-600 font-bold text-sm uppercase">Message 1</span>
-                <h3 class="text-2xl font-bold mt-1">예수님의 증거를 위한 하나님의 신실한 증인</h3>
-            </div>
-            <div class="p-8 space-y-4">
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">I.</span>
-                    <p>그리스도는 하나님의 신실한 증인, 곧 하나님의 증거와 표현이시다. 그리스도께서 하나님을 표현하시는 것이 곧 하나님을 증언하시는 것이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">II.</span>
-                    <p>예수님의 증거는 본성이 금이고(신성하고), 어둠 속에서 빛나며, 서로가 동일한 일곱 금등잔대이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">III.</span>
-                    <p>예수님의 증거는 성전에서 하나님을 섬기는 큰 무리 곧 하나님께서 구속하신 몸 전체인데, 이들은 어린양의 목양을 누린다.</p>
-                </div>
-            </div>
-        </article>
-
-        <!-- MSG 2 -->
-        <article id="msg2" class="content-card">
-            <div class="message-title">
-                <span class="text-blue-600 font-bold text-sm uppercase">Message 2</span>
-                <h3 class="text-2xl font-bold mt-1">죽음과 음부의 열쇠를 가지신 그리스도</h3>
-            </div>
-            <div class="p-8 space-y-4">
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">I.</span>
-                    <p>"나는 처음과 마지막이고, 살아 있는 이이다." 그리스도는 교회생활을 시작하신 분으로서 분명 완성하실 분이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">II.</span>
-                    <p>"내가 죽은 적이 있다. 그런데 보아라, 영원토록 살아 있으며" 주님은 부활 안에서 영원토록 존재하시며 생명을 분배하신다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">III.</span>
-                    <p>그리스도는 십자가에서 죽음을 없애 버리시고 부활 안에서 음부를 이기셨다. 그분은 죽음과 음부의 열쇠를 갖고 계신다.</p>
-                </div>
-            </div>
-        </article>
-
-        <!-- MSG 3 -->
-        <article id="msg3" class="content-card">
-            <div class="message-title">
-                <span class="text-blue-600 font-bold text-sm uppercase">Message 3</span>
-                <h3 class="text-2xl font-bold mt-1">금등잔대들 가운데를 거니시는 사람의 아들이신 그리스도</h3>
-            </div>
-            <div class="p-8 space-y-4">
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">I.</span>
-                    <p>이 이상을 보려면 우리는 반드시 주님의 이기는 전달자들이 되어야 한다. 우리는 예수님 안에서 환난과 왕국과 인내에 참여한 이들이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">II.</span>
-                    <p>그리스도는 대제사장으로서 인성 안에서 교회들을 보살피시고 신성 안에서 교회들을 보양하신다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">III.</span>
-                    <p>주님의 일곱 눈은 불꽃과 같으며, 지켜보고 감찰하고 심판하기 위한 것이다. 그분의 음성은 많은 물소리와 같다.</p>
-                </div>
-            </div>
-        </article>
-
-        <!-- MSG 4 -->
-        <article id="msg4" class="content-card">
-            <div class="message-title">
-                <span class="text-blue-600 font-bold text-sm uppercase">Message 4</span>
-                <h3 class="text-2xl font-bold mt-1">사자-어린양</h3>
-            </div>
-            <div class="p-8 space-y-4">
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">I.</span>
-                    <p>사자이신 그분은 원수와 싸우는 전사이시고, 어린양이신 그분은 우리를 위한 구속자이시다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">II.</span>
-                    <p>어린양은 일곱 뿔(싸우는 힘)과 일곱 눈(감찰하는 영)을 가지셨다. 이것은 하나님의 우주적인 행정을 위한 것이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">III.</span>
-                    <p>그리스도는 하나님의 경륜의 비밀을 밝히시고 수행하실 자격을 가지신 유일한 분이시다.</p>
-                </div>
-            </div>
-        </article>
-
-        <!-- MSG 5 -->
-        <article id="msg5" class="content-card">
-            <div class="message-title">
-                <span class="text-blue-600 font-bold text-sm uppercase">Message 5</span>
-                <h3 class="text-2xl font-bold mt-1">생명나무</h3>
-            </div>
-            <div class="p-8 space-y-4">
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">I.</span>
-                    <p>생명이신 그리스도는 우주의 중심인 생명나무의 실재이시다. 우리는 이 생명이 직면하는 장애물(인간 관념, 위선, 반역, 타고난 역량)을 처리해야 한다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">II.</span>
-                    <p>그리스도를 먹으려면 반드시 그분께 첫째 위치를 드려야 한다. 주님을 첫째가는 사랑으로 사랑하는 것이 생명나무를 먹는 비결이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">III.</span>
-                    <p>우리가 모든 일에서 주님께 으뜸의 위치를 드릴 때마다 교회생활 안에는 복원과 부흥이 있다.</p>
-                </div>
-            </div>
-        </article>
-
-        <!-- MSG 6 -->
-        <article id="msg6" class="content-card">
-            <div class="message-title">
-                <span class="text-blue-600 font-bold text-sm uppercase">Message 6</span>
-                <h3 class="text-2xl font-bold mt-1">영원한 왕이신 그리스도께서 땅을 소유하러 오심과 하나님의 비밀이 이루어짐</h3>
-            </div>
-            <div class="p-8 space-y-4">
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">I.</span>
-                    <p>세상의 왕국이 우리 주님과 그분의 그리스도의 왕국이 될 것이다. 그분은 영원무궁히 왕으로서 다스리실 것이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">II.</span>
-                    <p>다른 힘센 천사이신 그리스도는 땅과 바다를 디디심으로 온 땅을 소유하러 오신다. 그분의 오심은 처음에는 은밀할 것이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">III.</span>
-                    <p>일곱째 나팔이 불릴 때 하나님의 비밀이 이루어질 것이다. 비밀의 시대(교회 시대)가 끝나고 왕국 시대가 시작된다.</p>
-                </div>
-            </div>
-        </article>
-
-        <!-- MSG 7 -->
-        <article id="msg7" class="content-card">
-            <div class="message-title">
-                <span class="text-blue-600 font-bold text-sm uppercase">Message 7</span>
-                <h3 class="text-2xl font-bold mt-1">교회들에게 말씀하시는 그 영과 다윗의 열쇠를 가지신 분</h3>
-            </div>
-            <div class="p-8 space-y-4">
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">I.</span>
-                    <p>그리스도는 모든 교회들에게 말씀하시는 그 영이시다. 우리는 그 영의 말씀을 들을 귀를 가져야 한다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">II.</span>
-                    <p>다윗의 열쇠를 가지신 분은 빌라델비아 교회에 열린 문을 주신다. 이 열쇠는 하나님의 보물 창고를 열어준다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">III.</span>
-                    <p>그리스도는 문 밖에 서서 두드리신다. 누구든지 문을 열면 그분과 함께 먹고 누리는 정찬의 잔치에 참여하게 된다.</p>
-                </div>
-            </div>
-        </article>
-
-        <!-- MSG 8 -->
-        <article id="msg8" class="content-card">
-            <div class="message-title">
-                <span class="text-blue-600 font-bold text-sm uppercase">Message 8</span>
-                <h3 class="text-2xl font-bold mt-1">사내아이, 하늘에서의 전쟁, 이기는 성도들</h3>
-            </div>
-            <div class="p-8 space-y-4">
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">I.</span>
-                    <p>사내아이는 이기는 성도들로 구성되며, 하나님의 보좌로 휴거된다. 이들은 하나님의 백성 중 강한 부분이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">II.</span>
-                    <p>하늘에서 전쟁이 일어나 사탄이 땅으로 내던져진다. 이 전쟁은 사탄에게 주님의 심판을 집행하는 것이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">III.</span>
-                    <p>이기는 이들은 어린양의 피와 자기들의 증언하는 말로 사탄을 이겼으며, 죽기까지 자기들의 혼생명을 사랑하지 않았다.</p>
-                </div>
-            </div>
-        </article>
-
-        <!-- MSG 9 -->
-        <article id="msg9" class="content-card">
-            <div class="message-title">
-                <span class="text-blue-600 font-bold text-sm uppercase">Message 9</span>
-                <h3 class="text-2xl font-bold mt-1">이기는 첫 열매들이 따르는 어린양</h3>
-            </div>
-            <div class="p-8 space-y-4">
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">I.</span>
-                    <p>첫 열매들은 살아 있는 이기는 이들로서 수확기 전에 거두어져 하나님과 어린양께 드려진다. 이들은 성숙에 이른 자들이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">II.</span>
-                    <p>첫 열매가 되려면 믿음으로 하나님과 동행해야 한다. 이는 하나님을 우리의 중심과 모든 것으로 취하는 삶이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">III.</span>
-                    <p>신실하고 현명한 노예로서 동료 믿는 이들에게 때를 따라 영적 양식을 나누어 주어야 한다.</p>
-                </div>
-            </div>
-        </article>
-
-        <!-- MSG 10 -->
-        <article id="msg10" class="content-card">
-            <div class="message-title">
-                <span class="text-blue-600 font-bold text-sm uppercase">Message 10</span>
-                <h3 class="text-2xl font-bold mt-1">왕국을 세우시는 분이신 그리스도</h3>
-            </div>
-            <div class="p-8 space-y-4">
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">I.</span>
-                    <p>그리스도는 원수 사탄을 결박하여 무저갱에 던지신 후 이 땅에 천년왕국을 세우실 것이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">II.</span>
-                    <p>이기는 이들은 그리스도와 함께 보좌에 앉아 심판하는 권위를 가지며 공동 왕으로서 다스릴 것이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">III.</span>
-                    <p>그리스도는 '하나님의 말씀'이라는 이름으로 오셔서 반역을 심판하시고 의의 통치를 실현하신다.</p>
-                </div>
-            </div>
-        </article>
-
-        <!-- MSG 11 -->
-        <article id="msg11" class="content-card">
-            <div class="message-title">
-                <span class="text-blue-600 font-bold text-sm uppercase">Message 11</span>
-                <h3 class="text-2xl font-bold mt-1">어린양-하나님께서 성안에 있는 보좌에 계심</h3>
-            </div>
-            <div class="p-8 space-y-4">
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">I.</span>
-                    <p>하나님과 어린양의 보좌는 하나이다. 보좌로부터 생명수의 강이 흘러나와 우리를 공급한다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">II.</span>
-                    <p>보좌는 우리 생활의 중심이어야 한다. 매일 아침 주님의 권위에 복종할 때 생수의 흐름을 누리게 된다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">III.</span>
-                    <p>우리의 영적인 체험의 최고봉은 맑은 하늘과 그 위의 보좌를 갖는 것이다. 이는 하나님께 으뜸의 위치를 드리는 것이다.</p>
-                </div>
-            </div>
-        </article>
-
-        <!-- MSG 12 -->
-        <article id="msg12" class="content-card">
-            <div class="message-title">
-                <span class="text-blue-600 font-bold text-sm uppercase">Message 12</span>
-                <h3 class="text-2xl font-bold mt-1">상과 벌을 가지고 오시는 그리스도</h3>
-            </div>
-            <div class="p-8 space-y-4">
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">I.</span>
-                    <p>주님은 각 사람의 일에 따라 갚아 주러 오신다. 왕국 보상은 구원받은 후의 우리의 행실에 따른 것이다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">II.</span>
-                    <p>신언의 말씀은 어두운 곳을 비추는 등불과 같다. 우리는 샛별이 마음에 떠오를 때까지 이 말씀에 주의해야 한다.</p>
-                </div>
-                <div class="flex items-start">
-                    <span class="font-bold text-blue-800 mr-4">III.</span>
-                    <p>그리스도는 이기는 이들에게 샛별로서 은밀히 나타나실 것이다. 깨어 있는 이들만이 이 신선함을 맛볼 것이다.</p>
-                </div>
-            </div>
-        </article>
-
-    </main>
-
     <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-16 px-4 border-t border-slate-800 mt-20">
+    <footer class="bg-slate-900 text-slate-400 py-16 px-4 border-t border-slate-800">
         <div class="max-w-6xl mx-auto text-center">
-            <div class="flex justify-center space-x-8 mb-8">
+            <div class="flex justify-center mb-6">
                 <div class="text-center">
-                    <p class="text-white font-bold text-xl mb-1">2025 Winter Training</p>
+                    <p class="text-white font-bold text-xl italic serif-font">2025 Winter Training</p>
                     <p class="text-sm">Living Stream Ministry</p>
                 </div>
             </div>
@@ -470,35 +226,214 @@
     </footer>
 
     <!-- Back to top button -->
-    <a href="#" id="backToTop" class="fixed bottom-8 right-8 bg-blue-800 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition z-40">
+    <a href="#" id="backToTop" class="fixed bottom-8 right-8 bg-blue-800 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition z-40 opacity-0 pointer-events-none">
         <i class="fas fa-arrow-up"></i>
     </a>
 
     <script>
-        // Smooth Scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
+        // 메시지 데이터 (요청하신 로마숫자 내용 그대로 반영)
+        const messages = [
+            { id: 1, title: "예수님의 증거를 위한 하나님의 신실한 증인", outlines: [
+                "Ⅰ. 그리스도는 하나님의 신실한 증인, 곧 하나님의 증거와 표현이시다. 그리스도께서 하나님을 표현하시는 것이 곧 하나님을 증언하시는 것이다 — 계 1:5, 3:14.",
+                "Ⅱ. 예수님의 증거는 본성이 금이고(신성하고), 어둠 속에서 빛나며, 서로가 동일한 일곱 금등잔대이다 — 계 1:1-2, 9-12.",
+                "Ⅲ. 예수님의 증거는 성전에서 하나님을 섬기는 큰 무리 곧 하나님께서 구속하신 몸 전체인데, 이들은 하늘들로 휴거되어 오늘 우리가 하늘들의 영역 안에서와 그리스도 안에서 누릴 수 있는 모든 영적인 축복과 더불어 하나님의 돌봄과 어린양의 목양을 누린다 — 계 7:9-17, 엡 1:3, 갈 3:14, 창 12:2, 비교 계 21:3-4, 22:3-5, 사 49:10."
+            ]},
+            { id: 2, title: "죽음과 음부의 열쇠를 가지신 그리스도", outlines: [
+                "Ⅰ. “나는 처음과 마지막이고, 살아 있는 이이다.” — 계 1:17하-18상.",
+                "Ⅱ. “내가 죽은 적이 있다. 그런데 보아라, 영원토록 살아 있으며” — 계 1:18상.",
+                "Ⅲ. “영 안에서 그분(그리스도)은 또한 감옥에 있는 영들에게 가시어 선포하셨습니다.” — 벧전 3:19.",
+                "Ⅳ. “나는 하늘에서 땅으로 떨어진 별 하나를 보았습니다. 그에게는 무저갱의 열쇠가 주어졌습니다.” — 계 9:1-2, 11:7, 17:8, 20:1, 3.",
+                "Ⅴ. 요한계시록 1장 18절 하반절에서 주 예수님은 “죽음과 음부의 열쇠를 가지고 있다.”라고 말씀하신다."
+            ]},
+            { id: 3, title: "금등잔대들 가운데를 거니시는 사람의 아들이신 그리스도", outlines: [
+                "Ⅰ. 금등잔대들 가운데를 거니시는 사람의 아들이신 그리스도에 대한 이상을 보려면, 우리는 반드시 주님의 이기는 전달자들이 되어야 한다. 주님의 이기는 전달자들은 사람의 영 안에서 교회의 터 위에 있으면서, 예수님 안에서 환난과 왕국과 인내에 참여한 이들이다 — 계 1:9-13, 20.",
+                "Ⅱ. 사람의 아들이신 그리스도는 ‘발까지 닿는 옷을 입으시고 가슴에는 금띠를 띠고 계신’ 대제사장으로서(계 1:13), 그분의 인성 안에서 교회들을 보살피시고 그분의 신성 안에서 교회들을 보양하신다.",
+                "Ⅲ. 하늘에 속하신 주님께서 태고부터 계신 것은 그분의 머리와 머리털이 흰 양털과 눈같이 희다는 것으로 묘사된다 — 계 1:14상, 단 7:9, 욥 15:10, 비교 아 5:11.",
+                "Ⅳ. 주님의 일곱 눈은 불꽃과 같으며 살피고, 감찰하고, 찾고, 빛 비춤으로 심판하고, 주입하기 위한 것이다 — 계 1:14하, 5:6, 단 10:6.",
+                "Ⅴ. 주님의 발은 용광로에서 제련된 빛나는 놋쇠와 같은데, 이것은 그분께서 온전하고 밝게 행하셨기 때문에 그분께는 신성한 심판을 집행하실 자격이 있으시다는 것을 의미한다 — 계 1:15상, 겔 1:7, 단 10:6.",
+                "Ⅵ. 주님의 음성은 많은 물소리와 같은데(계 1:15하, 비교 14:2), 이 소리는 천둥과 같은 소리, 곧 엄숙하고 장엄한(비교 10:3) 전능하신 하나님의 음성이다(겔 1:24, 43:2).",
+                "Ⅶ. 그리스도는 교회들의 빛나는 전달자들을 붙잡고 계시는 분이시다 — 계 1:16상, 20.",
+                "Ⅷ. 그분의 입에서 양날이 선 날카로운 칼이 나온다. 이 칼은 그분의 분별하고 심판하며 죽이는 말씀으로서 부정적인 사람들과 일들을 처리하기 위한 것이다 — 계 1:16하, 히 4:12, 엡 6:17.",
+                "Ⅸ. 그리스도의 얼굴(단 10:6)은 해가 힘차게 비치는 것과 같은데, 이것은 심판하는 빛 비춤이 왕국을 가져오기 위한 것이다(계 1:16하, 10:1, 마 17:2, 비교 말 4:2, 삿 5:31, 마 13:43).",
+                "Ⅹ. 그리스도는 처음과 마지막으로서 결코 그분의 일을 완성하지 않은 채로 두지 않으실 것임을 우리에게 보장하시며, 또한 살아 계신 분으로서 그리스도의 몸의 표현인 교회들을 살아 있고 신선하며 강하게 하신다 — 계 1:17-18상.",
+                "ⅩⅠ. 그리스도는 죽음과 음부의 열쇠를 갖고 계신다 — 계 1:18하."
+            ]},
+            { id: 4, title: "사자-어린양", outlines: [
+                "Ⅰ. 요한계시록은 예수 그리스도를 보여 주는 그림이다. 이 책의 스물두 장은 예수님을 묘사하고 나타내는 하나의 초상화이다 — 계 1:1-2, 5.",
+                "Ⅱ. “보십시오, 유다 지파의 사자, 다윗의 뿌리가 이기었으니” — 계 5:5상.",
+                "Ⅲ. “내가 보니, 보좌와 … 한가운데에 갓 죽음을 당하신 것 같은 한 어린양께서 서 계셨습니다. 그 어린양은 일곱 뿔과 일곱 눈을 가지셨는데, 이것은 온 땅에 보내어지신 하나님의 일곱 영입니다.” — 계 5:6, 1:4, 3:1.",
+                "Ⅳ. “하나님의 일곱 영” — 계 1:4, 3:1, 4:5, 5:6하.",
+                "Ⅴ. “그들은 새 노래를 부르며 말하였습니다. ‘주님은 두루마리를 받으시고 그 봉인들을 떼실 자격이 있으십니다. 왜냐하면 주님은 죽음을 당하셨고, 자신의 피로 각 지파와 언어와 백성과 민족 가운데에서 사람들을 사셔서 하나님께 드리셨으며” — 계 5:9."
+            ]},
+            { id: 5, title: "생명나무", outlines: [
+                "Ⅰ. 생명이신 그리스도는 우주의 중심인 생명나무의 실재이시다. 생명은 하나님의 창조의 목표이자(창 1:26-28, 31, 2:7-9) 하나님의 완전한 구원의 목표이다(요 19:34, 롬 5:10, 계 22:1-2, 14, 19).",
+                "Ⅱ. 우리는 하나님의 생명이 사람 안에서 직면하는 장애물들이 무엇인지 보아야 한다.",
+                "Ⅲ. 우리가 생명나무이신 그리스도를 먹으려면, 반드시 모든 일에서 그분께 첫째 위치를 드려야 한다. 그분께 첫째 위치를 드리는 것은 그분의 사랑에 강권되어 우리의 삶에서 그분을 모든 것으로 여기고 취함으로, 그분을 첫째가는 사랑으로 사랑하는 것이다 — 계 2:4-5, 골 1:18하, 고후 5:14-15, 막 12:30, 시 73:25-26, 80:17-19."
+            ]},
+            { id: 6, title: "영원한 왕이신 그리스도께서 땅을 소유하러 오심과 하나님의 비밀이 이루어짐", outlines: [
+                "Ⅰ. 요한계시록 11장 15절부터 18절까지와 12장 10절은 우리가 영원한 왕이신 그리스도를 체험하고 누릴 수 있음을 보여 준다.",
+                "Ⅱ. 요한계시록 10장 1절부터 7절까지에서 우리는 땅을 소유하러 오시는 그리스도에 대한 분명한 이상을 본다.",
+                "Ⅲ. “하나님의 비밀이 이루어질 것인데” — 계 10:7."
+            ]},
+            { id: 7, title: "교회들에게 말씀하시는 그 영과 다윗의 열쇠를 가지신 분과 이기는 이들과 함께 정찬을 드실 분", outlines: [
+                "Ⅰ. 요한계시록 2장과 3장에서 그리스도는 모든 교회들에게 말씀하시는 그 영이시다.",
+                "Ⅱ. 회복된 교회(빌라델비아)에서 그리스도는 (하나님의 왕국을 건축하기 위한 다윗 집으로 예표된) 하나님의 집의 열쇠(보물 창고의 열쇠)가 어깨 위에 놓인 분으로 나타나신다 — 사 22:22, 계 3:7.",
+                "Ⅲ. 회복되었다가 타락한 교회 안에서 그리스도는 이기는 이들과 함께 정찬을 드실 분으로 나타나시고, 또한 그분께서 이기시고 나서 그분의 아버지의 보좌에 아버지와 함께 앉으신 것과 같이 이기는 이들에게 그분의 보좌에 그분과 함께 앉도록 해 주실 분으로 나타나신다 — 계 3:20-21."
+            ]},
+            { id: 8, title: "사내아이, 하늘에서의 전쟁, 이기는 성도들", outlines: [
+                "Ⅰ. “그 여자가 아들, 곧 쇠막대기로 모든 민족을 다스릴 사내아이를 낳았으며, 그 아이는 하나님과 하나님의 보좌로 이끌려 올라갔습니다.” — 계 12:5.",
+                "Ⅱ. “그때 하늘에서 전쟁이 일어났습니다.” — 계 12:7상.",
+                "Ⅲ. “우리 하나님의 구원과 능력과 왕국과 그분의 그리스도의 권위가 이제 나타났다. 왜냐하면 우리 하나님 앞에서 밤낮으로 우리 형제들을 비난하던 그 비난자가 내던져졌기 때문이다. 그들은 어린양의 피와 자기들이 증언하는 말로 그(마귀)를 이겼으며, 또한 죽기까지 자기들의 혼생명을 사랑하지 않았다.” — 계 12:10-11."
+            ]},
+            { id: 9, title: "이기는 첫 열매들이 따르는 어린양", outlines: [
+                "Ⅰ. 요한계시록 14장 1절부터 5절까지는 그리스도께서 이기는 첫 열매들이 따르는 어린양이심을 계시한다.",
+                "Ⅱ. 우리가 어린양을 따라가며 성숙에 이르러 첫 열매들이 되려면, 반드시 믿음으로 하나님과 동행함으로 죽음을 피하고 하나님을 기쁘시게 해 드리는 증거를 지녀야 한다.",
+                "Ⅲ. 어린양을 따라가며 성숙에 이르러 첫 열매들이 되려면, 우리는 반드시 주님께서 맡기신 봉사를 신실히 수행하여 그분의 집안 식구들에게 양식이신 하나님을 나누어 주어야 한다. 그럴 때 우리는 오는 왕국에서 그리스도를 우리의 보상으로 얻을 수 있다 — 마 24:45-51."
+            ]},
+            { id: 10, title: "왕국을 세우시는 분이신 그리스도와 모든 왕의 왕이시자 모든 주인의 주님이신 하나님의 말씀", outlines: [
+                "Ⅰ. 그리스도는 왕국을 세우시는 분이시다 — 계 20:1-6.",
+                "Ⅱ. 요한계시록 19장 11절부터 16절까지와 19절부터 21절까지에서 그리스도는 모든 왕의 왕이시자 모든 주인의 주님이신 하나님의 말씀으로 계시되신다.",
+                "Ⅲ. 그리스도는 땅을 소유하신 후에 왕국 안에서 왕으로서 땅을 통치하실 것이며, 그분의 이기는 믿는 이들과 함께 민족들을 다스리실 것이다 — 계 20:4, 6, 2:26-27."
+            ]},
+            { id: 11, title: "어린양-하나님께서 성안에 있는 보좌에 계심", outlines: [
+                "Ⅰ. 어린양-하나님께서 성안에 있는 보좌에 계신다 — 계 4:2-3, 22:1-5, 21:23.",
+                "Ⅱ. 보좌는 우리의 그리스도인 생활의 중심이다.",
+                "Ⅲ. 에스겔서 1장은 우리의 영적인 체험에서 가장 높은 지점이 맑은 하늘과 그 위에 있는 보좌를 갖는 것임을 계시한다. 이러한 지점에 이르는 것은 우리가 모든 것에서 하나님께 으뜸의 지위를 드리며 하나님의 권위와 행정에 완전히 복종한다는 것을 의미한다 — 겔 1:22, 26.",
+                "Ⅳ. 에스겔서 1장은 보좌에 계신 분께서 사람처럼 보이시지만 그분께 여호와의 영광의 모습이 있음을 계시하는데, 이것은 보좌에 앉아 계신 분께서 하나님이시자 사람이시라는 것을 가리킨다. 이분은 하나님-사람 곧 하나님과 사람이 연합되신 예수 그리스도이시다 — 겔 1:26, 28.",
+                "Ⅴ. 에스겔서 1장은 보좌에 계신 사람의 모습에 두 방면이 있다고 말한다. 곧 그분의 허리부터 그 위의 모습은 호박금의 모습이고, 그분의 허리부터 그 아래의 모습은 불의 모습이다 — 겔 1:27.",
+                "Ⅵ. 에스겔서 1장은 보좌에 앉아 계신 사람 주위에 있는 빛나는 광채인 무지개가 있음을 말해 주며, 이 무지개는 보좌에 계신 주님 주위에 있는 광채와 영광을 상징한다 — 겔 1:28, 계 4:3."
+            ]},
+            { id: 12, title: "상과 벌을 가지고 오시는 그리스도, 어두운 곳을 비추는 등불, 샛별로서 이기는 이들에게 은밀히 나타나심", outlines: [
+                "Ⅰ. “보아라, 내가 속히 가겠다. 내가 줄 상벌이 나에게 있으니, 각 사람에게 그의 일에 따라 갚아 주겠다.” — 계 22:12.",
+                "Ⅱ. “우리에게는 신언자가 말한 더 확실한 말씀이 있습니다. 어두운 곳을 비추는 등불에 주의를 기울이는 것처럼, 여러분은 날이 밝고 샛별이 여러분의 마음속에 떠오를 때까지, 이 말씀에 주의를 기울이는 것이 좋습니다.” — 벧후 1:19.",
+                "Ⅲ. “나는 다윗의 뿌리이고 자손이며, 빛나는 샛별이다.” — 계 22:16하."
+            ]}
+        ];
+
+        // 아코디언 및 버튼 생성
+        function renderAccordion() {
+            const container = document.getElementById('accordion-container');
+            messages.forEach(msg => {
+                const details = document.createElement('details');
+                details.className = "accordion-item bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm";
                 
-                // If it's the top button or just #
-                if (targetId === '#') {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                    return;
+                const summary = document.createElement('summary');
+                summary.className = "flex items-center justify-between p-5 cursor-pointer hover:bg-slate-50 transition";
+                summary.innerHTML = `
+                    <div class="flex items-center space-x-4 text-left">
+                        <span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0">${msg.id}</span>
+                        <span class="font-bold text-slate-900 md:text-lg">${msg.title}</span>
+                    </div>
+                    <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                `;
+                
+                const content = document.createElement('div');
+                content.className = "p-6 content-inner";
+                
+                // Day Buttons Container
+                const dayContainer = document.createElement('div');
+                dayContainer.className = "flex flex-wrap gap-2 mb-8 pb-6 border-b border-slate-100";
+                
+                for(let d=1; d<=6; d++) {
+                    const btn = document.createElement('span');
+                    btn.className = "day-btn day-disabled checking";
+                    btn.textContent = `Day ${d}`;
+                    btn.setAttribute('data-url', `https://tk-korea.github.io/2025wintertraining/M${msg.id}D${d}.html`);
+                    dayContainer.appendChild(btn);
                 }
                 
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
+                // Outline Container
+                const outlineContainer = document.createElement('div');
+                outlineContainer.className = "space-y-5 text-slate-700 leading-relaxed text-left";
+                msg.outlines.forEach(line => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = "flex items-start";
+                    
+                    // 로마숫자 기호 추출 (Ⅰ, Ⅱ, Ⅲ, Ⅳ, Ⅴ, Ⅵ, Ⅶ, Ⅷ, Ⅸ, Ⅹ, ⅩⅠ)
+                    const numMatch = line.match(/^[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪ]+/);
+                    const num = numMatch ? numMatch[0] : "";
+                    const text = line.replace(num, "").trim().replace(/^[\.\s]+/, "");
+                    
+                    lineDiv.innerHTML = `<span class="roman-num">${num}</span><p>${text}</p>`;
+                    outlineContainer.appendChild(lineDiv);
+                });
+                
+                content.appendChild(dayContainer);
+                content.appendChild(outlineContainer);
+                details.appendChild(summary);
+                details.appendChild(content);
+                container.appendChild(details);
+            });
+        }
+
+        // 링크 유효성 실시간 확인 함수
+        async function checkLinks() {
+            const buttons = document.querySelectorAll('.day-btn');
+            
+            // 모든 버튼을 병렬로 체크
+            const checks = Array.from(buttons).map(async (btn) => {
+                const url = btn.getAttribute('data-url');
+                try {
+                    // HEAD 요청은 파일 본문을 받지 않고 존재 여부(Headers)만 확인하여 빠릅니다.
+                    // CORS 정책상 외부 도메인 확인이 차단될 수 있으므로 에러 핸들링이 중요합니다.
+                    const response = await fetch(url, { 
+                        method: 'HEAD', 
+                        mode: 'cors' 
                     });
+                    
+                    btn.classList.remove('checking');
+                    
+                    if (response.ok) {
+                        btn.classList.remove('day-disabled');
+                        btn.classList.add('day-active');
+                        btn.onclick = () => window.open(url, '_blank');
+                    } else {
+                        // 404 등 오류 시 비활성화 유지
+                    }
+                } catch (error) {
+                    // 네트워크 에러 혹은 CORS 차단 시 로딩 표시만 제거하고 비활성 유지
+                    btn.classList.remove('checking');
+                }
+            });
+            
+            await Promise.allSettled(checks);
+        }
+
+        // 초기화
+        window.onload = () => {
+            renderAccordion();
+            checkLinks();
+        };
+
+        // 네비게이션 및 Top 버튼 스크롤 처리
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+                if (targetId.startsWith('#')) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.getBoundingClientRect().top + window.pageYOffset - 80,
+                            behavior: 'smooth'
+                        });
+                    }
                 }
             });
         });
+
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            const show = window.pageYOffset > 400;
+            backToTopBtn.style.opacity = show ? '1' : '0';
+            backToTopBtn.style.pointerEvents = show ? 'auto' : 'none';
+        });
+        backToTopBtn.style.transition = 'opacity 0.3s ease';
     </script>
 </body>
 </html>
