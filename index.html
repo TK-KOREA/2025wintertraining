@@ -76,6 +76,7 @@
             border: 1px solid #e2e8f0;
         }
 
+        /* Active State (Link exists) */
         .day-active {
             background-color: #ebf2ff;
             border-color: #bfdbfe;
@@ -90,6 +91,7 @@
             transform: translateY(-2px);
         }
 
+        /* Disabled State (Link doesn't exist) */
         .day-disabled {
             background-color: #f1f5f9;
             color: #94a3b8;
@@ -151,6 +153,19 @@
             overflow: hidden;
             text-overflow: ellipsis;
             display: block;
+        }
+
+        /* Bible Link Style */
+        .bible-link {
+            color: #2563eb;
+            text-decoration: underline;
+            text-decoration-color: #bfdbfe;
+            text-underline-offset: 4px;
+            transition: all 0.2s;
+        }
+        .bible-link:hover {
+            color: #1e3a8a;
+            background-color: #eff6ff;
         }
     </style>
 </head>
@@ -266,7 +281,7 @@
             </div>
             <p class="text-sm italic mb-4">"아멘. 주 예수님, 오십시오!" (계 22:20)</p>
             <div class="w-16 h-px bg-slate-700 mx-auto mb-6"></div>
-            <p class="text-xs">© 2025 2025 겨울훈련 준비위원회. 모든 개요 내용은 제공된 훈련 자료를 바탕으로 작성되었습니다.</p>
+            <p class="text-xs">모든 내용은 2025 겨울훈련 자료를 바탕으로 작성되었습니다.</p>
         </div>
     </footer>
 
@@ -276,7 +291,16 @@
     </a>
 
     <script>
-        // 메시지 데이터 (전체 12개 전문 반영)
+        // 성경 권수 매핑 ( bibleVer: 0=구약, 1=신약 )
+        const bibleMap = {
+            // 구약 (0)
+            "창": [0, 1], "출": [0, 2], "레": [0, 3], "민": [0, 4], "신": [0, 5], "수": [0, 6], "삿": [0, 7], "룻": [0, 8],
+            "삼상": [0, 9], "삼하": [0, 10], "왕상": [0, 11], "왕하": [0, 12], "대상": [0, 13], "대하": [0, 14], "스": [0, 15], "느": [0, 16], "에": [0, 17], "욥": [0, 18], "시": [0, 19], "잠": [0, 20], "전": [0, 21], "아": [0, 22], "사": [0, 23], "렘": [0, 24], "애": [0, 25], "겔": [0, 26], "단": [0, 27], "호": [0, 28], "욜": [0, 29], "암": [0, 30], "옵": [0, 31], "욘": [0, 32], "미": [0, 33], "나": [0, 34], "합": [0, 35], "습": [0, 36], "학": [0, 37], "슥": [0, 38], "말": [0, 39],
+            // 신약 (1)
+            "마": [1, 1], "막": [1, 2], "눅": [1, 3], "요": [1, 4], "행": [1, 5], "롬": [1, 6], "고전": [1, 7], "고후": [1, 8], "갈": [1, 9], "엡": [1, 10], "빌": [1, 11], "골": [1, 12], "살전": [1, 13], "살후": [1, 14], "딤전": [1, 15], "딤후": [1, 16], "딛": [1, 17], "몬": [1, 18], "히": [1, 19], "약": [1, 20], "벧전": [1, 21], "벧후": [1, 22], "요일": [1, 23], "요이": [1, 24], "요삼": [1, 25], "유": [1, 26], "계": [1, 27]
+        };
+
+        // 메시지 데이터
         const messages = [
             { id: 1, title: "예수님의 증거를 위한 하나님의 신실한 증인", outlines: [
                 "Ⅰ. 그리스도는 하나님의 신실한 증인, 곧 하나님의 증거와 표현이시다. 그리스도께서 하나님을 표현하시는 것이 곧 하나님을 증언하시는 것이다 — 계 1:5, 3:14.",
@@ -355,6 +379,44 @@
             ]}
         ];
 
+        // 성경 구절 하이퍼링크 생성 함수
+        function linkifyBible(text) {
+            const keys = Object.keys(bibleMap).sort((a, b) => b.length - a.length);
+            const pattern = new RegExp(`(${keys.join('|')})\\s+(\\d+):(\\d+)(?:-(\\d+))?|(?:,\\s*)(\\d+):(\\d+)(?:-(\\d+))?|(?:,\\s*)(\\d+)(?:-(\\d+))?`, 'g');
+            
+            let lastBook = null;
+            let lastChapter = null;
+            
+            return text.replace(pattern, (match, book, chap, verse, endVerse, c2, v2, ev2, v3, ev3) => {
+                let b, c, v, display;
+                
+                if (book) {
+                    lastBook = book;
+                    lastChapter = chap;
+                    b = book; c = chap; v = verse;
+                    display = match;
+                } else if (v2) {
+                    b = lastBook;
+                    lastChapter = c2;
+                    c = c2; v = v2;
+                    display = match.replace(/^,\s*/, "");
+                } else if (v3) {
+                    b = lastBook;
+                    c = lastChapter;
+                    v = v3;
+                    display = match.replace(/^,\s*/, "");
+                }
+
+                if (bibleMap[b]) {
+                    const [ver, op] = bibleMap[b];
+                    const url = `http://rv.or.kr/read_recovery.php?bibleVer=${ver}&bibOutline=&bibleSelOp=${op}&bibChapt=${c}&bibVerse=${v}`;
+                    const link = `<a href="${url}" target="_blank" class="bible-link">${display}</a>`;
+                    return match.startsWith(',') ? `, ${link}` : link;
+                }
+                return match;
+            });
+        }
+
         // 아코디언 생성 함수
         function renderAccordion() {
             const container = document.getElementById('accordion-container');
@@ -377,7 +439,8 @@
                             ${msg.outlines.map(line => {
                                 const numMatch = line.match(/^[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪ]+/);
                                 const num = numMatch ? numMatch[0] : "";
-                                const text = line.replace(num, "").trim().replace(/^[\.\s]+/, "");
+                                let text = line.replace(num, "").trim().replace(/^[\.\s]+/, "");
+                                text = linkifyBible(text);
                                 return `<div class="flex items-start"><span class="roman-num">${num}</span><p>${text}</p></div>`;
                             }).join('')}
                         </div>
@@ -407,7 +470,7 @@
             await Promise.allSettled(checks);
         }
 
-        // 오디오 플레이어 로직 (비동기 재생 오류 방지)
+        // 오디오 플레이어 로직 (자동 재생 제거)
         function initAudioPlayer() {
             const music = document.getElementById('bg-music');
             const playPauseBtn = document.getElementById('play-pause-btn');
@@ -427,7 +490,7 @@
                         container.classList.add('border-blue-200');
                     }
                 } catch (err) {
-                    console.log("Autoplay blocked, waiting for interaction.");
+                    console.error("재생 오류:", err);
                     playIcon.className = 'fas fa-play ml-1';
                     musicAnim.classList.remove('playing');
                 }
@@ -443,17 +506,8 @@
                     container.classList.remove('border-blue-200');
                 }
             });
-
-            // 첫 상호작용 시 자동 재생 시도
-            const interactionHandler = () => {
-                if (music.paused) { playMusic(); }
-                window.removeEventListener('click', interactionHandler);
-                window.removeEventListener('touchstart', interactionHandler);
-            };
-            window.addEventListener('click', interactionHandler);
-            window.addEventListener('touchstart', interactionHandler);
-
-            playMusic();
+            
+            // 자동 재생 및 첫 클릭 재생 로직 삭제됨
         }
 
         window.onload = () => {
@@ -462,7 +516,6 @@
             initAudioPlayer();
         };
 
-        // UI 상호작용
         const backToTopBtn = document.getElementById('backToTop');
         window.addEventListener('scroll', () => {
             const show = window.pageYOffset > 400;
