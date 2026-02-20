@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>첫째가는 사랑과 생명나무</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e293b;
+            --accent: #d4af37;
+            --leaf: #15803d;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            overflow-x: hidden;
+        }
+        .serif { font-family: 'Noto Serif KR', serif; }
+        
+        /* 도입부 레이어 벗기기 애니메이션 */
+        #intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+            color: white;
+            cursor: pointer;
+        }
+        #intro-overlay.peeled {
+            transform: translateY(-100%);
+        }
+
+        /* 아코디언 애니메이션 */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .accordion-content.open {
+            max-height: 2000px;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+
+        /* 퀴즈 스타일 */
+        .quiz-option:hover {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            transform: translateX(10px);
+        }
+        .quiz-option {
+            transition: all 0.2s ease;
+        }
+
+        /* 성경구절 및 핵심 강조 하이라이트 */
+        .bible-highlight {
+            font-weight: 700;
+            color: #b91c1c;
+            background: linear-gradient(transparent 70%, #fee2e2 70%);
+        }
+        .point-highlight {
+            font-weight: 700;
+            color: #1e293b;
+            background: linear-gradient(transparent 70%, #fef08a 70%);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 도입부 레이어 -->
+    <div id="intro-overlay" onclick="peelLayer()">
+        <div class="text-center p-6">
+            <h1 class="serif text-4xl md:text-6xl mb-4 tracking-tight">첫째가는 사랑을 버린 너에게</h1>
+            <p class="text-slate-400 text-lg md:text-xl mb-8">그러므로 네가 어디에서 떨어졌는지를 기억하고 회개하여 첫째가는 일을 하여라.</p>
+            <p>- 계2:4</p>
+            <div class="animate-bounce mt-10">
+                <p class="text-sm uppercase tracking-widest text-amber-400">화면을 클릭하여 탐색하기</p>
+                <svg class="w-6 h-6 mx-auto mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="max-w-4xl mx-auto px-6 py-16">
+        <header class="text-center mb-16">
+            <h2 class="serif text-3xl md:text-5xl font-bold text-slate-800 mb-4">교회의 타락과 생명나무로의 회복</h2>
+            <div class="h-1 w-24 bg-amber-500 mx-auto"></div>
+        </header>
+
+        <!-- 아코디언 섹션 -->
+        <section class="space-y-4 mb-20">
+            <!-- 요점 1 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <button onclick="toggleAccordion(1)" class="w-full flex items-center justify-between p-6 text-left hover:bg-slate-50 transition-colors">
+                    <div class="flex items-center gap-4">
+                        <span class="w-10 h-10 flex items-center justify-center bg-red-100 text-red-600 rounded-full font-bold">01</span>
+                        <span class="text-xl font-bold text-slate-700">첫째가는 사랑: 주님께 으뜸의 위치를 드림</span>
+                    </div>
+                    <svg id="icon-1" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="content-1" class="accordion-content px-6 bg-slate-50/50">
+                    <div class="bg-white p-6 rounded-lg border-l-4 border-red-500 mb-6 italic text-slate-600">
+                        "그러나 너에게 책망할 것이 한 가지 있다. 그것은 네가 <span class="bible-highlight">첫째가는 사랑</span>을 버린 것이다. 그러므로 네가 어디에서 떨어졌는지를 기억하고 <span class="bible-highlight">회개하여 첫째가는 일</span>을 하여라." (계 2:4-5)
+                    </div>
+                    <p class="leading-relaxed text-slate-700 space-y-4">
+                        <span class="point-highlight">그리스도를 첫째가는 사랑으로 사랑한다는 것</span>은 우리 삶의 모든 일에서 그분께 <span class="point-highlight">첫째 위치</span>를 드리는 것을 의미합니다. <span class="point-highlight">첫째가는 사랑은 우리를 생명나무로 이끌 것입니다.</span> 주님께서 으뜸이 되시게 하려면 우리는 <span class="point-highlight">기꺼이 바로잡히고, 파쇄되고, 아무것도 아닌 이가 되어</span>, 그분께서 그분의 유기적인 몸의 건축을 위해 우리 안에서, 우리를 통해, 우리 가운데 길을 가지실 수 있게 해야 합니다. 우리는 주 예수님께 우리의 첫째가는 사랑을 드릴 때 그분은 우리에게 생명나무를 주시어 먹게 하실 것입니다.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 요점 2 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <button onclick="toggleAccordion(2)" class="w-full flex items-center justify-between p-6 text-left hover:bg-slate-50 transition-colors">
+                    <div class="flex items-center gap-4">
+                        <span class="w-10 h-10 flex items-center justify-center bg-green-100 text-green-600 rounded-full font-bold">02</span>
+                        <span class="text-xl font-bold text-slate-700">생명나무: 하나님의 원래 의도로의 회복</span>
+                    </div>
+                    <svg id="icon-2" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="content-2" class="accordion-content px-6 bg-slate-50/50">
+                    <div class="bg-white p-6 rounded-lg border-l-4 border-green-500 mb-6 italic text-slate-600">
+                        "이기는 이에게는 내가 <span class="bible-highlight">하나님의 낙원에 있는 생명나무</span>를 주어서 먹게 할 것이다." (계 2:7)
+                    </div>
+                    <p class="leading-relaxed text-slate-700">
+                        하나님께서 원래 의도하신 것은 사람이 <span class="point-highlight">생명나무를 먹는 것</span>이었습니다. 그리스도의 구속을 통해 사람이 생명나무를 접촉할 수 있는 길이 다시 열렸으며, 이 생명나무는 바로 <span class="point-highlight">사람에게 생명이 되시는 그리스도 안에 계신 하나님 자신</span>입니다. 그러나 교회가 타락했을 때, 종교가 지식과 함께 몰래 들어와 그리스도 안에 있는 믿는 이들을 생명나무이신 그리스도를 먹는 일에서 빗나가게 했습니다. 주님은 이기는 이들에게 하나님의 낙원에 있는 생명나무이신 그분 자신을 보상으로 주어 먹게 하겠다고 약속하셨으며, 이것은 그들이 <span class="point-highlight">종교와 그 지식을 떠나 그분 자신을 누리는 데로 돌아서도록 하는 격려제</span>입니다.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 요점 3 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <button onclick="toggleAccordion(3)" class="w-full flex items-center justify-between p-6 text-left hover:bg-slate-50 transition-colors">
+                    <div class="flex items-center gap-4">
+                        <span class="w-10 h-10 flex items-center justify-center bg-amber-100 text-amber-600 rounded-full font-bold">03</span>
+                        <span class="text-xl font-bold text-slate-700">등잔대의 증거: 빛을 발하는 교회생활</span>
+                    </div>
+                    <svg id="icon-3" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="content-3" class="accordion-content px-6 bg-slate-50/50">
+                    <div class="bg-white p-6 rounded-lg border-l-4 border-amber-500 mb-6 italic text-slate-600">
+                        "그러지 않으면 내가 너에게 갈 것이며, 네가 회개하지 않는 한 너의 <span class="bible-highlight">등잔대를 그 자리에서 옮길 것</span>이다." (계 2:5)
+                    </div>
+                    <p class="leading-relaxed text-slate-700">
+                        우리가 모든 방면과 모든 일에서 그리스도께서 으뜸이 되시게 함으로써 우리의 첫째가는 사랑이신 그분께로 돌아옴으로 이길 때, 우리는 <span class="point-highlight">생명이신 그분을 누리고 등잔대로서 신성한 빛을 발하여 우리의 지방에서 예수님의 증거를 지킬 것</span>입니다. <span class="point-highlight">빛의 비춤이 증언하는 것</span>입니다. 우리는 매일의 삶의 모든 방면에서 그리스도를 비추어 내야 합니다. 이렇게 비추는 것이 등잔대의 비춤입니다. 우리에게는 사랑과 생명과 빛과 등잔대가 필요하며, 그럴 때 우리는 그분 안에서의 우리의 삶과 그분 안에서의 우리의 존재를 주님께 보상으로서 받을 것이다.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 요점 4 -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <button onclick="toggleAccordion(4)" class="w-full flex items-center justify-between p-6 text-left hover:bg-slate-50 transition-colors">
+                    <div class="flex items-center gap-4">
+                        <span class="w-10 h-10 flex items-center justify-center bg-indigo-100 text-indigo-600 rounded-full font-bold">04</span>
+                        <span class="text-xl font-bold text-slate-700">회복과 부흥: 그리스도를 높이는 길</span>
+                    </div>
+                    <svg id="icon-4" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="content-4" class="accordion-content px-6 bg-slate-50/50">
+                    <div class="bg-white p-6 rounded-lg border-l-4 border-indigo-500 mb-6 italic text-slate-600">
+                        [시 80:17] <span class="bible-highlight">주님의 오른편에 있는 사람</span> 위에, / 주님께서 자신 위하여 강하게 하신 사람의 아들 위에 주님의 손을 얹어 주십시오.
+                        [18] 그리하시면 저희가 주님에게서 돌아서지 않겠습니다. / <span class="bible-highlight">저희를 부흥시켜 주십시오.</span> 저희가 주님의 이름을 부르겠습니다.
+                        [19] 오, 여호와 만군의 하나님! <span class="bible-highlight">저희를 회복시켜 주십시오.</span> / 주님의 얼굴을 비추시어 저희가 구원을 얻게 해 주십시오.
+                    </div>
+                    <p class="leading-relaxed text-slate-700">
+                        교회가 황폐하고 타락하게 되는 내재적인 원인은 하나님의 백성이 그리스도를 높이지 않기 때문입니다. <span class="point-highlight">회복의 길은 그리스도를 높이는 것</span>입니다. 오직 우리가 그리스도를 높이고, 그분께 탁월한 위치를 드리며, 모든 일에 그분께 첫 번째 위치를 드릴 때에만 우리 가운데 <span class="point-highlight">부흥</span>이 있게 될 것입니다. 그리스도는 지금 하나님의 오른편에 계시며, 그러한 분이신 그분을 부르는 이는 누구나 회복되고 부흥될 것입니다. 우리의 개인 생활과 결혼 생활과 가정생활과 교회생활에서 그리스도는 하나님의 오른편에 계셔야 합니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 퀴즈 섹션 -->
+        <section class="bg-slate-800 rounded-2xl p-8 md:p-12 shadow-xl text-white">
+            <div class="mb-8 text-center md:text-left">
+                <h3 class="serif text-2xl md:text-3xl font-bold text-amber-400">영적 이해도 퀴즈</h3>
+                <p class="text-slate-400 mt-2">지문의 핵심 내용을 잘 이해하셨는지 확인해보세요.</p>
+            </div>
+
+            <div id="quiz-container">
+                <div id="question-box">
+                    <p id="question-text" class="text-xl mb-8 font-medium text-slate-100"></p>
+                    <div id="options-grid" class="grid gap-3">
+                        <!-- 옵션이 동적으로 생성됨 -->
+                    </div>
+                </div>
+                
+                <div id="result-box" class="hidden text-center">
+                    <h4 class="text-4xl font-bold mb-4">평가 완료</h4>
+                    <p id="score-text" class="text-2xl text-amber-400 mb-6"></p>
+                    <p id="feedback-text" class="text-slate-300 mb-8 leading-relaxed"></p>
+                    <button onclick="resetQuiz()" class="bg-amber-500 text-slate-900 px-8 py-3 rounded-full font-bold hover:bg-amber-400 transition-colors">다시 풀기</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 기도문 섹션 -->
+        <section class="mt-20 text-center py-16 bg-white rounded-2xl border-2 border-dashed border-slate-200">
+            <h3 class="serif text-3xl font-bold text-slate-800 mb-8">오늘의 기도</h3>
+            <div class="max-w-2xl mx-auto px-6 italic text-slate-600 text-lg leading-loose space-y-4">
+                <p>“주 예수님, 당신을 사랑합니다. 당신께 첫째가는 사랑을 드립니다.”</p>
+                <p>"오, 주 예수님, 당신을 첫째로 사랑하고 당신을 가장 사랑합니다. 저의 <span class="font-bold text-red-600">첫째가는 사랑</span>은 오직 당신의 것입니다. 저의 사랑의 우선순위를 당신께 둡니다."</p>
+                <p>“주님, 당신을 사랑합니다. 이 상황 안으로 오십시오. 당신께서 제 개인 생활과 교회생활의 모든 세세한 부분에서 첫째 위치를 가지시기 바랍니다. 당신께서 제 안에서 높아지시기 바랍니다.”</p>
+                <p>"주님, 제가 기꺼이 바로잡히고 파쇄되어 아무것도 아닌 이가 되기를 원합니다. 그리하여 당신께서 당신의 유기적인 몸의 건축을 위해 제 안에서 길을 가지소서. 집회와 교회생활을 비판하는 어떤 말도 하지 않도록 <span class="font-bold text-green-700">주님의 자비로운 빛 비춤</span>을 허락해주옵소서."</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function peelLayer() {
+            document.getElementById('intro-overlay').classList.add('peeled');
+        }
+
+        function toggleAccordion(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            
+            document.querySelectorAll('.accordion-content').forEach((el, index) => {
+                const currentId = index + 1;
+                if (currentId !== id) {
+                    el.classList.remove('open');
+                    const otherIcon = document.getElementById(`icon-${currentId}`);
+                    if(otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            content.classList.toggle('open');
+            if (content.classList.contains('open')) {
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        const quizData = [
+            {
+                q: "주님을 첫째가는 사랑으로 사랑한다는 것의 핵심적인 의미는 무엇입니까?",
+                a: [
+                    "감정적으로 뜨거워지는 것",
+                    "모든 일에서 주님께 으뜸의 위치를 드리는 것",
+                    "성경 구절을 많이 암송하는 것",
+                    "봉사 활동에 시간을 많이 쏟는 것"
+                ],
+                correct: 1
+            },
+            {
+                q: "지문에 따르면, 교회가 하락하게 되는 내재적인 원인은 무엇입니까?",
+                a: [
+                    "성도 숫자가 줄어들어서",
+                    "외부의 박해가 심해져서",
+                    "그리스도를 높이지 않고 첫째가는 사랑을 버려서",
+                    "건물이 낡고 시설이 부족해서"
+                ],
+                correct: 2
+            },
+            {
+                q: "생명나무이신 그리스도를 먹는 것에서 성도들을 빗나가게 하는 것은 무엇입니까?",
+                a: [
+                    "생명 공급",
+                    "종교와 지식",
+                    "구속의 일",
+                    "하나님의 낙원"
+                ],
+                correct: 1
+            },
+            {
+                q: "주님께서 으뜸이 되시게 하기 위해 우리가 가져야 할 태도가 아닌 것은?",
+                a: [
+                    "기꺼이 바로잡히는 마음",
+                    "파쇄되는 것",
+                    "자신의 의견을 관철시키는 것",
+                    "아무것도 아닌 이가 되는 것"
+                ],
+                correct: 2
+            },
+            {
+                q: "지방에서 예수님의 증거를 지키는 '등잔대의 비춤'은 무엇입니까?",
+                a: [
+                    "매일의 삶 모든 방면에서 그리스도를 비추어 내는 것",
+                    "실제로 촛불을 켜두는 의식",
+                    "사도들의 역사를 공부하는 것",
+                    "율법의 조항들을 암기하는 것"
+                ],
+                correct: 0
+            }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+
+        function renderQuiz() {
+            const data = quizData[currentQ];
+            document.getElementById('question-text').innerText = data.q;
+            const optionsGrid = document.getElementById('options-grid');
+            optionsGrid.innerHTML = '';
+            
+            data.a.forEach((option, i) => {
+                const btn = document.createElement('button');
+                btn.className = "quiz-option text-left p-4 rounded-lg bg-slate-700 border border-slate-600 hover:border-amber-400 text-slate-100 font-medium";
+                btn.innerText = option;
+                btn.onclick = () => selectOption(i);
+                optionsGrid.appendChild(btn);
+            });
+        }
+
+        function selectOption(idx) {
+            if (idx === quizData[currentQ].correct) score++;
+            currentQ++;
+            if (currentQ < quizData.length) {
+                renderQuiz();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('question-box').classList.add('hidden');
+            const resultBox = document.getElementById('result-box');
+            resultBox.classList.remove('hidden');
+            document.getElementById('score-text').innerText = `${score} / ${quizData.length}`;
+            
+            let feedback = "";
+            if (score === 5) feedback = "완벽한 이해입니다! 첫째가는 사랑 안에서 생명나무를 풍성히 누리시기 바랍니다.";
+            else if (score >= 3) feedback = "지문의 핵심을 잘 파악하셨습니다. 그리스도를 삶의 모든 부분에서 높이는 훈련을 계속합시다.";
+            else feedback = "요점 설명을 다시 한번 천천히 읽어보시면 그리스도를 누리는 기쁨이 더 커질 것입니다.";
+            
+            document.getElementById('feedback-text').innerText = feedback;
+        }
+
+        function resetQuiz() {
+            currentQ = 0;
+            score = 0;
+            document.getElementById('question-box').classList.remove('hidden');
+            document.getElementById('result-box').classList.add('hidden');
+            renderQuiz();
+        }
+
+        window.onload = renderQuiz;
+    </script>
+</body>
+</html>
