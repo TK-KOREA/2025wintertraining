@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가정에서 믿음을 전수하는 원칙과 적용</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f1f5f9; scroll-behavior: smooth; }
+        .gradient-header { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); }
+        .interactive-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
+        .interactive-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px -10px rgba(0,0,0,0.1); }
+        .step-content { display: none; animation: fadeIn 0.4s ease-out forwards; }
+        .step-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal-on-scroll { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+        .reveal-on-scroll.visible { opacity: 1; transform: translateY(0); }
+        .progress-bar { position: fixed; top: 0; left: 0; height: 5px; background: #6366f1; z-index: 100; transition: width 0.1s; }
+        
+        /* Ecosystem Nodes */
+        .eco-node { transition: all 0.3s ease; }
+        .eco-node:hover { transform: scale(1.1); filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.6)); }
+        
+        /* Custom Range Slider */
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: #6366f1; cursor: pointer; margin-top: -8px; border: 3px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 8px; cursor: pointer; background: #e2e8f0; border-radius: 4px; }
+
+        /* Modal Style */
+        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
+        .modal-content { background-color: #fefefe; padding: 30px; border-radius: 2rem; max-width: 500px; width: 90%; text-align: center; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+
+        /* Checklist Styles (Modified: Removed strikethrough) */
+        .checkbox-item input:checked + span { color: #6366f1; font-weight: 600; }
+        .checklist-progress-container { position: relative; width: 120px; height: 120px; }
+        .circle-bg { fill: none; stroke: #e2e8f0; stroke-width: 8; }
+        .circle-progress { fill: none; stroke: #6366f1; stroke-width: 8; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset 0.5s ease; }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- 1. Header -->
+    <header class="gradient-header text-white py-24 px-6 text-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d="M0 0 L100 0 L100 100 L0 100 Z" fill="url(#grad1)" />
+                <defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:0.1" /><stop offset="100%" style="stop-color:rgb(255,255,255);stop-opacity:0.01" /></linearGradient></defs>
+            </svg>
+        </div>
+        <div class="relative z-10">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">가정에서 믿음을 전수하는 원칙과 적용</h1>
+            <p class="text-xl md:text-2xl text-indigo-100 font-light max-w-3xl mx-auto border-t border-b border-white/20 py-6">
+                "믿음은 유전되지 않고 가정에서 부모로부터 자녀에게 전수된다" <br> <span class="text-lg opacity-80">(딤후 1:5)</span>
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-6 md:p-12 -mt-16 relative z-20 space-y-24">
+        
+        <!-- 2. 영적 생태계 비주얼라이저 -->
+        <section class="bg-white p-12 rounded-[3rem] shadow-xl border border-slate-100 reveal-on-scroll">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold mb-4 text-slate-800">우리는 유기체적인 연결 속에 있습니다</h2>
+                <p class="text-slate-500 text-sm">각 요소를 클릭하여 상호 관계를 확인해 보세요</p>
+            </div>
+            
+            <div class="relative flex flex-col items-center justify-center space-y-8 md:space-y-0 md:flex-row md:space-x-12 py-10">
+                <svg class="absolute hidden md:block w-full h-24 -z-10" style="max-width: 600px;">
+                    <line x1="10%" y1="50%" x2="90%" y2="50%" stroke="#e2e8f0" stroke-width="4" stroke-dasharray="10,5" />
+                </svg>
+
+                <div class="eco-node bg-indigo-50 border-2 border-indigo-200 p-8 rounded-full flex flex-col items-center cursor-pointer w-48 h-48 justify-center shadow-lg" onclick="showEcoInfo('교회', '가정들은 교회 안에 있습니다. 영적인 가정이 세워지고 활력적인 교회 생활이 동반되어야 합당한 생태계를 갖추게 됩니다.')">
+                    <i class="fas fa-church text-4xl text-indigo-600 mb-3"></i>
+                    <span class="font-bold text-indigo-900 uppercase">교회</span>
+                </div>
+                
+                <i class="fas fa-link text-slate-300 text-2xl hidden md:block"></i>
+
+                <div class="eco-node bg-emerald-50 border-2 border-emerald-200 p-8 rounded-full flex flex-col items-center cursor-pointer w-48 h-48 justify-center shadow-lg" onclick="showEcoInfo('가정', '자녀들은 가정 안에 있습니다. 믿음은 부모로부터 자녀에게 전수되며, 가정생활은 균형 잡힌 신앙의 핵심 터전입니다.')">
+                    <i class="fas fa-house-chimney text-4xl text-emerald-600 mb-3"></i>
+                    <span class="font-bold text-emerald-900 uppercase">가정</span>
+                </div>
+
+                <i class="fas fa-link text-slate-300 text-2xl hidden md:block"></i>
+
+                <div class="eco-node bg-rose-50 border-2 border-rose-200 p-8 rounded-full flex flex-col items-center cursor-pointer w-48 h-48 justify-center shadow-lg" onclick="showEcoInfo('자녀', '자녀는 하나님께서 주신 소유이지 부모의 소유가 아닙니다. 과정 안에서 그들의 존재가 온전케 되어야 할 대상입니다.')">
+                    <i class="fas fa-child-reaching text-4xl text-rose-600 mb-3"></i>
+                    <span class="font-bold text-rose-900 uppercase">다음 세대</span>
+                </div>
+            </div>
+            
+            <div id="eco-desc-box" class="mt-8 p-6 bg-slate-50 rounded-2xl text-center border border-dashed border-slate-300 min-h-[100px] flex items-center justify-center">
+                <p class="text-slate-500 font-medium italic">원을 클릭하여 상세 내용을 확인하세요.</p>
+            </div>
+        </section>
+
+        <!-- 3. 성장 단계별 비중 슬라이더 -->
+        <section class="bg-indigo-900 p-12 rounded-[3rem] text-white reveal-on-scroll">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4 text-indigo-100">나이에 따른 생활 비중 조절</h2>
+                <p class="text-indigo-300 text-sm">자녀의 연령대에 따라 균형을 맞춰보세요</p>
+            </div>
+
+            <div class="max-w-3xl mx-auto space-y-12">
+                <div class="flex justify-between items-end">
+                    <div class="text-left">
+                        <span class="block text-xs font-bold text-indigo-400 uppercase">Current Focus</span>
+                        <h4 id="age-label" class="text-2xl font-bold text-white">유아기 (태중 ~ 7세)</h4>
+                    </div>
+                    <div class="text-right">
+                        <div class="inline-flex gap-4">
+                            <div class="text-center">
+                                <span class="block text-[10px] text-indigo-400 font-bold">가정 비중</span>
+                                <span id="home-val" class="text-xl font-bold">80%</span>
+                            </div>
+                            <div class="text-center">
+                                <span class="block text-[10px] text-indigo-400 font-bold">교회 비중</span>
+                                <span id="church-val" class="text-xl font-bold">20%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative pt-4">
+                    <input type="range" min="0" max="100" value="0" id="ageSlider" oninput="updateBalance(this.value)">
+                    <div class="flex justify-between mt-4 text-[10px] font-bold text-indigo-400 uppercase tracking-widest">
+                        <span>Birth</span>
+                        <span>Elementary</span>
+                        <span>Youth</span>
+                        <span>Adult</span>
+                    </div>
+                </div>
+
+                <div class="bg-white/10 p-6 rounded-2xl border border-white/10">
+                    <p id="age-tip" class="text-sm leading-relaxed text-indigo-100">
+                        "어린 자녀가 있는 가정은 생활의 비중을 가정생활에 더 두어야 합니다. 유대인들처럼 침상에서의 교육이 핵심입니다."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 실천 원칙 체크리스트 (취소선 제거 버전) -->
+        <section class="bg-white p-12 rounded-[3.5rem] shadow-xl border border-slate-100 reveal-on-scroll">
+            <div class="flex flex-col md:flex-row items-center justify-between mb-12 gap-8">
+                <div class="text-left max-w-md">
+                    <h2 class="text-3xl font-bold mb-4 text-slate-800">오늘의 실천 원칙 체크리스트</h2>
+                    <p class="text-slate-500 text-sm">부모가 먼저 온전케 될 때 믿음의 전수가 시작됩니다. 오늘 하루 실천한 항목을 체크해 보세요.</p>
+                </div>
+                
+                <div class="flex flex-col items-center">
+                    <div class="checklist-progress-container mb-2">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
+                            <circle id="checkProgressCircle" class="circle-progress" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center flex-col">
+                            <span id="progressPercent" class="text-2xl font-bold text-indigo-600">0%</span>
+                            <span class="text-[10px] text-slate-400 uppercase font-bold">Done</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-3xl mx-auto space-y-3" id="principleChecklist">
+                <label class="checkbox-item flex items-center p-5 bg-slate-50 rounded-2xl cursor-pointer hover:bg-indigo-50 transition-all border border-transparent hover:border-indigo-100">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="w-6 h-6 rounded border-slate-300 text-indigo-600 mr-4 focus:ring-indigo-500">
+                    <span class="text-sm md:text-base font-medium text-slate-700 transition-colors">자녀의 행동을 규제하지 말고, 그들의 존재를 온전케 하십시오.</span>
+                </label>
+                <label class="checkbox-item flex items-center p-5 bg-slate-50 rounded-2xl cursor-pointer hover:bg-indigo-50 transition-all border border-transparent hover:border-indigo-100">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="w-6 h-6 rounded border-slate-300 text-indigo-600 mr-4 focus:ring-indigo-500">
+                    <span class="text-sm md:text-base font-medium text-slate-700 transition-colors">기도를 통해 자녀들에 관한 모든 일에서 하나님의 지혜를 구하십시오.</span>
+                </label>
+                <label class="checkbox-item flex items-center p-5 bg-slate-50 rounded-2xl cursor-pointer hover:bg-indigo-50 transition-all border border-transparent hover:border-indigo-100">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="w-6 h-6 rounded border-slate-300 text-indigo-600 mr-4 focus:ring-indigo-500">
+                    <span class="text-sm md:text-base font-medium text-slate-700 transition-colors">결과를 얻으려 하지 말고, 과정 안에서 그들을 격려하십시오.</span>
+                </label>
+                <label class="checkbox-item flex items-center p-5 bg-slate-50 rounded-2xl cursor-pointer hover:bg-indigo-50 transition-all border border-transparent hover:border-indigo-100">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="w-6 h-6 rounded border-slate-300 text-indigo-600 mr-4 focus:ring-indigo-500">
+                    <span class="text-sm md:text-base font-medium text-slate-700 transition-colors">매일 작은 분량이라도 꾸준히 말씀을 가르치십시오.</span>
+                </label>
+                <label class="checkbox-item flex items-center p-5 bg-slate-50 rounded-2xl cursor-pointer hover:bg-indigo-50 transition-all border border-transparent hover:border-indigo-100">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="w-6 h-6 rounded border-slate-300 text-indigo-600 mr-4 focus:ring-indigo-500">
+                    <span class="text-sm md:text-base font-medium text-slate-700 transition-colors">식탁에서 즐겁고 유쾌하게 서로를 축복하고 격려하십시오.</span>
+                </label>
+                <label class="checkbox-item flex items-center p-5 bg-slate-50 rounded-2xl cursor-pointer hover:bg-indigo-50 transition-all border border-transparent hover:border-indigo-100">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="w-6 h-6 rounded border-slate-300 text-indigo-600 mr-4 focus:ring-indigo-500">
+                    <span class="text-sm md:text-base font-medium text-slate-700 transition-colors">부모가 먼저 온전케 되는 은혜와 축복을 얻으십시오.</span>
+                </label>
+                <label class="checkbox-item flex items-center p-5 bg-slate-50 rounded-2xl cursor-pointer hover:bg-indigo-50 transition-all border border-transparent hover:border-indigo-100">
+                    <input type="checkbox" onchange="updateChecklistProgress()" class="w-6 h-6 rounded border-slate-300 text-indigo-600 mr-4 focus:ring-indigo-500">
+                    <span class="text-sm md:text-base font-medium text-slate-700 transition-colors">자녀는 하나님의 소유임을 잊지 마십시오.</span>
+                </label>
+            </div>
+
+            <div class="text-center mt-10">
+                <button onclick="resetChecklist()" class="text-slate-400 text-xs font-bold uppercase tracking-widest hover:text-rose-500 transition-colors">
+                    <i class="fas fa-rotate-left mr-1"></i> Reset Checklist
+                </button>
+            </div>
+        </section>
+
+        <!-- 5. 영적 문화 가이드 -->
+        <section class="bg-white p-12 rounded-[3.5rem] shadow-xl border border-slate-100 reveal-on-scroll">
+            <h2 class="text-3xl font-bold text-center mb-4 text-slate-800">가정 내 높은 영적 문화 창출</h2>
+            <p class="text-center text-slate-500 text-sm mb-12">아이콘을 클릭하여 실천 가이드를 확인하세요</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div class="interactive-card flex flex-col items-center p-6 bg-slate-50 rounded-3xl group" onclick="openCultureModal('결혼', '결혼은 단지 육신적인 결합이 아니라, 주님의 몸의 건축을 위한 거룩한 연합임을 인식하게 합니다. 자녀들에게 올바른 결혼관과 가치관을 심어주는 높은 영적 문화입니다.')">
+                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-3 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                        <i class="fas fa-ring text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-bold">결혼</span>
+                </div>
+                <div class="interactive-card flex flex-col items-center p-6 bg-slate-50 rounded-3xl group" onclick="openCultureModal('생일', '자녀의 생일을 육체적 출생의 축하를 넘어, 주님께서 주신 생명의 선물을 감사하고 앞으로의 헌신을 격려하는 영적인 시간으로 전환하십시오.')">
+                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-3 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                        <i class="fas fa-cake-candles text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-bold">생일</span>
+                </div>
+                <div class="interactive-card flex flex-col items-center p-6 bg-slate-50 rounded-3xl group" onclick="openCultureModal('장례와 추모', '죽음을 소망 없는 슬픔으로 여기지 않고, 주님 안에서 잠든 성도들의 본을 추억하며 영원을 사모하는 기회로 삼는 높은 문화를 창출하십시오.')">
+                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-3 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                        <i class="fas fa-dove text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-bold">추모</span>
+                </div>
+                <div class="interactive-card flex flex-col items-center p-6 bg-slate-50 rounded-3xl group" onclick="openCultureModal('절기와 행사', '세상의 명절이나 휴가를 단순히 노는 날이 아닌, 주님의 안배를 감사하고 가족이 함께 섞여 영적 공과를 배우는 특별한 시간으로 구별하십시오.')">
+                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-3 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                        <i class="fas fa-calendar-star text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-bold">절기</span>
+                </div>
+                <div class="interactive-card flex flex-col items-center p-6 bg-slate-50 rounded-3xl group" onclick="openCultureModal('여행', '여행의 전 과정을 기도로 준비하고, 자연 속에서 하나님의 창조와 일하심을 찬양하며 가족 간의 유대와 소통을 강화하는 섞임의 기회로 삼으십시오.')">
+                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-3 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                        <i class="fas fa-map-location-dot text-2xl"></i>
+                    </div>
+                    <span class="text-sm font-bold">여행</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. 인성 vs 신성 상세 보드 -->
+        <section class="reveal-on-scroll">
+            <h2 class="text-3xl font-bold text-center mb-12 text-slate-800">어떤 영역을 온전케 해야 할까요?</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="interactive-card bg-rose-50 p-10 rounded-[2.5rem] border-2 border-rose-100" onclick="showDomain('인성', '감성, 도덕성, 이성, 인간생활의 기초 (살전 5:23, 마 5:3, 마 22:37, 잠 2:10, 시 42:1 등). 합당한 인간의 생활 방식과 도덕적인 성품을 갖추는 것입니다.')">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-user-shield text-4xl text-rose-500 mr-4"></i>
+                        <h3 class="text-2xl font-bold text-rose-900">인성 (Humanity)</h3>
+                    </div>
+                    <p class="text-rose-700 text-sm italic">"가장 합당한 그릇이 되기 위한 인간적인 기초"</p>
+                </div>
+                <div class="interactive-card bg-purple-50 p-10 rounded-[2.5rem] border-2 border-purple-100" onclick="showDomain('신성', '거듭남, 성장, 변화, 건축 (벧후 1:3-11). 하나님께서 주신 신성한 생명이 자녀들 안에서 성장하고 교회의 지체로 건축되도록 돕는 영역입니다.')">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-dove text-4xl text-purple-500 mr-4"></i>
+                        <h3 class="text-2xl font-bold text-purple-900">신성 (Divinity)</h3>
+                    </div>
+                    <p class="text-purple-700 text-sm italic">"주님의 생명이 자라고 표현되는 영적인 과정"</p>
+                </div>
+            </div>
+            <div id="domain-detail" class="mt-8 bg-white p-8 rounded-3xl border border-slate-200 min-h-[120px] shadow-sm flex items-center justify-center text-center">
+                <p class="text-slate-400 font-medium">카드를 클릭하여 상세 영역과 성경적 근거를 확인하세요.</p>
+            </div>
+        </section>
+
+        <!-- Roadmap -->
+        <section class="bg-slate-900 text-white p-12 rounded-[3.5rem] reveal-on-scroll">
+            <h2 class="text-3xl font-bold text-center mb-16 underline decoration-indigo-500 underline-offset-8">말씀 교육 단계별 실천</h2>
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/3 space-y-4">
+                    <button class="w-full text-left p-6 rounded-2xl border-2 border-slate-700 transition-all step-btn active-step bg-indigo-600 border-indigo-500" onclick="showStep(1, this)">
+                        <span class="block text-[10px] text-indigo-300 font-bold uppercase mb-1">Phase 1</span>
+                        <span class="font-bold">태중 및 글 읽기 전</span>
+                    </button>
+                    <button class="w-full text-left p-6 rounded-2xl border-2 border-slate-700 transition-all step-btn" onclick="showStep(2, this)">
+                        <span class="block text-[10px] text-indigo-300 font-bold uppercase mb-1">Phase 2</span>
+                        <span class="font-bold">성경 재미있게 읽기</span>
+                    </button>
+                    <button class="w-full text-left p-6 rounded-2xl border-2 border-slate-700 transition-all step-btn" onclick="showStep(3, this)">
+                        <span class="block text-[10px] text-indigo-300 font-bold uppercase mb-1">Phase 3</span>
+                        <span class="font-bold">쓰기, 외우기, 기도</span>
+                    </button>
+                    <button class="w-full text-left p-6 rounded-2xl border-2 border-slate-700 transition-all step-btn" onclick="showStep(4, this)">
+                        <span class="block text-[10px] text-indigo-300 font-bold uppercase mb-1">Phase 4</span>
+                        <span class="font-bold">토론 및 자율 추구</span>
+                    </button>
+                </div>
+
+                <div class="lg:w-2/3 bg-slate-800 p-12 rounded-[3rem] border border-white/5 flex items-center min-h-[350px]">
+                    <div id="step-content-1" class="step-content active w-full">
+                        <i class="fas fa-microphone-lines text-5xl text-indigo-400 mb-6"></i>
+                        <h3 class="text-2xl font-bold mb-4">목소리로 들려주는 말씀</h3>
+                        <p class="text-slate-300 leading-relaxed">태중에 있을 때부터 말씀을 들려주십시오. 부모의 실제 목소리가 가장 효과적입니다. 어린 자녀에게는 성경 이야기를 재미있게 들려주는 것이 핵심입니다.</p>
+                    </div>
+                    <div id="step-content-2" class="step-content w-full">
+                        <i class="fas fa-book-open-reader text-5xl text-indigo-400 mb-6"></i>
+                        <h3 class="text-2xl font-bold mb-4">요약하는 습관 기르기</h3>
+                        <p class="text-slate-300 leading-relaxed">성경을 조금씩 재미있게 읽어주고, 아이가 글을 안다면 읽은 내용을 한 문장이라도 스스로 요약해 보게 하십시오. 사고의 기초를 세우는 과정입니다.</p>
+                    </div>
+                    <div id="step-content-3" class="step-content w-full">
+                        <i class="fas fa-scroll text-5xl text-indigo-400 mb-6"></i>
+                        <h3 class="text-2xl font-bold mb-4">내면화하는 말씀</h3>
+                        <p class="text-slate-300 leading-relaxed">요약을 잘하면 성경을 직접 써보고 암송하게 하십시오. 말씀의 빛에 대한 느낌을 말하게 하고, 그 느낌대로 기도하는 영적인 훈련을 병행합니다.</p>
+                    </div>
+                    <div id="step-content-4" class="step-content w-full">
+                        <i class="fas fa-handshake-angle text-5xl text-indigo-400 mb-6"></i>
+                        <h3 class="text-2xl font-bold mb-4">인격적인 동반자</h3>
+                        <p class="text-slate-300 leading-relaxed">자녀가 성숙해지면 말씀을 매개로 토론하고 대화하십시오. 책상에서 스스로 주님을 추구할 수 있도록 부모는 격려자이자 인도자가 되어야 합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Culture Modal -->
+    <div id="cultureModal" class="modal">
+        <div class="modal-content">
+            <i id="modal-icon" class="fas fa-info-circle text-5xl text-indigo-600 mb-6"></i>
+            <h3 id="modal-title" class="text-2xl font-bold mb-4">제목</h3>
+            <p id="modal-body" class="text-slate-600 leading-relaxed mb-8">내용</p>
+            <button onclick="closeModal()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-slate-800 transition-all">확인했습니다</button>
+        </div>
+    </div>
+
+    <footer class="bg-slate-900 text-indigo-300 py-20 px-6 text-center">
+        <div class="max-w-4xl mx-auto border-t border-white/10 pt-10">
+            <p class="text-sm font-bold tracking-[0.3em] uppercase mb-4 opacity-50">Generational Faith Transmission</p>
+            <p class="text-lg font-light italic mb-8">"앞세대의 수고가 다음 세대를 얻는 밑거름이 됩니다."</p>
+            <div class="flex justify-center space-x-6 text-2xl opacity-30">
+                <i class="fas fa-seedling"></i>
+                <i class="fas fa-leaf"></i>
+                <i class="fas fa-tree"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Progress Bar
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+            
+            // Scroll Reveal
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) { el.classList.add('visible'); }
+            });
+        };
+
+        // 1. Ecosystem Info
+        function showEcoInfo(title, desc) {
+            const box = document.getElementById('eco-desc-box');
+            box.innerHTML = `<div class='animate-pulse'><strong class='text-indigo-600 block text-lg mb-1'>[${title}]</strong><p class='text-slate-700 text-sm'>${desc}</p></div>`;
+            box.classList.remove('italic', 'text-slate-500');
+        }
+
+        // 2. Age Slider Update
+        const ageConfigs = [
+            { label: '유아기 (태중 ~ 7세)', home: 80, church: 20, tip: '가장 어린 시기에는 가정에서의 비중이 절대적입니다. 부모의 목소리와 생활 방식이 자녀의 전 존재를 형성합니다.' },
+            { label: '초등기 (8세 ~ 13세)', home: 60, church: 40, tip: '가정 교육을 기반으로 교회 학교 생활을 통해 공동체적인 믿음을 배우기 시작하는 시기입니다.' },
+            { label: '청소년기 (14세 ~ 19세)', home: 40, church: 60, tip: '자아를 형성하며 교회 내 또래들과 섞이는 비중이 늘어납니다. 부모는 권위보다 대화로 다가가야 합니다.' },
+            { label: '청년기 이후 (20세 ~ )', home: 20, church: 80, tip: '독립적인 믿음을 가지고 교회 생활에 주도적으로 참여합니다. 부모는 영적인 자산이자 기도의 후원자로 남습니다.' }
+        ];
+
+        function updateBalance(val) {
+            const index = Math.min(Math.floor(val / 25), 3);
+            const config = ageConfigs[index];
+            document.getElementById('age-label').innerText = config.label;
+            document.getElementById('home-val').innerText = config.home + '%';
+            document.getElementById('church-val').innerText = config.church + '%';
+            document.getElementById('age-tip').innerText = config.tip;
+        }
+
+        // 3. Checklist Progress logic
+        function updateChecklistProgress() {
+            const checklist = document.getElementById('principleChecklist');
+            const checkboxes = checklist.querySelectorAll('input[type="checkbox"]');
+            const total = checkboxes.length;
+            const checked = checklist.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percentage = Math.round((checked / total) * 100);
+            
+            // Update Text
+            document.getElementById('progressPercent').innerText = percentage + '%';
+            
+            // Update Circle
+            const circle = document.getElementById('checkProgressCircle');
+            const radius = 40;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (percentage / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        function resetChecklist() {
+            const checkboxes = document.querySelectorAll('#principleChecklist input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
+            updateChecklistProgress();
+        }
+
+        // 4. Culture Modal
+        function openCultureModal(title, body) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-body').innerText = body;
+            const modal = document.getElementById('cultureModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('cultureModal').style.display = 'none';
+        }
+
+        // 5. Domain Detail
+        function showDomain(title, desc) {
+            const detailBox = document.getElementById('domain-detail');
+            detailBox.innerHTML = `<div class='animate-fadeIn'><h4 class='font-bold text-lg mb-2 text-slate-800'>${title}의 온전케 함</h4><p class='text-sm text-slate-600 leading-relaxed'>${desc}</p></div>`;
+            detailBox.classList.remove('text-slate-400');
+        }
+
+        // Roadmap Step Switcher
+        function showStep(stepNumber, btnElement) {
+            document.querySelectorAll('.step-content').forEach(content => content.classList.remove('active'));
+            document.getElementById('step-content-' + stepNumber).classList.add('active');
+            document.querySelectorAll('.step-btn').forEach(btn => btn.classList.remove('active-step', 'bg-indigo-600', 'border-indigo-500'));
+            btnElement.classList.add('active-step', 'bg-indigo-600', 'border-indigo-500');
+        }
+
+        // Close modal on click outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('cultureModal');
+            if (event.target == modal) { closeModal(); }
+        }
+    </script>
+
+</body>
+</html>
