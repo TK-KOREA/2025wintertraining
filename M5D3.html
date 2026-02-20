@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>하나님의 생명: 4가지 장애물 심층 분석</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        /* 도입부 레이어 벗기기 */
+        #intro-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+        }
+
+        #intro-overlay.peeled {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .layer-content {
+            text-align: center;
+            color: white;
+        }
+
+        .pulse-btn {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* 아코디언 애니메이션 */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 5000px; /* 더 많은 내용을 위해 확장 */
+            padding-bottom: 2.5rem;
+        }
+
+        .accordion-item.active .chevron {
+            transform: rotate(180deg);
+        }
+
+        /* 표 스타일 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .data-table th {
+            background-color: #1e293b;
+            color: white;
+            font-weight: 700;
+            text-align: left;
+            padding: 14px;
+        }
+        .data-table td {
+            padding: 14px;
+            border-bottom: 1px solid #e2e8f0;
+            background-color: white;
+        }
+
+        /* 퀴즈 스타일 */
+        .quiz-option {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .quiz-option:hover {
+            background-color: #334155;
+            color: #fbbf24; 
+        }
+        .quiz-option.selected {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .verse-box {
+            border-left: 5px solid #3b82f6;
+            background-color: #eff6ff;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 0.75rem 0.75rem 0;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .highlight-text {
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        .example-card {
+            background-color: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 도입부: 레이어 벗기기 -->
+    <div id="intro-overlay" onclick="peelLayer()">
+        <div class="layer-content p-6">
+            <div class="mb-8">
+                <i class="fa-solid fa-seedling text-7xl text-blue-400 mb-6 block"></i>
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight">하나님의 생명을 가로막는 4가지 장애물</h1>
+                <p class="text-xl text-slate-400 font-light">우리의 '인간 관념'이라는 레이어를 벗겨낼 때<br>비로소 하나님의 생명이 해방됩니다.</p>
+            </div>
+            <div class="pulse-btn inline-block bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-full font-bold text-lg shadow-2xl transition cursor-pointer">
+                화면을 클릭하여 레이어 벗기기
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-5xl mx-auto px-4 py-16">
+        <!-- 서론 -->
+        <section class="mb-20">
+            <h2 class="text-4xl font-bold mb-8 text-slate-800 text-center">하나님의 경륜과 신성한 생명</h2>
+            <div class="max-w-3xl mx-auto text-lg leading-relaxed text-slate-600 space-y-6 text-center md:text-left">
+                <p>
+                    하나님의 경륜은 하나님 자신을 생명으로서 사람 안에 분배하여 사람과 연합함으로써 생명이 자람으로써 <span class="highlight-text">그리스도의 몸을 건축하는 것</span>을 목표로 합니다. 구원받은 날 우리는 우리 안에서 생명이 되시는 <span class="highlight-text">살아 계신 그리스도</span>를 받아들였습니다.
+                </p>
+                <div class="verse-box text-slate-800 shadow-sm">
+                    "<span class="highlight-text">하나님께서 … 그분의 아들을 내 안에 계시하시기를 기뻐하실 때에</span> … 나는 그리스도와 함께 십자가에 못 박혔습니다. 그러므로 이제는 더 이상 내가 사는 것이 아니라, <span class="highlight-text">그리스도께서 내 안에 사십니다.</span> 이제 내가 육체 안에서 사는 생명은 나를 사랑하시어 나를 위하여 자신을 버리신 하나님의 아들의 믿음 안에서 사는 생명입니다." (갈 1:15-16, 2:20)
+                </div>
+            </div>
+        </section>
+
+        <!-- 핵심 요점 아코디언 -->
+        <section class="mb-24">
+            <h3 class="text-3xl font-bold mb-10 text-center text-slate-800 tracking-tight">장애물 심층 분석</h3>
+            
+            <div class="space-y-6">
+                <!-- 제1장: 인간의 관념 -->
+                <div class="accordion-item border-2 border-slate-200 rounded-2xl bg-white shadow-sm overflow-hidden">
+                    <button class="w-full p-8 flex justify-between items-center bg-slate-50 hover:bg-slate-100 transition" onclick="toggleAccordion(this)">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 rounded-2xl bg-blue-900 text-white flex justify-center items-center mr-5 shadow-lg">
+                                <i class="fa-solid fa-brain text-2xl"></i>
+                            </div>
+                            <div class="text-left">
+                                <span class="block text-sm font-bold text-blue-600 uppercase tracking-wider">Obstacle 1</span>
+                                <span class="text-2xl font-bold text-slate-800">인간의 관념 - 어두움의 무덤</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-down chevron text-xl text-slate-400 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-8 md:px-16">
+                        <div class="py-6 space-y-4 text-slate-700 leading-relaxed">
+                            <p>
+                                하나님의 생명이 우리 안에서 직면하는 첫째 문제는 우리가 <span class="highlight-text">우리의 인간 관념들의 어둠을 깨닫지 못한다는 것</span>입니다. 우리 모두에게 관념들이 있으며 우리는 <span class="highlight-text">무의식적으로 그 관념들을 따라 삽니다.</span> 이러한 관념들은 우리의 본성, 교육, 가정 환경, 사회로부터 비롯되며 우리가 어떻게 살고 사물을 평가하는지를 지배합니다.
+                            </p>
+                            
+                            <div class="example-card">
+                                <h4 class="font-bold text-blue-900 mb-2"><i class="fa-solid fa-lightbulb mr-2"></i>대표적인 관념의 예시</h4>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li><span class="font-bold">종교적 관념:</span> 그리스도인이 되면 열심을 내야 하고 세상을 버려야 한다고 생각함. 사람의 관점에서는 논리적이나, 하나님의 생명이 없다면 실지적이지 않음.</li>
+                                    <li><span class="font-bold">사회적 관념:</span> 최상의 교육을 받아야 좋은 직장을 얻고 가정을 이루어 잘 살 수 있다는 생각. 이는 중요한 결정 시 주님의 뜻보다 우선시되는 장애물이 됨.</li>
+                                    <li><span class="font-bold">율법적 노정:</span> 그리스도인의 생활을 반드시 어떤 방식으로 행동해야 하는 율법의 문제로 여겨 좌절함.</li>
+                                </ul>
+                            </div>
+
+                            <p>
+                                그리스도인이 되는 것은 <span class="highlight-text">오직 그리스도만을 우리의 목적으로 삼는 것</span>을 의미합니다. 우리는 자신의 인간 관념들을 따르는 대신 주님께 열고 "주님, 제가 무엇을 하기 원하십니까?"라고 물어야 합니다.
+                            </p>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>관념의 층위</th>
+                                            <th>형성 배경 및 특징</th>
+                                            <th>생명에 미치는 영향</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td class="font-bold">타락 (The Fall)</td><td>생명나무를 거부하고 지식나무를 선택함</td><td>하나님을 생명공급의 근원으로 인식하지 못함</td></tr>
+                                        <tr><td class="font-bold">문화 (Culture)</td><td>국가, 과거, 현대를 아우르는 지식나무의 발명품</td><td>내가 배운 것, 들은 것에 의해서 일과 사람을 판단함</td></tr>
+                                        <tr><td class="font-bold">종교 (Religion)</td><td>하나님을 위한다는 명목의 전통과 규범</td><td>실재 대신 의식과 문자에 집착함</td></tr>
+                                        <tr><td class="font-bold">철학 (Philosophy)</td><td>인간 이성과 논리에 기반한 세계관</td><td>신성한 계시를 인간의 논리 안에 가둠</td></tr>
+                                        <tr><td class="font-bold">윤리 (Ethics)</td><td>도덕적 선행에 대한 인간적 기준(성인군자)</td><td>생명의 인도보다 도덕적 의무를 따름</td></tr>
+                                        <tr><td class="font-bold">인간 미덕 (Virtues)</td><td>타고난 온유함, 인내, 관용 등</td><td>친절하고 관대하다는 평가를 듣고 싶어 함</td></tr>
+                                        <tr><td class="font-bold">영적 추구 (Spiritual Seeking)</td><td>죄와 세상을 이기려는 자신의 노력</td><td>주님 자신보다 자신의 '영적 상태'에 집중함</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="verse-box">
+                                "육체에 <span class="highlight-text">둔 생각은 죽음</span>이지만, 영에 <span class="highlight-text">둔 생각은 생명과 평안</span>입니다." (롬 8:6)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 제2장: 위선 -->
+                <div class="accordion-item border-2 border-slate-200 rounded-2xl bg-white shadow-sm overflow-hidden">
+                    <button class="w-full p-8 flex justify-between items-center bg-slate-50 hover:bg-slate-100 transition" onclick="toggleAccordion(this)">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 rounded-2xl bg-purple-700 text-white flex justify-center items-center mr-5 shadow-lg">
+                                <i class="fa-solid fa-mask text-2xl"></i>
+                            </div>
+                            <div class="text-left">
+                                <span class="block text-sm font-bold text-purple-600 uppercase tracking-wider">Obstacle 2</span>
+                                <span class="text-2xl font-bold text-slate-800">위선 - 겉모양과 실재의 분리</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-down chevron text-xl text-slate-400 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-8 md:px-16">
+                        <div class="py-6 space-y-4 text-slate-700 leading-relaxed">
+                            <p>
+                                생명이 우리 안에서 직면하는 둘째 문제는 위선입니다. 우리 중 많은 이들은 <span class="highlight-text">본래의 자신이 아닌 무언가가 되려고 애쓰며</span> 가식에 사로잡혀 있습니다. 사람의 영성은 밖으로 보이는 것에 의해서가 아니라 <span class="highlight-text">내주하시는 그리스도께 어떻게 주의를 기울이느냐</span>에 의해 결정됩니다. 
+                            </p>
+
+                            <div class="example-card">
+                                <h4 class="font-bold text-purple-900 mb-2"><i class="fa-solid fa-circle-info mr-2"></i>위선의 실질적 양상</h4>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li><span class="font-bold">타고난 선 추구:</span> 교회생활 안에서 '좋은 형제나 자매'는 어떻게 행동해야 하는지에 대한 관념을 가지고 그렇게 살려고 애씀. 이는 사실상 생명에 커다란 방해물임.</li>
+                                    <li><span class="font-bold">가공된 영성:</span> 외적인 방식으로 완벽한 그리스도인의 생활을 하려고 애쓰는 것.</li>
+                                    <li><span class="font-bold">기질에 따른 행동:</span> 우리가 항상 우리의 기질과 타고난 존재에 따라 행동한다면, 그 결과는 항상 위선일 것임.</li>
+                                </ul>
+                            </div>
+
+                            <p>
+                                생명의 표현은 우리가 우리의 <span class="highlight-text">타고난 기질과 선호를 거절</span>하고 다만 그리스도께서 우리 안에서 운행하시고 우리를 파쇄하시도록 허락해 드리는 것입니다.
+                            </p>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="data-table">
+                                    <thead class="bg-purple-50">
+                                        <tr>
+                                            <th>구분</th>
+                                            <th>천연적인 미덕 (Natural Virtues)</th>
+                                            <th>생명의 표현 (Expression of Life)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td class="font-bold">근원</td><td>타고난 기질, 교육, 자제력</td><td>내주하시는 그리스도의 운행</td></tr>
+                                        <tr><td class="font-bold">특징</td><td>상황에 따라 변하며 한계가 있음</td><td>영원하며 십자가의 흔적이 있음</td></tr>
+                                        <tr><td class="font-bold">대상</td><td>타인에게 보이는 인상</td><td>하나님과의 은밀한 교통</td></tr>
+                                        <tr><td class="font-bold">결과</td><td>자아의 만족과 교만</td><td>그리스도의 형상으로의 변화</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="verse-box">
+                                "여러분도 겉으로는 사람들에게 의롭게 보이지만, 속에는 <span class="highlight-text">위선과 불법이 가득합니다.</span>" (마 23:28)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 제3장: 반역 -->
+                <div class="accordion-item border-2 border-slate-200 rounded-2xl bg-white shadow-sm overflow-hidden">
+                    <button class="w-full p-8 flex justify-between items-center bg-slate-50 hover:bg-slate-100 transition" onclick="toggleAccordion(this)">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 rounded-2xl bg-orange-600 text-white flex justify-center items-center mr-5 shadow-lg">
+                                <i class="fa-solid fa-hand-dots text-2xl"></i>
+                            </div>
+                            <div class="text-left">
+                                <span class="block text-sm font-bold text-orange-600 uppercase tracking-wider">Obstacle 3</span>
+                                <span class="text-2xl font-bold text-slate-800">반역 - 내적 느낌에 대한 불순종</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-down chevron text-xl text-slate-400 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-8 md:px-16">
+                        <div class="py-6 space-y-4 text-slate-700 leading-relaxed">
+                            <p>
+                                생명이 직면하는 셋째 문제는 반역입니다. 우리가 내적인 느낌에 순종하지 않고 거스르면서 그분의 인도를 받아들이지 않거나 대가를 지불하지 않는다면, 이것이 <span class="highlight-text">반역</span>입니다. 우리가 가장 자주 범하는 죄이자 가장 심각한 죄는 외적인 죄가 아니라, <span class="highlight-text">우리 안에 계신 그리스도의 느낌에 불순종하는 죄</span>입니다.
+                            </p>
+
+                            <div class="example-card border-orange-200 bg-orange-50">
+                                <h4 class="font-bold text-orange-900 mb-2"><i class="fa-solid fa-comment-slash mr-2"></i>작은 일에서의 반역 예시</h4>
+                                <p>누군가와 대화를 나누는 중에 어떤 말을 하고 싶을 때가 있는데, 속에서는 그것을 <span class="font-bold text-orange-700">말하지 말라는 제지(내적인 느낌)</span>가 있음에도 불구하고 어쨌든 말을 해 버리는 경우. 이것은 명백한 반역이며, 우리는 "주님, 제가 당신의 기름바름을 무시했습니다"라고 자백해야 함.</p>
+                            </div>
+
+                            <p>
+                                우리가 주님의 임재를 감지하지 못하는 것은 이 내적인 느낌에 민감해지지 못하고, 그 대신 <span class="highlight-text">외적인 느낌이나 감정을 찾고 있기 때문</span>입니다. 우리는 생명의 내적인 느낌을 존중하는 법을 배워야 합니다.
+                            </p>
+                            <div class="verse-box border-orange-400 bg-orange-50">
+                                "그분의 <span class="highlight-text">기름바름이 여러분 안에 거하니</span>, 아무도 여러분을 가르칠 필요가 없습니다. 그분의 기름바름이 모든 것에 관하여 여러분을 가르칩니다." (요일 2:27)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 제4장: 타고난 역량 -->
+                <div class="accordion-item border-2 border-slate-200 rounded-2xl bg-white shadow-sm overflow-hidden">
+                    <button class="w-full p-8 flex justify-between items-center bg-slate-50 hover:bg-slate-100 transition" onclick="toggleAccordion(this)">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-700 text-white flex justify-center items-center mr-5 shadow-lg">
+                                <i class="fa-solid fa-hammer text-2xl"></i>
+                            </div>
+                            <div class="text-left">
+                                <span class="block text-sm font-bold text-emerald-600 uppercase tracking-wider">Obstacle 4</span>
+                                <span class="text-2xl font-bold text-slate-800">타고난 역량 - 파쇄되지 않은 자아</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-down chevron text-xl text-slate-400 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-8 md:px-16">
+                        <div class="py-6 space-y-4 text-slate-700 leading-relaxed">
+                            <p>
+                                넷째 문제는 우리의 타고난 역량입니다. 이는 하나님의 생명이 우리에게서 흘러 나가지 못하게 막는 <span class="highlight-text">강력한 장애물</span>입니다. 많은 믿는 이들이 참으로 주님을 사랑하고 경건하지만, 그들의 <span class="highlight-text">역량과 재능이 강하고 크기 때문에</span> 그리스도는 그들 안에서 어떤 입지나 길도 얻지 못하십니다.
+                            </p>
+
+                            <div class="example-card border-emerald-200 bg-emerald-50">
+                                <h4 class="font-bold text-emerald-900 mb-2"><i class="fa-solid fa-broken-chain mr-2"></i>파쇄의 과정: 실패와 실망</h4>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li><span class="font-bold">자기 신뢰의 처리:</span> 주님은 실패와 실망, 감당하기 어려운 상황들을 통해 우리의 자기 신뢰와 자기 의존을 깨뜨리심.</li>
+                                    <li><span class="font-bold">의존의 원칙:</span> 생명나무의 원칙은 의존임. 비극, 슬픔, 실망을 통해 우리는 오직 주님께 전적으로 의존할 필요가 있음을 깨닫게 됨.</li>
+                                    <li><span class="font-bold">역량에 대한 오해:</span> 사람들은 자신의 역량과 은사를 죄로 여기지 않고 오히려 귀하게 여김. 그러나 파쇄되지 않은 역량은 생명의 흐름을 막음.</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="data-table">
+                                    <thead class="bg-emerald-50">
+                                        <tr>
+                                            <th>옛 사람의 요소</th>
+                                            <th>정의 및 성격</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td class="font-bold">옛 사람 (Old Man)</td><td>아담 안에서 창조되고 타락한 인류 전체</td></tr>
+                                        <tr><td class="font-bold">나 (I)</td><td>옛 사람이 자신을 부르는 명칭</td></tr>
+                                        <tr><td class="font-bold">혼 생명 (Soul Life)</td><td>자아가 소유하고 있는 내적인 생명</td></tr>
+                                        <tr><td class="font-bold">육신 (Flesh)</td><td>혼 생명이 밖으로 살아 나타난 상태</td></tr>
+                                        <tr><td class="font-bold">혈기 (Temper)</td><td>육신의 부정적인 부분, 짜증과 분노</td></tr>
+                                        <tr><td class="font-bold">자아 (Self)</td><td>육신의 '선한' 부분, 자기 의견과 생각</td></tr>
+                                        <tr><td class="font-bold">타고난 역량</td><td>육신의 '유능한' 부분, 재능과 지혜</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="verse-box border-emerald-400 bg-emerald-50">
+                                "누구든지 나를 따라오려거든, <span class="highlight-text">자기를 부인하고 자기 십자가를 지고</span> 나를 따라오십시오." (마 16:24)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 해결책 섹션 -->
+        <section class="mb-24 p-10 bg-slate-100 rounded-3xl border-2 border-slate-200 shadow-inner">
+            <h3 class="text-3xl font-bold mb-6 text-center text-slate-800">유일한 해결책: 십자가의 파쇄</h3>
+            <div class="max-w-3xl mx-auto text-center space-y-6 text-slate-700">
+                <p class="text-lg leading-relaxed">
+                    "그리스도의 생명이 우리 안에서 아무런 제한도 받지 않기를 원한다면, 우리는 반드시 <span class="highlight-text">십자가의 파쇄를 체험</span>하여 이 장애물들이 처리되도록 허락해야 합니다. 우리가 도저히 감당할 수 없는 상황을 만나는 것은 주님의 긍휼이며, 우리를 십자가의 길 안으로 이끄시는 그분의 방법입니다."
+                </p>
+                <div class="flex justify-center items-center space-x-4">
+                    <div class="h-px w-16 bg-slate-300"></div>
+                    <i class="fa-solid fa-cross text-4xl text-slate-400"></i>
+                    <div class="h-px w-16 bg-slate-300"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 퀴즈 섹션 -->
+        <section class="bg-slate-900 rounded-[2.5rem] p-10 md:p-16 text-white shadow-2xl mb-24">
+            <div class="text-center mb-12">
+                <span class="inline-block px-4 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm font-bold mb-4 uppercase tracking-widest">Knowledge Check</span>
+                <h3 class="text-3xl font-bold">장애물 이해도 테스트</h3>
+            </div>
+            
+            <div id="quiz-container" class="space-y-12">
+                <!-- 퀴즈가 여기에 동적으로 생성됩니다 -->
+            </div>
+            
+            <div id="quiz-result" class="hidden mt-10 p-10 bg-slate-800 rounded-3xl border border-slate-700 text-center">
+                <h4 class="text-2xl font-bold mb-4">학습 결과 보고서</h4>
+                <div id="score-text" class="text-6xl font-bold text-blue-400 mb-6"></div>
+                <p id="feedback-text" class="text-xl text-slate-300 mb-8 max-w-xl mx-auto leading-relaxed"></p>
+                <button onclick="resetQuiz()" class="bg-blue-600 hover:bg-blue-500 text-white px-10 py-3 rounded-full font-bold transition-all shadow-lg hover:shadow-blue-500/20">다시 도전하기</button>
+            </div>
+        </section>
+
+        <!-- 기도문 섹션 -->
+        <section class="text-center py-20 bg-white rounded-[3rem] border-2 border-slate-100 shadow-xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 to-emerald-400"></div>
+            <h3 class="text-3xl font-bold mb-10 text-slate-800 tracking-tight">오늘의 기도</h3>
+            <div class="max-w-2xl mx-auto px-6 space-y-8 italic text-xl text-slate-600 leading-loose">
+                <p>"주님, 제가 무엇을 하기 원하십니까? 저는 관념들에 따라서가 아니라 내 안의 기름바름과 당신의 말씀하심에 따라 사는 법을 배우고 싶습니다."</p>
+
+                <p>"주님, 저를 용서해 주십시오. 제가 반역했습니다. 당신의 기름바름을 무시했고, 제 안의 그 느낌을 무시했습니다."</p>
+
+                <p>"생명나무로 오신 주님을 찬양합니다.
+                나를 에워싸고 있던 <span class="highlight-text">인간 관념의 어둠</span>을 빛으로 비추어 주시고, 
+                남에게 보이려 했던 모든 <span class="highlight-text">가식과 위선</span>을 내려놓고 그리스도께 더 주의를 기울입니다.
+                주님의 세밀한 <span class="highlight-text">내적인 느낌</span>에 순종하게 하시고,
+                <span class="highlight-text">타고난 역량</span>을 더 이상 귀하게 여기지 않도록 그 실체를 알게해주소서.
+                생명을 가로막는 모든 장애물들이 십자가로 파쇄되어 그리스도의 생명이 우리 안에서 자유롭게 흐를 수 있는 입지와 길을 얻으소서.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-100 py-12 text-center text-slate-500 border-t border-slate-200">
+        <p class="font-bold mb-2 text-slate-700 uppercase tracking-wider">Witness Lee - Life and the Church</p>
+    </footer>
+
+    <script>
+        // 도입부 레이어 벗기기
+        function peelLayer() {
+            const overlay = document.getElementById('intro-overlay');
+            overlay.classList.add('peeled');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 아코디언 토글
+        function toggleAccordion(btn) {
+            const item = btn.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // 다른 아코디언 닫기
+            document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
+            
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+
+        // 퀴즈 데이터
+        const quizData = [
+            {
+                q: "그리스도인이 되는 것의 진정한 의미는 무엇입니까?",
+                a: ["열심을 내고 세상을 버리는 것", "선한 사람이 되는 것", "오직 그리스도만을 우리의 목적으로 삼는 것", "도덕적인 표준을 지키는 것"],
+                correct: 2
+            },
+            {
+                q: "사회에서 말하는 '최상의 교육, 좋은 직장'에 대한 관념이 위험한 이유는 무엇입니까?",
+                a: ["그 자체가 악하기 때문에", "하나님의 인도보다 자신의 관념과 목표를 따르게 하는 어둠이 되기 때문", "공부할 시간이 없기 때문에", "돈을 많이 벌면 안 되기 때문"],
+                correct: 1
+            },
+            {
+                q: "참된 영성은 무엇에 의해 결정됩니까?",
+                a: ["밖으로 어떻게 보이느냐", "얼마나 많은 사역을 성공하느냐", "내주하시는 그리스도께 어떻게 주의를 기울이느냐", "기질이 얼마나 좋으냐"],
+                correct: 2
+            },
+            {
+                q: "지문에서 예로 든 '대화 중의 반역'은 어떤 상황입니까?",
+                a: ["거짓말을 하는 것", "속에서 말하지 말라는 제지(느낌)가 있음에도 말을 해 버리는 것", "상대방을 비난하는 것", "대화를 거부하는 것"],
+                correct: 1
+            },
+            {
+                q: "주님께서 우리의 타고난 역량을 처리하시기 위해 사용하시는 방법은 무엇입니까?",
+                a: ["더 큰 은사를 주심", "특별한 기적을 보여주심", "실패와 실망, 감당하기 어려운 상황들", "우리의 성품을 개조함"],
+                correct: 2
+            }
+        ];
+
+        let userAnswers = [];
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = quizData.map((item, idx) => `
+                <div class="quiz-item" id="q-${idx}">
+                    <p class="text-2xl font-bold mb-6 text-blue-300">Q${idx + 1}. ${item.q}</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${item.a.map((opt, optIdx) => `
+                            <div onclick="selectOption(${idx}, ${optIdx})" 
+                                    class="quiz-option p-5 rounded-2xl border-2 border-slate-700 bg-slate-800/50 text-slate-300 font-medium text-lg">
+                                ${optIdx + 1}) ${opt}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('') + `
+            <div class="text-center pt-8">
+                <button id="submit-quiz" onclick="checkAnswers()" class="px-16 py-5 bg-blue-600 rounded-full font-bold text-2xl hover:bg-blue-500 transition shadow-xl">결과 확인하기</button>
+            </div>`;
+        }
+
+        function selectOption(qIdx, optIdx) {
+            const options = document.querySelectorAll(`#q-${qIdx} .quiz-option`);
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[optIdx].classList.add('selected');
+            userAnswers[qIdx] = optIdx;
+        }
+
+        function checkAnswers() {
+            if (userAnswers.length < quizData.length || userAnswers.includes(undefined)) {
+                alert("아직 풀지 않은 문제가 있습니다.");
+                return;
+            }
+
+            let score = 0;
+            userAnswers.forEach((val, idx) => {
+                if (val === quizData[idx].correct) score++;
+            });
+
+            const totalScore = (score / quizData.length) * 100;
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+            
+            document.getElementById('score-text').innerText = `${totalScore}점`;
+            
+            const feedback = document.getElementById('feedback-text');
+            if (totalScore === 100) {
+                feedback.innerText = "완벽합니다! 지문에 나온 장애물들과 실질적인 예시들을 정확히 이해하셨습니다. 이제 주님께 전적으로 의존하는 생명나무의 노정을 걷게 되시길 바랍니다.";
+            } else if (totalScore >= 60) {
+                feedback.innerText = "훌륭합니다. 일부 구체적인 예시들을 다시 한번 본문에서 찾아 보시면 큰 도움이 될 것입니다.";
+            } else {
+                feedback.innerText = "장애물의 정체를 식별하는 것은 해방의 첫걸음입니다. 본문의 실질적인 사례들을 다시 한번 찬찬히 읽어보세요.";
+            }
+        }
+
+        function resetQuiz() {
+            userAnswers = [];
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+            renderQuiz();
+        }
+
+        // 초기화
+        window.onload = () => {
+            renderQuiz();
+            document.body.style.overflow = 'hidden'; 
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>생명나무: 하나님의 중심 이상</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1B3022; /* 딥 그린 */
+            --secondary: #2D5A27;
+            --accent: #D4AF37; /* 골드 */
+            --bg-light: #F9F7F0; /* 크림색 배경 */
+            --text-dark: #2C3E50;
+            --white: #FFFFFF;
+            --transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 1. 도입부 레이어 벗기기 (Intro Peeling) */
+        #intro-peeler {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            cursor: pointer;
+            transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+        #intro-peeler.peeled { transform: translateY(-100%); }
+        #intro-peeler h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 8vw, 4rem); margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); text-align: center; }
+        #intro-peeler p { font-size: 1.2rem; font-weight: 300; opacity: 0.8; text-align: center; padding: 0 20px; }
+        .mouse-icon { margin-top: 30px; animation: bounce 2s infinite; font-size: 2rem; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
+
+        /* 공통 레이아웃 */
+        .container { max-width: 1000px; margin: 0 auto; padding: 80px 20px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary); margin-bottom: 40px; text-align: center; position: relative; }
+        .section-title::after { content: ''; display: block; width: 60px; height: 4px; background: var(--accent); margin: 15px auto; }
+
+        /* 2. 상세 요점 아코디언 */
+        .accordion { margin-top: 30px; margin-bottom: 80px; }
+        .accordion-item { background: var(--white); margin-bottom: 15px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: var(--transition); border-left: 5px solid transparent; }
+        .accordion-item.active { border-left-color: var(--accent); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .accordion-header { padding: 25px 30px; cursor: pointer; display: flex; align-items: center; gap: 20px; }
+        .accordion-header h3 { font-size: 1.25rem; color: var(--primary); flex-grow: 1; font-weight: 700; }
+        .accordion-header .icon-box { width: 45px; height: 45px; background: #f0f4f1; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--secondary); font-size: 1.2rem; }
+        .accordion-header i.arrow { transition: transform 0.4s; }
+        .accordion-item.active i.arrow { transform: rotate(180deg); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; padding: 0 30px; }
+        .accordion-item.active .accordion-content { max-height: 1200px; padding-bottom: 30px; }
+        
+        .detail-text { color: #444; font-size: 1.05rem; line-height: 1.8; margin-bottom: 20px; }
+        .detail-text strong { color: var(--primary); font-weight: 700; }
+        .scripture-card { background: #fdfbf5; border-radius: 10px; padding: 20px; border-right: 3px solid var(--accent); margin-top: 15px; }
+        .scripture-card p { font-style: italic; color: #555; font-size: 0.95rem; }
+        .scripture-card span.highlight { color: var(--primary); font-weight: 700; background: linear-gradient(120deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.2) 100%); padding: 0 2px; }
+
+        /* 3. 비주얼 저니 (Visual Journey) */
+        .visual-journey { 
+            background: linear-gradient(180deg, var(--primary) 0%, #0d1a12 100%);
+            color: var(--white); 
+            border-radius: 40px; 
+            padding: 100px 40px; 
+            margin: 100px 0; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .journey-step { 
+            max-width: 900px; 
+            margin: 0 auto 200px; 
+            opacity: 0; 
+            transform: translateY(60px); 
+            transition: all 1s cubic-bezier(0.23, 1, 0.32, 1); 
+            text-align: center;
+        }
+        .journey-step.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+
+        /* [원리 1] 대체 요소: 동심원 포커스 탐색기 */
+        .focus-explorer {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        .circle-container {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .focus-circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+        }
+        .focus-circle:hover {
+            border-color: var(--accent);
+            background: rgba(212, 175, 55, 0.05);
+        }
+        .focus-circle.active {
+            border-color: var(--accent);
+            background: rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+        /* 크기 정의 */
+        .c-1 { width: 350px; height: 350px; z-index: 1; }
+        .c-2 { width: 260px; height: 260px; z-index: 2; }
+        .c-3 { width: 170px; height: 170px; z-index: 3; }
+        .c-4 { width: 80px; height: 80px; z-index: 4; background: var(--accent); color: var(--primary); border: none; }
+        
+        .circle-label {
+            position: absolute;
+            bottom: -40px;
+            font-size: 0.9rem;
+            color: var(--accent);
+            opacity: 0;
+            transition: opacity 0.5s;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        .focus-circle.active .circle-label { opacity: 1; }
+        .focus-circle i { font-size: 1.5rem; transition: transform 0.5s; }
+        .focus-circle:hover i { transform: scale(1.2); }
+
+        .focus-info-panel {
+            margin-top: 60px;
+            min-height: 80px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        #focus-description { font-size: 1.1rem; font-weight: 500; color: #fff; line-height: 1.4; }
+
+        /* [원리 2] 계단형 성장 */
+        .evolution-stairs {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 300px;
+            margin: 60px auto;
+            max-width: 700px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+        .stair {
+            flex: 1;
+            background: linear-gradient(to top, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.8));
+            margin: 0 5px;
+            border-radius: 10px 10px 0 0;
+            height: 0;
+            transition: height 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding-bottom: 15px;
+            color: #fff;
+            font-size: 0.8rem;
+        }
+        .stair i { font-size: 1.5rem; margin-bottom: 10px; opacity: 0; transition: opacity 0.5s 1.2s; }
+        .active .stair:nth-child(1) { height: 25%; transition-delay: 0.1s; }
+        .active .stair:nth-child(2) { height: 50%; transition-delay: 0.3s; }
+        .active .stair:nth-child(3) { height: 75%; transition-delay: 0.5s; }
+        .active .stair:nth-child(4) { height: 100%; transition-delay: 0.7s; background: var(--accent); }
+        .active .stair i { opacity: 1; }
+
+        /* [원리 3] 분기되는 길 */
+        .crossroad-visual {
+            display: flex;
+            height: 400px;
+            margin-top: 50px;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        .path {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            transition: all 0.8s ease;
+            position: relative;
+        }
+        .path.knowledge-path { background: #222; border-right: 1px solid rgba(255,255,255,0.1); }
+        .path.life-path { background: #15251a; }
+        .active .knowledge-path { transform: translateX(-10px); }
+        .active .life-path { transform: translateX(10px); }
+        .path i { font-size: 3.5rem; margin-bottom: 20px; }
+        .knowledge-path i { color: #ff6b6b; filter: drop-shadow(0 0 10px rgba(255,107,107,0.5)); }
+        .life-path i { color: var(--accent); filter: drop-shadow(0 0 10px rgba(212,175,55,0.5)); }
+        .path h4 { font-size: 1.5rem; margin-bottom: 15px; font-weight: 700; }
+        .path p { font-size: 0.9rem; opacity: 0.7; line-height: 1.6; }
+        .vs-badge {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--accent);
+            color: var(--primary);
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; z-index: 10;
+        }
+
+        /* 4. 퀴즈 섹션 */
+        .quiz-section { background: var(--white); border-radius: 25px; padding: 50px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+        .quiz-question { font-size: 1.4rem; font-weight: 700; color: var(--primary); margin-bottom: 25px; line-height: 1.4; }
+        .quiz-options { display: grid; gap: 12px; }
+        .quiz-option { padding: 18px 25px; border: 2px solid #EEE; border-radius: 15px; cursor: pointer; transition: all 0.2s; font-size: 1.1rem; color: #666; }
+        .quiz-option:hover { border-color: var(--accent); background: #fdfbf5; color: var(--primary); }
+        .quiz-option.selected { border-color: var(--primary); background: var(--primary); color: var(--white); }
+
+        #quiz-result { text-align: center; display: none; }
+        .score-circle { width: 120px; height: 120px; border: 8px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 800; margin: 0 auto 20px; color: var(--primary); }
+        .feedback { font-size: 1.2rem; margin-bottom: 30px; color: var(--text-dark); }
+        .btn { padding: 15px 40px; border: none; border-radius: 50px; cursor: pointer; font-size: 1.1rem; font-weight: 700; transition: var(--transition); display: inline-block; text-decoration: none; }
+        .btn-primary { background: var(--primary); color: var(--white); }
+        .btn-primary:hover { background: var(--secondary); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
+        /* 5. 기도문 섹션 */
+        .prayer-section { background: linear-gradient(rgba(27, 48, 34, 0.95), rgba(27, 48, 34, 0.95)), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=1000') center/cover; padding: 100px 40px; color: var(--white); text-align: center; border-radius: 50px 50px 0 0; margin-top: 100px; }
+        .prayer-content h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--accent); margin-bottom: 30px; }
+        .prayer-text { font-size: 1.25rem; line-height: 2.2; font-weight: 300; word-break: keep-all; max-width: 800px; margin: 0 auto; }
+        .prayer-text strong { color: var(--accent); font-weight: 500; }
+        .amen { margin-top: 40px; font-size: 1.8rem; font-family: 'Playfair Display', serif; color: var(--accent); font-style: italic; }
+
+        footer { text-align: center; padding: 40px; font-size: 0.9rem; color: #888; background: var(--bg-light); }
+
+        @media (max-width: 768px) {
+            .container { padding: 40px 15px; }
+            .section-title { font-size: 1.8rem; }
+            .evolution-stairs { height: 200px; }
+            .circle-container { width: 280px; height: 280px; }
+            .c-1 { width: 280px; height: 280px; }
+            .c-2 { width: 210px; height: 210px; }
+            .c-3 { width: 140px; height: 140px; }
+            .c-4 { width: 70px; height: 70px; }
+            .crossroad-visual { flex-direction: column; height: auto; }
+            .vs-badge { top: auto; left: 50%; bottom: 45%; transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 도입부 레이어 -->
+    <div id="intro-peeler" onclick="peelIntro()">
+        <h1>The Tree of Life:<br>What are you eating?</h1>
+        <p>당신은 무엇을 먹고 있습니까?</p>
+        <div class="mouse-icon">
+            <i class="fa-solid fa-angles-up"></i>
+        </div>
+        <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.6;">화면을 클릭하여 관념의 껍질을 벗겨내십시오</p>
+    </div>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="container">
+        
+        <header style="text-align: center; margin-bottom: 80px;">
+            <p style="color: var(--accent); font-weight: 700; letter-spacing: 2px; margin-bottom: 10px;">MESSAGE 41 INTERACTIVE REVELATION</p>
+            <h1 class="section-title">생명나무이신 그리스도:<br>성경을 통제하는 이상</h1>
+        </header>
+
+        <!-- 상세 요점 아코디언 -->
+        <section>
+            <div class="accordion">
+                <div class="accordion-item" onclick="toggleAccordion(this)">
+                    <div class="accordion-header">
+                        <div class="icon-box"><i class="fa-solid fa-circle-nodes"></i></div>
+                        <h3>1. 우주의 중심인 생명나무 (창세기에서 계시록까지)</h3>
+                        <i class="fa-solid fa-chevron-down arrow"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="detail-text">
+                            성경의 시작인 <strong>창세기 2장</strong>에서 씨로 뿌려진 생명나무는 <strong>요한계시록 22장</strong>에서 완전히 발전되고 완결됩니다. 하나님은 땅을 우주의 중심으로, 에덴을 땅의 중심으로, 그리고 생명나무를 동산 한가운데 두셨습니다. 이는 하나님께서 사람이 그분을 외부적인 통치자로 섬기는 것이 아니라, <strong>우리의 음식이 되시도록 하나님의 모든 풍성의 체현</strong>이 되신 그분을 유기적으로 먹고 <strong>신진대사적으로 동화</strong>시켜 우리 존재의 조성 성분 자체가 되기를 원하신다는 것을 시사합니다.
+                        </div>
+                        <div class="scripture-card">
+                            <p>[창 2:9] 여호와 하나님은 그 땅에 <span class="highlight">보기 즐겁고 먹기 좋은</span> 온갖 나무를 자라게 하셨고, 동산 한가운데 있는 <span class="highlight">생명나무</span>와, 선과 악의 지식나무도 자라게 하셨다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" onclick="toggleAccordion(this)">
+                    <div class="accordion-header">
+                        <div class="icon-box"><i class="fa-solid fa-dna"></i></div>
+                        <h3>2. 창조와 구원의 최종 목표: 생명 분배</h3>
+                        <i class="fa-solid fa-chevron-down arrow"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="detail-text">
+                            하나님께서 사람을 그분의 형상대로 만드시고 만물을 통치할 권위를 주신 것은 <strong>준비 단계</strong>일 뿐입니다. 사람이 하나님의 형상을 가졌지만, <strong>생명이 사람 안으로 들어오지 못한다면</strong> 하나님께서 사람을 창조하신 것에 어떤 의미나 결과가 없었을 것입니다. 하나님의 최종 목표는 단순히 ‘준비된 사람’이 아니라, <strong>생명(Zoe)이 사람 안으로 분배</strong>되어 하나님과 사람이 그분의 생명 안에서 하나가 되는 것입니다.
+                        </div>
+                        <div class="scripture-card">
+                            <p>[창 1:26] 하나님께서 말씀하셨다. "우리가 <span class="highlight">우리의 형상대로</span> 우리의 모양에 따라 사람을 만듭시다... 온 땅을 <span class="highlight">통치하게</span> 합시다."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" onclick="toggleAccordion(this)">
+                    <div class="accordion-header">
+                        <div class="icon-box"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <h3>3. 생명의 결핍과 지식나무의 함정</h3>
+                        <i class="fa-solid fa-chevron-down arrow"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="detail-text">
+                            교회 생활과 실제 인간 생활의 <strong>모든 종류의 어려움은 생명의 결핍</strong>에서 옵니다. 위트니스 리 형제님의 간증처럼, 수십 년간 기도하고 성경을 연구했음에도 <strong>"들인 노력에 비해 얻은 것이 적었다"</strong>면 영적인 추구의 길이 잘못된 것입니다. 우리는 옳고 그름을 따지는 <strong>선과 악의 지식나무</strong>에 지배받으며 헛된 수고를 하고 있지는 않은지 자백하고 철저히 회개해야 합니다. 우리는 일상생활에 생명이 결핍된 것을 염려해야 한다. 우리는 우리의 교회생활에 생명이 결핍되어 있고 성도들 간에 생명이 결핍되어 있는 것을 염려해야 한다. 우리는 이것을 깨닫고 이것에 부담을 느껴 자신을 주님께 열고 그분의 생명이 우리 안으로 흘러 들어와 우리 안에서 증가하도록 해야 한다.
+
+                        </div>
+                        <div class="scripture-card">
+                            <p>[계 2:5] 그러므로 네가 어디에서 떨어졌는지를 기억하고 <span class="highlight">회개하여 첫째가는 일을 하여라.</span> 그러지 않으면 내가 너에게 갈 것이며...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item" onclick="toggleAccordion(this)">
+                    <div class="accordion-header">
+                        <div class="icon-box"><i class="fa-solid fa-rotate"></i></div>
+                        <h3>4. 회복의 길: 관념의 전환과 누림</h3>
+                        <i class="fa-solid fa-chevron-down arrow"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="detail-text">
+                            회복의 유일한 길은 <strong>철저한 관념의 전환</strong>입니다. 하나님을 연구의 대상이나 의무적인 봉사의 대상으로 보는 대신, 그분을 실지적으로 <strong>누림(Enjoyment)</strong>의 대상으로 대해야 합니다. 요한계시록 2장의 권면대로 <strong>첫째가는 사랑</strong>을 회복하여 생명나무이신 그리스도를 다시 먹어야 합니다. 오늘 우리는 스스로에게 물어야 합니다: <strong>"나는 무엇을 하고 있는가"보다 "나는 무엇을 먹고 있는가?"</strong>
+                        </div>
+                        <div class="scripture-card">
+                            <p>[요 6:57] 살아 계신 아버지께서 나를 보내셔서 내가 아버지로 말미암아 사는 것같이, <span class="highlight">나를 먹는 그 사람도 나로 말미암아 살 것입니다.</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 비주얼 저니 세션 -->
+        <section class="visual-journey">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="font-size: 2.2rem; color: var(--accent); font-family: 'Playfair Display', serif;">The Visual Revelation</h2>
+                <p style="opacity: 0.7;">각 레이어를 클릭하여 하나님의 목적이 집중되는 '중심'을 탐색하십시오.</p>
+            </div>
+
+            <!-- 원리 1: 동심원 포커스 탐색기 -->
+            <div class="journey-step" id="step1">
+                <h3 style="font-size: 1.8rem; margin-bottom: 20px; color: var(--accent);">[원리 1] 우주의 중심과 최종 목표</h3>
+                
+                <div class="focus-explorer">
+                    <div class="circle-container">
+                        <div class="focus-circle c-1 active" onclick="updateFocus(1)">
+                            <i class="fa-solid fa-earth-asia"></i>
+                            <span class="circle-label">우주의 중심: 땅</span>
+                        </div>
+                        <div class="focus-circle c-2" onclick="updateFocus(2)">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                            <span class="circle-label">땅의 중심: 에덴</span>
+                        </div>
+                        <div class="focus-circle c-3" onclick="updateFocus(3)">
+                            <i class="fa-solid fa-tree"></i>
+                            <span class="circle-label">에덴의 중심: 생명나무</span>
+                        </div>
+                        <div class="focus-circle c-4" onclick="updateFocus(4)">
+                            <i class="fa-solid fa-user-check"></i>
+                            <span class="circle-label">최종 목표: 생명</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="focus-info-panel">
+                    <p id="focus-description">하나님은 땅을 우주의 중심으로, 에덴을 땅의 중심으로 창조하셨습니다.</p>
+                </div>
+            </div>
+
+            <!-- 원리 2: 계단형 성장 -->
+            <div class="journey-step" id="step2">
+                <h3 style="font-size: 1.8rem; margin-bottom: 15px; color: var(--accent);">[원리 2] 생명 수준의 수직적 진보</h3>
+                <p style="opacity: 0.8;">낮은 수준에서 하나님의 형상을 닮은 사람까지, 생명은 점진적으로 더 높은 목표를 향해 전진합니다.</p>
+                <div class="evolution-stairs">
+                    <div class="stair"><i class="fa-solid fa-leaf"></i><span>식물의 생명</span></div>
+
+<div class="stair"><i class="fa-solid fa-paw"></i><span>동물의 생명</span></div>
+
+<div class="stair"><i class="fa-solid fa-user-tie"></i><span>사람의 생명</span></div>
+
+<div class="stair"><i class="fa-solid fa-infinity"></i><span>신성한 생명</span></div>                </div>
+            </div>
+
+            <!-- 원리 3: 두 갈래 길 -->
+            <div class="journey-step" id="step3">
+                <h3 style="font-size: 1.8rem; margin-bottom: 15px; color: var(--accent);">[원리 3] 생사를 가르는 두 갈래 길</h3>
+                <div class="crossroad-visual">
+                    <div class="vs-badge">VS</div>
+                    <div class="path knowledge-path">
+                        <i class="fa-solid fa-brain"></i>
+                        <h4>지식나무</h4>
+                        <p>옳고 그름을 따짐<br>생명의 결핍과 공허<br>헛된 수고와 영적 손실</p>
+                    </div>
+                    <div class="path life-path">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                        <h4>생명나무</h4>
+                        <p>그리스도를 먹고 누림<br>유기적인 연합과 조성<br>신진대사적 변화와 공급</p>
+                    </div>
+                </div>
+                <p style="margin-top: 50px; font-size: 1.2rem; font-weight: 500; color: var(--accent);">"우리는 관념을 철저히 전환해야 합니다."</p>
+            </div>
+        </section>
+
+        <!-- 퀴즈 섹션 -->
+        <section class="quiz-section">
+            <h2 class="section-title">메시지 점검 퀴즈</h2>
+            <div id="quiz-container">
+                <div id="quiz-content"></div>
+                <div style="text-align: right; margin-top: 30px;">
+                    <button class="btn btn-primary" id="next-quiz-btn" onclick="handleNextQuiz()" style="display:none;">다음 문제</button>
+                    <button class="btn btn-primary" id="submit-quiz-btn" onclick="showQuizResult()" style="display:none;">결과 확인</button>
+                </div>
+            </div>
+            <div id="quiz-result">
+                <div class="score-circle" id="final-score">0</div>
+                <p class="feedback" id="quiz-feedback"></p>
+                <button class="btn btn-primary" onclick="resetQuiz()">다시 도전하기</button>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- 기도문 섹션 -->
+    <section class="prayer-section">
+        <div class="prayer-content">
+            <h2>오늘의 기도</h2>
+            <div class="prayer-text">
+                오 주 예수님, 당신은 단지 연구의 대상이 아니라 나의 <strong>음식</strong>이십니다.<br>
+                내가 선과 악의 지식나무, 곧 옳고 그름을 따지는 모든 <strong>원칙</strong>에서 벗어나게 하소서.<br>
+                나의 생활과 봉사 가운데 <strong>생명의 결핍</strong>이 있음을 시인하고 회개합니다.<br>
+                이제 나의 <strong>관념을 철저히 전환</strong>하여, 당신을 실지적으로 <strong>누리는 길</strong>을 취하기 원합니다.<br>
+                무엇을 하는 것보다 무엇을 <strong>먹고 있는지를</strong> 매일 점검받고 실행하게 하소서.<br>
+                나의 <strong>첫째가는 사랑</strong>을 회복하여 당신을 매일 먹게 하소서.
+            </div>
+            <p class="amen">Amen.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Tree of Life Revelation | Interactive Infographic Guide</p>
+    </footer>
+
+    <script>
+        function peelIntro() {
+            document.getElementById('intro-peeler').classList.add('peeled');
+            setTimeout(() => {
+                document.getElementById('intro-peeler').style.display = 'none';
+            }, 1500);
+        }
+
+        function toggleAccordion(element) {
+            const isActive = element.classList.contains('active');
+            document.querySelectorAll('.accordion-item').forEach(item => item.classList.remove('active'));
+            if (!isActive) element.classList.add('active');
+        }
+
+        // 포커스 탐색기 로직
+        const focusData = [
+            "",
+            "하나님은 땅을 우주의 중심으로, 에덴을 땅의 중심으로 창조하셨습니다.",
+            "에덴의 한가운데에는 생명나무가 있어 하나님의 중심 갈망을 보여줍니다.",
+            "생명나무는 하나님께서 음식이 되시어 우리 조성 성분이 되길 원하심을 상징합니다.",
+            "최종 목표는 생명입니다! 사람이 생명을 먹고 하나님을 표현하며 대표하는 것입니다."
+        ];
+        function updateFocus(step) {
+            document.querySelectorAll('.focus-circle').forEach((c, idx) => {
+                c.classList.remove('active');
+                if (idx < step) c.classList.add('active');
+            });
+            document.getElementById('focus-description').innerText = focusData[step];
+        }
+
+        // 스크롤 옵저버
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.journey-step').forEach(step => observer.observe(step));
+
+        // 퀴즈 시스템
+        const quizData = [
+            { q: "생명나무는 하나님께서 사람이 그분을 어떤 분으로 대하기를 원하신다는 것을 상징합니까?", options: ["외부적인 통치자", "무서운 심판자", "먹고 소화해야 할 음식", "도덕적인 스승"], correct: 2 },
+            { q: "사람에게 형상과 권위가 주어진 것은 하나님의 목적 달성을 위해 어떤 단계입니까?", options: ["최종적인 완결 단계", "준비 단계", "필요 없는 단계", "심판의 단계"], correct: 1 },
+            { q: "위트니스 리 형제님이 깨달은 '교회 생활의 모든 어려움'의 근본 원인은 무엇입니까?", options: ["재정의 부족", "봉사자의 부족", "지식의 부족", "생명의 결핍"], correct: 3 },
+            { q: "우리가 주님을 추구할 때 가져야 할 '철저한 전환'은 무엇에 관한 것입니까?", options: ["지식의 전환", "장소의 전환", "관념의 전환", "직분의 전환"], correct: 2 },
+            { q: "우리가 스스로를 점검할 때 가장 중요한 질문은 무엇입니까?", options: ["얼마나 바쁘게 일하는가?", "무엇을 먹고(공급받고) 있는가?", "얼마나 많은 지식을 쌓았는가?", "얼마나 큰 조직을 만들었는가?"], correct: 1 }
+        ];
+
+        let currentQuizIdx = 0, quizScore = 0, userSelected = null;
+
+        function renderQuiz() {
+            const content = document.getElementById('quiz-content'), data = quizData[currentQuizIdx];
+            content.innerHTML = `<div class="quiz-item active"><p class="quiz-question">${currentQuizIdx + 1}. ${data.q}</p><div class="quiz-options">${data.options.map((opt, i) => `<div class="quiz-option" onclick="selectQuizOption(${i})">${opt}</div>`).join('')}</div></div>`;
+            document.getElementById('next-quiz-btn').style.display = 'none';
+            document.getElementById('submit-quiz-btn').style.display = 'none';
+        }
+
+        function selectQuizOption(idx) {
+            userSelected = idx;
+            document.querySelectorAll('.quiz-option').forEach((opt, i) => {
+                opt.classList.remove('selected');
+                if(i === idx) opt.classList.add('selected');
+            });
+            if (currentQuizIdx < quizData.length - 1) document.getElementById('next-quiz-btn').style.display = 'inline-block';
+            else document.getElementById('submit-quiz-btn').style.display = 'inline-block';
+        }
+
+        function handleNextQuiz() {
+            if (userSelected === quizData[currentQuizIdx].correct) quizScore++;
+            currentQuizIdx++; userSelected = null; renderQuiz();
+        }
+
+        function showQuizResult() {
+            if (userSelected === quizData[currentQuizIdx].correct) quizScore++;
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('quiz-result').style.display = 'block';
+            document.getElementById('final-score').innerText = quizScore;
+            let feedback = quizScore === 5 ? "완벽합니다! 생명의 원칙이 당신을 지배하고 있습니다." : quizScore >= 3 ? "좋습니다. 관념의 전환을 통해 생명의 누림으로 더 나아가십시오." : "지문을 다시 정독하며 '생명'과 '지식'의 차이를 묵상해 보세요.";
+            document.getElementById('quiz-feedback').innerText = feedback;
+        }
+
+        function resetQuiz() {
+            currentQuizIdx = 0; quizScore = 0; userSelected = null;
+            document.getElementById('quiz-container').style.display = 'block';
+            document.getElementById('quiz-result').style.display = 'none';
+            renderQuiz();
+        }
+
+        window.onload = renderQuiz;
+    </script>
+</body>
+</html>
