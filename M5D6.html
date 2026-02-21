@@ -261,6 +261,35 @@
             50% { transform: translateY(-15px); }
             100% { transform: translateY(0px); }
         }
+
+        /* 모바일 최적화 (지도 겹침 현상 해결) */
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            .hero-content {
+                padding: 1.5rem;
+                margin-top: 2rem;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+                line-height: 1.2;
+            }
+            .hero-content p {
+                font-size: 1.1rem;
+                margin-bottom: 1.5rem;
+            }
+            .tactical-map {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                width: 90%;
+                max-width: 350px;
+                height: 220px;
+                margin: 0 auto;
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
