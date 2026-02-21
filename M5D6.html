@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영광의 왕과 이기는 이들</title>
+    <!-- Tailwind CSS (for layout and styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome (for icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        serif: ['"Noto Serif KR"', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            gold: '#eab308',
+                            blue: '#3b82f6',
+                            green: '#10b981',
+                            red: '#ef4444'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* 3D Intro & Peeling Layers */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .layer {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-size: cover;
+            background-position: center;
+            transition: transform 1s ease-out, opacity 1s ease-out;
+        }
+
+        .layer-bg {
+            /* Drone view of Normandy invasion */
+            background-image: url('https://images.unsplash.com/photo-1579500055139-4467bd0a953e?auto=format&fit=crop&q=80&w=2000');
+            filter: grayscale(80%) contrast(120%) brightness(40%);
+            transform: translateZ(-300px) scale(1.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            transform: translateZ(0);
+            padding: 2rem;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 1rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 900px;
+        }
+
+        /* Tactical Map Simulation */
+        .tactical-map {
+            position: absolute;
+            bottom: 5%;
+            right: 5%;
+            width: 300px;
+            height: 250px;
+            background: rgba(2, 6, 23, 0.85);
+            border: 2px solid #eab308;
+            border-radius: 12px;
+            padding: 10px;
+            z-index: 20;
+            box-shadow: 0 10px 25px rgba(234, 179, 8, 0.2);
+            overflow: hidden;
+        }
+        .map-bg {
+            width: 100%; height: 100%;
+            background-color: #020617;
+            /* 이미지 로드 실패 시 보여질 레이더망 패턴 */
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.15) 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+        }
+        .map-image {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: fill; /* 이미지 비율을 컨테이너에 맞춰 좌표 오차 방지 */
+            opacity: 0.85; /* 홀로그램 지도가 잘 보이도록 투명도 조정 */
+            pointer-events: none;
+            z-index: 0;
+        }
+        .node {
+            position: absolute;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background-color: #ef4444;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px #ef4444, 0 0 20px #ef4444;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+            z-index: 20;
+        }
+        .node.active { opacity: 1; }
+        .node.fire {
+            background-color: #ef4444; /* 치열한 전투 상륙(빨강) */
+            box-shadow: 0 0 15px #ef4444, 0 0 30px #ef4444;
+            animation: pulse-fire 1.5s infinite alternate;
+        }
+        @keyframes pulse-fire {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1.8); opacity: 1; }
+        }
+        .node.fire-success {
+            background-color: #eab308; /* 확보된 승리의 금빛 */
+            box-shadow: 0 0 15px #eab308, 0 0 30px #eab308;
+            animation: pulse-success 1.5s infinite alternate;
+        }
+        @keyframes pulse-success {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+        }
+        .victory-wave {
+            position: absolute;
+            border: 2px solid #eab308;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: expandWave 4s ease-out forwards;
+            pointer-events: none;
+            z-index: 10;
+        }
+        @keyframes expandWave {
+            0% { width: 0; height: 0; opacity: 1; border-width: 4px; }
+            100% { width: 400px; height: 400px; opacity: 0; border-width: 1px; }
+        }
+        .victory-line {
+            stroke: #eab308;
+            stroke-width: 2;
+            stroke-dasharray: 400; 
+            stroke-dashoffset: 400;
+            animation: drawLine 1s ease-out forwards;
+            filter: drop-shadow(0 0 4px rgba(234, 179, 8, 0.8));
+        }
+        @keyframes drawLine {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* Accordion Styles */
+        .accordion-item {
+            border: 1px solid #334155;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            background-color: #1e293b;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .accordion-header {
+            width: 100%;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+            color: #f8fafc;
+            text-align: left;
+            transition: background-color 0.3s;
+        }
+        .accordion-header:hover { background-color: rgba(255,255,255,0.05); }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.5s ease;
+            background-color: #0f172a;
+        }
+        .accordion-content.open {
+            max-height: 2000px; /* Arbitrary large number */
+            padding: 2rem;
+            border-top: 1px solid #334155;
+        }
+        .icon-container {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+        .chevron { transition: transform 0.3s ease; }
+        .accordion-header.active .chevron { transform: rotate(180deg); }
+
+        /* Highlight Bold Text */
+        .highlight {
+            color: #eab308;
+            font-weight: 700;
+            text-shadow: 0 0 8px rgba(234, 179, 8, 0.4);
+            background: rgba(234, 179, 8, 0.1);
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        /* Quiz Styles */
+        .quiz-option {
+            background-color: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #94a3b8; /* 가독성 있는 텍스트 */
+            font-size: 1.1rem;
+        }
+        .quiz-option:hover {
+            background-color: #334155;
+            color: #f8fafc;
+            border-color: #64748b;
+        }
+        .quiz-option.selected {
+            background-color: rgba(59, 130, 246, 0.2);
+            border-color: #3b82f6;
+            color: #f8fafc;
+        }
+        .quiz-option.correct {
+            background-color: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+            color: #10b981;
+        }
+        .quiz-option.incorrect {
+            background-color: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+        
+        /* Floating Element Animation */
+        .float-anim { animation: float 6s ease-in-out infinite; }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- 1. Intro Section (Layer Peeling & Drone View) -->
+    <section class="hero-section" id="hero">
+        <div class="layer layer-bg" id="bg-layer"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/80 to-[#020617] z-0"></div>
+        
+        <div class="hero-content float-anim">
+            <h3 class="text-brand-gold font-serif text-2xl md:text-3xl mb-4 tracking-widest">THE KING OF GLORY</h3>
+            <h1 class="text-5xl md:text-7xl font-serif font-bold mb-6 text-white drop-shadow-lg">영광의 왕과 이기는 이들</h1>
+            <p class="text-xl md:text-2xl text-slate-300 mb-8 font-light leading-relaxed">
+                온 땅 소유하시기 위해 왕국을 세우러 오시는 영광의 왕<br>
+                목숨 걸고 <span class="text-brand-gold font-bold">교두보</span>를 확보하기 위해 협력하는 이기는 이들
+            </p>
+            <button onclick="document.getElementById('content-start').scrollIntoView({behavior: 'smooth'})" class="px-8 py-3 rounded-full bg-brand-gold text-slate-900 font-bold hover:bg-yellow-400 transition shadow-[0_0_20px_rgba(234,179,8,0.4)]">
+                진리 탐색 시작 <i class="fas fa-chevron-down ml-2"></i>
+            </button>
+        </div>
+
+        <!-- Tactical Map Simulation -->
+        <div class="tactical-map">
+            <div class="text-xs text-brand-gold font-bold mb-2 flex justify-between">
+                <span>TACTICAL MAP: EUROPE</span>
+                <span id="map-status" class="animate-pulse">DEPLOYING...</span>
+            </div>
+            <div class="map-bg" id="map-container">
+                <!-- BLOB으로 생성된 지도가 주입될 이미지 태그 -->
+                <img id="blob-map-image" class="map-image" alt="Tactical Map">
+                <svg id="map-svg" class="absolute inset-0 w-full h-full pointer-events-none z-10"></svg>
+                <!-- Nodes will be injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Core Points Accordion Section -->
+    <section id="content-start" class="max-w-5xl mx-auto px-6 py-24">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-serif font-bold text-white mb-4">영적 교두보를 세우기 위한 우리의 협력</h2>
+            <p class="text-slate-400 text-lg">첫째가는 사랑으로 주님을 사랑하는 것, 곧 모든 일에서 그분께 첫째 위치를 드리는 것</p>
+        </div>
+
+        <div class="accordion-container" id="accordion-container">
+            <!-- Items injected via JS for cleaner structure -->
+        </div>
+    </section>
+
+    <!-- 3. Interactive Quiz Section -->
+    <section class="bg-slate-900 py-24 border-t border-slate-800">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <i class="fas fa-tasks text-4xl text-brand-blue mb-4"></i>
+                <h2 class="text-3xl font-serif font-bold text-white mb-4">진리 점검 퀴즈</h2>
+                <p class="text-brand-gold font-medium">모든 문제를 풀고 최종 점수와 피드백을 확인하세요.</p>
+            </div>
+
+            <div id="quiz-container" class="space-y-8">
+                <!-- Quiz questions injected via JS -->
+            </div>
+
+            <div class="mt-12 text-center">
+                <button id="submit-quiz" onclick="submitQuiz()" class="px-10 py-4 rounded-lg bg-brand-blue text-white font-bold text-lg hover:bg-blue-600 transition shadow-lg hidden">
+                    답안 제출 및 결과 확인
+                </button>
+            </div>
+
+            <div id="quiz-result" class="mt-12 p-8 bg-slate-800 border-2 border-brand-gold rounded-xl hidden text-center transform transition-all">
+                <h3 class="text-3xl font-bold text-white mb-2">최종 결과: <span id="score-display" class="text-brand-gold"></span></h3>
+                <p id="feedback-display" class="text-xl text-slate-300"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Conclusion Prayer Section -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(234,179,8,0.1)_0,transparent_50%)]"></div>
+        <div class="max-w-3xl mx-auto px-6 text-center relative z-10">
+            <h2 class="text-4xl font-serif font-bold text-white mb-10">오늘의 기도</h2>
+            <div class="bg-slate-800/50 backdrop-blur-md p-10 rounded-2xl border border-slate-700 shadow-2xl">
+                <p class="text-2xl leading-relaxed text-slate-200 font-serif italic">
+                    "주님, 저를 정복해 주십시오. 저를 당신의 포로가 되게 해 주십시오. 제가 이기도록 허락하지 마십시오. 항상 저를 패배시키십시오."<br><br>
+                    "Lord, conquer me. Make me Your captive. Never let me win. Defeat me all the time"<br><br>
+                    "오직 당신만을 우리의 왕으로 삼고 우리 안에서 통치하시고 왕으로서 다스리시도록 허락해 드립니다.<br>
+                    그리하여 당신께서 온 땅을 소유하시기 위해 다시 오실 수 있도록, 이 땅에 <strong>교두보</strong>가 되어 영광의 왕을 맞이하는 이기는 이가 되는 것을 선택합니다. 할렐루야!"
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 1. Tactical Map Animation Logic ---
+        function initTacticalMap() {
+            const container = document.getElementById('map-container');
+            const svg = document.getElementById('map-svg');
+            const status = document.getElementById('map-status');
+            const mapImg = document.getElementById('blob-map-image');
+            
+            // 1. 홀로그램 전술 유럽 지도 BLOB 내재화
+            if (!mapImg.getAttribute('src')) {
+                // 직접 그린 사이버네틱 유럽 대륙 SVG 데이터
+                const svgData = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <defs>
+                        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="1" result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <!-- Mainland Europe -->
+                    <path d="M 5,85 L 8,75 L 15,65 L 20,58 L 22,52 L 26,53 L 30,48 L 38,46 L 45,44 L 45,38 L 48,38 L 48,44 L 60,40 L 65,30 L 95,30 L 95,95 L 75,65 L 65,65 L 65,75 L 60,85 L 55,80 L 52,70 L 55,88 L 48,88 L 45,75 L 35,72 L 25,85 Z" fill="#0f172a" stroke="#3b82f6" stroke-width="0.6" filter="url(#glow)"/>
+                    <!-- UK -->
+                    <path d="M 24,47 L 22,37 L 26,25 L 32,30 L 30,44 Z" fill="#0f172a" stroke="#3b82f6" stroke-width="0.6" filter="url(#glow)"/>
+                    <!-- Ireland -->
+                    <path d="M 18,40 L 18,32 L 22,35 Z" fill="#0f172a" stroke="#3b82f6" stroke-width="0.6" filter="url(#glow)"/>
+                    <!-- Scandinavia -->
+                    <path d="M 48,35 L 52,20 L 65,15 L 75,25 L 65,30 L 55,35 Z" fill="#0f172a" stroke="#3b82f6" stroke-width="0.6" filter="url(#glow)"/>
+                </svg>`;
+                
+                // SVG 데이터를 BLOB 객체로 변환하여 브라우저 메모리에 URL로 할당
+                const blob = new Blob([svgData], { type: 'image/svg+xml' });
+                mapImg.src = URL.createObjectURL(blob);
+            }
+
+            // 애니메이션 반복을 위한 초기화
+            svg.innerHTML = '';
+            // 교두보 영역 및 라벨 초기화 추가
+            container.querySelectorAll('.node, .victory-wave, .beachhead-zone, .beachhead-label').forEach(el => el.remove());
+            status.innerText = "DEPLOYING...";
+            status.classList.add('animate-pulse');
+            status.classList.remove('text-brand-green');
+
+            // 내재화된 BLOB 지도에 맞춘 정밀 좌표 (x, y % 비율)
+            const normandy = { x: 26, y: 53, name: 'Normandy' }; // 노르망디 해안선의 정확한 굴곡 지점
+            
+            // 승리가 확산될 유럽 전역의 목표 노드들
+            const targets = [
+                { x: 30, y: 55, name: 'Paris', delay: 500 },
+                { x: 28, y: 44, name: 'London', delay: 1200 },
+                { x: 45, y: 48, name: 'Berlin', delay: 2000 },
+                { x: 48, y: 75, name: 'Rome', delay: 2800 },
+                { x: 16, y: 72, name: 'Madrid', delay: 3500 },
+                { x: 55, y: 46, name: 'Warsaw', delay: 4200 },
+                { x: 62, y: 82, name: 'Athens', delay: 5000 },
+                { x: 80, y: 35, name: 'Moscow', delay: 5800 }
+            ];
+
+            // 0. 노르망디 교두보(Beachhead) 특수 영역 표시
+            const beachheadZone = document.createElement('div');
+            beachheadZone.className = 'beachhead-zone absolute border-2 border-dashed border-brand-gold bg-brand-gold/20 rounded-full';
+            beachheadZone.style.width = '40px';
+            beachheadZone.style.height = '40px';
+            beachheadZone.style.left = `calc(${normandy.x}% - 20px)`;
+            beachheadZone.style.top = `calc(${normandy.y}% - 20px)`;
+            beachheadZone.style.zIndex = '15';
+            beachheadZone.style.animation = 'pulse-success 2s infinite alternate';
+            container.appendChild(beachheadZone);
+
+            const beachheadLabel = document.createElement('div');
+            beachheadLabel.className = 'beachhead-label absolute text-[9px] font-bold text-brand-gold bg-slate-900/90 px-1.5 py-0.5 rounded border border-brand-gold/50 whitespace-nowrap drop-shadow-md';
+            beachheadLabel.style.left = `calc(${normandy.x}% - 35px)`;
+            beachheadLabel.style.top = `calc(${normandy.y}% + 25px)`;
+            beachheadLabel.style.zIndex = '16';
+            beachheadLabel.innerHTML = '교두보를 통한 온 땅의 회복';
+            container.appendChild(beachheadLabel);
+
+            // 1. 노르망디 상륙 거점 생성 (붉은색 전투 시작)
+            const startNode = document.createElement('div');
+            startNode.className = 'node active fire';
+            startNode.style.left = normandy.x + '%';
+            startNode.style.top = normandy.y + '%';
+            container.appendChild(startNode);
+
+            // 2. 교두보 확보 및 승리의 확산 파동 (Wave) 시작
+            setTimeout(() => {
+                const wave = document.createElement('div');
+                wave.className = 'victory-wave';
+                wave.style.left = normandy.x + '%';
+                wave.style.top = normandy.y + '%';
+                container.appendChild(wave);
+                
+                startNode.classList.remove('fire');
+                startNode.classList.add('fire-success'); // 금빛 승리로 전환
+            }, 800);
+
+            let completed = 0;
+
+            // 3. 유럽 전역으로 확산되는 선 긋기 및 거점 점령
+            targets.forEach((target) => {
+                setTimeout(() => {
+                    // SVG 연결선 애니메이션
+                    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    line.setAttribute("x1", normandy.x + "%");
+                    line.setAttribute("y1", normandy.y + "%");
+                    line.setAttribute("x2", target.x + "%");
+                    line.setAttribute("y2", target.y + "%");
+                    line.setAttribute("class", "victory-line");
+                    svg.appendChild(line);
+
+                    // 선이 타겟에 도달한 후 해당 지역 거점 확보
+                    setTimeout(() => {
+                        const el = document.createElement('div');
+                        el.className = 'node active fire-success';
+                        el.style.left = target.x + '%';
+                        el.style.top = target.y + '%';
+                        container.appendChild(el);
+                        
+                        completed++;
+                        
+                        // 모든 지역이 점령되었을 때
+                        if(completed === targets.length) {
+                            status.innerText = "ALL BEACHHEADS SECURED";
+                            status.classList.remove('animate-pulse');
+                            status.classList.add('text-brand-green');
+                            
+                            // 5초 후 시뮬레이션 무한 반복
+                            setTimeout(initTacticalMap, 5000);
+                        }
+                    }, 1000);
+
+                }, target.delay);
+            });
+        }
+        window.addEventListener('DOMContentLoaded', initTacticalMap);
+
+        // --- 2. Accordion Data & Logic ---
+        const accordionData = [
+            {
+                title: "1. 주님의 아름다움을 주목하고, 여호와의 조언을 구함",
+                icon: "fa-compass",
+                color: "text-blue-400",
+                bg: "bg-blue-900/30",
+                content: `
+                    <p class="mb-4 text-slate-300">첫째가는 사랑으로 주님을 사랑하는 것, 곧 모든 일에서 그분께 <span class="highlight">첫째 위치를 드리는 것</span>은 그분의 아름다움을 주목하고, 우리 그리스도인의 생활과 일의 모든 세세한 부분에서 <span class="highlight">여호와의 조언을 구하는 것</span>입니다.</p>
+                    <p class="mb-4 text-slate-300">여호수아기 9장에서 이스라엘 자손은 기브온 주민들을 접촉하게 되었습니다. 그들은 먼 곳에서 왔다고 주장하며 속였고, 협상을 벌이는 중에 이스라엘 사람들은 "그들의 식량을 받았으나 <span class="highlight">여호와의 조언을 구하지 않았다</span>"(수 9:14)라고 기록됩니다.</p>
+                    <p class="mb-4 text-slate-300">우리의 모든 생활과 봉사에서 우리는 어떤 것도 당연하게 여기지 말고, 어떤 상황에 놓이든 그 상황을 <span class="highlight">다룰지 안다고 단정하지 말고</span>, 여호와의 조언을 구하는 법을 배워야 합니다.</p>
+                    <div class="mt-6 p-4 bg-slate-800 rounded-lg border-l-4 border-brand-gold">
+                    <p class="italic text-slate-400">시 27:4 - 내가 여호와께 청하여 온 한 가지 / 그것을 구하리니 / 내 평생에 / 여호와의 집에 거주하며 / 여호와의 아름다움을 바라보고 / 그분의 성전에서 <span class="highlight">여쭙는 것</span>이라네.</p>
+                        <p class="italic text-slate-400">빌 4:6 - 아무것도 염려하지 말고, 다만 모든 일에서 기도와 간구를 통하여 감사한 마음으로 <span class="highlight">여러분의 구할 것을 하나님께 말씀드리십시오.</span></p>
+                    </div>
+                `
+            },
+            {
+                title: "2. 주님의 포로가 됨",
+                icon: "fa-flag-checkered",
+                color: "text-red-400",
+                bg: "bg-red-900/30",
+                content: `
+                    <p class="mb-4 text-slate-300">첫째가는 사랑으로 주님을 사랑하는 것은 우리의 연합된 영에 의해 지배받고 통제받고 지시받고 인도받고 움직이면서, <span class="highlight">주님의 포로가 되는 것</span>입니다.</p>
+                    <p class="mb-4 text-slate-300">교회에 필요한 것은 은사 있는 사람들이 아니라 <span class="highlight">패배한 사람들</span>입니다. 문제는 우리가 너무 자주 그분을 패배시키고 그분을 이긴다는 데 있습니다. 우리는 그분께 <span class="highlight">복종하고 그분께 입지를 드리는 법</span>을 배워야 합니다.</p>
+                    <p class="mb-4 text-brand-gold font-bold">"주님, <span class="highlight">저를 정복해 주십시오</span>. 저를 당신의 포로가 되게 해 주십시오. 제가 이기도록 허락하지 마십시오. <span class="highlight">항상 저를 패배시키십시오</span>."</p>
+                    <p class="mb-4 text-brand-gold font-bold">"Lord, conquer me. Make me Your captive. Never let me win. Defeat me all the time"</p>
+                    <div class="mt-6 p-4 bg-slate-800 rounded-lg border-l-4 border-brand-gold">
+                        <p class="italic text-slate-400">고후 2:14 - 그러나 하나님께 감사드립니다. 하나님은 그리스도 안에서 항상 우리를 <span class="highlight">개선 행진</span> 가운데 이끄시며, 어디서나 우리를 통하여 그리스도를 아는 지식의 향기를 나타내십니다.</p>
+                    </div>
+                `
+            },
+            {
+                title: "3. 수정 같은 맑은 하늘을 가짐",
+                icon: "fa-cloud-sun",
+                color: "text-cyan-400",
+                bg: "bg-cyan-900/30",
+                content: `
+                    <p class="mb-4 text-slate-300">두려운 수정 같은 맑은 하늘과 그 위에 하나님의 청옥 보좌를 갖는 것은, 우리와 주님 사이에 <span class="highlight">가로막힌 것이 아무것도 없음</span>을 의미합니다.</p>
+                    <p class="mb-4 text-slate-300">이것은 우리가 주님의 다스리는 임재라는 하늘에 속한 분위기와 상태와 상황으로 충만한 것, 즉 주님을 우리의 왕으로 삼고 그분께서 <span class="highlight">우리 안에서 통치하시고 왕으로서 다스리시도록 허락</span>해 드리는 것을 의미합니다.</p>
+                    <p class="mb-4 text-slate-300">우리의 영적 체험 가운데서 가장 높은 지점이 <span class="highlight">보좌가 있는 맑은 하늘을 갖는 것</span>입니다. 우리의 영적인 하늘이 맑다면, 우리는 <span class="highlight">자동적으로 보좌를 가질 것</span>입니다.</p>
+                    <div class="mt-6 p-4 bg-slate-800 rounded-lg border-l-4 border-brand-gold">
+                        <p class="italic text-slate-400">겔 1:22 - 생물의 머리 위로는 창공의 모양이 있었는데, 마치 두려운 수정 같고, 그들의 머리 위로 펼쳐져 있었다.</p>
+                    </div>
+                `
+            },
+            {
+                title: "4. 영광의 왕을 맞이함",
+                icon: "fa-crown",
+                color: "text-brand-gold",
+                bg: "bg-yellow-900/30",
+                content: `
+                    <p class="mb-4 text-slate-300">"성문들아, 머리를 들어라. / 오래 견디어 온 문들아! 들려라." 일반적으로 모든 민족이 그리스도께서 오실 것을 기대하고 있지만, 그리스도는 <span class="highlight">우리 인간의 관념처럼 그렇게 빨리 오시지 않을 것</span>입니다.</p>
+                    <p class="mb-4 text-slate-300">우리는 소중한 분이 오기를 기대했는데 오지 않는다면 머리를 떨굴 것입니다. 그러나 그가 오고 있다는 약속으로 인해 우리는 힘을 얻어 <span class="highlight">머리를 들고, 오래 견디면서</span> 그분의 오심을 기다려야 합니다.</p>
+                    <p class="mb-4 text-slate-300">7절의 <span class="highlight">'들려라(be lifted up)'</span>는 우리가 아직 연약하여 우리를 움직여 줄 누군가가 필요함을 의미합니다. 그러나 9절의 <span class="highlight">'들어라(lift up)'</span>는 우리가 다소 강해져서 이제 <span class="highlight">스스로 움직여 머리를 들 수 있음</span>을 의미합니다.</p>
+                    <p class="mb-4 text-slate-300">영광의 왕은 만군의 여호와, 즉 승리하시고 다시 오실 그리스도 안에 체현되신 삼일 하나님이십니다. 그분은 부활 안에서 <span class="highlight">이기는 이들과 함께 다시 오시어 온 땅을 그분의 왕국으로 소유</span>하실 것입니다.</p>
+                    <div class="mt-6 p-4 bg-slate-800 rounded-lg border-l-4 border-brand-gold space-y-3">
+                        <p class="italic text-slate-400">시 24:7 - 성문들아, <span class="highlight">머리를 들어라.</span> / 오래 견디어 온 문들아! <span class="highlight">들려라.</span> / 그리하면 <span class="highlight">영광의 왕께서 들어가시리라.</span></p>
+                        <p class="italic text-slate-400">시 24:8 - 영광의 왕이 누구신가? / <span class="highlight">강하시고 능하신 여호와! / 전쟁에 능하신 여호와</span>이시다!</p>
+                        <p class="italic text-slate-400">시 24:9 - 성문들아, 머리를 들어라. / 오래 견디어 온 문들아! <span class="highlight">들어라.</span> / 그리하면 영광의 왕께서 들어가시리라.</p>
+                        <p class="italic text-slate-400">시 24:10 - 이 영광의 왕이 누구신가? / <span class="highlight">만군의 여호와 / 그분께서 영광의 왕</span>이시다!</p>
+                    </div>
+                `
+            },
+            {
+                title: "5. 영광의 하나님과 같은 모습이 됨",
+                icon: "fa-gem",
+                color: "text-emerald-400",
+                bg: "bg-emerald-900/30",
+                content: `
+                    <p class="mb-4 text-slate-300">하나님의 보좌에 앉으신 분이신 그리스도의 모습은 그 빛깔이 구속을 상징하는 붉은색인 <span class="highlight">홍옥수</span>와, 풍성한 생명을 상징하는 짙은 녹색인 <span class="highlight">벽옥</span> 같습니다.</p>
+                    <p class="mb-4 text-slate-300">우리가 그리스도의 머리의 권위에 복종하고 <span class="highlight">그분의 보좌 아래 있을 때</span>, 우리는 그리스도의 법리적인 구속과 유기적인 구원 안에서 그분의 온 존재를 받는 수혜자가 됩니다.</p>
+                    <p class="mb-4 text-slate-300">그 결과 우리는 풍성한 생명을 가지신 <span class="highlight">영광의 하나님과 같은 모습</span>을 지니게 됩니다.</p>
+                    <div class="mt-6 p-4 bg-slate-800 rounded-lg border-l-4 border-brand-gold">
+                    <p class="italic text-slate-400">계 4:3 - 앉아 계신 분의 모습은 <span class="highlight">벽옥과 홍옥수</span>와 같았으며, 그 보좌 주위에 있는 무지개의 모습은 비취옥과 같았습니다.</p>
+                        <p class="italic text-slate-400">계 21:10 - 내가 영 안에 있는데, 천사가 나를 데리고 크고 높은 산으로 올라가서, 하늘에서 하나님에게서 내려오는 거룩한 성 새 예루살렘을 나에게 보여 주었습니다.</p>
+                        <p class="italic text-slate-400">계 21:11 - 그 성에는 하나님의 영광이 있고, 성의 빛은 가장 귀한 보석 같았고 수정처럼 맑은 <span class="highlight">벽옥 같았습니다</span>.</p>
+                        <p class="italic text-slate-400">롬 5:10 - 우리가 원수였을 때에 하나님의 아들의 죽음을 통해 하나님과 화목하게 되었다면, 이미 화목하게 된 우리는 더욱 그분의 <span class="highlight">생명 안에서 구원</span>받을 것입니다.</p>
+                    </div>
+                `
+            },
+            {
+                title: "6. 생명나무를 누릴 권리를 가짐",
+                icon: "fa-tree",
+                color: "text-green-400",
+                bg: "bg-green-900/30",
+                content: `
+                    <p class="mb-4 text-slate-300">그리스도의 구속하는 피로 자기의 겉옷을 빠는 사람들은 영원토록 하나님의 낙원인 거룩한 성에서 <span class="highlight">생명나무를 그들의 영원한 몫으로 누릴 권리</span>를 갖습니다.</p>
+                    <p class="mb-4 text-slate-300">우리가 하나님께 경배하는 것이 바깥의 이야기가 될지 내적인 이야기가 될지는 주님께서 우리의 관념을 얼마나 철저하게 전환시키시는지에 달려 있습니다.</p>
+                    <p class="mb-4 text-slate-300">이러한 <span class="highlight">관념의 전환</span>의 가장 분명한 예는 우리의 기도에서 나타납니다. 바깥의 사역이나 필요를 구하는 <span class="highlight">'일을 위한 기도'</span>에서 벗어나, 오직 하나님 자신을 누리고 흡수하는 <span class="highlight">'하나님을 중심 삼는 기도'</span>로 완전히 바뀌어야 합니다. 진정한 경배는 무언가를 구하는 것이 아니라, <span class="highlight">생명나무이신 하나님 자신을 흡수하고 누리는 것</span>입니다.</p>
+                    <div class="mt-6 p-4 bg-slate-800 rounded-lg border-l-4 border-brand-gold">
+                        <p class="italic text-slate-400 mt-2">계 22:14 - <span class="highlight">생명나무에 이르는 권리를 얻고</span> 문들을 통하여 그 성안으로 들어가도록 자기의 겉옷을 빠는 사람들은 복이 있다.</p>
+                    </div>
+                `
+            }
+        ];
+
+        function renderAccordions() {
+            const container = document.getElementById('accordion-container');
+            accordionData.forEach((item, index) => {
+                const accItem = document.createElement('div');
+                accItem.className = 'accordion-item';
+                
+                accItem.innerHTML = `
+                    <button class="accordion-header" onclick="toggleAccordion(${index})">
+                        <div class="flex items-center">
+                            <div class="icon-container ${item.bg} ${item.color}">
+                                <i class="fas ${item.icon}"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">${item.title}</h3>
+                        </div>
+                        <i class="fas fa-chevron-down chevron text-slate-400 text-xl"></i>
+                    </button>
+                    <div class="accordion-content" id="acc-content-${index}">
+                        ${item.content}
+                    </div>
+                `;
+                container.appendChild(accItem);
+            });
+        }
+
+        let currentlyOpen = -1;
+        function toggleAccordion(index) {
+            const contents = document.querySelectorAll('.accordion-content');
+            const headers = document.querySelectorAll('.accordion-header');
+
+            if (currentlyOpen === index) {
+                // Close current
+                contents[index].classList.remove('open');
+                headers[index].classList.remove('active');
+                currentlyOpen = -1;
+            } else {
+                // Close previously open
+                if (currentlyOpen !== -1) {
+                    contents[currentlyOpen].classList.remove('open');
+                    headers[currentlyOpen].classList.remove('active');
+                }
+                // Open new
+                contents[index].classList.add('open');
+                headers[index].classList.add('active');
+                currentlyOpen = index;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', renderAccordions);
+
+        // --- 3. Quiz Data & Logic ---
+        const quizData = [
+            {
+                q: "1. 시편 45편에서 왕과 함께 온 땅의 통치자가 될 '아들들'은 누구를 상징합니까?",
+                options: ["육신의 이스라엘", "하늘의 천사들", "이기는 이들", "구약의 선지자들"],
+                answer: 2
+            },
+            {
+                q: "2. 여호수아기 9장에서 이스라엘이 기브온 주민에게 속은 가장 큰 이유는 무엇입니까?",
+                options: ["여호와의 조언을 구하지 않아서", "군사력이 약해서", "동맹국이 필요해서", "식량이 부족해서"],
+                answer: 0
+            },
+            {
+                q: "3. 에스겔 1장에 따르면, 우리의 영적 체험 가운데 가장 높은 지점은 무엇입니까?",
+                options: ["표적과 기적을 행하는 것", "보좌가 있는 맑은 하늘을 갖는 것", "많은 사람을 가르치는 것", "거대한 교회를 건축하는 것"],
+                answer: 1
+            },
+            {
+                q: "4. 영광의 왕이 온 땅을 소유하시러 다시 오실 수 있도록, 이 땅에 세워져야 하는 전략적 발판은 무엇입니까?",
+                options: ["완벽한 정치 시스템", "거대한 성전 건물", "많은 구제와 선행", "영적인 교두보(이기는 이들)"],
+                answer: 3
+            },
+            {
+                q: "5. 요한계시록 4장에서 보좌에 앉으신 분의 모습 중, 풍성한 생명을 상징하는 짙은 녹색의 보석은 무엇입니까?",
+                options: ["홍옥수", "벽옥", "비취옥", "남보석"],
+                answer: 1
+            }
+        ];
+
+        let userAnswers = new Array(quizData.length).fill(-1);
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            quizData.forEach((item, qIndex) => {
+                const qBlock = document.createElement('div');
+                qBlock.className = 'bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg';
+                
+                let optionsHtml = '';
+                item.options.forEach((opt, oIndex) => {
+                    optionsHtml += `
+                        <div id="q${qIndex}-o${oIndex}" class="quiz-option" onclick="selectOption(${qIndex}, ${oIndex})">
+                            ${String.fromCharCode(65 + oIndex)}. ${opt}
+                        </div>
+                    `;
+                });
+
+                qBlock.innerHTML = `
+                    <h3 class="text-xl font-bold text-brand-gold mb-4">${item.q}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${optionsHtml}
+                    </div>
+                `;
+                container.appendChild(qBlock);
+            });
+        }
+
+        function selectOption(qIndex, oIndex) {
+            // Remove selection from others in this question
+            quizData[qIndex].options.forEach((_, idx) => {
+                document.getElementById(`q${qIndex}-o${idx}`).classList.remove('selected');
+            });
+            // Add selection visually
+            document.getElementById(`q${qIndex}-o${oIndex}`).classList.add('selected');
+            // Save answer
+            userAnswers[qIndex] = oIndex;
+
+            // Check if all answered
+            if (!userAnswers.includes(-1)) {
+                document.getElementById('submit-quiz').classList.remove('hidden');
+            }
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            
+            quizData.forEach((item, qIndex) => {
+                const userAnswer = userAnswers[qIndex];
+                const correctOptionEl = document.getElementById(`q${qIndex}-o${item.answer}`);
+                const userOptionEl = document.getElementById(`q${qIndex}-o${userAnswer}`);
+
+                // Disable further clicking (Fix: changed quizData[item.options] to item.options)
+                item.options.forEach((_, oIndex) => {
+                    document.getElementById(`q${qIndex}-o${oIndex}`).style.pointerEvents = 'none';
+                });
+
+                if (userAnswer === item.answer) {
+                    score += 20;
+                    userOptionEl.classList.remove('selected');
+                    userOptionEl.classList.add('correct');
+                } else {
+                    userOptionEl.classList.remove('selected');
+                    userOptionEl.classList.add('incorrect');
+                    correctOptionEl.classList.add('correct');
+                }
+            });
+
+            const resultEl = document.getElementById('quiz-result');
+            const scoreEl = document.getElementById('score-display');
+            const feedbackEl = document.getElementById('feedback-display');
+
+            document.getElementById('submit-quiz').classList.add('hidden');
+            resultEl.classList.remove('hidden');
+            
+            scoreEl.innerText = `${score} / 100점`;
+            
+            if(score === 100) {
+                feedbackEl.innerHTML = "탁월합니다! 당신은 왕의 통치를 위한 완벽한 영적 지식을 갖추었습니다. 이제 생활 속에서 <strong>교두보</strong>가 되십시오.";
+                feedbackEl.className = "text-xl text-brand-green mt-4";
+            } else if(score >= 60) {
+                feedbackEl.innerHTML = "훌륭합니다. 핵심 진리를 잘 이해하고 있습니다. 틀린 부분을 아코디언 메뉴에서 다시 한번 확인해 보세요.";
+                feedbackEl.className = "text-xl text-brand-blue mt-4";
+            } else {
+                feedbackEl.innerHTML = "다시 한번 본문을 천천히 읽으며 주님의 빛 비춤을 구해보세요. 진리를 아는 것은 첫째가는 사랑의 시작입니다.";
+                feedbackEl.className = "text-xl text-brand-gold mt-4";
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', renderQuiz);
+    </script>
+</body>
+</html>
