@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>눈물 너머 영원한 보좌를 발견하다</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-navy: #1a2a44;
+            --throne-gold: #d4af37;
+            --mercy-blue: #4a90e2;
+            --tear-gray: #718096;
+            --flow-line: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+            color: #2d3748;
+            overflow-x: hidden;
+        }
+
+        .serif { font-family: 'Noto Serif KR', serif; }
+
+        /* Layer Peeling Effect */
+        #intro-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary-navy), #2d3748);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        #intro-overlay.peeled {
+            transform: translateY(-100%) skewY(-2deg);
+        }
+
+        .peel-button {
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--throne-gold);
+            color: var(--throne-gold);
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s;
+            margin-top: 2.5rem;
+            border-radius: 50px;
+            background: transparent;
+        }
+
+        .peel-button:hover {
+            background: var(--throne-gold);
+            color: white;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Journey Flow Path */
+        .journey-container {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .journey-line {
+            position: absolute;
+            left: 0.75rem;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #cbd5e0, var(--mercy-blue), var(--throne-gold));
+            z-index: 0;
+        }
+
+        /* Accordion Styles */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 2500px; /* Increased for more content */
+        }
+
+        .accordion-item.active .chevron {
+            transform: rotate(180deg);
+        }
+
+        .flow-transition {
+            padding: 1.5rem 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--tear-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .flow-transition::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: white;
+            border: 3px solid var(--mercy-blue);
+            border-radius: 50%;
+            position: absolute;
+            left: -1.65rem;
+        }
+
+        .highlight-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid var(--mercy-blue);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .bold-highlight {
+            font-weight: 700;
+            color: #1e40af;
+            background: linear-gradient(to top, #dbeafe 50%, transparent 50%);
+            padding: 0 2px;
+        }
+
+        /* Quiz Styles */
+        .quiz-option {
+            transition: all 0.2s;
+            border: 2px solid #e2e8f0;
+        }
+        .quiz-option:hover {
+            border-color: var(--mercy-blue);
+            background-color: #f1f5f9;
+            color: var(--primary-navy);
+            transform: translateX(5px);
+        }
+
+        .quiz-option.correct {
+            background-color: #dcfce7 !important;
+            border-color: #22c55e !important;
+            color: #166534 !important;
+        }
+
+        .quiz-option.wrong {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Intro Layer -->
+    <div id="intro-overlay">
+        <div class="text-center px-6">
+            <h1 class="serif text-4xl md:text-7xl font-bold mb-6 tracking-tight">흔들리지 않는 왕국</h1>
+            <p class="text-xl md:text-3xl opacity-90 serif mb-2">눈물 너머에 있는 영원한 보좌를 향한 여정</p>
+            <div class="h-1 w-24 bg-yellow-500 mx-auto mb-8"></div>
+            <p class="max-w-md mx-auto text-lg opacity-70 leading-relaxed font-light">
+                절망의 폐허 속에서 예레미야가 발견한<br>영원한 보좌와 흔들리지 않는 통치로의 초대
+            </p>
+            <button class="peel-button" onclick="peelLayer()">여정 시작하기</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto px-6 py-16">
+        <header class="text-center mb-20">
+            <h2 class="serif text-4xl font-bold text-slate-800 mb-6">예레미야의 시선을 따라가는 영적 여정</h2>
+            <div class="flex justify-center gap-2 mb-6">
+                <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">눈물</span>
+                <span class="text-gray-300">→</span>
+                <span class="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold rounded-full">자비</span>
+                <span class="text-gray-300">→</span>
+                <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-full">보좌</span>
+            </div>
+            <p class="text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                인간적인 정서로는 슬프고 낙심되었지만, 예레미야는 영원히 거하시는 주님과 그분의 통치를 깨달았습니다. 그의 온 존재가 땅의 폐허에서 하늘의 보좌로 고양되는 과정을 살펴봅니다.
+            </p>
+        </header>
+
+        <!-- Journey Container -->
+        <div class="journey-container">
+            <div class="journey-line"></div>
+
+            <!-- Step 1 to 4 remains same -->
+            <!-- Step 1 -->
+            <div class="accordion-item mb-4" id="item1">
+                <button class="w-full bg-white rounded-2xl p-6 flex items-center justify-between text-left shadow-sm border border-slate-200 hover:shadow-md transition-shadow focus:outline-none" onclick="toggleAccordion('item1')">
+                    <div class="flex items-center gap-5">
+                        <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500 shadow-inner">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16.3c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4z"/><path d="M12 21.7c4.4 0 8-3.6 8-8s-3.6-8-8-8-8 3.6-8 8 3.6 8 8 8z"/><path d="M15 13a3 3 0 1 0-6 0"/></svg>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 font-bold tracking-widest uppercase">Stage 1: The Human Cry</span>
+                            <h3 class="serif text-2xl font-bold text-slate-800">눈물의 신언자와 인간적 한계</h3>
+                        </div>
+                    </div>
+                    <svg class="chevron transition-transform duration-500 text-slate-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="accordion-content">
+                    <div class="pt-6 pb-8 px-4 md:px-12">
+                        <p class="mb-6 leading-relaxed text-slate-600">
+                            예레미야는 <span class="bold-highlight">매우 감정적</span>이었고 인간적인 많은 느낌을 가지고 있었습니다. 그는 이스라엘 자손의 패망과 그들의 상태로 인해 깊이 슬퍼하며 울었습니다. 그는 끔찍한 상황을 보고 낙심했으며, 인간적인 정서로는 슬픔과 고뇌를 피할 수 없었습니다.
+                        </p>
+                        <div class="highlight-box">
+                            <p class="serif text-lg text-slate-700 italic">
+                                “주님께서 저희를 <span class="bold-highlight">아주 버리신 것</span>입니까? 저희 때문에 <span class="bold-highlight">너무나 화가 나신</span> 것입니까?” (애 5:22)
+                            </p>
+                        </div>
+                        <p class="text-slate-600">
+                            예레미야는 백성의 모든 고난을 되돌아보며 이스라엘이 죄악된 것에 대해 애통해했습니다. 이 질문은 인간이 겪는 고난의 밑바닥에서 터져 나오는 절규였습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-transition"><span>애통의 밤이 지나고 아침마다 주님을 접촉함으로...</span></div>
+
+            <!-- Step 2 -->
+            <div class="accordion-item mb-4" id="item2">
+                <button class="w-full bg-white rounded-2xl p-6 flex items-center justify-between text-left shadow-sm border border-slate-200 hover:shadow-md transition-shadow focus:outline-none" onclick="toggleAccordion('item2')">
+                    <div class="flex items-center gap-5">
+                        <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500 shadow-inner">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M2 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="M12 20v2"/><path d="m17.66 17.66 1.41 1.41"/><path d="M20 12h2"/><path d="m17.66 6.34 1.41-1.41"/><circle cx="12" cy="12" r="4"/></svg>
+                        </div>
+                        <div>
+                            <span class="text-xs text-blue-400 font-bold tracking-widest uppercase">Stage 2: Divine Mercy</span>
+                            <h3 class="serif text-2xl font-bold text-slate-800">아침마다 새로운 자애와 자비</h3>
+                        </div>
+                    </div>
+                    <svg class="chevron transition-transform duration-500 text-slate-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="accordion-content">
+                    <div class="pt-6 pb-8 px-4 md:px-12">
+                        <p class="mb-6 leading-relaxed text-slate-600">
+                            예레미야는 <span class="bold-highlight">아침마다 주님을 접촉</span>했습니다. 이렇게 주님을 접촉함으로 예레미야는 그분의 자애와 자비에 관한 말씀을 받았습니다. 이스라엘 백성은 이미 실패했지만, 하나님의 자비는 무궁했습니다.
+                        </p>
+                        <div class="highlight-box">
+                            <p class="serif text-lg text-slate-700 italic">
+                                “<span class="bold-highlight">여호와의 자애</span>로 우리가 <span class="bold-highlight">진멸되지 아니하니</span> 그분의 <span class="bold-highlight">자비는 무궁</span>하다네. 이것들이 <span class="bold-highlight">아침마다 새로우니</span>...” (애 3:22-23상)
+                            </p>
+                        </div>
+                        <p class="text-slate-600">
+                            예레미야는 여호와께서 이스라엘을 아무리 심하게 징벌하셨더라도 그들을 <span class="bold-highlight">완전히 진멸되게 하지 않으셨음</span>을 깨달았습니다. 여전히 남은 이들이 보존된 것은 오직 하나님의 자애 덕분이었습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-transition"><span>무궁한 자비의 근거인 하나님의 약속을 발견함...</span></div>
+
+            <!-- Step 3 -->
+            <div class="accordion-item mb-4" id="item3">
+                <button class="w-full bg-white rounded-2xl p-6 flex items-center justify-between text-left shadow-sm border border-slate-200 hover:shadow-md transition-shadow focus:outline-none" onclick="toggleAccordion('item3')">
+                    <div class="flex items-center gap-5">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 shadow-inner">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
+                        </div>
+                        <div>
+                            <span class="text-xs text-indigo-400 font-bold tracking-widest uppercase">Stage 3: Unfailing Faithfulness</span>
+                            <h3 class="serif text-2xl font-bold text-slate-800">하나님의 크신 신실함</h3>
+                        </div>
+                    </div>
+                    <svg class="chevron transition-transform duration-500 text-slate-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="accordion-content">
+                    <div class="pt-6 pb-8 px-4 md:px-12">
+                        <p class="mb-6 leading-relaxed text-slate-600">
+                            하나님은 <span class="bold-highlight">신실하신 분</span>이시므로 하나님의 자비는 무궁합니다. 하나님의 신실함은 그분의 말씀에 적용됩니다. 하나님은 이스라엘의 조상들에게 말씀하셨으며, 그분의 말씀을 지키는 데 신실하셨습니다.
+                        </p>
+                        <div class="highlight-box">
+                            <p class="serif text-lg text-slate-700 italic">
+                                “주님의 <span class="bold-highlight">신실은 크기도 하십니다</span>.” (애 3:23하)
+                            </p>
+                        </div>
+                        <p class="text-slate-600">
+                            예레미야는 하나님께서 약속하신 것을 누리게 하실 복원의 때를 바라보게 되었습니다. 주님은 결코 이스라엘을 버리지 않으셨으며, 그분의 말씀은 변함없이 유효함을 신뢰하게 된 것입니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-transition"><span>자비를 넘어선 우주적인 통치의 보좌로 시선이 고양됨...</span></div>
+
+            <!-- Step 4 -->
+            <div class="accordion-item mb-4" id="item4">
+                <button class="w-full bg-white rounded-2xl p-6 flex items-center justify-between text-left shadow-sm border border-slate-200 hover:shadow-md transition-shadow focus:outline-none" onclick="toggleAccordion('item4')">
+                    <div class="flex items-center gap-5">
+                        <div class="w-12 h-12 rounded-xl bg-yellow-50 flex items-center justify-center text-yellow-600 shadow-inner">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19 9 2-9-18-9 18 9-2z"/></svg>
+                        </div>
+                        <div>
+                            <span class="text-xs text-yellow-600 font-bold tracking-widest uppercase">Stage 4: Eternal Reality</span>
+                            <h3 class="serif text-2xl font-bold text-slate-800">시선의 전환: 영원한 보좌</h3>
+                        </div>
+                    </div>
+                    <svg class="chevron transition-transform duration-500 text-slate-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="accordion-content">
+                    <div class="pt-6 pb-8 px-4 md:px-12">
+                        <p class="mb-6 leading-relaxed text-slate-600 text-lg">
+                            예레미야애가의 마지막에서 무언가를 보고 <span class="bold-highlight">갑자기 외쳤습니다.</span> 인간적인 정서로는 슬펐고 낙심되었지만, 그는 여호와께서 <span class="bold-highlight">영원히 거하시며</span> 그분의 보좌는 대대에 이른다는 것을 깨달았다.
+                        </p>
+                        <div class="highlight-box bg-yellow-50 border-yellow-400">
+                            <p class="serif text-xl text-slate-800 font-bold italic">
+                                “오, 여호와님! 주님은 <span class="bold-highlight">영원히 거하시며</span> 주님의 <span class="bold-highlight">보좌는 대대에</span> 이릅니다.” (애 5:19)
+                            </p>
+                        </div>
+                        <p class="text-slate-600">
+                            이 우주 안에 보좌가 있습니다. 세계정세나 우리의 개인적인 상황이 어떠하든 예레미야의 온 존재는 <span class="bold-highlight">땅의 폐허에서 하늘의 보좌로 고양</span>되었습니다. 눈물과 고뇌와 암울함으로 끝나지 않고 보좌로 끝맺는 것은 참으로 놀라운 전환입니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-transition"><span>우리의 구원이 흔들리지 않는 하나님의 의 위에 세워짐...</span></div>
+
+            <!-- Updated Step 5 -->
+            <div class="accordion-item mb-4 active" id="item5">
+                <button class="w-full bg-white rounded-2xl p-6 flex items-center justify-between text-left shadow-sm border border-slate-200 hover:shadow-md transition-shadow focus:outline-none" onclick="toggleAccordion('item5')">
+                    <div class="flex items-center gap-5">
+                        <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 shadow-inner">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="7" r="4"/></svg>
+                        </div>
+                        <div>
+                            <span class="text-xs text-purple-400 font-bold tracking-widest uppercase">Stage 5: Unshakeable Foundation</span>
+                            <h3 class="serif text-2xl font-bold text-slate-800">흔들리지 않는 기초: 하나님의 위격과 보좌</h3>
+                        </div>
+                    </div>
+                    <svg class="chevron transition-transform duration-500 text-slate-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="accordion-content">
+                    <div class="pt-6 pb-8 px-4 md:px-12">
+                        <p class="mb-8 leading-relaxed text-slate-600 text-center text-lg italic">
+                            “<span class="bold-highlight">하나님의 영원하신 존재와 그분의 보좌</span>는 그분의 자애와 자비와 신실함보다 더 <span class="bold-highlight">고귀</span>합니다.”
+                        </p>
+                        
+                        <!-- Emphasis Banner -->
+                        <div class="mb-10 p-6 bg-yellow-50 border-2 border-yellow-200 rounded-2xl text-center">
+                            <h4 class="font-bold text-slate-800 text-xl mb-3">복음 전파의 균형과 목적</h4>
+                            <p class="text-slate-700 leading-relaxed">
+                                우리는 복음을 전할 때 <span class="bold-highlight">은혜와 사랑의 복음</span>을 전할 뿐 아니라, <span class="bold-highlight">왕국 복음</span>을 전하기를 배워야 합니다. 왕국 복음은 결코 변할 수 없는 하나님의 <span class="bold-highlight">의의 문제</span>이며, 이것은 하나님의 위격과 그분의 보좌의 문제입니다.
+                            </p>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6 mb-10">
+                            <!-- Left Card: Love & Grace -->
+                            <div class="p-6 bg-white border border-blue-100 rounded-2xl shadow-sm relative overflow-hidden">
+                                <div class="absolute top-0 right-0 p-2 bg-blue-50 text-blue-500 text-[10px] font-bold uppercase">Changeable</div>
+                                <h4 class="font-bold text-blue-700 text-xl mb-4 flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                                    은혜와 사랑의 복음
+                                </h4>
+                                <ul class="text-slate-600 space-y-3">
+                                    <li class="flex gap-2"><span class="text-blue-400">•</span><span>하나님의 <span class="font-bold">자애와 자비는 바뀔 수 있음</span></span></li>
+                                    <li class="flex gap-2"><span class="text-blue-400">•</span><span>하나님은 우리를 <span class="font-bold">사랑하실 수도, 사랑하지 않으실 수도</span> 있음</span></li>
+                                    <li class="flex gap-2"><span class="text-blue-400">•</span><span>우리에게 <span class="font-bold">은혜를 베푸실 수도, 베풀지 않으실 수도</span> 있음</span></li>
+                                </ul>
+                            </div>
+
+                            <!-- Right Card: Righteousness & Throne -->
+                            <div class="p-6 bg-indigo-900 text-white rounded-2xl shadow-xl relative overflow-hidden">
+                                <div class="absolute top-0 right-0 p-2 bg-indigo-700 text-indigo-200 text-[10px] font-bold uppercase">Eternal</div>
+                                <h4 class="font-bold text-yellow-400 text-xl mb-4 flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h12"/><path d="M10 22h4"/><path d="M19 3H5a2 2 0 0 0-2 2v3c0 4.42 3.58 8 8 8h2c4.42 0 8-3.58 8-8V5a2 2 0 0 0-2-2Z"/></svg>
+                                    왕국 복음 (의와 보좌)
+                                </h4>
+                                <ul class="text-indigo-100 space-y-3">
+                                    <li class="flex gap-2"><span class="text-yellow-400">•</span><span>하나님의 <span class="font-bold text-white">위격과 통치는 영원토록 변하지 않음</span></span></li>
+                                    <li class="flex gap-2"><span class="text-yellow-400">•</span><span>의의 문제인 그분의 <span class="font-bold text-white">통치는 결코 변할 수 없음</span></span></li>
+                                    <li class="flex gap-2"><span class="text-yellow-400">•</span><span>통치는 <span class="font-bold text-white">사랑과 은혜보다 훨씬 강력함</span></span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Related Bible Verses Section -->
+                        <div class="space-y-4 mb-8">
+                            <div class="bg-indigo-50 p-6 rounded-2xl border-l-4 border-indigo-500">
+                                <p class="serif text-slate-700 leading-relaxed italic mb-2">
+                                    “그러므로 우리가 <span class="bold-highlight">흔들리지 않는 왕국</span>을 받았으니 <span class="bold-highlight">은혜를 지닙시다</span>. 은혜를 통하여 우리가 경건함과 경외함으로 하나님을 기쁘게 섬겨야 합니다.”
+                                </p>
+                                <p class="text-right text-sm font-bold text-indigo-600">— 히 12:28</p>
+                            </div>
+                            <div class="bg-indigo-50 p-6 rounded-2xl border-l-4 border-indigo-500">
+                                <p class="serif text-slate-700 leading-relaxed italic mb-2">
+                                    “더 이상 저주가 없을 것이고, <span class="bold-highlight">하나님과 어린양의 보좌</span>가 그 성안에 있을 것이며, 그분의 노예들이 그분을 섬길 것입니다.”
+                                </p>
+                                <p class="text-right text-sm font-bold text-indigo-600">— 계 22:3</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 border border-slate-200 p-6 rounded-2xl">
+                            <h4 class="font-bold text-slate-800 mb-4">새 예루살렘의 영원한 기초</h4>
+                            <p class="text-slate-600 leading-relaxed">
+                                새 예루살렘에서 하나님은 영원한 왕이신 그분의 <span class="bold-highlight">위격</span> 안에서, 그리고 영원하고 <span class="bold-highlight">흔들리지 않는 왕국</span>인 그분의 <span class="bold-highlight">통치</span> 안에서 완전히 계시되실 것입니다. 이 두 가지는 모두 그분께서 자신의 백성을 다루시는 <span class="bold-highlight">흔들리지 않는 기초</span>입니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <section class="mt-32 p-10 bg-slate-900 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-8 opacity-10">
+                <svg width="200" height="200" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2zm0 3.45l8.27 14.3H3.73L12 5.45zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>
+            </div>
+            <h2 class="serif text-4xl font-bold mb-4 text-center text-yellow-400">영적 여정 확인 퀴즈</h2>
+            <p class="text-center text-slate-400 mb-12">여정을 통해 배운 핵심 진리들을 확인해보세요.</p>
+            <div id="quiz-container" class="max-w-2xl mx-auto"></div>
+            <div id="quiz-result" class="hidden max-w-2xl mx-auto mt-8 p-8 bg-slate-800 rounded-2xl text-center border border-slate-700">
+                <h3 class="text-3xl font-bold mb-3" id="result-title"></h3>
+                <p class="text-xl mb-6 text-slate-300" id="result-score"></p>
+                <div class="h-px bg-slate-700 w-full mb-6"></div>
+                <p class="text-lg leading-relaxed text-slate-400 italic mb-8" id="result-feedback"></p>
+                <button onclick="resetQuiz()" class="px-8 py-3 bg-yellow-500 text-slate-900 font-extrabold rounded-full hover:bg-yellow-400 transition transform hover:scale-105">여정 다시 시작하기</button>
+            </div>
+        </section>
+
+        <!-- Prayer Section -->
+        <footer class="mt-24 text-center pb-32">
+            <div class="max-w-3xl mx-auto px-8 py-14 bg-white rounded-[3rem] shadow-xl border border-slate-100 relative">
+                <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border border-slate-100">
+                    <svg class="text-indigo-500" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </div>
+                <h2 class="serif text-3xl font-bold text-slate-800 mb-8">영원한 보좌를 향한 기도</h2>
+                <div class="serif text-xl leading-loose text-slate-700 italic space-y-4">
+                    <p>“아침마다 자비로우신 주님을 접촉합니다.<br> 주님의 자애와 무궁한 자비에 감사드립니다.”</p>
+                    <p>“때론 우리 눈에 눈물이 보이지만, 이제 우리의 눈을 돌려 하늘을 바라봅니다.”</p>
+                    <p>“하나님의 영원하신 존재와 보좌와 통치를 찬양합니다!”</p>
+                </div>
+                <div class="mt-10 flex justify-center items-center gap-4">
+                    <div class="h-px w-12 bg-slate-200"></div>
+                    <p class="font-bold text-2xl text-indigo-600">아멘</p>
+                    <div class="h-px w-12 bg-slate-200"></div>
+                </div>
+            </div>
+            <p class="mt-16 text-sm text-slate-400 tracking-widest uppercase">NotebookLM | Jeremiah Life-Study Insight</p>
+        </footer>
+    </div>
+
+    <script>
+        function peelLayer() {
+            document.getElementById('intro-overlay').classList.add('peeled');
+            setTimeout(() => { document.getElementById('intro-overlay').style.display = 'none'; }, 1200);
+        }
+
+        function toggleAccordion(id) {
+            const item = document.getElementById(id);
+            const isActive = item.classList.contains('active');
+            document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
+        }
+
+        const quizData = [
+            { q: "예레미야가 하나님의 자애와 자비와 신실함에 관한 말씀을 받은 때는 언제입니까?", a: ["밤에 고통하며 잠들지 못할 때", "아침마다 주님을 접촉할 때", "성전에서 제사를 드리고 있을 때", "이스라엘의 패망을 지켜보던 그 순간"], correct: 1 },
+            { q: "예레미야가 '그분의 자비가 무궁하다'고 고백한 구체적인 근거는 무엇입니까?", a: ["백성이 모두 회개했기 때문에", "이스라엘이 완전히 진멸되지 않고 보존되었기 때문에", "적군이 갑자기 퇴각했기 때문에", "풍부한 음식이 공급되었기 때문에"], correct: 1 },
+            { q: "예레미야애가 5장 19절에서 예레미야의 온 존재가 고양된 비결은 무엇입니까?", a: ["환경이 호전되는 것을 보아서", "자신의 기도가 응답되어서", "영원히 거하시는 주님의 보좌를 보아서", "왕이 새로 등극하는 것을 보아서"], correct: 2 },
+            { q: "하나님의 '사랑과 은혜'와 '의와 통치'의 차이점으로 옳은 것은?", a: ["사랑은 의보다 강력하다", "통치는 하나님의 기쁨에 따라 바뀔 수 있다", "의와 통치는 영원토록 변하지 않는 기초다", "은혜는 결코 바뀌지 않는 기초다"], correct: 2 },
+            { q: "우리가 은혜의 복음과 더불어 반드시 알아야 할 '왕국 복음'의 핵심은 무엇입니까?", a: ["인간의 노력이 중요하다는 것", "결코 변할 수 없는 하나님의 의에 기초한다는 것", "이스라엘 민족만이 구원받는다는 것", "눈물을 흘려야만 얻을 수 있다는 것"], correct: 1 }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            const data = quizData[currentIdx];
+            container.innerHTML = `
+                <div class="mb-10 transition-opacity duration-300">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="w-12 h-12 rounded-full bg-yellow-500 text-slate-900 flex items-center justify-center font-black text-xl">${currentIdx + 1}</span>
+                        <div class="h-px flex-grow bg-slate-700"></div>
+                        <span class="text-slate-500 font-bold uppercase tracking-widest text-sm">Question ${currentIdx + 1} / 5</span>
+                    </div>
+                    <h3 class="text-2xl font-bold serif leading-relaxed mb-8">${data.q}</h3>
+                    <div class="grid gap-4">
+                        ${data.a.map((opt, i) => `<button class="quiz-option w-full p-5 text-left rounded-2xl bg-slate-800 text-slate-300 font-medium text-lg focus:outline-none" onclick="handleSelect(${i})"><span class="text-yellow-500 mr-3 font-bold">${i+1}.</span> ${opt}</button>`).join('')}
+                    </div>
+                </div>`;
+        }
+
+        function handleSelect(idx) {
+            const buttons = document.querySelectorAll('.quiz-option');
+            const correct = quizData[currentIdx].correct;
+            buttons.forEach(btn => btn.disabled = true);
+            if (idx === correct) { buttons[idx].classList.add('correct'); score++; }
+            else { buttons[idx].classList.add('wrong'); buttons[correct].classList.add('correct'); }
+            setTimeout(() => {
+                if (currentIdx < quizData.length - 1) { currentIdx++; renderQuiz(); }
+                else showFinalResult();
+            }, 1500);
+        }
+
+        function showFinalResult() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const result = document.getElementById('quiz-result');
+            result.classList.remove('hidden');
+            let title = score === 5 ? "탁월한 영적 통찰!" : score >= 3 ? "훌륭한 여정이었습니다!" : "다시 한번 가볼까요?";
+            let feedback = score === 5 ? "하나님의 위격과 통치라는 가장 깊은 차원을 만지셨군요. 흔들리지 않는 왕국을 소유한 승리자의 확신으로 사십시오!" : "예레미야의 시선이 어떻게 고양되었는지 잘 이해하셨습니다. 변치 않는 보좌의 기초를 더 깊이 묵상해보세요.";
+            document.getElementById('result-title').innerText = title;
+            document.getElementById('result-score').innerText = `총 5문제 중 ${score}문제를 맞히셨습니다.`;
+            document.getElementById('result-feedback').innerText = feedback;
+        }
+
+        function resetQuiz() {
+            currentIdx = 0; score = 0;
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+            renderQuiz();
+        }
+
+        window.onload = renderQuiz;
+    </script>
+</body>
+</html>
