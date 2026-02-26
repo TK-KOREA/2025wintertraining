@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>하나님의 비밀이 이루어지리라 - 계 10:7</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            scroll-behavior: smooth;
+            background-color: var(--bg);
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        /* 도입부 레이어 벗기기 */
+        .layer-container {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #020617;
+        }
+
+        .layer {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1), opacity 1s;
+            cursor: pointer;
+            z-index: 50;
+        }
+
+        .layer-1 { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); }
+        .layer-2 { background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%); }
+
+        .layer.peeled {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* 하이라이트 스타일 */
+        .highlight {
+            font-weight: 700;
+            color: #1e40af;
+            background: linear-gradient(transparent 70%, #dbeafe 70%);
+        }
+
+        /* 아코디언 애니메이션 */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .accordion-item.active .accordion-content {
+            max-height: 3000px; /* 충분히 크게 설정 */
+        }
+
+        .accordion-item.active .chevron {
+            transform: rotate(180deg);
+        }
+
+        /* 퀴즈 스타일 개선 */
+        .quiz-option {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--secondary);
+            background-color: #f0f7ff;
+        }
+
+        .quiz-option.selected {
+            border-color: var(--secondary);
+            background-color: var(--secondary);
+            color: white !important;
+        }
+
+        /* 대시보드 카드 애니메이션 */
+        .dashboard-card {
+            transition: transform 0.3s ease;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 성경구절 스타일 */
+        .bible-box {
+            border-left: 4px solid #cbd5e1;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* 모바일 최적화 폰트 */
+        @media (max-width: 640px) {
+            .text-base { font-size: 0.95rem; }
+            .text-lg { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Section 1: Introduction (Layer Peeling) -->
+    <section id="intro" class="layer-container">
+        <div id="layer1" class="layer layer-1" onclick="peelLayer('layer1')">
+            <div class="text-center p-8">
+                <p class="text-blue-400 mb-4 font-medium tracking-[0.3em] uppercase">The Mystery Unveiled</p>
+                <h1 class="text-4xl md:text-6xl font-black text-white mb-6">하나님의 비밀이<br>이루어질 것인데</h1>
+                <p class="text-slate-400">화면을 클릭하여 비밀의 경륜을 확인하세요</p>
+                <div class="mt-12 animate-pulse text-white">
+                    <i class="fas fa-fingerprint text-5xl"></i>
+                </div>
+            </div>
+        </div>
+        <!-- <div id="layer2" class="layer layer-2" onclick="peelLayer('layer2')">
+            <div class="text-center p-8 text-white max-w-2xl">
+                <p class="text-xl mb-4 italic">"일곱째 천사가 나팔을 불 때에..."</p>
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 leading-tight">하나님께서 그분의 노예 신언자들에게 전하신 좋은 소식 그대로 되리라</h2>
+                <p class="text-blue-200">요한계시록 10장 7절</p>
+            </div>
+        </div> -->
+        <div class="text-center text-white px-6">
+            <h1 class="text-4xl md:text-5xl font-black mb-4">하나님의 비밀의 경륜</h1>
+            <p class="text-lg text-slate-300 mb-10">그리스도부터 천년왕국 전까지: 은혜의 시대</p>
+            <a href="#dashboard" class="inline-block bg-blue-600 text-white px-10 py-4 rounded-full font-bold hover:bg-blue-700 transition shadow-xl">대시보드 보기</a>
+        </div>
+    </section>
+
+    <!-- Section 2: Summary Dashboard -->
+    <section id="dashboard" class="py-16 bg-white px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold">비밀의 시대 전체 흐름 요약</h2>
+                <p class="text-slate-500 mt-2">인류 역사를 관통하는 하나님의 비밀 로드맵</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+                <!-- Connectors for Desktop -->
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-slate-100 -z-10"></div>
+
+                <!-- Card 1 -->
+                <div class="dashboard-card bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center">
+                    <div class="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-600 font-bold">1</div>
+                    <h3 class="font-bold mb-2">과거 시대</h3>
+                    <p class="text-sm text-slate-500">아담 ~ 그리스도 전</p>
+                    <div class="mt-4 py-1 px-3 bg-slate-200 text-slate-700 text-xs rounded-full inline-block font-bold">비밀이 없음</div>
+                    <p class="mt-3 text-xs text-slate-400">모든 것이 밝혀지고 드러남</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="dashboard-card bg-blue-600 p-6 rounded-2xl shadow-xl text-center text-white scale-105">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 font-bold">2</div>
+                    <h3 class="font-bold mb-2">현재(비밀) 시대</h3>
+                    <p class="text-sm text-blue-100">그리스도 ~ 천년왕국 전</p>
+                    <div class="mt-4 py-1 px-3 bg-amber-400 text-amber-900 text-xs rounded-full inline-block font-bold">모든 것이 비밀</div>
+                    <p class="mt-3 text-xs text-blue-100">그리스도, 교회, 천국, 복음</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="dashboard-card bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center">
+                    <div class="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-600 font-bold">3</div>
+                    <h3 class="font-bold mb-2">비밀의 완성</h3>
+                    <p class="text-sm text-slate-500">일곱째 나팔 소리</p>
+                    <div class="mt-4 py-1 px-3 bg-emerald-500 text-white text-xs rounded-full inline-block font-bold">비밀이 이루어짐</div>
+                    <p class="mt-3 text-xs text-slate-400">하나님의 신언자들에게 전하신 대로</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="dashboard-card bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center">
+                    <div class="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-600 font-bold">4</div>
+                    <h3 class="font-bold mb-2">장래 시대</h3>
+                    <p class="text-sm text-slate-500">천년왕국 ~ 새 하늘과 새 땅</p>
+                    <div class="mt-4 py-1 px-3 bg-slate-200 text-slate-700 text-xs rounded-full inline-block font-bold">비밀이 끝남</div>
+                    <p class="mt-3 text-xs text-slate-400">모든 것이 다시 밝혀짐</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Detailed Accordion (Main Content) -->
+    <section class="py-20 bg-slate-50 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-12 border-l-8 border-blue-600 pl-6">
+                <h2 class="text-3xl font-black">하나님의 비밀이<br>이루어질 것인데 (계 10:7)</h2>
+                <p class="text-slate-500 mt-2">개요와 지문을 바탕으로 한 상세 탐구</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Point 1 -->
+                <div class="accordion-item bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm transition-all hover:shadow-md">
+                    <button class="w-full px-8 py-6 flex items-center justify-between text-left" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-5">
+                            <span class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-black">I</span>
+                            <div>
+                                <h3 class="font-bold text-xl">비밀이 없는 시대와 있는 시대의 구분</h3>
+                                <p class="text-sm text-slate-500">역사적 경륜의 전환점</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down chevron transition-transform text-slate-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-8 pb-8 pt-2 ml-14 space-y-6 text-slate-700">
+                            <div>
+                                <h4 class="font-bold text-blue-800 mb-2">의미와 대조</h4>
+                                <p>아담부터 모세 전까지, 모세부터 그리스도 전까지의 시대에는 <span class="highlight">모든 것이 밝혀졌고 드러났으므로</span> 비밀이 전혀 없었습니다. 동일하게 천년왕국의 시대와 새 하늘과 새 땅에서도 모든 것이 밝혀져서 더 이상 비밀이 없을 것입니다.</p>
+                            </div>
+                            <div class="bg-slate-50 p-6 rounded-2xl">
+                                <h4 class="font-bold text-blue-800 mb-2">비밀 시대의 범위</h4>
+                                <p>그리스도부터 천년왕국 전까지의 시대, 곧 <span class="highlight">교회 시대 혹은 은혜 시대</span>에는 모든 것이 비밀입니다. 이 비밀은 그리스도 자신(골 2:2)과 교회(엡 3:4-6)와 천국(마 13:11)과 복음(엡 6:19)으로 이어집니다.</p>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="bible-box">
+                                    <p class="text-sm font-bold text-blue-900 mb-1">골로새서 2:2</p>
+                                    <p class="text-sm">그들이 마음에서 위로를 받고 사랑 안에서 함께 짜여, 깨달음에서 오는 넘치는 확신으로 온전히 풍성하게 되어서 <span class="font-bold text-blue-700">하나님의 비밀이신 그리스도</span>를 온전히 알게 됩니다.</p>
+                                </div>
+                                <div class="bible-box">
+                                    <p class="text-sm font-bold text-blue-900 mb-1">에베소서 3:4</p>
+                                    <p class="text-sm">여러분이 그것을 읽어 보면, <span class="font-bold text-blue-700">그리스도의 비밀</span>에 대한 나의 이해가 어떠한지를 알 수 있을 것입니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Point 2 -->
+                <div class="accordion-item bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm transition-all hover:shadow-md">
+                    <button class="w-full px-8 py-6 flex items-center justify-between text-left" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-5">
+                            <span class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-black">II</span>
+                            <div>
+                                <h3 class="font-bold text-xl">그리스도의 육체 되심: 비밀의 시작</h3>
+                                <p class="text-sm text-slate-500">무한하신 하나님께서 유한한 사람 안으로</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down chevron transition-transform text-slate-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-8 pb-8 pt-2 ml-14 space-y-6 text-slate-700">
+                            <div>
+                                <h4 class="font-bold text-indigo-800 mb-2">구체적 내용</h4>
+                                <p>그리스도의 육체 되심은 이 비밀의 시대의 시작입니다. 신약은 하나님의 아들께서 육체가 되셨다고 말하지 않고, <span class="highlight">하나님께서 육체로 나타나셨다</span>고 말합니다. 이는 아들 하나님만이 아니라 <span class="highlight">하나님 전체(아버지, 아들, 영)</span>가 육체가 되셨음을 의미합니다.</p>
+                            </div>
+                            <div class="bg-indigo-50 p-6 rounded-2xl border-l-4 border-indigo-200 italic">
+                                <p>"나사렛의 작은 사람 예수님께서 이 땅을 거니신 것은 비밀이었습니다. 사람들은 그분을 단지 목수의 아들로 여겼지만, 그분은 <span class="font-bold text-indigo-700">하나님 전체가 육체로 나타나신 분</span>이었습니다."</p>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="bible-box">
+                                    <p class="text-sm font-bold text-indigo-900 mb-1">디모데전서 3:16</p>
+                                    <p class="text-sm">경건의 비밀은 위대합니다! 그분은 <span class="font-bold text-indigo-700">육체로 나타나셨고</span> 그 영 안에서 의롭게 되셨으며 천사들에게 보이셨고 모든 민족 가운데 전파되셨으며 세상이 그분을 믿었으며 영광 안에서 들려 올라가셨습니다.</p>
+                                </div>
+                                <div class="bible-box">
+                                    <p class="text-sm font-bold text-indigo-900 mb-1">요한복음 1:14</p>
+                                    <p class="text-sm"><span class="font-bold text-indigo-700">말씀께서 육체가 되시어</span> 우리 가운데 장막을 치시니, 은혜와 실재가 충만하였다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Point 3 -->
+                <div class="accordion-item bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm transition-all hover:shadow-md">
+                    <button class="w-full px-8 py-6 flex items-center justify-between text-left" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-5">
+                            <span class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-black">III</span>
+                            <div>
+                                <h3 class="font-bold text-xl">내주하시는 그리스도와 우리의 삶</h3>
+                                <p class="text-sm text-slate-500">세상이 이해할 수 없는 비밀스러운 존재들</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down chevron transition-transform text-slate-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-8 pb-8 pt-2 ml-14 space-y-6 text-slate-700">
+                            <div>
+                                <h4 class="font-bold text-emerald-800 mb-2">실행 및 사례: 정직한 삶</h4>
+                                <p>오늘날 내주하시는 그리스도와 교회는 하나의 비밀입니다. 믿지 않는 이들은 음식점 직원에게 <span class="highlight">잔돈을 더 많이 거슬러 받으면</span> 즐거워하며 횡재했다고 여기지만, 우리는 그것을 되돌려줍니다. 그들은 우리가 어떤 부류의 사람인지 이해할 수 없습니다.</p>
+                            </div>
+                            <div class="bg-emerald-50 p-6 rounded-2xl">
+                                <h4 class="font-bold text-emerald-800 mb-2">적용: 훈련과 추구</h4>
+                                <p>왜 많은 성도들이 삶의 가장 좋은 때에 2년 동안 전시간 훈련을 받는가? 에티오피아에서 아홉 명의 성도들이 오고, 대만에서 육백 명이 넘는 성도들이 참석하는 것은 세상의 눈에는 이해할 수 없는 <span class="highlight">'비밀'</span>입니다. 비밀스러우신 그분만이 이 일을 하실 수 있습니다.</p>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="bible-box">
+                                    <p class="text-sm font-bold text-emerald-900 mb-1">골로새서 1:26</p>
+                                    <p class="text-sm">이 비밀은 영원부터 모든 세대에 걸쳐 감추어져 있었으나, 이제는 <span class="font-bold text-emerald-700">그분의 성도들에게 나타났습니다.</span></p>
+                                </div>
+                                <div class="bible-box">
+                                    <p class="text-sm font-bold text-emerald-900 mb-1">골로새서 1:27</p>
+                                    <p class="text-sm">이 비밀은 <span class="font-bold text-emerald-700">여러분 안에 계신 그리스도</span>인데, 곧 영광의 소망입니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Point 4 -->
+                <div class="accordion-item bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm transition-all hover:shadow-md">
+                    <button class="w-full px-8 py-6 flex items-center justify-between text-left" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-5">
+                            <span class="w-10 h-10 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center font-black">IV</span>
+                            <div>
+                                <h3 class="font-bold text-xl">일곱째 나팔: 비밀의 종결과 완성</h3>
+                                <p class="text-sm text-slate-500">부활, 변형, 그리고 왕국의 출현</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down chevron transition-transform text-slate-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-8 pb-8 pt-2 ml-14 space-y-6 text-slate-700">
+                            <div>
+                                <h4 class="font-bold text-amber-800 mb-2">종결의 사건</h4>
+                                <p>일곱째 나팔이 울릴 때, <span class="highlight">성도들의 부활과 변형</span>이 일어날 것입니다. 이것은 이 비밀의 시대의 종결입니다. 그리스도께서 나타나실 것이며 온 땅은 그분을 알아볼 것입니다.</p>
+                            </div>
+                            <div class="bg-amber-50 p-6 rounded-2xl">
+                                <h4 class="font-bold text-amber-800 mb-2">왕국의 출현</h4>
+                                <p>봉인들을 떼실 때 그리스도는 잠잠하시지만, 나팔이 울릴 때 그분은 더 이상 잠잠히 계시지 않습니다. 왕국이 출현할 것이고, 새 예루살렘이 있는 새 하늘과 새 땅이 뒤따를 것입니다.</p>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="bible-box">
+                                    <p class="text-sm font-bold text-amber-900 mb-1">고린도전서 15:51-52</p>
+                                    <p class="text-sm">보십시오, 내가 여러분에게 비밀을 말합니다... 마지막 나팔 소리에 그렇게 될 것입니다. 나팔 소리가 울리면, <span class="font-bold text-amber-700">죽은 사람들이 썩지 않을 것으로 살아나고, 우리도 변모될 것입니다.</span></p>
+                                </div>
+                                <div class="bible-box">
+                                    <p class="text-sm font-bold text-amber-900 mb-1">요한계시록 11:15</p>
+                                    <p class="text-sm">일곱째 천사가 나팔을 불자... <span class="font-bold text-amber-700">세상의 왕국이 우리 주님과 그분의 그리스도의 왕국이 되었으니</span>, 그분께서 영원무궁히 왕으로서 다스리실 것입니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Quiz -->
+    <section class="py-20 bg-blue-900 px-4">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-10 text-white">
+                <h2 class="text-3xl font-bold">비밀의 시대 이해도 퀴즈</h2>
+                <p class="text-blue-200 mt-2">정확한 이해를 돕기 위한 5가지 문항</p>
+            </div>
+
+            <div id="quiz-container" class="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl">
+                <div id="quiz-content">
+                    <!-- Questions Inject Here -->
+                </div>
+                
+                <div id="quiz-footer" class="mt-10 flex justify-between items-center border-t pt-8">
+                    <span id="question-progress" class="text-slate-400 font-bold tracking-widest text-xs uppercase">Question 1 / 5</span>
+                    <button id="next-btn" onclick="nextQuestion()" class="bg-blue-600 text-white px-8 py-3 rounded-2xl font-bold hover:bg-blue-700 transition disabled:opacity-50" disabled>다음 문제</button>
+                </div>
+            </div>
+
+            <div id="result-container" class="hidden bg-white p-12 rounded-[2rem] shadow-2xl text-center">
+                <div class="w-24 h-24 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-award text-4xl"></i>
+                </div>
+                <h3 class="text-3xl font-bold mb-2">학습 완료!</h3>
+                <div class="text-5xl font-black text-blue-600 mb-4"><span id="final-score">0</span>점</div>
+                <p id="result-feedback" class="text-slate-600 mb-10 leading-relaxed"></p>
+                <button onclick="restartQuiz()" class="bg-slate-800 text-white px-10 py-4 rounded-full font-bold hover:bg-black transition">다시 시작하기</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Prayer -->
+    <section class="py-20 bg-white px-4 border-t border-slate-100">
+        <div class="max-w-2xl mx-auto">
+            <div class="text-center mb-12">
+                <i class="fas fa-pray text-4xl text-blue-500 mb-6"></i>
+                <h2 class="text-3xl font-bold">마치는 기도</h2>
+            </div>
+            <div class="bg-slate-50 p-10 rounded-[2.5rem] border border-slate-200 italic text-slate-700 space-y-6 leading-loose text-lg">
+                <p>"오 주 예수님, 오늘 우리가 살고 있는 이 은혜의 시대가 비밀의 시대임을 보게하소서."</p>
+                <p>"육체로 나타나신 <span class="highlight">하나님 전체이신 그리스도</span>께서 우리 안에 비밀스럽게 거하고 계심을 인하여 감사드립니다. 우리의 매일의 삶이 이 비밀을 나타내는 삶이 되게 하소서."</p>
+                <p>"우리의 눈을 열어주셔서 장차 일곱째 나팔이 울릴 때 이루어질 그 비밀의 영광을 보게 하시고, 세상은 알 수도 이해할 수도 없는 <span class="highlight">내주하시는 그리스도</span>로 말미암아 오늘을 살아가게 하소서."</p>
+                <p>"속히 하나님의 비밀이 완성되어 왕국이 출현하여 주님이 영원토록 왕으로서 다스리는 그날을 사모합니다. <span class="font-bold text-blue-800">아멘.</span>"</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function peelLayer(id) {
+            document.getElementById(id).classList.add('peeled');
+        }
+
+        function toggleAccordion(button) {
+            const item = button.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
+        }
+
+        const quizData = [
+            {
+                question: "지문에 따르면, 다음 중 '비밀이 전혀 없었던' 시대는 언제인가요?",
+                options: ["그리스도부터 천년왕국까지", "교회 시대", "아담부터 그리스도 전까지", "은혜의 시대"],
+                correct: 2
+            },
+            {
+                question: "육체 되신 그리스도에 대한 설명으로 옳은 것은 무엇인가요?",
+                options: ["하나님의 아들만이 육체가 되셨다", "나사렛 예수는 비밀이 아니었다", "하나님 전체(아버지, 아들, 영)가 육체로 나타나셨다", "육체 되심은 비밀의 시대의 끝이다"],
+                correct: 2
+            },
+            {
+                question: "믿지 않는 이들이 우리를 이해할 수 없는 '비밀스러운 생활'의 예로 언급된 것은?",
+                options: ["금식하며 기도하는 것", "음식점 잔돈을 되돌려주는 정직함", "매일 성경을 읽는 것", "찬송가를 크게 부르는 것"],
+                correct: 1
+            },
+            {
+                question: "하나님의 비밀이 '이루어지는(완성되는)' 시점은 언제인가요?",
+                options: ["첫째 나팔이 울릴 때", "여섯째 나팔이 울릴 때", "일곱째 나팔이 울릴 때", "일곱 봉인이 떼어질 때"],
+                correct: 2
+            },
+            {
+                question: "비밀의 시대가 종결될 때 일어나는 핵심 사건은 무엇인가요?",
+                options: ["모세의 율법이 다시 강조됨", "성도들의 부활과 변형", "세상이 잠잠해짐", "아담의 시대로 돌아감"],
+                correct: 1
+            }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+        let selected = null;
+
+        function loadQuestion() {
+            const q = quizData[currentIdx];
+            selected = null;
+            document.getElementById('next-btn').disabled = true;
+            document.getElementById('question-progress').innerText = `Question ${currentIdx + 1} / ${quizData.length}`;
+            
+            let html = `<h4 class="text-xl font-bold mb-8 leading-snug"><span class="inline-flex items-center justify-center w-8 h-8 bg-blue-600 text-white rounded-full text-sm mr-3">Q${currentIdx+1}</span>${q.question}</h4>
+                        <div class="grid grid-cols-1 gap-3">`;
+            
+            q.options.forEach((opt, i) => {
+                html += `
+                    <div onclick="selectOpt(${i})" class="quiz-option p-5 rounded-2xl flex items-center group">
+                        <span class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 font-bold mr-4 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">${i+1}</span>
+                        <span class="font-medium text-slate-700 group-hover:text-blue-800 transition-colors">${opt}</span>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+            document.getElementById('quiz-content').innerHTML = html;
+        }
+
+        function selectOpt(i) {
+            selected = i;
+            document.querySelectorAll('.quiz-option').forEach((el, idx) => {
+                if(idx === i) el.classList.add('selected');
+                else el.classList.remove('selected');
+            });
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if(selected === quizData[currentIdx].correct) score += 20;
+            
+            if(currentIdx < quizData.length - 1) {
+                currentIdx++;
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('result-container').classList.remove('hidden');
+            document.getElementById('final-score').innerText = score;
+            
+            let fb = "";
+            if(score === 100) fb = "축하합니다! 하나님의 비밀에 대해 완벽하게 이해하셨습니다. 이제 이 비밀을 누리는 삶을 사시기 바랍니다.";
+            else if(score >= 60) fb = "훌륭합니다. 지문의 핵심 내용을 잘 파악하셨습니다. 조금 더 세부적인 부분을 묵상해 보세요.";
+            else fb = "지문을 다시 한번 천천히 읽어보시면 하나님의 위대한 경륜을 더 깊이 발견하실 수 있을 거예요.";
+            document.getElementById('result-feedback').innerText = fb;
+        }
+
+        function restartQuiz() {
+            currentIdx = 0; score = 0;
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('result-container').classList.add('hidden');
+            loadQuestion();
+        }
+
+        window.onload = loadQuestion;
+    </script>
+</body>
+</html>
