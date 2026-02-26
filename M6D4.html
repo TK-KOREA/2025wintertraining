@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>요한계시록 10장 - 합법적인 유업을 요구하시는 그리스도</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --divine-blue: #002D5E;
+            --glory-gold: #D4AF37;
+            --judgment-red: #991B1B;
+            --scroll-beige: #FDFCF0;
+            --text-main: #1A1A1A;
+            --bg-gray: #F3F4F6;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-gray);
+            color: var(--text-main);
+            margin: 0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 1. 레이어 벗기기 (Intro Layer) */
+        #intro-layer {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, var(--divine-blue) 0%, #001A35 100%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
+        #intro-layer.peeled {
+            transform: translateY(-100%);
+        }
+
+        .intro-title {
+            color: white;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s forwards 0.5s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 2. 요약 대시보드 (Dashboard) */
+        .summary-dashboard {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            border-top: 8px solid var(--divine-blue);
+        }
+
+        .dashboard-card {
+            background: #F8FAFC;
+            border-radius: 16px;
+            border: 1px solid #E2E8F0;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--glory-gold);
+            background: white;
+        }
+
+        /* 3. 아코디언 (Accordion) */
+        .accordion-item {
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item.active {
+            border-color: var(--glory-gold);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.15);
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 3000px;
+        }
+
+        .chevron {
+            transition: transform 0.3s;
+        }
+
+        .accordion-item.active .chevron {
+            transform: rotate(180deg);
+        }
+
+        /* 4. 성경 구절 & 하이라이트 */
+        .bible-card {
+            background: var(--scroll-beige);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 16px 0;
+            border-left: 5px solid var(--glory-gold);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #374151;
+        }
+
+        .bible-card strong {
+            color: var(--judgment-red);
+            font-weight: 700;
+        }
+
+        .highlight-blue {
+            color: var(--divine-blue);
+            font-weight: 700;
+        }
+
+        /* 5. 퀴즈 섹션 개선 */
+        .quiz-outer-container {
+            background: #1E293B;
+            border-radius: 32px;
+            padding: 3rem 2rem;
+            color: white;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .quiz-option {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin-bottom: 1.25rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--glory-gold);
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .quiz-option.selected {
+            background: var(--glory-gold);
+            color: var(--divine-blue);
+            border-color: var(--glory-gold);
+            font-weight: 800;
+        }
+
+        .quiz-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.25rem;
+            font-weight: 900;
+            color: var(--glory-gold);
+            flex-shrink: 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            font-size: 1.1rem;
+        }
+
+        .quiz-option.selected .quiz-badge {
+            background: var(--divine-blue);
+            color: var(--glory-gold);
+        }
+
+        /* 흐름 연결선 */
+        .flow-connector {
+            width: 2px;
+            height: 40px;
+            background: #E5E7EB;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem !important; }
+            .quiz-outer-container { padding: 2rem 1.25rem; }
+            .quiz-option { padding: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 인트로 레이어 (벗기기 효과) -->
+    <div id="intro-layer">
+        <div class="intro-title px-6">
+            <div class="flex justify-center mb-6">
+                <i data-lucide="scroll" class="text-white w-16 h-16"></i>
+            </div>
+            <p class="text-glory-gold text-lg tracking-[0.2em] mb-4 font-light">요한계시록 10장</p>
+            <h1 class="text-5xl font-black leading-tight mb-8 text-white">왕의 귀환<br>합법적인 유업을 요구하러 오시는 왕</h1>
+            <button onclick="peelLayer()" class="px-10 py-4 border-2 border-glory-gold text-glory-gold font-bold hover:bg-glory-gold hover:text-blue-900 transition-all duration-300 rounded-full">
+                이상 안으로 들어가기
+            </button>
+        </div>
+    </div>
+
+    <!-- 메인 컨테이너 -->
+    <div class="max-w-4xl mx-auto px-5 py-12 md:py-20">
+        
+        <header class="text-center mb-16">
+            <h2 class="text-3xl font-black text-gray-900 mb-2">요한계시록 10장</h2>
+            <p class="text-gray-500">합법적인 유업을 요구하시는 그리스도</p>
+        </header>
+
+        <!-- 2. 재구성된 요약 대시보드 (지문 요약) -->
+        <div class="summary-dashboard p-8 md:p-10 mb-16">
+            <div class="flex items-center gap-3 mb-10 border-b border-gray-100 pb-5">
+                <div class="bg-blue-900 p-2 rounded-lg"><i data-lucide="activity" class="text-white w-5 h-5"></i></div>
+                <h3 class="text-2xl font-black text-blue-900">요약 대시보드</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 현현 -->
+                <div class="dashboard-card p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-orange-100 p-2 rounded-lg"><i data-lucide="sun" class="text-orange-600"></i></div>
+                        <span class="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded">현현 (MANIFESTATION)</span>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">해와 같은 얼굴, 불 기둥 같은 발</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        샛별(은밀한 임재)이 아닌 <span class="font-bold">의의 해(공개적 오심)</span>로서 땅을 심판하러 오심. 하나님의 거룩함(불)과 견고함(기둥)으로 타협 없는 심판 집행.
+                    </p>
+                </div>
+
+                <!-- 자격 -->
+                <div class="dashboard-card p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-purple-100 p-2 rounded-lg"><i data-lucide="scroll-text" class="text-purple-600"></i></div>
+                        <span class="text-[10px] font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded">자격 (QUALIFICATION)</span>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">펴진 작은 두루마리</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        봉인이 모두 떼어진 상태. <span class="font-bold">비밀의 시대는 종료</span>되었고 이제는 실질적인 심판과 집행의 시간임. 오직 그리스도만이 펴기에 합당하심.
+                    </p>
+                </div>
+
+                <!-- 점유 -->
+                <div class="dashboard-card p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-blue-100 p-2 rounded-lg"><i data-lucide="map" class="text-blue-600"></i></div>
+                        <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">점유 (OCCUPATION)</span>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">오른발은 바다, 왼발은 땅</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        <span class="font-bold">밟는 곳은 곧 소유하는 곳.</span> 오른발로 귀신들의 거처인 바다를 먼저 제압하고, 왼발로 사람들이 거주하는 땅을 디디어 합법적 유업을 요구하심.
+                    </p>
+                </div>
+
+                <!-- 선포 -->
+                <div class="dashboard-card p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-red-100 p-2 rounded-lg"><i data-lucide="megaphone" class="text-red-600"></i></div>
+                        <span class="text-[10px] font-bold text-red-600 bg-red-50 px-2 py-1 rounded">선포 (PROCLAMATION)</span>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">사자의 포효와 일곱 천둥</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        어린양의 인내가 아닌 <span class="font-bold">사자의 권위와 진노.</span> "더 이상 지체하지 않을 것이다"라는 선포와 함께 기도의 완전한 응답이 임박함.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 상세 핵심 요점 아코디언 (지문 텍스트 그대로 활용) -->
+        <div id="accordion-group">
+            
+            <!-- Section E -->
+            <div class="accordion-item" id="item-e">
+                <button class="accordion-header" onclick="toggleAccordion('item-e')">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-orange-50 rounded-xl"><i data-lucide="sparkles" class="text-orange-500"></i></div>
+                        <div>
+                            <span class="text-[10px] font-bold text-orange-600 uppercase tracking-widest">Section E</span>
+                            <h4 class="text-lg font-bold text-gray-800">심판을 수행하기 위한 영광의 모습</h4>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron text-gray-400"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="px-8 pb-8">
+                        <div class="bible-card">
+                            [계 10:1] 또 내가 보니, 다른 힘센 천사께서 하늘에서 내려오시는데, 구름을 입고 계시며, 머리에는 무지개가 있으시고, <strong>얼굴은 해와 같으시며</strong>, <strong>발은 불 기둥과 같으셨습니다</strong>.<br>
+                            [출 19:18] 시나이산 전체가 연기로 자욱하였는데, 이것은 여호와께서 <strong>불 속에서</strong> 그 위로 내려오셨기 때문이다.<br>
+                            [히 12:29] 왜냐하면 우리 하나님은 <strong>태워 버리는 불</strong>이시기 때문입니다.
+                        </div>
+                        <div class="space-y-6 text-sm leading-relaxed text-gray-700">
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div>
+                                    <h5 class="font-bold mb-3 text-blue-900 flex items-center gap-2"><i data-lucide="search" class="w-4"></i> 핵심 요점의 의미</h5>
+                                    <p>그리스도의 얼굴은 영광스러우며, 해와 같이 빛나는 이 모습은 <span class="highlight-blue">왕국을 가져오도록 심판을 수행하기 위한 것</span>입니다. '불'은 하나님의 거룩함을, '기둥'은 견고함을 의미하며, 그리스도는 이 거룩함에 따라 땅에 대한 심판을 확고하게 집행하실 것입니다.</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold mb-3 text-blue-900 flex items-center gap-2"><i data-lucide="layers" class="w-4"></i> 구체적 사례: 샛별 vs 해</h5>
+                                    <p>그리스도께서 공개적으로 오실 무렵, 그분은 <span class="highlight-blue">샛별과 같지 않으시고 해와 같으실 것</span>입니다. 샛별은 동트기 전 가장 어두운 때에 그분을 사랑하며 기다리는 이들에게만 나타나는 숨겨진 임재이지만, '해'는 모든 사람이 볼 수 있는 영광과 심판을 상징합니다.</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                                <h5 class="font-bold mb-2 text-blue-900 flex items-center gap-2"><i data-lucide="navigation" class="w-4"></i> 실행 및 적용</h5>
+                                <p>우리가 그 얼굴을 바라볼 때 생명 안에서 자라고 변화될 수 있습니다. 그분의 얼굴빛은 그분과 부합되지 않는 <span class="highlight-blue">우리 속의 모든 것을 폭로하고 심판</span>할 것입니다. 그분의 밝고 온전한 행함을 상징하는 발은 심판을 확고하게 수행할 자격을 그분에게 줍니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-connector"></div>
+
+            <!-- Section F -->
+            <div class="accordion-item" id="item-f">
+                <button class="accordion-header" onclick="toggleAccordion('item-f')">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-blue-50 rounded-xl"><i data-lucide="map-pin" class="text-blue-500"></i></div>
+                        <div>
+                            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Section F</span>
+                            <h4 class="text-lg font-bold text-gray-800">바다와 땅의 소유권 회복</h4>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron text-gray-400"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="px-8 pb-8">
+                        <div class="bible-card">
+                            [계 10:2] 그분은 펴진 작은 두루마리를 손에 들고 계셨으며, <strong>오른발로는 바다를 디디시고</strong>, <strong>왼발로는 땅을 디디시고서</strong>,<br>
+                            [신 11:24] 여러분이 <strong>발로 밟는 곳은 모두 여러분의 차지</strong>가 될 것입니다.<br>
+                            [수 1:3] 내가 모세에게 약속한 대로, 너희가 <strong>발바닥으로 밟는 곳</strong>은 다 내가 너희에게 주었다.
+                        </div>
+                        <div class="space-y-6 text-sm leading-relaxed text-gray-700">
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div>
+                                    <h5 class="font-bold mb-3 text-blue-900 flex items-center gap-2"><i data-lucide="check-circle" class="w-4"></i> 핵심 요점의 의미</h5>
+                                    <p>그리스도께서 바다와 땅을 디디시는 것은 그것들을 <span class="highlight-blue">밟으시는 것</span>이고, 그것들을 밟으시는 것은 그것들을 <span class="highlight-blue">소유하시는 것</span>입니다. 이는 그리스도께서 땅을 소유하시기 위해 내려오고 계신다는 것을 가리키며, 오직 그분만이 하나님의 경륜의 두루마리를 펼 자격과 땅을 소유할 자격을 가지셨음을 보여줍니다.</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold mb-3 text-blue-900 flex items-center gap-2"><i data-lucide="compass" class="w-4"></i> 구체적 사례: 여호수아의 원칙</h5>
+                                    <p>여호수아기에서 하나님은 백성들이 <span class="highlight-blue">발바닥으로 밟는 곳은 다 그들의 소유</span>가 될 것이라고 말씀하셨습니다. 주님은 먼저 그분의 오른발을 바다(귀신들의 거처)에 디디시어 모든 귀신을 처리하시고, 그다음에 그분의 왼발을 땅(사람들의 거주지)에 디디십니다.</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                                <h5 class="font-bold mb-2 text-blue-900 flex items-center gap-2"><i data-lucide="shield-check" class="w-4"></i> 실행 및 적용</h5>
+                                <p>비록 원수가 땅과 바다를 강탈했고 주님께서 이를 여러 세기 동안 참아오셨지만, 이제 강탈된 상황을 더 이상 참지 않으시고 <span class="highlight-blue">자신의 합법적인 유업을 요구</span>하러 오십니다. 우리는 창조주이자 구속주로서 잃어버린 유업을 되찾으시는 사자-어린양-돌이신 그분을 찬양하고 사랑하고 기다려야 합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-connector"></div>
+
+            <!-- Section G -->
+            <div class="accordion-item" id="item-g">
+                <button class="accordion-header" onclick="toggleAccordion('item-g')">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-red-50 rounded-xl"><i data-lucide="zap" class="text-red-500"></i></div>
+                        <div>
+                            <span class="text-[10px] font-bold text-red-600 uppercase tracking-widest">Section G</span>
+                            <h4 class="text-lg font-bold text-gray-800">왕의 진노와 사자의 울부짖음</h4>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-down" class="chevron text-gray-400"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="px-8 pb-8">
+                        <div class="bible-card">
+                            [계 10:3] <strong>사자가 울부짖는 것처럼</strong> 큰 소리로 외치셨습니다. 그분께서 외치시니 일곱 천둥이 제 소리를 내었습니다.<br>
+                            [잠 19:12] 왕의 진노는 <strong>사자의 으르렁거림</strong> 같으나 그의 은총은 풀 위에 내린 이슬 같다.
+                        </div>
+                        <div class="space-y-6 text-sm leading-relaxed text-gray-700">
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div>
+                                    <h5 class="font-bold mb-3 text-blue-900 flex items-center gap-2"><i data-lucide="volume-2" class="w-4"></i> 핵심 요점의 의미</h5>
+                                    <p>사자의 울부짖음은 그 <span class="highlight-blue">힘과 권위를 선언</span>하는 것이며, 왕의 진노와 같습니다. 이는 땅의 왕이신 그리스도께서 진노하시는 것을 가리킵니다. 복음서들에서 그리스도는 양처럼 말씀하셨지만, 계시록에서 그분은 더 이상 참지 않으시고 사자처럼 울부짖으시며 땅을 소유하러 오십니다.</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold mb-3 text-blue-900 flex items-center gap-2"><i data-lucide="shield-alert" class="w-4"></i> 구체적 사례: 일곱 천둥과 지체 없음</h5>
+                                    <p>그리스도께서 큰 소리로 외치실 때 '일곱 천둥'이 소리를 내었으며, 이는 <span class="highlight-blue">하나님의 모든 진노의 최종적인 표현</span>입니다. "더 이상 지체하지 않을 것이다"라는 선언은 하나님께서 인내하시는 시간이 끝났음을 의미하며 순교한 성도들의 기도에 대한 완전한 응답입니다.</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
+                                <h5 class="font-bold mb-2 text-blue-900 flex items-center gap-2"><i data-lucide="history" class="w-4"></i> 실행 및 적용</h5>
+                                <p>우리는 반드시 이렇게 기도해야 합니다: "주님, 우리가 시련의 때를 겪지 않게 해 주십시오. <span class="highlight-blue">우리가 성숙하고 완전히 익어 휴거되고 보존되게 해 주십시오.</span>" 만일 우리가 대환난 전에 성숙하지 못한다면 고난을 통과해야 할 것이지만, 주님의 회복 안에 있는 우리가 일찍 성숙하여 시온산에서 그분과 함께 서는 것이 우리의 열망이 되어야 합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 심화 지식 점검 퀴즈 (재구성 및 가시성 개선) -->
+        <section class="mt-24">
+            <div class="quiz-outer-container relative overflow-hidden">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-black text-glory-gold mb-2">진리 확인 퀴즈</h3>
+                    <p class="text-gray-300">오늘 학습한 지문의 핵심 내용들을 복습해 보세요. (총 10문제)</p>
+                </div>
+
+                <div id="quiz-container">
+                    <!-- JS Injected -->
+                </div>
+
+                <div id="quiz-result" class="hidden text-center">
+                    <div class="text-7xl font-black text-glory-gold mb-6" id="score-display">0 / 10</div>
+                    <p class="text-2xl text-white font-bold mb-8 whitespace-pre-line" id="result-feedback"></p>
+                    <button onclick="resetQuiz()" class="px-12 py-4 bg-glory-gold text-blue-900 font-black rounded-2xl hover:bg-white transition-all transform hover:scale-105">
+                        다시 도전하기
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. 기도문 섹션 -->
+        <section class="mt-24 text-center pb-20 px-6">
+            <div class="inline-block p-4 bg-red-50 rounded-full mb-6 text-red-600">
+                <i data-lucide="heart" class="fill-current"></i>
+            </div>
+            <h3 class="text-3xl font-black mb-8 text-gray-900">성숙과 휴거를 갈망하는 자의 기도</h3>
+            <div class="max-w-2xl mx-auto bg-white p-10 rounded-3xl border border-gray-100 shadow-sm text-left italic">
+                <p class="text-lg leading-loose text-gray-700">
+                    "주님, 우리가 시련의 때를 겪지 않게 해 주십시오. <br>
+                    우리가 성숙하고 완전히 익어 휴거되고 보존되게 해 주십시오. <br><br>
+                    주 예수님, 우리가 대환난의 시련이 오기 전에 일찍 성숙하기를 사모합니다. <br>
+                    사자가 울부짖으며 땅을 소유하러 오시는 그날에 <br>
+                    우리가 시온산에서 당신과 함께 있게 하여 주십시오. <br>
+                    아멘."
+                </p>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-400 text-sm border-t pt-10">
+            © 2024 Revelation Life-Study Dashboard
+        </footer>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function peelLayer() {
+            const layer = document.getElementById('intro-layer');
+            layer.classList.add('peeled');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => { layer.style.display = 'none'; }, 1200);
+        }
+
+        function toggleAccordion(id) {
+            const item = document.getElementById(id);
+            const isActive = item.classList.contains('active');
+            document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
+        }
+
+        const quizData = [
+            {
+                q: "요한계시록 10장 1절에 등장하는 '다른 힘센 천사'는 구체적으로 누구를 가리킵니까?",
+                a: ["미가엘 천사장", "사도 요한", "그리스도 (주 예수님)", "가브리엘 천사"],
+                correct: 2
+            },
+            {
+                q: "그리스도의 얼굴이 '샛별'이 아닌 '해'와 같다고 묘사된 것의 영적 의미는 무엇입니까?",
+                a: ["주님의 은밀하고 조용한 임재", "모든 사람이 볼 수 있는 공개적인 오심", "성도들의 마음속에만 비치는 빛", "과거 초림 때의 겸손한 모습"],
+                correct: 1
+            },
+            {
+                q: "그리스도의 발이 '불 기둥'과 같다는 표현에서 '기둥'이 상징하는 것은 무엇입니까?",
+                a: ["신속한 이동", "견고함과 확고함", "아름다운 장식", "과거로의 회귀"],
+                correct: 1
+            },
+            {
+                q: "그리스도께서 '오른발'로 '바다'를 디디신 행위가 갖는 특별한 의미는 무엇입니까?",
+                a: ["사람들의 거주지를 축복함", "귀신들의 거처를 먼저 제압하고 소유함", "세상의 무역을 장악함", "물 위를 걷는 기적을 재현함"],
+                correct: 1
+            },
+            {
+                q: "요한계시록 5장의 두루마리와 달리 10장의 두루마리가 '펴져' 있는 이유는 무엇입니까?",
+                a: ["내용이 너무 많아져서", "아직 아무도 보지 못했기 때문에", "비밀의 시대가 끝나고 심판이 집행될 시간이기 때문에", "요한이 내용을 수정했기 때문에"],
+                correct: 2
+            },
+            {
+                q: "그리스도께서 '사자가 울부짖는 것처럼' 외치신 것은 무엇과 대조를 이룹니까?",
+                a: ["복음서에서의 어린양의 목소리", "창세기의 창조의 음성", "천사들의 찬양 소리", "성도들의 기도 소리"],
+                correct: 0
+            },
+            {
+                q: "그리스도께서 맹세하며 선포하신 '더 이상 지체하지 않을 것이다'라는 말씀의 대상은 누구입니까?",
+                a: ["세상의 왕들", "순교한 성도들의 기도에 대한 응답", "아직 회개하지 않은 유대인들", "게으른 다섯 처녀들"],
+                correct: 1
+            },
+            {
+                q: "지문에서 언급된 '소유의 원칙'에 따르면, 그리스도께서 땅과 바다를 차지하시는 구체적인 근거는 무엇입니까?",
+                a: ["강력한 군사력으로 점령함", "발바닥으로 밟는 곳을 차지하게 하신다는 약속", "사람들의 투표로 선택받음", "원수와 협상하여 돌려받음"],
+                correct: 1
+            },
+            {
+                q: "주님의 오심을 기다리는 우리에게 가장 필요한 준비로 강조된 것은 무엇입니까?",
+                a: ["성경 지식의 축적", "교회 건물의 증축", "생명의 성숙과 완전히 익음", "세상 문화와의 타협"],
+                correct: 2
+            },
+            {
+                q: "지문에 따르면, 만약 우리가 대환난 전에 성숙하지 못한다면 어떤 일이 일어납니까?",
+                a: ["영원히 구원을 잃어버림", "고난과 대환난을 통과하며 나중에 성숙하게 됨", "아무런 변화 없이 천국에 감", "즉시 불신자와 똑같은 심판을 받음"],
+                correct: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            const data = quizData[currentQuestion];
+            container.innerHTML = `
+                <div class="fade-in">
+                    <div class="mb-10 flex items-center justify-between">
+                        <span class="px-5 py-1.5 bg-glory-gold text-blue-900 text-xs rounded-full font-black uppercase tracking-wider">Question ${currentQuestion + 1} / 10</span>
+                        <div class="h-2 flex-1 bg-white/10 mx-6 rounded-full overflow-hidden">
+                            <div class="h-full bg-glory-gold transition-all duration-500 shadow-[0_0_10px_rgba(212,175,55,0.5)]" style="width: ${(currentQuestion + 1) / quizData.length * 100}%"></div>
+                        </div>
+                    </div>
+                    <h4 class="text-2xl md:text-3xl font-black text-white mb-12 leading-snug">${data.q}</h4>
+                    <div class="grid gap-4">
+                        ${data.a.map((option, idx) => `
+                            <button class="quiz-option group" onclick="selectAnswer(${idx})">
+                                <span class="quiz-badge">${idx + 1}</span>
+                                <span class="text-lg font-medium">${option}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectAnswer(idx) {
+            const options = document.querySelectorAll('.quiz-option');
+            options[idx].classList.add('selected');
+
+            setTimeout(() => {
+                if (idx === quizData[currentQuestion].correct) score++;
+                
+                if (currentQuestion < quizData.length - 1) {
+                    currentQuestion++;
+                    renderQuiz();
+                } else {
+                    showResult();
+                }
+            }, 300);
+        }
+
+        function showResult() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.classList.remove('hidden');
+            document.getElementById('score-display').innerText = `${score} / 10`;
+            
+            let feedback = "";
+            if(score === 10) feedback = "완벽한 이해입니다! \n왕의 귀환을 준비하는 성숙한 이기는 자가 되십시오.";
+            else if(score >= 7) feedback = "훌륭합니다. \n대부분의 핵심 내용을 정확히 파악하셨습니다.";
+            else feedback = "지문의 내용을 다시 한번 찬찬히 묵상해 보세요. \n깊은 영적 이상이 열릴 것입니다.";
+            
+            document.getElementById('result-feedback').innerText = feedback;
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+            renderQuiz();
+        }
+
+        window.onload = () => {
+            renderQuiz();
+            document.body.style.overflow = 'hidden';
+        };
+    </script>
+</body>
+</html>
