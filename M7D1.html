@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>교회들에게 말씀하시는 그 영</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Nanum+Myeongjo:wght@700;800&display=swap');
+
+        :root {
+            --primary: #0f172a;
+            --accent: #f59e0b;
+            --bg-light: #f8fafc;
+            --step-bg: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-light);
+            color: #1e293b;
+            scroll-behavior: smooth;
+            /* 폰트 사이즈 상향 조정: 기본 17px */
+            font-size: 17px; 
+            line-height: 1.8;
+        }
+
+        /* 1. 도입부 레이어 벗기기 */
+        #intro-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1);
+            cursor: pointer;
+        }
+        #intro-layer.peeled { transform: translateY(-100%); }
+
+        /* 2. 대시보드 커스텀 */
+        .dash-step {
+            position: relative;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease;
+        }
+        .dash-step:hover { transform: translateY(-5px); }
+
+        /* 3. 애니메이션 아코디언 */
+        .accordion-item {
+            background: white;
+            border-radius: 1rem;
+            margin-bottom: 1.25rem;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .accordion-item.active {
+            border-color: var(--accent);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.1);
+        }
+        .accordion-content {
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .accordion-item.active .accordion-content {
+            max-height: 4000px;
+            opacity: 1;
+            padding: 2rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        /* 4. 성경 구절 스타일 */
+        .bible-card {
+            background: #fffdf0;
+            border-left: 5px solid var(--accent);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1.05rem;
+        }
+        .bible-card p { margin-bottom: 0.75rem; }
+        .bible-card p:last-child { margin-bottom: 0; }
+        .hl { font-weight: 700; color: #b45309; border-bottom: 2px solid #fde68a; }
+
+        /* 5. 퀴즈 UI 개선 */
+        .q-badge {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .quiz-opt {
+            display: flex;
+            align-items: center;
+            padding: 1.25rem 1.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            background: white;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+        .quiz-opt:hover { background: #f1f5f9; border-color: #94a3b8; }
+        .quiz-opt.selected { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .tag {
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: inline-block;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body class="overflow-hidden">
+
+    <!-- 도입부 -->
+    <div id="intro-layer" onclick="this.classList.add('peeled'); document.body.classList.remove('overflow-hidden');">
+        <div class="text-center p-8 relative z-10">
+            <i class="fa-solid fa-wind text-7xl text-amber-400 mb-8 animate-pulse"></i>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 font-serif leading-tight">교회들에게 말씀하시는 그 영</h1>
+            <p class="text-xl md:text-2xl text-slate-400 mb-12 font-light">그리스도께서 말씀하시는 영이 되심을 체험함</p>
+            <div class="px-12 py-4 bg-amber-500 text-white text-xl font-bold rounded-full shadow-2xl hover:scale-110 transition cursor-pointer">
+                시작하기 <i class="fa-solid fa-chevron-right ml-3"></i>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-6 py-20">
+        <!-- 메인 헤더 -->
+        <header class="text-center mb-16">
+            <h2 class="text-amber-600 font-bold tracking-[0.3em] text-sm uppercase mb-4">그리스도의 말씀하심이 어떻게 우리의 주관적인 체험이 되는가</h2>
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-800 font-serif mb-8 leading-tight">말씀하시는 분이신 그리스도와<br>말씀하시는 영이 하나임</h1>
+            <div class="w-24 h-1 bg-amber-500 mx-auto rounded-full"></div>
+        </header>
+
+        <!-- 핵심 요약 대시보드 (글씨 크기 최적화) -->
+        <section class="mb-24 bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100">
+            <h3 class="text-center font-bold text-slate-400 text-sm mb-10 tracking-[0.2em] uppercase flex items-center justify-center gap-4">
+                <span class="h-px w-12 bg-slate-200"></span> OVERVIEW <span class="h-px w-12 bg-slate-200"></span>
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 relative">
+                <div class="dash-step">
+                    <i class="fa-solid fa-microphone-lines text-blue-500 text-3xl mb-4"></i>
+                    <h4 class="text-sm font-bold text-slate-800 mb-2">말씀하시는 분</h4>
+                    <p class="text-xs md:text-sm text-slate-500 font-medium">그리스도가 곧<br>말씀하시는 영임</p>
+                </div>
+                <div class="dash-step">
+                    <i class="fa-solid fa-bolt-lightning text-amber-500 text-3xl mb-4"></i>
+                    <h4 class="text-sm font-bold text-slate-800 mb-2">일곱 배 강화</h4>
+                    <p class="text-xs md:text-sm text-slate-500 font-medium">타락한 시대를 위해<br>일곱 배로 강화되심</p>
+                </div>
+                <div class="dash-step">
+                    <i class="fa-solid fa-gem text-emerald-500 text-3xl mb-4"></i>
+                    <h4 class="text-sm font-bold text-slate-800 mb-2">진리의 금광</h4>
+                    <p class="text-xs md:text-sm text-slate-500 font-medium">시간을 아껴<br>말씀을 파내야 함</p>
+                </div>
+                <div class="dash-step">
+                    <i class="fa-solid fa-user-check text-purple-500 text-3xl mb-4"></i>
+                    <h4 class="text-sm font-bold text-slate-800 mb-2">진리의 조성</h4>
+                    <p class="text-xs md:text-sm text-slate-500 font-medium">자신 안에 조성된<br>것으로 말해 냄</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 상세 요점 아코디언 -->
+        <section class="space-y-6 mb-24">
+            <h3 class="text-2xl font-bold text-slate-800 mb-8 flex items-center gap-3">
+                <i class="fa-solid fa-circle-nodes text-amber-500"></i> 핵심 진리 레포트
+            </h3>
+
+            <!-- 요점 1 -->
+            <div class="accordion-item">
+                <div class="p-6 cursor-pointer flex justify-between items-center hover:bg-slate-50 transition" onclick="toggleAcc(this)">
+                    <h4 class="font-bold text-lg md:text-xl text-slate-700 leading-snug">Ⅰ. 요한계시록 2장과 3장에서 그리스도는 모든 교회들에게 말씀하시는 그 영이시다.</h4>
+                    <i class="fa-solid fa-chevron-down text-slate-300 text-xl transition-transform"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-card">
+                        <p>“... <span class="hl">오른손에 일곱 별을 붙잡고 일곱 금등잔대 가운데를 거니는 이</span>가 이렇게 말한다.” (계 2:1)</p>
+                        <p>“... <span class="hl">귀가 있는 사람은 그 영께서 교회들에게 하시는 말씀을 들어라.</span>” (계 2:7)</p>
+                    </div>
+                    <div class="space-y-8 text-slate-700 leading-relaxed text-[1.05rem]">
+                        <div>
+                            <span class="tag bg-blue-100 text-blue-700">핵심 의미</span>
+                            <p>무한하시고 생명을 해방하시고 <span class="hl">일곱 배로 강화되신 공기 같은 영이신 그리스도</span>께서 각 서신의 처음에 일곱 교회에게 하신 말씀이, 각 서신의 끝에서는 우주적으로 일곱 교회 모두에게 하신 말씀이 됩니다. 여기에서 우리는 말씀하시는 그리스도께서 말씀하시는 영이 되시는 것을 봅니다.</p>
+                        </div>
+                        <div>
+                            <span class="tag bg-slate-100 text-slate-700">구체적 사례</span>
+                            <p>그리스도는 특정 지방의 교회에게 말씀하시고, 그 영은 우주적인 몸에게 말씀하십니다. 특정 지방의 교회가 에베소에 보낸 서신을 읽을 때, 그 영은 <span class="hl">그 지방에 있는 교회의 상황을 보시고</span> 그곳에 있는 이들에게도 말씀하십니다. 하나님의 일곱 영은 온 땅에 보내어지셨습니다.</p>
+                        </div>
+                        <div>
+                            <span class="tag bg-emerald-100 text-emerald-700">실행 및 적용</span>
+                            <p>우리가 성경 구절을 읽을 때, <span class="hl">우리의 영을 그분께 연다면</span> 그 영은 즉시 그리스도께 속한 무언가를 우리 안으로 말씀해 넣으실 것입니다. 이것은 성경에 기록된 문자로만 말씀하시는 것이 아니라 우리의 영 안에서 말씀하시는 주관적인 체험이 됩니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 요점 2 -->
+            <div class="accordion-item">
+                <div class="p-6 cursor-pointer flex justify-between items-center hover:bg-slate-50 transition" onclick="toggleAcc(this)">
+                    <h4 class="font-bold text-lg md:text-xl text-slate-700 leading-snug">Ⅱ. 타락한 시대의 어둠을 이기는 일곱 배로 강화되신 영</h4>
+                    <i class="fa-solid fa-chevron-down text-slate-300 text-xl transition-transform"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-card">
+                        <p>“지금도 계시고 전에도 계셨고 장차 오실 분께서, 또 <span class="hl">그분의 보좌 앞에 계신 일곱 영</span>께서 ... 여러분에게 은혜와 평안을 주시기를 바랍니다.” (계 1:4)</p>
+                    </div>
+                    <div class="space-y-8 text-slate-700 leading-relaxed text-[1.05rem]">
+                        <div>
+                            <span class="tag bg-blue-100 text-blue-700">핵심 의미</span>
+                            <p>교회가 타락한 어둠의 때에는 그 영이 지극히 중요합니다. 주님의 눈이신 그 영은 <span class="hl">모든 교회들의 상황 전체에 관해 말씀</span>하십니다. 리 형제님이 이 진리를 가르쳤을 때 이단이라는 비난을 받았지만, 이것은 주님의 회복 안에서 보배롭게 회복된 진리입니다.</p>
+                        </div>
+                        <div>
+                            <span class="tag bg-slate-100 text-slate-700">구체적 사례</span>
+                            <p>과거 오순절파 집회에서는 그리스도가 있어도 그 영은 없을 수 있다고 가르치며 혼란을 주었습니다. 그러나 주님께서 그 영이시라는 진리는 오늘 우리에게 훨씬 더 <span class="hl">실지적이시고 유용</span>하십니다. 육체로 계신 예수님보다 그 영이신 그분을 우리는 지금 어디서나 접촉할 수 있습니다.</p>
+                        </div>
+                        <div>
+                            <span class="tag bg-emerald-100 text-emerald-700">실행 및 적용</span>
+                            <p>어두운 시대에 교회의 필요를 채우기 위해 <span class="hl">일곱 배로 강화되신 영을 누려야</span> 합니다. 이 어두운 시대에 우리에게 은혜와 평안을 주시는 일곱 영을 접촉할 때, 우리는 시대의 타락을 이길 수 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 요점 3 -->
+            <div class="accordion-item">
+                <div class="p-6 cursor-pointer flex justify-between items-center hover:bg-slate-50 transition" onclick="toggleAcc(this)">
+                    <h4 class="font-bold text-lg md:text-xl text-slate-700 leading-snug">Ⅲ. 진리로 조성되기 위해 금광을 파내는 수고</h4>
+                    <i class="fa-solid fa-chevron-down text-slate-300 text-xl transition-transform"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-card">
+                        <p>“<span class="hl">세월을 아끼십시오.</span> 때가 악합니다.” (엡 5:16)</p>
+                    </div>
+                    <div class="space-y-8 text-slate-700 leading-relaxed text-[1.05rem]">
+                        <div>
+                            <span class="tag bg-blue-100 text-blue-700">핵심 의미</span>
+                            <p>말씀은 <span class="hl">금광</span>입니다. 처음에는 그리 많은 것을 보지 못할 수 있지만, 금을 얻기 위해 우리는 파내는 일을 어느 정도 해야 합니다. 이것은 단순히 예언을 아는 지식을 넘어 <span class="hl">조성의 면에서 발전</span>하는 것을 의미합니다.</p>
+                        </div>
+                        <div>
+                            <span class="tag bg-slate-100 text-slate-700">구체적 사례</span>
+                            <p>사탄의 책략은 젊은이들이 <span class="hl">시간을 낭비하게 하는 것</span>입니다. 그러나 젊은이들이 시간을 들여 진리로 조성된다면 자신과 다른 이들에게 큰 유익이 있을 것입니다. 캠퍼스나 직장에서 자신이 누려 온 진리로 말해 내는 것이 필요합니다.</p>
+                        </div>
+                        <div>
+                            <span class="tag bg-emerald-100 text-emerald-700">실행 및 적용</span>
+                            <p>우리는 <span class="hl">시간을 다시 사 와야(Redeem)</span> 하고, 정말로 중요한 것들을 위해 우리의 시간을 아껴야 합니다. 말씀에 수고하는 길 외에 다른 길은 없습니다. 이 시대의 사역을 통해 진리 안으로 깊이 파고들 기회를 붙잡으십시오.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 퀴즈 섹션 (가독성 강화) -->
+        <section class="bg-white rounded-[3rem] p-10 md:p-16 shadow-2xl border border-slate-200 mb-24">
+            <div class="text-center mb-16">
+                <span class="inline-block px-6 py-1.5 bg-slate-900 text-white rounded-full text-xs font-bold mb-6 tracking-[0.2em]">KNOWLEDGE TEST</span>
+                <h3 class="text-3xl font-bold text-slate-800 font-serif">진리의 확신 체크</h3>
+                <p class="text-slate-500 mt-4 text-lg">메시지의 핵심을 영 안에서 확인해 보세요.</p>
+            </div>
+
+            <div id="quiz-container" class="space-y-16">
+                <!-- Q1 -->
+                <div class="quiz-block" data-ans="1">
+                    <h4 class="text-xl font-bold mb-8 flex items-start">
+                        <span class="q-badge">1</span> 요한계시록 2장과 3장의 서신 시작과 끝에서 말씀하시는 분의 관계는 어떠합니까?
+                    </h4>
+                    <div class="grid grid-cols-1 gap-4">
+                        <button class="quiz-opt" onclick="selectQuiz(this)">① 처음과 끝 모두 사도 요한이 대언하고 있다.</button>
+                        <button class="quiz-opt" onclick="selectQuiz(this)">② 처음은 주님이 말씀하시고, 마지막은 그 영이 말씀하신다.</button>
+                        <button class="quiz-opt" onclick="selectQuiz(this)">③ 처음은 천사가, 마지막은 이기는 이들이 말한다.</button>
+                    </div>
+                </div>
+                <!-- Q2 -->
+                <div class="quiz-block" data-ans="2">
+                    <h4 class="text-xl font-bold mb-8 flex items-start">
+                        <span class="q-badge">2</span> 지문에서 타락한 어둠의 때에 무엇이 '지극히 중요하다고' 강조되었습니까?
+                    </h4>
+                    <div class="grid grid-cols-1 gap-4">
+                        <button class="quiz-opt" onclick="selectQuiz(this)">① 더 많은 성경 지식의 암기</button>
+                        <button class="quiz-opt" onclick="selectQuiz(this)">② 세련된 예배 형식의 회복</button>
+                        <button class="quiz-opt" onclick="selectQuiz(this)">③ 일곱 배로 강화되신 영을 누리는 것</button>
+                    </div>
+                </div>
+                <!-- Q3 -->
+                <div class="quiz-block" data-ans="0">
+                    <h4 class="text-xl font-bold mb-8 flex items-start">
+                        <span class="q-badge">3</span> 말씀을 '금광'에 비유할 때, 우리가 진리를 얻기 위해 해야 할 일은 무엇입니까?
+                    </h4>
+                    <div class="grid grid-cols-1 gap-4">
+                        <button class="quiz-opt" onclick="selectQuiz(this)">① 시간을 다시 사서(Redeem) 파내는 수고를 하는 것</button>
+                        <button class="quiz-opt" onclick="selectQuiz(this)">② 금광의 입구에서 누군가 금을 가져다주길 기다리는 것</button>
+                        <button class="quiz-opt" onclick="selectQuiz(this)">③ 외적인 종교 지식을 쌓는 것에 만족하는 것</button>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="checkScore()" class="w-full mt-16 py-6 bg-slate-900 text-white text-xl font-bold rounded-2xl hover:bg-black transition-all shadow-xl active:scale-95">최종 결과 및 피드백 확인</button>
+            <div id="quiz-result" class="hidden mt-10 p-8 rounded-2xl text-center font-bold border-4"></div>
+        </section>
+
+        <!-- 기도문 섹션 -->
+        <section class="mt-20 py-20 px-10 bg-slate-50 rounded-[4rem] text-center border border-slate-200">
+            <h3 class="text-3xl font-bold mb-10 font-serif text-slate-800">오늘의 기도</h3>
+            <div class="max-w-3xl mx-auto space-y-8 text-slate-600 italic leading-[2] text-lg md:text-xl">
+                <p>“주 예수님, 우리에게 당신의 말씀을 듣는 귀를 허락하소서. 성경에 기록된 문자를 넘어 <span class="hl">우리 영 안에서 말씀하시는 그 영의 음성</span>을 듣기 원합니다.”</p>
+                <p>“사탄의 책략에 빠져 시간을 낭비하지 않게 하시고, 매일 세월을 아껴 <span class="hl">말씀이라는 금광</span> 안으로 깊이 들어가도록 수고합니다. 단순히 말씀에 대한 지식을 발전시키는 데 그치지 않고, 말씀과 연결된 이상 안으로 들어가는 들어가게 하소서.”</p>
+                <p>그리하여 캠퍼스에서, 직장에서, 우리가 처한 모든 곳에서 <span class="hl">우리 안에 조성된 당신을</span> 말해 내는 이기는 이들이 되게 하소서.</p>
+                <p>우리 영 안에 지울 수 없는 무언가를 새기시는 주님을 찬양합니다. 아멘.”</p>
+            </div>
+        </section>
+
+        <footer class="mt-24 text-center text-slate-400 text-xs pb-16 tracking-widest">
+            <p>© THE CONCLUSION OF THE NEW TESTAMENT - MESSAGE 43</p>
+            <p class="mt-2 font-light italic">"He who has an ear, let him hear what the Spirit says to the churches"</p>
+        </footer>
+    </main>
+
+    <script>
+        // 아코디언 제어
+        function toggleAcc(el) {
+            const item = el.parentElement;
+            const isActive = item.classList.contains('active');
+            document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
+        }
+
+        // 퀴즈 선택
+        function selectQuiz(btn) {
+            const block = btn.closest('.quiz-block');
+            block.querySelectorAll('.quiz-opt').forEach(opt => opt.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        // 결과 확인
+        function checkScore() {
+            const blocks = document.querySelectorAll('.quiz-block');
+            let score = 0;
+            let answered = 0;
+
+            blocks.forEach(block => {
+                const selected = block.querySelector('.quiz-opt.selected');
+                if (selected) {
+                    answered++;
+                    const opts = Array.from(block.querySelectorAll('.quiz-opt'));
+                    if (opts.indexOf(selected) == block.dataset.ans) score++;
+                }
+            });
+
+            if (answered < blocks.length) {
+                alert("모든 문제를 풀어주세요!");
+                return;
+            }
+
+            const resDiv = document.getElementById('quiz-result');
+            resDiv.classList.remove('hidden');
+            
+            let colorClass = score === 3 ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 
+                             score >= 2 ? 'border-amber-500 bg-amber-50 text-amber-700' : 
+                             'border-red-500 bg-red-50 text-red-700';
+            
+            resDiv.className = `mt-10 p-8 rounded-2xl text-center font-bold border-4 ${colorClass}`;
+            resDiv.innerHTML = `
+                <div class="text-2xl mb-2">테스트 결과: ${score} / 3</div>
+                <div class="text-lg font-normal">
+                    ${score === 3 ? '완벽합니다! 진리가 당신의 존재 안에 깊이 조성되고 있습니다.' : '지문을 다시 한 번 묵상하며 진리의 금광을 더 깊이 파내어 봅시다.'}
+                </div>
+            `;
+            resDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // 초기화
+        window.onload = () => {
+            window.scrollTo(0,0);
+            setTimeout(() => {
+                const first = document.querySelector('.accordion-item');
+                if (first) first.classList.add('active');
+            }, 1800);
+        };
+    </script>
+</body>
+</html>
