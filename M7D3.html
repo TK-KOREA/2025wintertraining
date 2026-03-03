@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>그 영께서 하시는 말씀: 일곱 교회</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e67e22;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+            --text-main: #333333;
+            --text-muted: #636e72;
+            --past-color: #95a5a6;
+            --future-color: #e67e22;
+            /* Church Theme Colors */
+            --c-ephesus: #3498db;
+            --c-smyrna: #e74c3c;
+            --c-pergamum: #9b59b6;
+            --c-thyatira: #f39c12;
+            --c-sardis: #7f8c8d;
+            --c-philadelphia: #27ae60;
+            --c-laodicea: #d35400;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            line-height: 1.7; 
+            font-size: 16px; 
+            overflow-x: hidden;
+        }
+
+        /* 1. Intro Peeling Layer */
+        #intro-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #1e272e, #2c3e50);
+            z-index: 2000; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: white;
+            transition: transform 1.2s cubic-bezier(0.86, 0, 0.07, 1);
+            cursor: pointer; text-align: center;
+        }
+        #intro-overlay.peeled { transform: translateY(-100%); }
+        .intro-title { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 1rem; letter-spacing: 2px; }
+        .intro-hint { font-weight: 300; opacity: 0.7; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+
+        /* 2. Dashboard Section - Re-designed for high impact */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+        .dash-item {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+        .dash-item:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
+        .dash-item h4 { 
+            font-size: 0.85rem; 
+            color: var(--accent); 
+            text-transform: uppercase; 
+            margin-bottom: 10px; 
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+        .dash-item p { 
+            font-size: 1rem; 
+            font-weight: 500; 
+            color: var(--primary); 
+            line-height: 1.6;
+        }
+
+        /* 3. Logic Flow Roadmap - Clearly Distinguished Sections */
+        .roadmap-header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        .roadmap-wrapper {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 24px;
+            margin-bottom: 60px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            border: 1px solid #f0f0f0;
+        }
+        .roadmap-sections {
+            display: flex;
+            gap: 40px;
+            position: relative;
+        }
+        .roadmap-section {
+            flex: 1;
+            position: relative;
+            padding-top: 40px;
+        }
+        .section-label {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+        .section-past .section-label { background: #f1f2f6; color: var(--text-muted); }
+        .section-future .section-label { background: #fff3e0; color: var(--accent); }
+
+        .roadmap-line-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            height: 60px;
+        }
+        .line-bg {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #eee;
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+        .node {
+            position: relative;
+            z-index: 2;
+            width: 36px;
+            height: 36px;
+            background: white;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        .node.past { border-color: var(--past-color); color: var(--past-color); }
+        .node.future { border-color: var(--future-color); color: var(--future-color); }
+        .node:hover { transform: scale(1.2); background: var(--primary); color: white; border-color: var(--primary); }
+
+        .node-label {
+            position: absolute;
+            top: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* 4. Accordion Section - Clean Minimalist Style */
+        .accordion-item {
+            background: var(--white); margin-bottom: 15px; border-radius: 12px;
+            border: 1px solid #edf2f7; overflow: hidden; transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+        .accordion-header {
+            padding: 22px 30px; cursor: pointer; display: flex; justify-content: space-between;
+            align-items: center; font-weight: 700; font-size: 1.1rem; background: #fff;
+            color: var(--primary);
+        }
+        .accordion-header:hover { background: #fafafa; }
+        .accordion-content { 
+            max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #fafafa;
+        }
+        .accordion-item.active .accordion-content { max-height: 2500px; padding: 30px; border-top: 1px solid #f1f5f9; }
+
+        /* Bible Verse Box */
+        .bible-section {
+            background: #ffffff; padding: 25px; border-radius: 12px;
+            border-left: 6px solid var(--theme-color); margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        .bible-section h5 { color: var(--theme-color); margin-bottom: 15px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        .verse-item { font-size: 1.1rem; line-height: 1.8; color: #2d3436; margin-bottom: 15px; }
+        .verse-item:last-child { margin-bottom: 0; }
+        .verse-item strong { 
+            color: #000; 
+            background: linear-gradient(120deg, rgba(255, 234, 167, 0.6) 0%, rgba(255, 234, 167, 0.6) 100%);
+            padding: 0 2px;
+        }
+
+        /* Detailed Explanation Boxes */
+        .explanation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .exp-box { padding: 20px; background: white; border-radius: 10px; border: 1px solid #eee; }
+        .exp-box h6 { font-size: 0.85rem; color: var(--accent); margin-bottom: 12px; font-weight: 700; text-transform: uppercase; }
+        .exp-box p { font-size: 0.95rem; color: #444; text-align: justify; }
+
+        /* 5. Quiz Section */
+        .quiz-section { 
+            margin-top: 80px; background: white; padding: 50px; border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+        }
+        .quiz-title { text-align: center; margin-bottom: 45px; color: var(--primary); font-size: 1.6rem; }
+        .quiz-item { margin-bottom: 45px; }
+        .q-header { display: flex; align-items: flex-start; margin-bottom: 25px; }
+        .q-badge { 
+            width: 32px; height: 32px; background: var(--primary); color: white;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-weight: 700; margin-right: 15px; flex-shrink: 0; font-size: 0.9rem;
+        }
+        .q-text { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-top: 3px; }
+        .options-container { display: grid; gap: 12px; }
+        .option-btn {
+            padding: 18px 25px; border: 2px solid #edf2f7; border-radius: 14px;
+            cursor: pointer; transition: 0.2s; font-size: 1rem; color: #4a5568;
+            text-align: left; background: #fff;
+        }
+        .option-btn:hover { border-color: var(--primary); background: #f7fafc; color: var(--primary); font-weight: 500; }
+        .option-btn.selected { background: var(--primary); border-color: var(--primary); color: white; }
+
+        #submit-quiz {
+            width: 100%; padding: 22px; background: var(--primary); color: white;
+            border: none; border-radius: 16px; font-size: 1.15rem; font-weight: 700;
+            cursor: pointer; margin-top: 25px; transition: 0.3s;
+        }
+        #submit-quiz:hover { background: #1a252f; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        #quiz-result {
+            margin-top: 35px; padding: 35px; border-radius: 18px; display: none;
+            text-align: center; font-weight: 700; font-size: 1.25rem;
+        }
+
+        /* 6. Prayer Section */
+        .prayer-section {
+            margin-top: 80px; padding: 60px 40px; background: #fffaf0;
+            border-radius: 32px; border: 1px solid #ffeaa7; text-align: center;
+            position: relative;
+        }
+        .prayer-section::before { content: ""; font-size: 2.5rem; position: absolute; top: -35px; left: 50%; transform: translateX(-50%); }
+        .prayer-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 35px; color: #795548; }
+        .prayer-text { font-size: 1.15rem; line-height: 2.2; color: #5d4037; font-style: italic; white-space: pre-line; }
+
+        /* Footer */
+        footer { text-align: center; margin-top: 90px; padding-bottom: 70px; }
+        .home-link {
+            display: inline-block; padding: 18px 50px; background: var(--primary);
+            color: white; text-decoration: none; border-radius: 60px;
+            font-weight: 700; transition: 0.3s; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .home-link:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .dashboard { grid-template-columns: 1fr; }
+            .roadmap-sections { flex-direction: column; gap: 40px; }
+            .roadmap-line-container { justify-content: space-around; }
+            .line-bg { display: none; }
+            .intro-title { font-size: 1.8rem; }
+            .explanation-grid { grid-template-columns: 1fr; }
+            .quiz-section { padding: 40px 20px; }
+            .container { padding: 30px 15px; }
+            .accordion-header { padding: 18px 20px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Intro Layer -->
+    <div id="intro-overlay" onclick="this.classList.add('peeled')">
+        <h1 class="intro-title">THE SEVEN CHURCHES</h1>
+        <p class="intro-hint">화면을 클릭하여 그 영께서 하시는 말씀을 들으십시오</p>
+    </div>
+
+    <div class="container">
+        <!-- Title & Dashboard -->
+        <header style="text-align: center; margin-bottom: 60px;">
+            <h2 style="font-size: 2.2rem; color: var(--primary); margin-bottom: 45px; letter-spacing: -1px;">일곱 교회: 교회사 예언과 회복의 길</h2>
+            
+            <!-- Dashboard Summary - Redesigned Cards -->
+            <div class="dashboard">
+                <div class="dash-item">
+                    <h4>예언적인 상징</h4>
+                    <p>장차 교회가 이 땅에서 걸어갈 길에 대한 예언적 계시</p>
+                </div>
+                <div class="dash-item">
+                    <h4>역사적인 범주</h4>
+                    <p>• 처음 세 교회: 이미 지나감<br>• 마지막 네 교회: 오늘날에도 존재</p>
+                </div>
+                <div class="dash-item">
+                    <h4>핵심 목적</h4>
+                    <p>회복된 교회의 길을 계속 가기 위해 자신을 겸손히 낮추고 영적 교만을 경계함</p>
+                </div>
+                <div class="dash-item">
+                    <h4>우리의 선택</h4>
+                    <p>1. 항상 주님의 말씀을 지킴</p>
+                    <p>2. 주님의 이름을 부인하지 않음</p>
+                    <p>3. 형제의 위치를 굳게 붙잡아 교만해지지 않음</p>
+                </div>
+            </div>
+
+            <!-- Roadmap Flow - Redesigned for distinction -->
+            <div class="roadmap-wrapper">
+                <p class="roadmap-header">일곱 교회의 순서에 관한 계시</p>
+                <div class="roadmap-sections">
+                    <!-- Past Section -->
+                    <div class="roadmap-section section-past">
+                        <span class="section-label">과거 단계 (이미 지나감)</span>
+                        <div class="roadmap-line-container">
+                            <div class="line-bg"></div>
+                            <div class="node past">1<span class="node-label">에베소</span></div>
+                            <div class="node past">2<span class="node-label">서머나</span></div>
+                            <div class="node past">3<span class="node-label">버가모</span></div>
+                        </div>
+                    </div>
+                    <!-- Future Section -->
+                    <div class="roadmap-section section-future">
+                        <span class="section-label">현재/미래 단계 (주님 오실 때까지 존재)</span>
+                        <div class="roadmap-line-container">
+                            <div class="line-bg"></div>
+                            <div class="node future">4<span class="node-label">두아디라</span></div>
+                            <div class="node future">5<span class="node-label">사데</span></div>
+                            <div class="node future">6<span class="node-label">빌라델비아</span></div>
+                            <div class="node future">7<span class="node-label">라오디게아</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Accordion - Minimal Style -->
+        <div class="accordion-container">
+
+            <!-- 1. 에베소 -->
+            <div class="accordion-item" style="--theme-color: var(--c-ephesus)">
+                <div class="accordion-header" onclick="toggleAcc(this)">
+                    <span>1. 에베소: 초대 교회</span>
+                    <span>▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-section">
+                        <h5>근거 성경구절</h5>
+                        <p class="verse-item">"그러나 너에게 책망할 것이 한 가지 있다. 그것은 네가 <strong>첫째가는 사랑을 버린 것</strong>이다." (계 2:4)</p>
+                    </div>
+                    <div class="explanation-grid">
+                        <div class="exp-box">
+                            <h6>의미와 시기</h6>
+                            <p>교회 역사에서 1세기 말엽, 즉 요한계시록이 기록된 시기의 교회를 가리킵니다. 초대 교회를 상징합니다.</p>
+                        </div>
+                        <div class="exp-box">
+                            <h6>구체적 사례</h6>
+                            <p>요한이 계시록을 쓰던 당시에 교회의 상태는 에베소에 있는 교회의 상태와 같았습니다. 많은 일과 수고는 있었으나 첫째가는 사랑을 상실한 시기입니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 서머나 -->
+            <div class="accordion-item" style="--theme-color: var(--c-smyrna)">
+                <div class="accordion-header" onclick="toggleAcc(this)">
+                    <span>2. 서머나: 고난받는 교회</span>
+                    <span>▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-section">
+                        <h5>근거 성경구절</h5>
+                        <p class="verse-item">"너는 장차 당할 고난을 두려워하지 마라. 보아라, 마귀가 너희 가운데 몇 사람을 감옥에 넣어 시험할 것이다. 그래서 너희가 십 일 동안 환난을 당할 것이다. <strong>죽기까지 신실하여라.</strong> 그러면 내가 생명의 면류관을 너에게 줄 것이다." (계 2:10)</p>
+                    </div>
+                    <div class="explanation-grid">
+                        <div class="exp-box">
+                            <h6>의미와 시기</h6>
+                            <p>요한이 세상을 떠난 후 2세기부터 4세기 초엽까지의 상황을 묘사하는 그림입니다.</p>
+                        </div>
+                        <div class="exp-box">
+                            <h6>구체적 사례</h6>
+                            <p>로마 제국 아래서 <strong>열 차례의 박해</strong>를 당한 교회의 상황입니다. 이 기간 동안 교회는 심한 박해와 순교를 겪었습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 버가모 -->
+            <div class="accordion-item" style="--theme-color: var(--c-pergamum)">
+                <div class="accordion-header" onclick="toggleAcc(this)">
+                    <span>3. 버가모: 세상적인 교회</span>
+                    <span>▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-section">
+                        <h5>근거 성경구절</h5>
+                        <p class="verse-item">"나는 네가 거하는 곳을 안다. <strong>그곳은 사탄의 권좌가 있는 곳이다.</strong> 너는 나의 이름을 굳게 붙잡고 있으며, 심지어 나의 신실한 증인 안디바가 너희 가운데서 곧 사탄이 거하는 곳에서 죽음을 당하던 때에도 나에 대한 믿음을 부인하지 않았다." (계 2:13)</p>
+                    </div>
+                    <div class="explanation-grid">
+                        <div class="exp-box">
+                            <h6>의미와 시기</h6>
+                            <p>4세기 초엽, 즉 주후 313년에 콘스탄티누스 대제가 기독교를 국교로 받아들이며 시작된 교회입니다.</p>
+                        </div>
+                        <div class="exp-box">
+                            <h6>구체적 상태</h6>
+                            <p>콘스탄티누스 대제가 교회를 로마 제국 정부의 호의 아래 두었으며, 그의 통치 아래서 <strong>교회는 세상과 결혼</strong>하게 되었습니다. 이것은 심각한 상황이었습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. 두아디라 -->
+            <div class="accordion-item" style="--theme-color: var(--c-thyatira)">
+                <div class="accordion-header" onclick="toggleAcc(this)">
+                    <span>4. 두아디라: 변절한 교회</span>
+                    <span>▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-section">
+                        <h5>근거 성경구절</h5>
+                        <p class="verse-item">"그러나 너에게 책망할 것이 있다. <strong>그것은 네가 이세벨이라는 여자를 용납한 것이다.</strong> 그 여자는 여신언자로 자처하면서 나의 노예들을 가르치고 미혹시켜 음행하게 하고 우상 앞에 바친 희생 제물을 먹게 한다." (계 2:20)</p>
+                    </div>
+                    <div class="explanation-grid">
+                        <div class="exp-box">
+                            <h6>의미와 시기</h6>
+                            <p>6세기 후반 교황 제도가 확립된 때부터 이 시대 끝까지의 변절한 교회를 묘사하며, 대부분의 성경학자들은 <strong>로마 가톨릭교회</strong>를 가리킨다는 데 동의합니다.</p>
+                        </div>
+                        <div class="exp-box">
+                            <h6>구체적 상태</h6>
+                            <p>기독교가 국교로 받아들여진 이후로 로마 황제는 정치적인 권력을 동원하여 기독교를 후원하고 지지했습니다. 그 결과 기독교는 세상과 결혼했으며 심지어 세상보다 더 높아졌습니다. 주님 오실 때까지 존재할 첫 번째 교회입니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. 사데 -->
+            <div class="accordion-item" style="--theme-color: var(--c-sardis)">
+                <div class="accordion-header" onclick="toggleAcc(this)">
+                    <span>5. 사데: 개혁된 교회</span>
+                    <span>▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-section">
+                        <h5>근거 성경구절</h5>
+                        <p class="verse-item">"내가 너의 일을 안다. 네가 <strong>살아 있다는 이름은 가지고 있으나, 사실 죽어 있다.</strong>" (계 3:1)</p>
+                    </div>
+                    <div class="explanation-grid">
+                        <div class="exp-box">
+                            <h6>의미와 시기</h6>
+                            <p>16세기 초 <strong>종교 개혁</strong> 시기부터 시작되어 그리스도께서 돌아오실 때까지 남아 있을 개혁된 교회입니다.</p>
+                        </div>
+                        <div class="exp-box">
+                            <h6>실행 및 적용</h6>
+                            <p>개혁은 이루었으나 영적인 면에서는 죽어 있는 상태임을 보여줍니다. 우리는 “주님, 저는 제가 살아 있다는 이름은 가지고 있으나 죽어 있기를 원하지 않습니다.”라고 기도해야 합니다. 우리는 참으로 살아 있어야 합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. 빌라델비아 -->
+            <div class="accordion-item" style="--theme-color: var(--c-philadelphia)">
+                <div class="accordion-header" onclick="toggleAcc(this)">
+                    <span>6. 빌라델비아: 회복된 교회</span>
+                    <span>▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-section">
+                        <h5>근거 성경구절</h5>
+                        <p class="verse-item">"네가 적은 능력을 가지고도 <strong>나의 말을 지켰고 나의 이름을 부인하지 않았기</strong> 때문이다." (계 3:8)</p>
+                        <p class="verse-item">"내가 속히 갈 것이다. <strong>네가 가진 것을 굳게 붙잡아</strong>, 아무도 너의 면류관을 빼앗지 못하도록 하여라." (계 3:11)</p>
+                    </div>
+                    <div class="explanation-grid">
+                        <div class="exp-box">
+                            <h6>의미와 시기</h6>
+                            <p>사데에서 나온 교회로, 형제회가 일으켜져서 교파들 밖에서 교회생활을 실행함으로 시작되었습니다. 칭찬만 받은 교회입니다.</p>
+                        </div>
+                        <div class="exp-box">
+                            <h6>구체적 사례</h6>
+                            <p>형제회는 아일랜드의 더블린에서 처음으로 떡을 떼었습니다. 그들은 교파 제도는 비성경적이고 <strong>주님의 이름 안에서 모이는 것</strong>이 전적으로 성경적이라는 것을 깨달았습니다.</p>
+                        </div>
+                        <div class="exp-box">
+                            <h6>실행 및 적용</h6>
+                            <p>빌라델비아의 위치에 서서 항상 주님의 말씀을 지키며 주님의 이름을 부인하지 않기를 배워야 합니다. <strong>형제의 위치를 굳게 붙잡고 결코 교만해지지 말아야</strong> 합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. 라오디게아 -->
+            <div class="accordion-item" style="--theme-color: var(--c-laodicea)">
+                <div class="accordion-header" onclick="toggleAcc(this)">
+                    <span>7. 라오디게아: 회복되었다가 타락한 교회</span>
+                    <span>▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-section">
+                        <h5>근거 성경구절</h5>
+                        <p class="verse-item">"네가 이렇게 미지근하여 뜨겁지도 않고 차지도 않기 때문에, 나는 <strong>너를 나의 입에서 토하여 낼 것이다.</strong>" (계 3:16)</p>
+                        <p class="verse-item">"네가 ‘나는 풍부하고 풍성하게 되어 부족한 것이 전혀 없습니다.’라고 말하지만, 사실은 네가 <strong>비참하고 가련하고 가난하고 눈멀고 벌거벗은 것</strong>을 알지 못한다." (계 3:17)</p>
+                    </div>
+                    <div class="explanation-grid">
+                        <div class="exp-box">
+                            <h6>의미와 특징</h6>
+                            <p>라오디게아는 <strong>일그러진 빌라델비아</strong>입니다. 형제 사랑이 사라지면 빌라델비아는 즉시 많은 사람들의 의견으로 변해 버리는데, 이것이 라오디게아의 의미입니다.</p>
+                        </div>
+                        <div class="exp-box">
+                            <h6>구체적 상태</h6>
+                            <p>라오디게아의 특징은 <strong>미지근하고 영적으로 교만한 것</strong>입니다. 모든 것을 알면서도 실제로는 그 어떤 것에 대해서도 뜨겁지 않고, 자신의 이전 영광은 기억하지만 하나님 앞에서의 현재 상태는 잊어버린 상태입니다.</p>
+                        </div>
+                        <div class="exp-box">
+                            <h6>경고와 적용</h6>
+                            <p>일단 교만해지면 이미 라오디게아입니다! 우리가 빌라델비아의 길을 계속 가기 원한다면, 우리 자신을 하나님 앞에서 <strong>겸손히 낮추어야 한다</strong>는 것을 반드시 기억해야 합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Quiz Section -->
+        <section class="quiz-section">
+            <h3 class="quiz-title">핵심 요점 확인 퀴즈</h3>
+            <div id="quiz-container">
+                <!-- Q1 -->
+                <div class="quiz-item">
+                    <div class="q-header"><span class="q-badge">1</span><p class="q-text">주님께서 다시 오실 때까지 이 땅에 남아 있을 것으로 예언된 '마지막 네 교회'에 해당하지 않는 것은?</p></div>
+                    <div class="options-container" data-answer="0">
+                        <div class="option-btn" onclick="handleSelect(this, 0)">A. 서머나 교회</div>
+                        <div class="option-btn" onclick="handleSelect(this, 1)">B. 두아디라 교회</div>
+                        <div class="option-btn" onclick="handleSelect(this, 2)">C. 사데 교회</div>
+                        <div class="option-btn" onclick="handleSelect(this, 3)">D. 빌라델비아 교회</div>
+                    </div>
+                </div>
+                <!-- Q2 -->
+                <div class="quiz-item">
+                    <div class="q-header"><span class="q-badge">2</span><p class="q-text">콘스탄티누스 대제 시기에 시작되어 '세상과 결혼한 상태'가 된 교회를 상징하는 곳은?</p></div>
+                    <div class="options-container" data-answer="2">
+                        <div class="option-btn" onclick="handleSelect(this, 0)">A. 에베소</div>
+                        <div class="option-btn" onclick="handleSelect(this, 1)">B. 서머나</div>
+                        <div class="option-btn" onclick="handleSelect(this, 2)">C. 버가모</div>
+                        <div class="option-btn" onclick="handleSelect(this, 3)">D. 사데</div>
+                    </div>
+                </div>
+                <!-- Q3 -->
+                <div class="quiz-item">
+                    <div class="q-header"><span class="q-badge">3</span><p class="q-text">빌라델비아 교회에서 '형제 사랑'이 사라지고 사람들의 의견으로 변해버린 상태를 뜻하는 이름은?</p></div>
+                    <div class="options-container" data-answer="3">
+                        <div class="option-btn" onclick="handleSelect(this, 0)">A. 에베소</div>
+                        <div class="option-btn" onclick="handleSelect(this, 1)">B. 두아디라</div>
+                        <div class="option-btn" onclick="handleSelect(this, 2)">C. 사데</div>
+                        <div class="option-btn" onclick="handleSelect(this, 3)">D. 라오디게아</div>
+                    </div>
+                </div>
+                <!-- Q4 -->
+                <div class="quiz-item">
+                    <div class="q-header"><span class="q-badge">4</span><p class="q-text">빌라델비아 교회의 가장 큰 특징이자 우리가 배워야 할 태도는 무엇입니까?</p></div>
+                    <div class="options-container" data-answer="1">
+                        <div class="option-btn" onclick="handleSelect(this, 0)">A. 풍성한 물질적 부유함</div>
+                        <div class="option-btn" onclick="handleSelect(this, 1)">B. 주님의 말씀을 지키며 주님의 이름을 부인하지 않음</div>
+                        <div class="option-btn" onclick="handleSelect(this, 2)">C. 정치적 권력을 통한 기독교 후원</div>
+                        <div class="option-btn" onclick="handleSelect(this, 3)">D. 살아있다는 이름은 가졌으나 죽어 있는 상태</div>
+                    </div>
+                </div>
+                <!-- Q5 -->
+                <div class="quiz-item">
+                    <div class="q-header"><span class="q-badge">5</span><p class="q-text">우리가 빌라델비아의 길을 계속 가기 위해 하나님 앞에서 반드시 가져야 할 마음가짐은?</p></div>
+                    <div class="options-container" data-answer="2">
+                        <div class="option-btn" onclick="handleSelect(this, 0)">A. 이전의 영광을 자랑함</div>
+                        <div class="option-btn" onclick="handleSelect(this, 1)">B. 영적 교만과 미지근함</div>
+                        <div class="option-btn" onclick="handleSelect(this, 2)">C. 우리 자신을 하나님 앞에서 겸손히 낮춤</div>
+                        <div class="option-btn" onclick="handleSelect(this, 3)">D. 세상과 결혼하여 높아지려 함</div>
+                    </div>
+                </div>
+            </div>
+            <button id="submit-quiz" onclick="checkQuiz()">결과 확인 및 피드백 받기</button>
+            <div id="quiz-result"></div>
+        </section>
+
+        <!-- Prayer Section -->
+        <section class="prayer-section">
+            <h3 class="prayer-title">오늘날 우리가 걸어가야 할 길에 관한 니 형제님의 권면</h3>
+            <p class="prayer-text">
+                오늘날 하나님의 모든 자녀들은 교회에 관하여 자신이 걸어가야 할 길을 선택해야 합니다.
+
+                우리는 빌라델비아의 위치에 서서 항상 주님의 말씀을 지키며
+                주님의 이름을 부인하지 않기를 배워야 합니다.
+                형제의 위치를 굳게 붙잡고 결코 교만해지지 말라!
+                일단 교만해지면 여러분은 이미 라오디게아이며 더 이상 빌라델비아가 아니다!
+
+                하나님께서 그분의 자녀들을 축복하시고
+                형제들이 교회에 관하여 올곧은 길을 가기를 바란다.
+                - 웟치만 니
+            </p>
+        </section>
+
+        <footer>
+            <a href="https://tk-korea.github.io/2025wintertraining/" class="home-link" target="_blank">2025 겨울훈련 홈페이지 바로가기</a>
+            <p style="margin-top: 25px; font-size: 0.8rem; color: #aaa;">&copy; 2025 Winter Training Infographic</p>
+        </footer>
+    </div>
+
+    <script>
+        // Accordion Control
+        function toggleAcc(header) {
+            const item = header.parentElement;
+            const wasActive = item.classList.contains('active');
+            
+            // Close others for better focus (optional)
+            // document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('active'));
+            
+            if (!wasActive) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        }
+
+        // Quiz Control
+        function handleSelect(btn, index) {
+            const container = btn.parentElement;
+            container.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            container.setAttribute('data-user-select', index);
+        }
+
+        function checkQuiz() {
+            const items = document.querySelectorAll('.options-container');
+            let score = 0;
+            let answeredCount = 0;
+
+            items.forEach(item => {
+                const userVal = item.getAttribute('data-user-select');
+                const answer = item.getAttribute('data-answer');
+                if (userVal !== null) {
+                    answeredCount++;
+                    if (userVal === answer) score++;
+                }
+            });
+
+            if (answeredCount < 5) {
+                alert("아직 풀지 않은 문제가 있습니다. 모든 문제를 선택해 주세요!");
+                return;
+            }
+
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.style.display = 'block';
+            
+            let message = "";
+            if (score === 5) {
+                message = "완벽합니다! 빌라델비아의 실재를 정확히 이해하고 계시네요. 🎉";
+                resultDiv.style.backgroundColor = "#e8f5e9";
+                resultDiv.style.color = "#2e7d32";
+            } else if (score >= 3) {
+                message = "훌륭합니다! 조금 더 내용을 묵상하면 주님의 마음을 더 깊이 알 수 있습니다. 👍";
+                resultDiv.style.backgroundColor = "#fff3e0";
+                resultDiv.style.color = "#ef6c00";
+            } else {
+                message = "지문의 내용을 다시 한번 찬찬히 읽어보며 주님의 경고와 칭찬을 새겨보세요. 📖";
+                resultDiv.style.backgroundColor = "#ffebee";
+                resultDiv.style.color = "#c62828";
+            }
+
+            resultDiv.innerHTML = `최종 점수: ${score} / 5<br><span style="font-size:1rem; font-weight:normal;">${message}</span>`;
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
