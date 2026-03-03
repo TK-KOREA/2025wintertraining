@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>그 영의 말씀하심과 그리스도의 주입</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Nanum+Myeongjo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* 1. 레이어 벗기기 도입부 */
+        #intro-gate {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1);
+            cursor: pointer;
+            text-align: center;
+            padding: 20px;
+        }
+        #intro-gate.peeled { transform: translateY(-100%); }
+        .gate-content { transform: translateY(0); transition: opacity 0.5s; }
+        .gate-title { font-family: 'Nanum Myeongjo', serif; font-size: 2.5rem; margin-bottom: 1.5rem; line-height: 1.4; }
+        .gate-hint { font-size: 1rem; opacity: 0.6; letter-spacing: 0.2rem; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+
+        /* 2. 대시보드 인포그래픽 */
+        .dashboard {
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+        .flow-line {
+            height: 4px;
+            background: #e2e8f0;
+            position: relative;
+            margin: 2rem 0;
+        }
+        .flow-dot {
+            width: 16px; height: 16px;
+            background: #d4af37;
+            border-radius: 50%;
+            position: absolute;
+            top: -6px;
+        }
+
+        /* 3. 아코디언 고도화 */
+        .accordion-item {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+            border-radius: 1rem;
+            background: white;
+        }
+        .accordion-header {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 1rem;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .accordion-item.active .accordion-content {
+            max-height: 3000px; /* 대량 텍스트 수용 */
+            padding: 0 1.5rem 2rem 1.5rem;
+        }
+        .accordion-item.active {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            border-color: #d4af37;
+        }
+
+        /* 4. 성경 구절 하이라이트 */
+        .verse-section {
+            background: #fffdf5;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #d4af37;
+        }
+        .bible-hl {
+            color: #1e293b;
+            font-weight: 700;
+            background: linear-gradient(to top, rgba(212, 175, 55, 0.3) 30%, transparent 30%);
+        }
+
+        /* 5. 퀴즈 UI 개선 */
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 1.25rem;
+            margin-bottom: 0.75rem;
+            background: white;
+            border: 2px solid #f1f5f9;
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            color: #475569;
+        }
+        .quiz-option:hover {
+            border-color: #d4af37;
+            background: #fffdf5;
+            color: #1e293b;
+        }
+        .quiz-option.selected {
+            border-color: #1e293b;
+            background: #f1f5f9;
+            font-weight: 700;
+        }
+        .quiz-badge {
+            width: 32px; height: 32px;
+            background: #1e293b;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+
+        /* 6. 타이포그래피 */
+        .content-label {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: #f1f5f9;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 640px) {
+            .gate-title { font-size: 1.75rem; }
+            .accordion-header h3 { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 도입부 레이어 -->
+    <div id="intro-gate" onclick="peelLayer()">
+        <div class="gate-content">
+            <div class="gate-title">
+                그 영의 말씀하심과<br>
+                그리스도의 주입
+            </div>
+            <div>
+            우리가 그분께서 하시는 말씀에 귀를 기울인다면, 즉시 그리스도의 옮겨 부음과 주입을 받게 될 것입니다.
+            </div>
+            <br><br>
+            <div class="gate-hint">화면을 클릭하여 확인하기</div>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-5 py-12">
+        <!-- 헤더 -->
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">그 영의 말씀하심과 그리스도의 주입</h1>
+            <p class="text-slate-500 font-medium">요한계시록의 이상을 통해 본 영적 주입의 노정</p>
+        </header>
+
+        <!-- 전체 요약 대시보드 (인포그래픽) -->
+        <div class="dashboard p-8 mb-16">
+            <h2 class="text-center text-sm font-bold text-slate-400 uppercase tracking-widest mb-10">Essential Flow Infographic</h2>
+            <div class="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                <!-- Step 1 -->
+                <div class="flex-1 text-center z-10">
+                    <div class="w-16 h-16 bg-slate-900 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
+                        <span class="text-2xl">👂</span>
+                    </div>
+                    <div class="font-bold text-slate-800">1. 올바른 위치</div>
+                    <p class="text-xs text-slate-500 mt-1">교회들 안에서<br>들을 귀를 가짐</p>
+                </div>
+                <div class="hidden md:block flex-shrink-0 text-slate-300">→</div>
+                <!-- Step 2 -->
+                <div class="flex-1 text-center z-10">
+                    <div class="w-16 h-16 bg-amber-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
+                        <span class="text-2xl">⚡</span>
+                    </div>
+                    <div class="font-bold text-slate-800">2. 주입과 전달</div>
+                    <p class="text-xs text-slate-500 mt-1">그 영의 말씀하심을 얻고<br>그리스도를 주입받음</p>
+                </div>
+                <div class="hidden md:block flex-shrink-0 text-slate-300">→</div>
+                <!-- Step 3 -->
+                <div class="flex-1 text-center z-10">
+                    <div class="w-16 h-16 bg-blue-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
+                        <span class="text-2xl">🔄</span>
+                    </div>
+                    <div class="font-bold text-slate-800">3. 변화와 산출</div>
+                    <p class="text-xs text-slate-500 mt-1">천연적 재료가<br>건축 재료로 변화</p>
+                </div>
+                <div class="hidden md:block flex-shrink-0 text-slate-300">→</div>
+                <!-- Step 4 -->
+                <div class="flex-1 text-center z-10">
+                    <div class="w-16 h-16 bg-emerald-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
+                        <span class="text-2xl">🏛️</span>
+                    </div>
+                    <div class="font-bold text-slate-800">4. 하나님의 건축</div>
+                    <p class="text-xs text-slate-500 mt-1">새 예루살렘의<br>일부가 됨</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 핵심 요점 아코디언 -->
+        <div class="space-y-4 mb-20">
+            
+            <!-- 포인트 1: 개요 E 기반 -->
+            <div class="accordion-item" id="section-e">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center font-bold">E</div>
+                        <h3 class="text-lg font-bold text-slate-800">그 영의 말씀하심은 곧 그리스도의 주입</h3>
+                    </div>
+                    <span class="text-slate-400 transition-transform duration-300">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="verse-section">
+                        <p class="mb-2"><span class="font-bold text-blue-800">[고후 3:16]</span> 그러나 언제든지 그들의 마음을 주님께로 돌이키기만 하면, 그 <span class="bible-hl">너울이 벗어질 것</span>입니다.</p>
+                        <p class="mb-2"><span class="font-bold text-blue-800">[고후 3:18]</span> 그러나 우리 모두는 너울을 벗은 얼굴로 거울처럼 주님의 영광을 바라보고 반사함으로써 <span class="bible-hl">그분과 동일한 형상으로 변화되어</span> 영광에서 영광에 이릅니다. 이것은 주 영에게서 비롯됩니다.</p>
+                        <p><span class="font-bold text-blue-800">[계 4:5]</span> 그 보좌에서 번개와 음성과 천둥이 나왔습니다. 그리고 보좌 앞에는 일곱 등불이 타고 있었는데, 이 <span class="bible-hl">일곱 등불은 하나님의 일곱 영</span>입니다.</p>
+                    </div>
+                    <div class="space-y-6">
+                        <section>
+                            <span class="content-label">핵심 의미</span>
+                            <p class="text-slate-700">그 영의 말씀하심은 그리스도의 주입하심입니다. 우리가 그 영을 만질 때 그 영의 말씀하심을 얻고 그리스도를 주입받습니다. 하나님의 일곱 영께서 교회들에게 하시는 말씀에 귀를 기울일 때마다 즉시 <span class="font-bold text-slate-900">보배롭고 달콤하고 사랑스러운 옮겨 부으심, 주입하심</span>을 받게 됩니다.</p>
+                        </section>
+                        <section>
+                            <span class="content-label">구체적 사례 및 실제</span>
+                            <p class="text-slate-700">불 못으로 가야 할 것들은 모두 일곱 등불로 태워 없어지며, 이제 우리는 <span class="font-bold text-slate-900">새 예루살렘의 일부가 되기 위해</span> 일곱 눈 아래 있으면서 그리스도의 온 존재를 주입받고 있습니다. 이 주입은 우리를 바꾸고 변화시켜 하나님의 건축물로 건축되게 합니다.</p>
+                        </section>
+                        <section>
+                            <span class="content-label">실행 및 적용</span>
+                            <p class="text-slate-700">우리는 기록된 말씀과 전해진 말씀과 교통에 주의를 기울여야 합니다. 자신을 일곱 영의 말씀하심 아래 계속 두어야 하며, <span class="font-bold text-slate-900">스스로를 개선해야 한다는 생각(천연적인 개량)에 속지 마십시오.</span> 반드시 우리의 영을 사용하여 일곱 배로 강화되신 영을 접촉해야 합니다.</p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 포인트 2: 개요 F & G 기반 -->
+            <div class="accordion-item" id="section-fg">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold">F-G</div>
+                        <h3 class="text-lg font-bold text-slate-800">교회들 안에서 들을 귀가 있는 이기는 이들</h3>
+                    </div>
+                    <span class="text-slate-400 transition-transform duration-300">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="verse-section">
+                        <p><span class="font-bold text-blue-800">[계 1:10]</span> 주님의 날에 내가 영 안에 있었으며, 내 뒤에서 울리는 <span class="bible-hl">나팔 소리 같은 큰 음성</span>을 들었습니다.</p>
+                    </div>
+                    <div class="space-y-6">
+                        <section>
+                            <span class="content-label">핵심 의미</span>
+                            <p class="text-slate-700">오늘날 그 영은 교회들에게 말씀하고 계시기 때문에, 그 영의 말씀을 듣기 위하여 우리는 <span class="font-bold text-slate-900">올바른 위치인 교회들 안에</span> 있어야 합니다. 들을 수 있는 귀가 있을 때 이기는 이들이 산출되고, 그 영께서 교회들에게 말씀하실 때 들을 귀가 산출됩니다.</p>
+                        </section>
+                        <section>
+                            <span class="content-label">구체적 사례</span>
+                            <p class="text-slate-700">교회들 안의 믿는 이들이 말씀을 들을 수 있는 위치에 있어 들을 귀를 갖는 것이 어렵지 않지만, 그들 모두가 그분께서 하시는 말씀을 <span class="font-bold text-slate-900">긴밀히 따르는 것</span>은 아닙니다. 그러므로 이기는 이들을 부르는 부름이 있는 것입니다.</p>
+                        </section>
+                        <section>
+                            <span class="content-label">실행 및 적용</span>
+                            <p class="text-slate-700">이기는 것은 특출한 그리스도인이 되려고 애쓰는 문제가 아닙니다. 이기는 것은 <span class="font-bold text-slate-900">그 영께서 하시는 말씀을 듣고 그로 말미암은 옮겨 부으심을 받아들이는 문제</span>입니다. 듣는 이들은 이기는 이들이 될 것입니다.</p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 포인트 3: 보는 것과 듣는 것의 관계 -->
+            <div class="accordion-item" id="section-hearing">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold">G-1</div>
+                        <h3 class="text-lg font-bold text-slate-800">영적인 일에서 보는 것은 듣는 것에 달림</h3>
+                    </div>
+                    <span class="text-slate-400 transition-transform duration-300">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="verse-section">
+                        <p class="mb-2"><span class="font-bold text-blue-800">[사 50:4]</span> 그분은 아침마다 나를 깨우쳐 주시되 <span class="bible-hl">나의 귀를 깨우쳐 주시어 가르침받은 이같이 듣게</span> 하신다.</p>
+                        <p class="mb-2"><span class="font-bold text-blue-800">[사 50:5]</span> 주 여호와는 <span class="bible-hl">나의 귀를 열어 주셨으며</span> 나는 거역하지 않았고 돌아서지도 않았다.</p>
+                        <p><span class="font-bold text-blue-800">[욥 33:16]</span> 그분은 <span class="bible-hl">사람들의 귀를 여시고</span> 그들이 받은 가르침을 봉인하시는데</p>
+                    </div>
+                    <div class="space-y-6">
+                        <section>
+                            <span class="content-label">핵심 원칙</span>
+                            <p class="text-slate-700">영적인 일에서 보는 것은 듣는 것에 달려 있습니다. 요한계시록의 저자는 <span class="font-bold text-slate-900">먼저 음성을 들었고(1:10), 그다음에 이상을 보았습니다(12절).</span> 귀가 둔하여 들을 수 없다면 볼 수도 없습니다. 듣는 것이 보는 것보다 더 깊은 것입니다.</p>
+                        </section>
+                        <section>
+                            <span class="content-label">구체적 사례</span>
+                            <p class="text-slate-700">유대인들은 주님의 말씀을 들으려 하지 않았기 때문에, 주님께서 신약에 따라 하고 계시는 일을 볼 수가 없었습니다. 언제나 주님은 우리가 하나님의 경륜에 따른 것들을 볼 수 있도록 우리의 귀를 열어 그분의 음성을 듣게 하기를 원하십니다.</p>
+                        </section>
+                        <section>
+                            <span class="content-label">실행 및 적용</span>
+                            <p class="text-slate-700">우리는 주님께 <span class="font-bold text-slate-900">"주님, 저는 보는 것과 듣는 것 둘 다가 필요합니다. 제게 긍휼을 베풀어 주셔서 볼 수 있는 눈과 들을 수 있는 귀를 허락해 주십시오."</span>라고 주님과 씨름하며 기도해야 합니다.</p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 포인트 4: 귀의 할례와 피의 정결 -->
+            <div class="accordion-item" id="section-ear">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center font-bold">G-2</div>
+                        <h3 class="text-lg font-bold text-slate-800">귀의 할례와 구속하는 피의 정결</h3>
+                    </div>
+                    <span class="text-slate-400 transition-transform duration-300">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <div class="verse-section">
+                        <p class="mb-2"><span class="font-bold text-blue-800">[레 14:14]</span> 제사장은 속건제물의 피 얼마를 가져다가, 정결하게 되려고 하는 사람의 <span class="bible-hl">오른쪽 귓불과 오른손 엄지와 오른발 엄지</span>에 발라야 한다.</p>
+                        <p class="mb-2"><span class="font-bold text-blue-800">[렘 6:10]</span> 그들의 귀는 <span class="bible-hl">할례를 받지 않아서 들을 수가 없습니다.</span> 여호와의 말씀은 그들에게 비난거리가 되었고...</p>
+                        <p><span class="font-bold text-blue-800">[행 7:51]</span> 목이 곧고 마음과 귀에 <span class="bible-hl">할례를 받지 못한 사람들</span>이여, 여러분의 조상들처럼 여러분도 항상 성령을 거역하고 있습니다.</p>
+                    </div>
+                    <div class="space-y-6">
+                        <section>
+                            <span class="content-label">핵심 의미</span>
+                            <p class="text-slate-700">둔한 귀는 할례를 받아야 합니다. 이것은 우리의 귀가 그 영의 말씀하심을 받아들이도록 <span class="font-bold text-slate-900">헌신되고 거룩하게 되어야 함</span>을 의미합니다. 죄인들의 귀는 구속하는 피로 정결하게 되고 그 영으로 기름 발라져야 합니다.</p>
+                        </section>
+                        <section>
+                            <span class="content-label">구체적 사례</span>
+                            <p class="text-slate-700">제사장으로서 주님을 섬기려면, 피가 우리의 귀에 발라져 귀를 정결하게 해야 합니다. 귓불이 정결하게 되어야 들을 수 있고, 엄지손가락이 정결하게 되어야 주님의 일을 할 수 있으며, 엄지발가락이 정결하게 되어야 주님의 길을 취할 수 있습니다.</p>
+                        </section>
+                        <section>
+                            <span class="content-label">실행 및 적용</span>
+                            <p class="text-slate-700">집회에 오기 전, 우리는 개인적인 방식으로 주님과 시간을 보내며 <span class="font-bold text-slate-900">우리의 귀가 피로 씻겨지고 할례를 받도록</span> 기도해야 합니다. 그럴 때 우리는 단체적으로만이 아니라 개인적으로, 우리에게 깊은 의미를 지닌 <span class="font-bold text-slate-900">살아 있는 레마의 말씀</span>을 받게 될 것입니다.</p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 퀴즈 섹션 -->
+        <section class="bg-slate-900 rounded-3xl p-8 md:p-12 mb-20 text-white shadow-2xl">
+            <h2 class="text-2xl font-bold mb-10 text-center text-amber-400">진리 확인 퀴즈</h2>
+            
+            <div id="quiz-container" class="space-y-12">
+                <!-- Q1 -->
+                <div class="quiz-item" data-answer="2">
+                    <h4 class="text-lg font-medium mb-6 flex items-start">
+                        <span class="quiz-badge">1</span>
+                        그 영의 말씀하심을 통해 우리가 즉시 받게 되는 '옮겨 부으심'의 성격은 무엇입니까?
+                    </h4>
+                    <div class="options">
+                        <button class="quiz-option" onclick="selectOption(this, 0)">A) 외적인 종교적 습관의 형성</button>
+                        <button class="quiz-option" onclick="selectOption(this, 1)">B) 스스로를 개선하려는 의지</button>
+                        <button class="quiz-option" onclick="selectOption(this, 2)">C) 보배롭고 달콤하며 사랑스러운 그리스도의 주입</button>
+                        <button class="quiz-option" onclick="selectOption(this, 3)">D) 성경 지식에 대한 지적 만족</button>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="quiz-item" data-answer="1">
+                    <h4 class="text-lg font-medium mb-6 flex items-start">
+                        <span class="quiz-badge">2</span>
+                        영적인 일에서 '보는 것(Seeing)'과 '듣는 것(Hearing)'의 올바른 순서와 관계는 무엇입니까?
+                    </h4>
+                    <div class="options">
+                        <button class="quiz-option" onclick="selectOption(this, 0)">A) 보는 것이 듣는 것보다 선행되어야 한다.</button>
+                        <button class="quiz-option" onclick="selectOption(this, 1)">B) 보는 것은 항상 듣는 것에 달려 있다.</button>
+                        <button class="quiz-option" onclick="selectOption(this, 2)">C) 보는 것과 듣는 것은 서로 관련이 없다.</button>
+                        <button class="quiz-option" onclick="selectOption(this, 3)">D) 듣는 능력은 타고나는 것이다.</button>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="quiz-item" data-answer="1">
+                    <h4 class="text-lg font-medium mb-6 flex items-start">
+                        <span class="quiz-badge">3</span>
+                        이기는 이가 되는 비결은 지문에 따르면 무엇입니까?
+                    </h4>
+                    <div class="options">
+                        <button class="quiz-option" onclick="selectOption(this, 0)">A) 다른 믿는 이들보다 더 거룩해지는 것</button>
+                        <button class="quiz-option" onclick="selectOption(this, 1)">B) 그 영의 말씀을 듣고 옮겨 부으심을 받아들이는 것</button>
+                        <button class="quiz-option" onclick="selectOption(this, 2)">C) 교회 안에서 높은 직분을 얻는 것</button>
+                        <button class="quiz-option" onclick="selectOption(this, 3)">D) 성경 연구를 위해 신학교에 가는 것</button>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="quiz-item" data-answer="2">
+                    <h4 class="text-lg font-medium mb-6 flex items-start">
+                        <span class="quiz-badge">4</span>
+                        제사장으로서 주님을 섬기기 위해 귀에 가장 먼저 발라야 하는 것은?
+                    </h4>
+                    <div class="options">
+                        <button class="quiz-option" onclick="selectOption(this, 0)">A) 거룩한 향료</button>
+                        <button class="quiz-option" onclick="selectOption(this, 1)">B) 포도주</button>
+                        <button class="quiz-option" onclick="selectOption(this, 2)">C) 구속하는 피</button>
+                        <button class="quiz-option" onclick="selectOption(this, 3)">D) 관유</button>
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="quiz-item" data-answer="0">
+                    <h4 class="text-lg font-medium mb-6 flex items-start">
+                        <span class="quiz-badge">5</span>
+                        우리의 듣는 것을 가로막는 요소로 스데반이 사도행전에서 경고한 것은?
+                    </h4>
+                    <div class="options">
+                        <button class="quiz-option" onclick="selectOption(this, 0)">A) 목이 곧고 마음과 귀에 할례를 받지 못한 상태</button>
+                        <button class="quiz-option" onclick="selectOption(this, 1)">B) 육체적인 소음</button>
+                        <button class="quiz-option" onclick="selectOption(this, 2)">C) 바쁜 일상 생활</button>
+                        <button class="quiz-option" onclick="selectOption(this, 3)">D) 지적인 이해력의 부족</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-16 text-center">
+                <button onclick="checkQuizResults()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-4 px-12 rounded-full transition-all transform hover:scale-105 shadow-xl">
+                    결과 확인하기
+                </button>
+                <div id="final-score" class="mt-8 text-2xl font-bold hidden"></div>
+            </div>
+        </section>
+
+        <!-- 기도문 섹션 -->
+        <footer class="bg-white rounded-3xl p-10 md:p-16 border border-slate-200 shadow-sm text-center">
+            <h2 class="text-amber-600 font-bold mb-8 text-xl tracking-widest uppercase">Prayer of Response</h2>
+            <div class="font-serif italic text-xl md:text-2xl text-slate-700 leading-relaxed max-w-2xl mx-auto">
+                "주님, 저는 보는 것과 듣는 것 둘 다가 필요합니다. <br>
+                제게 긍휼을 베풀어 주십시오. <br>
+                주님, 제게 볼 수 있는 눈과 들을 수 있는 귀를 허락해 주십시오."
+            </div>
+            <p class="mt-8 text-sm text-slate-400 font-sans not-italic">요한계시록 라이프 스타디, 메시지 10 中</p>
+        </footer>
+    </div>
+
+    <script>
+        // 1. 도입부 레이어 제어
+        function peelLayer() {
+            const gate = document.getElementById('intro-gate');
+            gate.classList.add('peeled');
+            setTimeout(() => {
+                gate.style.display = 'none';
+            }, 1200);
+        }
+
+        // 2. 아코디언 제어
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // 다른 아코디언 닫기
+            document.querySelectorAll('.accordion-item').forEach(el => {
+                el.classList.remove('active');
+                el.querySelector('.accordion-header span:last-child').style.transform = 'rotate(0deg)';
+            });
+
+            // 현재 아코디언 토글
+            if (!isActive) {
+                item.classList.add('active');
+                header.querySelector('span:last-child').style.transform = 'rotate(180deg)';
+                
+                // 해당 위치로 부드럽게 스크롤
+                setTimeout(() => {
+                    item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+            }
+        }
+
+        // 3. 퀴즈 제어
+        const userChoices = new Array(5).fill(null);
+
+        function selectOption(btn, idx) {
+            const quizItem = btn.closest('.quiz-item');
+            const qNum = Array.from(document.querySelectorAll('.quiz-item')).indexOf(quizItem);
+            
+            // 기존 선택 해제
+            quizItem.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+            
+            // 현재 선택 적용
+            btn.classList.add('selected');
+            userChoices[qNum] = idx;
+        }
+
+        function checkQuizResults() {
+            const quizItems = document.querySelectorAll('.quiz-item');
+            let score = 0;
+
+            userChoices.forEach((choice, i) => {
+                const correctAnswer = parseInt(quizItems[i].getAttribute('data-answer'));
+                if (choice === correctAnswer) {
+                    score++;
+                }
+            });
+
+            const resultDiv = document.getElementById('final-score');
+            resultDiv.classList.remove('hidden');
+            
+            let feedback = "";
+            if (score === 5) feedback = "축하합니다! 주님의 말씀이 온전히 주입되셨군요!";
+            else if (score >= 3) feedback = "잘 하셨습니다! 조금 더 세심하게 말씀을 경청해 보세요.";
+            else feedback = "지문의 내용을 다시 한번 천천히 읽어보시는 것을 추천합니다.";
+
+            resultDiv.innerHTML = `
+                <div class="text-amber-400 mb-2">당신의 점수: ${score} / 5</div>
+                <div class="text-lg font-normal text-slate-300">${feedback}</div>
+            `;
+            
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>
