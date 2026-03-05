@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>그리스도: 다윗의 열쇠를 가지신 분</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #b2945e;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --bible-bg: #f1f5f9;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-size-base: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text-main);
+            line-height: 1.7;
+            font-size: var(--font-size-base);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 1. Intro Peel Effect */
+        #intro-peel {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--primary);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--accent);
+            cursor: pointer;
+            transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+        #intro-peel.active { transform: translateY(-100%); }
+        .intro-title { font-family: 'Noto Serif KR', serif; font-size: 2.2rem; text-align: center; margin-bottom: 20px; }
+        .intro-hint { color: #94a3b8; font-size: 0.9rem; letter-spacing: 2px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        .container { max-width: 950px; margin: 0 auto; padding: 40px 20px; }
+
+        /* Header */
+        header { text-align: center; margin-bottom: 40px; }
+        header h1 { font-family: 'Noto Serif KR', serif; font-size: 2.2rem; color: var(--primary); margin-bottom: 15px; }
+        
+        /* Infographic Dashboard */
+        .infographic-dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 40px 0 60px;
+            justify-content: center;
+        }
+        
+        .info-node {
+            flex: 1;
+            min-width: 210px;
+            background: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            border: 1px solid #edf2f7;
+            transition: var(--transition);
+        }
+        
+        /* Highlight specific node */
+        .info-node.featured {
+            border: 2.5px solid var(--accent);
+            box-shadow: 0 15px 40px rgba(178, 148, 94, 0.15);
+            background: linear-gradient(to bottom, #ffffff, #fffdfa);
+        }
+
+        .info-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            border-color: var(--accent);
+        }
+
+        .node-icon-circle {
+            width: 70px;
+            height: 70px;
+            background: #f1f5f9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--accent);
+            font-size: 1.8rem;
+            transition: var(--transition);
+        }
+        
+        .info-node.featured .node-icon-circle {
+            background: var(--accent);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .info-node:hover .node-icon-circle {
+            background: var(--accent);
+            color: white;
+        }
+
+        .info-node h4 {
+            font-size: 1.05rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .info-node.featured h4 {
+            font-size: 1.2rem;
+            color: #854d0e; /* Darker gold/brown */
+        }
+
+        .info-node p {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            line-height: 1.5;
+        }
+
+        .node-connector {
+            position: absolute;
+            top: 50%;
+            right: -15px;
+            transform: translateY(-50%);
+            color: #e2e8f0;
+            font-size: 1.2rem;
+            z-index: 2;
+        }
+
+        @media (max-width: 900px) {
+            .node-connector { display: none; }
+        }
+
+        /* Accordion Structure */
+        .section-title { font-size: 1.4rem; font-weight: 700; margin: 60px 0 30px; text-align: center; color: var(--primary); border-bottom: 2px solid var(--accent); display: inline-block; left: 50%; transform: translateX(-50%); position: relative; padding-bottom: 10px; }
+        .accordion-item {
+            background: var(--card-bg);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            overflow: hidden;
+            border: 1px solid #f1f5f9;
+            transition: var(--transition);
+        }
+        .accordion-header {
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            gap: 15px;
+        }
+        .accordion-header:hover { background: #fafafa; }
+        .step-num { 
+            width: 28px; height: 28px; background: var(--primary); color: white; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; font-weight: 700; flex-shrink: 0;
+        }
+        .accordion-header h3 { font-size: 1.1rem; font-weight: 600; flex-grow: 1; color: var(--primary); }
+        .accordion-header i.chevron { transition: var(--transition); color: var(--text-sub); font-size: 0.9rem; }
+        .accordion-item.active { border-color: var(--accent); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .accordion-item.active i.chevron { transform: rotate(180deg); color: var(--accent); }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s cubic-bezier(0, 1, 0, 1);
+        }
+        .accordion-item.active .accordion-content { max-height: 4000px; transition: max-height 1.2s ease-in-out; }
+        .inner-content { padding: 0 25px 40px; }
+
+        /* Bible Sections */
+        .bible-label { font-size: 0.8rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block; }
+        .bible-section { margin-bottom: 35px; }
+        .bible-card { 
+            background: var(--bible-bg); 
+            padding: 20px; 
+            border-radius: 12px; 
+            border-left: 4px solid var(--accent);
+            margin-bottom: 12px;
+        }
+        .bible-card p { font-family: 'Noto Serif KR', serif; font-size: 1rem; color: #334155; line-height: 1.7; }
+        .bible-card strong { color: var(--primary); font-weight: 700; background: linear-gradient(transparent 70%, rgba(178, 148, 94, 0.2) 30%); }
+
+        /* Detail Blocks */
+        .detail-block { margin-top: 30px; padding-top: 20px; border-top: 1px dashed #e2e8f0; }
+        .detail-tag { 
+            display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 50px; 
+            font-size: 0.85rem; font-weight: 700; margin-bottom: 15px;
+        }
+        .tag-meaning { background: #eff6ff; color: #1d4ed8; }
+        .tag-example { background: #fff7ed; color: #c2410c; }
+        .tag-practice { background: #f0fdf4; color: #15803d; }
+
+        .explanation-text { font-size: 0.95rem; color: #334155; margin-bottom: 25px; text-align: justify; }
+
+        /* 강조 문장 스타일 */
+        .highlight-sentence {
+            display: block;
+            background-color: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 12px 18px;
+            margin: 15px 0;
+            font-weight: 700;
+            color: #92400e;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* 기도문 전용 강조 스타일 */
+        .highlight-prayer {
+            display: block;
+            background-color: #ecfdf5;
+            border-left: 4px solid #10b981;
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-weight: 700;
+            color: #065f46;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            font-style: italic;
+            position: relative;
+        }
+        .highlight-prayer::before {
+            content: "\f130"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            position: absolute; top: -10px; left: -10px; background: #10b981;
+            color: white; width: 24px; height: 24px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-style: normal;
+        }
+
+        /* Visual Flow Connector */
+        .flow-connector {
+            height: 30px; width: 2px; background: repeating-linear-gradient(0deg, #cbd5e1, #cbd5e1 5px, transparent 5px, transparent 10px); margin: 0 auto;
+            position: relative;
+        }
+        .flow-connector::after {
+            content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; bottom: -12px; left: -6px; color: #cbd5e1; font-size: 0.8rem;
+        }
+
+        /* Quiz UI */
+        #quiz-section { 
+            margin-top: 80px; background: white; padding: 50px 40px; border-radius: 30px;
+            border: 1px solid #e2e8f0; box-shadow: 0 20px 40px rgba(0,0,0,0.02);
+        }
+        .quiz-header { text-align: center; margin-bottom: 40px; }
+        .quiz-header h2 { font-family: 'Noto Serif KR', serif; font-size: 1.8rem; color: var(--primary); }
+        
+        .question-card { display: none; }
+        .question-card.active { display: block; animation: slideUp 0.6s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .q-title-wrap { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 30px; }
+        .q-badge { 
+            width: 44px; height: 44px; background: var(--primary); 
+            color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1.2rem; flex-shrink: 0; box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+        }
+        .question-card h4 { font-size: 1.2rem; line-height: 1.5; color: var(--primary); padding-top: 5px; }
+
+        .quiz-options { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .quiz-opt {
+            background: #f8fafc; border: 1px solid #e2e8f0; padding: 22px 28px;
+            border-radius: 16px; cursor: pointer; transition: var(--transition);
+            font-size: 1rem; display: flex; align-items: center; gap: 15px; color: #475569;
+        }
+        .quiz-opt:hover { background: #fff; border-color: var(--accent); color: var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .quiz-opt.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        .opt-circle { width: 24px; height: 24px; border: 2px solid #cbd5e1; border-radius: 50%; flex-shrink: 0; transition: var(--transition); }
+        .quiz-opt:hover .opt-circle { border-color: var(--accent); }
+        .quiz-opt.selected .opt-circle { border-color: white; background: var(--accent); }
+
+        #quiz-result { text-align: center; display: none; padding: 40px 0; }
+        .score-display { 
+            font-size: 3rem; font-weight: 800; color: var(--accent); margin-bottom: 10px;
+        }
+
+        /* Final Prayer Section */
+        #prayer-section {
+            margin-top: 80px; padding: 70px 40px; background: #fff;
+            border-radius: 30px; text-align: center; border: 1px solid #f1f5f9;
+            background-image: radial-gradient(circle at 2px 2px, #f1f5f9 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        .prayer-text { 
+            font-family: 'Noto Serif KR', serif; font-size: 1.1rem; color: #334155; 
+            line-height: 2.2; max-width: 750px; margin: 0 auto;
+            white-space: pre-line; text-align: center;
+        }
+
+        footer { text-align: center; padding: 80px 0; border-top: 1px solid #e2e8f0; margin-top: 80px; }
+        .home-btn { 
+            display: inline-flex; align-items: center; gap: 12px;
+            padding: 16px 35px; background: var(--primary); color: white; text-decoration: none;
+            border-radius: 50px; font-weight: 600; transition: var(--transition); box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .home-btn:hover { background: var(--accent); transform: translateY(-3px); }
+
+        @media (max-width: 600px) {
+            .dashboard { grid-template-columns: 1fr; }
+            .intro-title { font-size: 1.8rem; }
+            .inner-content { padding: 0 15px 30px; }
+            .quiz-opt { padding: 18px; font-size: 0.95rem; }
+            .prayer-text { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Intro Layer -->
+    <div id="intro-peel" onclick="this.classList.add('active')">
+        <p style="margin-bottom: 10px; font-weight: 300; letter-spacing: 3px;">2025 WINTER TRAINING</p>
+        <div class="intro-title">그리스도:<br>다윗의 열쇠를 가지신 분</div>
+        <div class="intro-hint">화면을 클릭하여 다윗의 열쇠를 가지신 분을 만나세요</div>
+        <i class="fa-solid fa-key" style="margin-top: 40px; font-size: 2.5rem; opacity: 0.8;"></i>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>회복된 교회와 다윗의 열쇠</h1>
+            <p style="color: var(--text-sub); font-size: 1.1rem;">하나님의 모든 풍성을 열어 주실 수 있는 분을 체험하고 누리는 길</p>
+            
+            <!-- 인포그래픽 대시보드 -->
+            <div class="infographic-dashboard">
+                <div class="info-node">
+                    <div class="node-icon-circle"><i class="fa-solid fa-building-columns"></i></div>
+                    <h4>형상과 통치권</h4>
+                    <p>성전에서의 표현과 <br>성에서의 하나님 대표권</p>
+                    <div class="node-connector"><i class="fa-solid fa-angle-right"></i></div>
+                </div>
+                <div class="info-node">
+                    <div class="node-icon-circle"><i class="fa-solid fa-door-open"></i></div>
+                    <h4>열린 문</h4>
+                    <p>아무도 닫을 수 없는 <br>풍성의 확산과 누림의 길</p>
+                    <div class="node-connector"><i class="fa-solid fa-angle-right"></i></div>
+                </div>
+                <!-- 강조된 변화와 건축 노드 -->
+                <div class="info-node featured">
+                    <div class="node-icon-circle"><i class="fa-solid fa-gem"></i></div>
+                    <h4>변화와 건축</h4>
+                    <p>그 영께서 하시는 말씀의 풍성을 통해<br><strong>신성한 요소를 누림</strong><br>흰 돌(변화)과 성전 기둥(건축)이 됨</p>
+                    <div class="node-connector"><i class="fa-solid fa-angle-right"></i></div>
+                </div>
+                <div class="info-node">
+                    <div class="node-icon-circle"><i class="fa-solid fa-rotate"></i></div>
+                    <h4>셉나에서 엘리아김</h4>
+                    <p>자아의 파면과 <br>그리스도로의 대치</p>
+                </div>
+            </div>
+        </header>
+
+        <h2 class="section-title">핵심 진리 탐구</h2>
+
+        <div id="accordion-container">
+
+            <!-- 요점 1 -->
+            <div class="accordion-item" id="point-1">
+                <div class="accordion-header" onclick="toggleAcc(1)">
+                    <div class="step-num">1</div>
+                    <h3>회복된 교회에 나타나신 다윗의 열쇠를 가진 분</h3>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="inner-content">
+                        <div class="bible-section">
+                            <span class="bible-label">성경 근거</span>
+                            <div class="bible-card">
+                                <p>[사 22:22] 그리고 <strong>다윗 집의 열쇠를 그의 어깨 위에</strong> 두리니 그가 열면 닫을 사람이 없고 그가 닫으면 열 사람이 없으리라.</p>
+                            </div>
+                            <div class="bible-card">
+                                <p>[계 3:7] 빌라델비아에 있는 교회의 전달자에게 이렇게 편지하여라. ‘거룩한 이, 참된 이, <strong>다윗의 열쇠를 가진 이, 열면 닫을 수 없고 닫으면 열 수 없도록 하는 이</strong>가 이렇게 말한다.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-block">
+                            <span class="detail-tag tag-meaning"><i class="fa-solid fa-info-circle"></i> 핵심 의미</span>
+                            <div class="explanation-text">
+                                회복된 교회(빌라델비아)에서 그리스도는 <strong>하나님의 집의 열쇠(보물 창고의 열쇠)가 어깨 위에 놓인 분</strong>으로 나타나십니다. 이 다윗의 열쇠는 <strong>하나님의 통치권 전체의 열쇠</strong>이며, 온 우주 특히 인류에게 미치는 왕국의 열쇠입니다. 주님은 여닫는 권위를 가지고 계시며, 한마음 한뜻인 회복된 교회에게 아무도 닫을 수 없는 열린 문을 주셨습니다.
+                            </div>
+                            
+                            <span class="detail-tag tag-example"><i class="fa-solid fa-lightbulb"></i> 구체적 사례</span>
+                            <div class="explanation-text">
+                                다윗은 이 땅에 하나님의 왕국을 세우는 일에서 하나님을 대표했습니다. 그러나 <strong>참다윗은 다윗보다 더 큰 분이신 그리스도</strong>이십니다. 그분은 하나님의 성전인 교회를 건축하시고 하나님의 왕국을 세우신 분이시며, 우주적인 하나님의 경륜의 열쇠를 손에 쥐고 교회를 다루십니다. 19세기 초 합당한 교회생활이 회복된 이래로 사탄은 이 문을 닫으려 했으나, <strong>열쇠는 반대자의 손에 있지 않고 교회의 머리이신 분의 손에</strong> 있습니다.
+                            </div>
+
+                            <span class="detail-tag tag-practice"><i class="fa-solid fa-person-walking"></i> 실행 및 적용</span>
+                            <div class="explanation-text">
+                                우리는 때로 반대에 부딪혀 낙심하거나 지칠 수 있습니다. 그러나 <strong>그리스도께서 다윗의 열쇠를 가지고 계신다는 것을 깨달아야</strong> 합니다. 그분은 자신의 뜻과 의도에 따라 여닫으십니다. 주님 앞에서 자신을 겸손히 낮추고 주님과 하나 되도록 자신을 지킬 때, 주님은 우리를 계속 이끄실 길을 얻으십니다.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-connector"></div>
+
+            <!-- 요점 2 -->
+            <div class="accordion-item" id="point-2">
+                <div class="accordion-header" onclick="toggleAcc(2)">
+                    <div class="step-num">2</div>
+                    <h3>변화와 건축의 문을 여는 열쇠</h3>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="inner-content">
+                        <div class="bible-section">
+                            <span class="bible-label">성경 근거</span>
+                            <div class="bible-card">
+                                <p>[계 2:17] … 이기는 이에게는 내가 감추어진 만나를 주고, 또 <strong>흰 돌을 줄 것이다.</strong> 그 돌 위에는 받는 사람 외에는 아무도 모르는 새 이름이 적혀 있다.</p>
+                            </div>
+                            <div class="bible-card">
+                                <p>[계 3:12] 이기는 이는 내가 <strong>나의 하나님의 성전에 기둥이 되도록</strong> 하겠다. … 하나님의 이름과 … 새 예루살렘의 이름과, 나의 새 이름을 그 사람 위에 기록할 것이다.</p>
+                            </div>
+                            <div class="bible-card">
+                                <p>[롬 8:2] 왜냐하면 <strong>생명의 영의 법이</strong> 그리스도 예수님 안에서 나를 죄와 죽음의 법에서 해방하였기 때문입니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="detail-block">
+                            <span class="detail-tag tag-meaning"><i class="fa-solid fa-info-circle"></i> 핵심 의미</span>
+                            <div class="explanation-text">
+                                다윗의 열쇠는 단순히 외부적인 문만 여는 것이 아니라, <strong>우리가 흰 돌로 변화될 수 있는 문</strong>을 열어 줍니다. 또한 우리가 하나님의 이름과 새 예루살렘의 이름이 기록된 <strong>기둥으로서 하나님의 집으로 건축될 수 있는 문</strong>을 열어 줍니다. 이 열쇠는 우리를 그리스도의 존재의 모든 풍성이 있는 하나님의 집 안으로 이끕니다.
+                            </div>
+
+                            <span class="detail-tag tag-example"><i class="fa-solid fa-lightbulb"></i> 구체적 사례</span>
+                            <div class="explanation-text">
+                                우리가 말씀과 영의 풍성을 통해 신성한 요소를 누릴 때, 이 요소가 우리를 변화시킵니다. <strong>흰 돌은 우리가 하나님의 건축에 참여했음</strong>을 가리키며, 인정과 순결을 의미합니다. 인간적으로는 우리가 새 예루살렘의 구성 요소가 되는 것이 불가능하지만, <strong>생명의 영의 법(롬 8:2)에는 불가능을 해결하는 요소</strong>가 담겨 있어 우리를 변화시킵니다.
+                            </div>
+
+                            <span class="detail-tag tag-practice"><i class="fa-solid fa-person-walking"></i> 실행 및 적용 (변화와 생명 공급의 누림)</span>
+                            <div class="explanation-text">
+                                <p>시대의 사역자는 <strong>교회를 건축하시는 하나님의 일은 우리의 변화에 달려 있고, 우리의 변화는 그리스도를 우리의 생명 공급으로 누리는 데서 비롯된다</strong>고 강조합니다. 이를 위해 우리는 기도하는 영을 사용하여 이렇게 기도해야 합니다.</p>
+                                
+                                <span class="highlight-prayer">
+                                    "주님, 이 말씀을 받아들이고 그 영께서 하시는 말씀을 받아들일 수 있도록 저를 영 안에서 가난하고 마음이 순수하게 지켜 주십시오. 그리스도께서 저의 존재의 모든 것이 되시도록 자신을 내어드립니다."
+                                </span>
+
+                                <p>말씀은 말씀하시는 영의 체현이므로 우리는 이 말씀을 받아들이고 기도로 동화시켜야 합니다. 우리가 하나님의 말씀의 풍성을 통해 <strong>신성한 요소를 누릴 때, 이 신성한 요소가 우리 존재 안에서 운행하여 우리를 변화시킵니다.</strong> 이러한 생명의 영의 법의 운행만이 우리를 하나님의 성전의 견고한 기둥으로 건축합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-connector"></div>
+
+            <!-- 요점 3 -->
+            <div class="accordion-item" id="point-3">
+                <div class="accordion-header" onclick="toggleAcc(3)">
+                    <div class="step-num">3</div>
+                    <h3>보물 창고의 누림과 셉나의 파면</h3>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="inner-content">
+                        <div class="bible-section">
+                            <span class="bible-label">성경 근거</span>
+                            <div class="bible-card">
+                                <p>[사 22:15] 주 만군의 여호와께서 이렇게 말씀하신다. “일어나서 <strong>청지기에게 곧 왕궁을 관리하는 셉나에게 가서 말하여라.</strong></p>
+                            </div>
+                            <div class="bible-card">
+                                <p>[사 22:16] ‘너는 여기서 무엇을 하느냐? 여기 누가 있기에 <strong>너를 위하여 여기에 무덤을 파 두었느냐? 높은 곳에 무덤을 파 둔 사람처럼 바위에 자기를 위한 안식처를 깎아 둔 사람처럼</strong> 말이다.’</p>
+                            </div>
+                        </div>
+
+                        <div class="detail-block">
+                            <span class="detail-tag tag-meaning"><i class="fa-solid fa-info-circle"></i> 핵심 의미</span>
+                            <div class="explanation-text">
+                                그리스도는 하나님의 보물 창고 문을 여는 열쇠를 갖고 계십니다. <strong>존 넬슨 다비(J. N. Darby)는 셉나가 '거짓 그리스도'를 예표한다고 설명했습니다.</strong> 셉나는 왕실의 청지기였습니다. 청지기는 집의 행정을 감독하는 사람이며, 보살필 뿐 아니라 생필품도 공급해 줍니다. 그러나 셉나는 반드시 그리스도에 의해 파면당하고 대치되어야 합니다. 우리 모두는 참엘리아김에 의해 파면당하고 대치되어야 할 ‘셉나’들입니다. 우리의 엘리아김이신 그리스도는 하나님의 경륜 안에서 모든 것과 모든 사람을 대치하셔야 합니다.
+                            </div>
+
+                            <span class="detail-tag tag-example"><i class="fa-solid fa-lightbulb"></i> 구체적 사례 (그리스도를 대치하는 셉나들)</span>
+                            <div class="explanation-text">
+                                셉나와 같은 역할을 하는 것들은 <strong>문자로 된 율법, 철학, 종교</strong>와 같은 것들입니다. 또한 이사야 22장의 셉나처럼 <strong>자신을 위하여 높은 곳에 무덤을 파고 바위에 안식처를 깎는 것</strong>은 자신의 영광과 기념비를 세우려는 자아를 상징합니다. <strong>자아는 우리 안에서 참된 그리스도를 대치하려고 하는 모든 시도와 태도</strong>를 의미합니다. 셉나는 결국 파면당하고 왕의 집을 맡은 <strong>참청지기인 엘리아김(그리스도)</strong>으로 대치되었습니다.
+                            </div>
+
+                            <span class="detail-tag tag-practice"><i class="fa-solid fa-person-walking"></i> 실행 및 적용 (자아의 파면과 그리스도의 대치)</span>
+                            <div class="explanation-text">
+                                영적인 관점에서 큰 잘못은 <strong>그리스도께서 주인이 되셔야 할 자리에 우리의 자아가 대신 앉아 행세하는 것</strong>입니다. 
+                                
+                                <span class="highlight-sentence">
+                                    우리가 다른 사람에게 마음이 상하거나 부정적인 생각에 사로잡혀 합당하지 않은 태도를 취할 때, 그것은 우리의 천연적인 '자아'와 '의견'이 셉나처럼 행동하고 있는 것입니다.
+                                </span>
+                                
+                                이때 우리는 <strong>자아를 부인하고 혼생명을 잃어버림</strong>이라는 열쇠를 사용하여, 엘리아김이신 그리스께서 우리를 대치하시도록 해야 합니다. 다음과 같은 기도로 주님 앞에 자신을 열어드려야 합니다.
+
+                                <span class="highlight-prayer">
+                                    "주님, 저를 영 안에서 가난하고 마음이 순수하게 지켜 주십시오. 그리스도께서 저의 존재의 모든 것이 되시도록 자아를 부인하고 혼생명을 잃어버림이라는 열쇠를 사용하는 것을 더 배우고 훈련합니다."
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Quiz Section -->
+        <section id="quiz-section">
+            <div class="quiz-header">
+                <i class="fa-solid fa-check-to-slot" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px;"></i>
+                <h2>진리 확인 퀴즈</h2>
+                <p>오늘 학습한 다윗의 열쇠에 관한 진리를 복습해 보세요.</p>
+            </div>
+
+            <div id="quiz-container">
+                <div class="question-card active" data-ans="2">
+                    <div class="q-title-wrap">
+                        <div class="q-badge">1</div>
+                        <h4>회복된 교회에 나타나신 그리스도께서 어깨 위에 두신 것은 무엇입니까?</h4>
+                    </div>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="handleQuiz(this, 0)"><div class="opt-circle"></div> 율법의 명판</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 1)"><div class="opt-circle"></div> 정죄의 두루마리</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 2)"><div class="opt-circle"></div> 다윗 집의 열쇠(보물 창고의 열쇠)</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 3)"><div class="opt-circle"></div> 세상 통치자들의 인장</div>
+                    </div>
+                </div>
+
+                <div class="question-card" data-ans="3">
+                    <div class="q-title-wrap">
+                        <div class="q-badge">2</div>
+                        <h4>다윗의 열쇠가 여는 문을 통해 우리가 도달하게 되는 목표는?</h4>
+                    </div>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="handleQuiz(this, 0)"><div class="opt-circle"></div> 세상적인 부귀영화의 획득</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 1)"><div class="opt-circle"></div> 종교적인 조직의 확장</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 2)"><div class="opt-circle"></div> 인간적인 능력의 극대화</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 3)"><div class="opt-circle"></div> 흰 돌로의 변화와 하나님의 성전 기둥</div>
+                    </div>
+                </div>
+
+                <div class="question-card" data-ans="1">
+                    <div class="q-title-wrap">
+                        <div class="q-badge">3</div>
+                        <h4>존 넬슨 다비(Darby)에 따르면 셉나는 누구를 예표합니까?</h4>
+                    </div>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="handleQuiz(this, 0)"><div class="opt-circle"></div> 충성스러운 청지기</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 1)"><div class="opt-circle"></div> 거짓 그리스도</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 2)"><div class="opt-circle"></div> 회개한 죄인</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 3)"><div class="opt-circle"></div> 이방 민족의 왕</div>
+                    </div>
+                </div>
+
+                <div class="question-card" data-ans="0">
+                    <div class="q-title-wrap">
+                        <div class="q-badge">4</div>
+                        <h4>영적인 관점에서 '셉나의 잘못'에 해당하는 실제적인 상태는?</h4>
+                    </div>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="handleQuiz(this, 0)"><div class="opt-circle"></div> 자아가 그리스도를 대치하여 주인 행세함</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 1)"><div class="opt-circle"></div> 성경을 너무 많이 읽음</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 2)"><div class="opt-circle"></div> 자신의 부족함을 자백함</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 3)"><div class="opt-circle"></div> 다른 사람을 위해 기도함</div>
+                    </div>
+                </div>
+
+                <div class="question-card" data-ans="2">
+                    <div class="q-title-wrap">
+                        <div class="q-badge">5</div>
+                        <h4>주님의 풍성을 누리기 위해 우리가 사용해야 할 '열쇠들'이 아닌 것은?</h4>
+                    </div>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="handleQuiz(this, 2)"><div class="opt-circle"></div> 자신의 천연적인 의견 고수</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 0)"><div class="opt-circle"></div> 자아 부인</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 1)"><div class="opt-circle"></div> 십자가를 짐</div>
+                        <div class="quiz-opt" onclick="handleQuiz(this, 3)"><div class="opt-circle"></div> 혼생명을 잃어버림</div>
+                    </div>
+                </div>
+
+                <div id="quiz-result">
+                    <div class="score-display"><span id="score-num">0</span> / 5</div>
+                    <p id="feedback-msg" style="margin-bottom: 30px; font-weight: 500; color: var(--text-main);"></p>
+                    <button onclick="resetQuiz()" class="home-btn" style="border: none; cursor: pointer;">테스트 다시하기</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Prayer Section -->
+        <section id="prayer-section">
+            <h2 style="font-family: 'Noto Serif KR', serif; margin-bottom: 40px; color: var(--primary);">다윗의 열쇠를 가진 분께 그리스도께 나아가기</h2>
+            <div class="prayer-text">
+                의문 율법 아닌 생명 주는 영 
+                그 영 내게 줄 때 짐을 벗었네
+                또한 이론 아닌 생명 영만이 
+                죄와 자아에서 해방케 하네
+
+                어떤 종교 또한 조직으로는 
+                주의 원하는 뜻 이룰 수 없네
+                내 안의 주만이 모든 것 되어 
+                하나님의 참뜻 성취하시네
+
+                주가 주신 은사 어떤 능력도 
+                주님 자신과는 비교 못하니
+                주가 우리 안에 내용 되도록 
+                주님 자신만을 충만케 하리
+
+                - 찬송가 402장 1, 4, 5절
+            </div>
+        </section>
+
+        <footer>
+            <a href="https://tk-korea.github.io/2025wintertraining/" class="home-btn" target="_blank">
+                <i class="fa-solid fa-link"></i> 공식 홈페이지 바로가기
+            </a>
+            <p style="margin-top: 40px; font-size: 0.85rem; color: var(--text-sub);">
+                본 페이지는 2025 겨울 훈련의 내용을 바탕으로 제작되었습니다.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Accordion Toggle
+        function toggleAcc(id) {
+            const item = document.getElementById('point-' + id);
+            const isActive = item.classList.contains('active');
+            
+            document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
+        }
+
+        // Quiz Handling
+        let currentQ = 0;
+        let score = 0;
+        const questions = document.querySelectorAll('.question-card');
+
+        function handleQuiz(opt, idx) {
+            const card = questions[currentQ];
+            const correctAns = parseInt(card.getAttribute('data-ans'));
+            
+            opt.classList.add('selected');
+            if (idx === correctAns) score++;
+
+            setTimeout(() => {
+                card.classList.remove('active');
+                currentQ++;
+                if (currentQ < questions.length) {
+                    questions[currentQ].classList.add('active');
+                } else {
+                    showResult();
+                }
+            }, 500);
+        }
+
+        function showResult() {
+            const res = document.getElementById('quiz-result');
+            const scoreNum = document.getElementById('score-num');
+            const msg = document.getElementById('feedback-msg');
+            
+            res.style.display = 'block';
+            scoreNum.innerText = score;
+
+            if (score === 5) msg.innerText = "놀랍습니다! 다윗의 열쇠와 셉나의 교훈에 대한 진리가 당신 안에 가득합니다.";
+            else if (score >= 3) msg.innerText = "잘 하셨습니다. 자아를 부인하고 엘리아김이신 그리스도를 더 누리시길 바랍니다.";
+            else msg.innerText = "셉나와 엘리아김의 대치를 다시 한 번 묵상해 보세요. 주님의 풍성은 무궁무진합니다.";
+        }
+
+        function resetQuiz() {
+            currentQ = 0;
+            score = 0;
+            document.getElementById('quiz-result').style.display = 'none';
+            questions.forEach(q => q.classList.remove('active'));
+            questions[0].classList.add('active');
+            document.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+        }
+    </script>
+</body>
+</html>
