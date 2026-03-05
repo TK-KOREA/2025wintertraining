@@ -511,7 +511,7 @@
             playMusic().catch(() => {
                 // 2. 브라우저 정책으로 차단된 경우, 사용자가 페이지를 처음 클릭할 때 재생되도록 설정
                 const playOnFirstInteraction = () => {
-                    playMusic();
+                    //playMusic();
                     document.removeEventListener('click', playOnFirstInteraction);
                 };
                 document.addEventListener('click', playOnFirstInteraction);
@@ -539,6 +539,7 @@
     </script>
 </body>
 </html>
+
 
 
 
