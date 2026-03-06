@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" style="font-size: 100%;">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         html {
-            transition: font-size 0.3s ease-in-out;
+            /* html의 폰트 사이즈를 부드럽게 전환하여 전체 rem 기반 텍스트들이 자연스럽게 변하도록 함 */
+            transition: font-size 0.25s ease-in-out;
         }
         body {
             font-family: 'Noto Sans KR', sans-serif;
@@ -23,7 +24,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             display: flex; justify-content: center; align-items: center;
-            z-index: 2000; transition: transform 1s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.8s ease;
+            z-index: 1000; transition: transform 1s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.8s ease;
             cursor: pointer;
         }
         #intro-layer.peeled { transform: translateY(-100%); opacity: 0; pointer-events: none; }
@@ -58,47 +59,6 @@
             background-color: #eef2ff;
         }
 
-        /* 우측 하단 세로형 폰트 조절 플로팅 버튼 */
-        .font-controls {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(4px);
-            border: 1px solid #e2e8f0;
-            padding: 6px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .font-controls button {
-            width: 28px;
-            height: 28px;
-            font-size: 16px !important; /* rem의 영향을 받지 않도록 고정 픽셀 사용 */
-            font-weight: bold;
-            color: #475569;
-            background-color: transparent;
-            border: 1px solid transparent;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            padding: 0;
-            line-height: 1;
-        }
-
-        .font-controls button:hover {
-            background-color: #f1f5f9;
-            color: #1e293b;
-            border-color: #cbd5e1;
-        }
-
         /* 흐름선 디자인 */
         .step-path {
             position: absolute;
@@ -109,9 +69,50 @@
             background: repeating-linear-gradient(to right, #cbd5e1 0, #cbd5e1 10px, transparent 10px, transparent 20px);
             z-index: 0;
         }
+
+        /* 새 폰트 조절 플로팅 버튼 (우측 하단 세로, 절대 크기) */
+        .vertical-font-controls {
+            position: fixed;
+            bottom: 15px;
+            right: 4px; /* 화면 제일 끝 쪽에 가깝게 */
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 3px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .vertical-font-controls button {
+            width: 24px !important;
+            height: 24px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            border: none;
+            border-radius: 4px;
+            color: #475569;
+            font-size: 15px !important; /* 화면 확대 축소에 영향받지 않도록 px 단위 고정 */
+            line-height: 1 !important;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0 !important;
+            margin: 0 !important;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .vertical-font-controls button:hover {
+            background-color: #e2e8f0;
+            color: #0f172a;
+        }
+        .vertical-font-controls button:active {
+            background-color: #cbd5e1;
+        }
     </style>
 </head>
-<body class="text-slate-800 text-[17px]">
+<body class="text-slate-800">
 
     <!-- 도입부: 레이어 벗기기 -->
     <div id="intro-layer" onclick="this.classList.add('peeled')">
@@ -124,11 +125,11 @@
         </div>
     </div>
 
-    <!-- 우측 하단 폰트 조절 버튼 -->
-    <div class="font-controls">
-        <button onclick="adjustFontSize(1)" title="글꼴 크게">+</button>
-        <button onclick="adjustFontSize(0)" title="글꼴 초기화">↺</button>
-        <button onclick="adjustFontSize(-1)" title="글꼴 작게">-</button>
+    <!-- 우측 하단 세로 폰트 조절 버튼 -->
+    <div class="vertical-font-controls">
+        <button onclick="changeFontScale(10)" title="글꼴 크게">+</button>
+        <button onclick="resetFontScale()" title="기본 크기">↺</button>
+        <button onclick="changeFontScale(-10)" title="글꼴 작게">-</button>
     </div>
 
     <header class="bg-white border-b pt-24 pb-12 px-6">
@@ -159,7 +160,7 @@
 
                     <div class="flex flex-col items-center">
                         <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 shadow-sm border-2 border-emerald-200">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.704 2.704 0 01-1.5-.454M21 12.772c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.704 2.704 0 01-1.5-.454M12 21.228l-8.5-5.32c-.812-.511-1.5-1.803-1.5-2.76v-7.22c0-.957.688-1.54 1.5-1.028l8.5 5.32 8.5-5.32c.812-.511 1.5.071 1.5 1.028v7.22c0 .957-.688 2.249-1.5 2.76L12 21.228z"></path></svg>
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.704 2.704 0 01-1.5-.454M21 12.772c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.704 2.704 0 01-1.5-.454M12 21.228l-8.5-5.32c-.812-.511-1.5-1.803-1.5-2.76v-7.22c0-.957.688-1.54 1.5-1.028l8.5 5.32 8.5-5.32c.812-.511 1.5.071 1.5 1.028v7.22c0 .957-.688 2.249-1.5 2.76L12 21.228z"></path></svg>
                         </div>
                         <h4 class="font-bold text-emerald-700 text-lg mb-1">3단계: 누림</h4>
                         <p class="text-sm text-slate-600 text-center leading-relaxed"><span class="font-bold text-slate-900">그리스도를 누림</span><br>(생명나무, 만나, 좋은 땅)</p>
@@ -275,7 +276,7 @@
                                 <div class="bg-white border p-6 rounded-2xl">
                                     <h5 class="font-bold text-red-600 mb-2">구체적 사례: 영의 감옥</h5>
                                     <p class="text-slate-600 text-sm leading-relaxed mb-4">
-                                        우리는 종종 주님을 <span class="font-bold">감정의 문 밖에</span> 세워 둡니다. 우리의 영은 주님을 가두는 <span class="font-bold text-red-700">감옥</span>과 같습니다. ​​비록 우리가 주님을 사랑하고 지속적으로 기도하며 집회에 참석하지만, 실지로는 기꺼이 대가를 지불하려고 하지 않고 그분을 문밖에 세워둘 수 있습니다.
+                                        우리는 종종 주님을 <span class="font-bold">감정의 문 밖에</span> 세워 둡니다. 우리의 영은 주님을 가두는 <span class="font-bold text-red-700">감옥</span>과 같습니다. 비록 우리가 주님을 사랑하고 지속적으로 기도하며 집회에 참석하지만, 실지로는 기꺼이 대가를 지불하려고 하지 않고 그분을 문밖에 세워둘 수 있습니다.
                                     </p>
                                     <div class="bg-red-50 p-4 rounded-xl border border-red-100 italic text-red-900 text-xs">
                                         "주님은 우리의 마음과 감정 안으로 들어오기를 간절히 바라시면서 우리의 차가운 영 안에 서서 문을 두드리고 계신다."
@@ -459,25 +460,25 @@
     </div>
 
     <script>
-        // --- 폰트 크기 조절 기능 로직 ---
-        let currentZoom = 100; // 초기 크기를 100%로 설정
+        // --- 폰트 사이즈 조절 로직 수정 ---
+        // 인포그래픽을 포함한 모든 Tailwind rem 기반 텍스트 크기를 일괄 조절하기 위해 
+        // html(최상위 루트)의 폰트 사이즈 비율을 조절합니다.
+        let currentFontScale = 100;
 
-        function adjustFontSize(step) {
-            // 초기화 버튼(↺)을 눌렀을 때
-            if (step === 0) {
-                currentZoom = 100;
-            } else {
-                // 확대/축소 비율 (한 번에 10%씩 조절)
-                currentZoom += step * 10; 
-            }
+        function changeFontScale(step) {
+            currentFontScale += step;
+            // 최소 70%, 최대 150%로 제한
+            if (currentFontScale < 70) currentFontScale = 70;
+            if (currentFontScale > 150) currentFontScale = 150;
             
-            // 크기 제한 (최소 70%, 최대 150%)
-            if (currentZoom < 70) currentZoom = 70;
-            if (currentZoom > 150) currentZoom = 150;
-            
-            // html 요소의 font-size를 조절하여 rem 단위가 적용된 모든 요소의 크기를 한 번에 변경
-            document.documentElement.style.fontSize = currentZoom + '%';
+            document.documentElement.style.fontSize = currentFontScale + '%';
         }
+
+        function resetFontScale() {
+            currentFontScale = 100;
+            document.documentElement.style.fontSize = '100%';
+        }
+        // -------------------------------
 
         function toggleAccordion(button) {
             const item = button.parentElement;
