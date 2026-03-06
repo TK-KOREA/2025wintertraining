@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" style="font-size: 100%;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* html 폰트 사이즈 조절시 부드럽게 변환되도록 추가 */
         html {
             transition: font-size 0.3s ease-in-out;
-            font-size: 16px; /* 기본 폰트 사이즈 */
         }
-        
         body {
             font-family: 'Noto Sans KR', sans-serif;
             background-color: #f1f5f9;
@@ -26,7 +23,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             display: flex; justify-content: center; align-items: center;
-            z-index: 1000; transition: transform 1s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.8s ease;
+            z-index: 2000; transition: transform 1s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.8s ease;
             cursor: pointer;
         }
         #intro-layer.peeled { transform: translateY(-100%); opacity: 0; pointer-events: none; }
@@ -61,38 +58,45 @@
             background-color: #eef2ff;
         }
 
-        /* 폰트 조절 플로팅 버튼 - 우측 상단에 아주 작게 */
-        .floating-controls {
+        /* 우측 하단 세로형 폰트 조절 플로팅 버튼 */
+        .font-controls {
             position: fixed;
-            top: 0.5rem;
-            right: 0.5rem;
-            z-index: 2000;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
             display: flex;
-            gap: 0.15rem;
-            padding: 0.2rem;
-            background-color: rgba(255, 255, 255, 0.8);
+            flex-direction: column;
+            gap: 6px;
+            background-color: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(4px);
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.5);
-        }
-        .font-btn {
-            padding: 0.15rem 0.35rem;
-            font-weight: 500;
-            border-radius: 0.3rem;
             border: 1px solid #e2e8f0;
-            background-color: transparent;
-            transition: all 0.2s;
-            font-size: 0.65rem; /* 글씨 아주 작게 */
-            color: #475569;
-            cursor: pointer;
+            padding: 6px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        .font-btn:hover { background-color: rgba(248, 250, 252, 0.8); }
-        .font-btn.active { 
-            background-color: #6366f1; 
-            color: white; 
-            border-color: #4f46e5;
-            box-shadow: 0 2px 4px rgb(99 102 241 / 0.3);
+
+        .font-controls button {
+            width: 28px;
+            height: 28px;
+            font-size: 16px !important; /* rem의 영향을 받지 않도록 고정 픽셀 사용 */
+            font-weight: bold;
+            color: #475569;
+            background-color: transparent;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .font-controls button:hover {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            border-color: #cbd5e1;
         }
 
         /* 흐름선 디자인 */
@@ -107,7 +111,7 @@
         }
     </style>
 </head>
-<body class="text-slate-800">
+<body class="text-slate-800 text-[17px]">
 
     <!-- 도입부: 레이어 벗기기 -->
     <div id="intro-layer" onclick="this.classList.add('peeled')">
@@ -120,11 +124,11 @@
         </div>
     </div>
 
-    <!-- 아주 작은 폰트 조절 버튼 -->
-    <div class="floating-controls">
-        <button onclick="changeFontSize('small', this)" class="font-btn">작게</button>
-        <button onclick="changeFontSize('normal', this)" class="font-btn active">보통</button>
-        <button onclick="changeFontSize('large', this)" class="font-btn">크게</button>
+    <!-- 우측 하단 폰트 조절 버튼 -->
+    <div class="font-controls">
+        <button onclick="adjustFontSize(1)" title="글꼴 크게">+</button>
+        <button onclick="adjustFontSize(0)" title="글꼴 초기화">↺</button>
+        <button onclick="adjustFontSize(-1)" title="글꼴 작게">-</button>
     </div>
 
     <header class="bg-white border-b pt-24 pb-12 px-6">
@@ -132,7 +136,7 @@
             <h2 class="text-indigo-600 font-bold tracking-widest uppercase text-sm mb-2">요한계시록 3:20-21</h2>
             <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 mb-10 leading-tight">회복되었다가 타락한 교회 안에서<br><span class="text-indigo-600">주님과 상호 누림을 갖는 길</span></h1>
             
-            <!-- 핵심 요약 대시보드 (4단계 구성) - 인포그래픽 텍스트도 스케일링 됨 -->
+            <!-- 핵심 요약 대시보드 (4단계 구성) -->
             <div class="bg-slate-50 rounded-[2.5rem] p-8 md:p-10 border border-slate-200 shadow-inner relative overflow-hidden">
                 <div class="step-path hidden md:block opacity-50"></div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
@@ -155,7 +159,7 @@
 
                     <div class="flex flex-col items-center">
                         <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 shadow-sm border-2 border-emerald-200">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.704 2.704 0 01-1.5-.454M21 12.772c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.704 2.704 0 01-1.5-.454M12 21.228l-8.5-5.32c-.812-.511-1.5-1.803-1.5-2.76v-7.22c0-.957.688-1.54 1.5-1.028l8.5 5.32 8.5-5.32c.812-.511 1.5.071 1.5 1.028v7.22c0 .957-.688 2.249-1.5 2.76L12 21.228z"></path></svg>
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.704 2.704 0 01-1.5-.454M21 12.772c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.704 2.704 0 01-1.5-.454M12 21.228l-8.5-5.32c-.812-.511-1.5-1.803-1.5-2.76v-7.22c0-.957.688-1.54 1.5-1.028l8.5 5.32 8.5-5.32c.812-.511 1.5.071 1.5 1.028v7.22c0 .957-.688 2.249-1.5 2.76L12 21.228z"></path></svg>
                         </div>
                         <h4 class="font-bold text-emerald-700 text-lg mb-1">3단계: 누림</h4>
                         <p class="text-sm text-slate-600 text-center leading-relaxed"><span class="font-bold text-slate-900">그리스도를 누림</span><br>(생명나무, 만나, 좋은 땅)</p>
@@ -455,23 +459,24 @@
     </div>
 
     <script>
-        // 핵심 변경 부분: html 태그의 기준 폰트 사이즈를 조절하여 
-        // 페이지 전체(인포그래픽의 rem 단위 포함)를 스케일링 합니다.
-        function changeFontSize(size, btn) {
-            const html = document.documentElement;
-            
-            if (size === 'small') {
-                html.style.fontSize = '13px';
-            } else if (size === 'normal') {
-                html.style.fontSize = '16px'; 
-            } else if (size === 'large') {
-                html.style.fontSize = '21px';
-            }
+        // --- 폰트 크기 조절 기능 로직 ---
+        let currentZoom = 100; // 초기 크기를 100%로 설정
 
-            // 버튼 스타일 업데이트
-            const btns = document.querySelectorAll('.floating-controls button');
-            btns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+        function adjustFontSize(step) {
+            // 초기화 버튼(↺)을 눌렀을 때
+            if (step === 0) {
+                currentZoom = 100;
+            } else {
+                // 확대/축소 비율 (한 번에 10%씩 조절)
+                currentZoom += step * 10; 
+            }
+            
+            // 크기 제한 (최소 70%, 최대 150%)
+            if (currentZoom < 70) currentZoom = 70;
+            if (currentZoom > 150) currentZoom = 150;
+            
+            // html 요소의 font-size를 조절하여 rem 단위가 적용된 모든 요소의 크기를 한 번에 변경
+            document.documentElement.style.fontSize = currentZoom + '%';
         }
 
         function toggleAccordion(button) {
