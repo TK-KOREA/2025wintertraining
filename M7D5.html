@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>라오디게아의 회복: 미지근함에서 보좌까지</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --base-font-size: 17px; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f1f5f9;
+            scroll-behavior: smooth;
+            font-size: var(--base-font-size);
+            transition: font-size 0.25s ease-in-out;
+            line-height: 1.6;
+        }
+
+        /* 폰트 크기 제어 클래스 - 전체 요소에 상대적으로 적용 */
+        .font-size-small { font-size: 14px; }
+        .font-size-normal { font-size: 17px; }
+        .font-size-large { font-size: 21px; }
+
+        /* 레이어 벗기기 효과 */
+        #intro-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; transition: transform 1s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.8s ease;
+            cursor: pointer;
+        }
+        #intro-layer.peeled { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+
+        .highlight-bold {
+            background: linear-gradient(to top, #fef08a 40%, transparent 40%);
+            font-weight: 700;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+        }
+        .accordion-item.active .accordion-content {
+            max-height: 5000px;
+            transition: max-height 1.5s ease-in-out;
+        }
+        .accordion-item.active .chevron { transform: rotate(180deg); }
+
+        .quiz-option {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+        }
+        .quiz-option:hover {
+            border-color: #6366f1;
+            background-color: #f8fafc;
+        }
+        .quiz-option.selected {
+            border-color: #6366f1;
+            background-color: #eef2ff;
+        }
+
+        /* 폰트 조절 플로팅 버튼 */
+        .floating-controls {
+            position: fixed;
+            top: 1.25rem;
+            right: 1.25rem;
+            z-index: 500;
+            display: flex;
+            gap: 0.4rem;
+        }
+        .font-btn {
+            padding: 0.5rem 0.8rem;
+            font-weight: 600;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+        .font-btn:hover { background-color: #f8fafc; transform: translateY(-1px); }
+        .font-btn.active { 
+            background-color: #6366f1; 
+            color: white; 
+            border-color: #4f46e5;
+            box-shadow: 0 4px 12px -2px rgb(99 102 241 / 0.4);
+        }
+
+        /* 흐름선 디자인 */
+        .step-path {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: repeating-linear-gradient(to right, #cbd5e1 0, #cbd5e1 10px, transparent 10px, transparent 20px);
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-size-normal">
+
+    <!-- 도입부: 레이어 벗기기 -->
+    <div id="intro-layer" onclick="this.classList.add('peeled')">
+        <div class="text-center text-white px-6">
+            <p class="text-xl md:text-2xl font-light opacity-80 mb-8 underline underline-offset-8 decoration-indigo-500">이기는 이들과 함께 정찬을 드실 분</p>
+            <div class="animate-bounce">
+                <p class="text-sm uppercase tracking-widest">화면을 클릭하여 문을 열기</p>
+                <svg class="w-10 h-10 mx-auto mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- 폰트 조절 버튼 (수정됨) -->
+    <div class="floating-controls bg-white/40 backdrop-blur p-1.5 rounded-2xl shadow-xl border border-white/50">
+        <button onclick="changeFontSize('small', this)" class="font-btn">작게</button>
+        <button onclick="changeFontSize('normal', this)" class="font-btn active">보통</button>
+        <button onclick="changeFontSize('large', this)" class="font-btn">크게</button>
+    </div>
+
+    <header class="bg-white border-b pt-24 pb-12 px-6">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-indigo-600 font-bold tracking-widest uppercase text-sm mb-2">요한계시록 3:20-21</h2>
+            <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 mb-10 leading-tight">회복되었다가 타락한 교회 안에서<br><span class="text-indigo-600">주님과 상호 누림을 갖는 길</span></h1>
+            
+            <!-- 핵심 요약 대시보드 (4단계 구성) -->
+            <div class="bg-slate-50 rounded-[2.5rem] p-8 md:p-10 border border-slate-200 shadow-inner relative overflow-hidden">
+                <div class="step-path hidden md:block opacity-50"></div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
+                    
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mb-4 shadow-sm border-2 border-orange-200">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                        <h4 class="font-bold text-orange-700 text-lg mb-1">1단계: 진단</h4>
+                        <p class="text-sm text-slate-600 text-center leading-relaxed">지식은 풍부하나<br><span class="font-bold text-slate-900">실재가 없는 미지근함</span></p>
+                    </div>
+
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 shadow-sm border-2 border-blue-200">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                        </div>
+                        <h4 class="font-bold text-blue-700 text-lg mb-1">2단계: 반응</h4>
+                        <p class="text-sm text-slate-600 text-center leading-relaxed">마음의 문을 열고<br><span class="font-bold text-slate-900">주님의 처리를 받아들임</span></p>
+                    </div>
+
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 shadow-sm border-2 border-emerald-200">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.704 2.704 0 01-1.5-.454M21 12.772c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.704 2.704 0 01-1.5-.454M12 21.228l-8.5-5.32c-.812-.511-1.5-1.803-1.5-2.76v-7.22c0-.957.688-1.54 1.5-1.028l8.5 5.32 8.5-5.32c.812-.511 1.5.071 1.5 1.028v7.22c0 .957-.688 2.249-1.5 2.76L12 21.228z"></path></svg>
+                        </div>
+                        <h4 class="font-bold text-emerald-700 text-lg mb-1">3단계: 누림</h4>
+                        <p class="text-sm text-slate-600 text-center leading-relaxed"><span class="font-bold text-slate-900">그리스도를 누림</span><br>(생명나무, 만나, 좋은 땅)</p>
+                    </div>
+
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-4 shadow-sm border-2 border-purple-200">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z"></path></svg>
+                        </div>
+                        <h4 class="font-bold text-purple-700 text-lg mb-1">4단계: 보상</h4>
+                        <p class="text-sm text-slate-600 text-center leading-relaxed">풍성한 정찬과<br><span class="font-bold text-slate-900">주님의 보좌에 함께 앉음</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto py-12 px-6">
+        
+        <div class="space-y-8">
+            <!-- 요점 1: 진단 -->
+            <div class="accordion-item bg-white rounded-[2rem] border shadow-sm overflow-hidden transition-all duration-300">
+                <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between p-6 md:p-8 text-left focus:outline-none hover:bg-slate-50 transition-colors">
+                    <div class="flex items-center space-x-5">
+                        <div class="bg-orange-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl shadow-lg">1</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">미지근함과 영적 눈멀음의 진단</h3>
+                            <p class="text-sm text-slate-500">라오디게아의 비참한 실제 상태와 그 이유</p>
+                        </div>
+                    </div>
+                    <svg class="chevron w-6 h-6 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="accordion-content">
+                    <div class="p-8 pt-0 space-y-8 border-t border-slate-50">
+                        <div class="space-y-4 pt-6">
+                            <h4 class="text-xs font-bold text-orange-600 uppercase tracking-widest flex items-center gap-2">
+                                <span class="w-1 h-1 bg-orange-600 rounded-full"></span> 근거 성경구절
+                            </h4>
+                            <div class="bg-orange-50 p-6 rounded-2xl border-l-4 border-orange-500 text-slate-800 leading-relaxed shadow-sm space-y-4">
+                                <p class="text-lg">계 3:15 "내가 너의 일을 안다. 너는 <span class="highlight-bold">차지도 않고 뜨겁지도 않다.</span> 나는 네가 차거나 뜨겁기를 원한다."</p>
+                                <p class="text-lg">계 3:16 "네가 이렇게 <span class="highlight-bold">미지근하여 뜨겁지도 않고 차지도 않기 때문에</span>, 나는 너를 나의 입에서 토하여 낼 것이다."</p>
+                                <p class="text-lg">계 3:17 "네가 ‘나는 풍부하고 풍성하게 되어 부족한 것이 전혀 없습니다.’라고 말하지만, 사실은 네가 <span class="highlight-bold">비참하고 가련하고 가난하고 눈멀고 벌거벗은 것</span>을 알지 못한다."</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-white border p-6 rounded-2xl shadow-sm">
+                                <h5 class="font-bold text-indigo-600 mb-4 flex items-center gap-2">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h.01a1 1 0 100-2H10zm3 0a1 1 0 000 2h.01a1 1 0 100-2H13zM7 13a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h.01a1 1 0 100-2H10zm3 0a1 1 0 000 2h.01a1 1 0 100-2H13z" clip-rule="evenodd"/></svg>
+                                    상태의 의미 (5가지 실재)
+                                </h5>
+                                <ul class="space-y-4 text-slate-600 text-sm">
+                                    <li><span class="font-bold text-slate-900">• 비참:</span> 공허한 <span class="highlight-bold">교리적 지식</span>은 풍성하지만, 실지로 그리스도의 풍성을 체험하는 면에서는 몹시 빈약함.</li>
+                                    <li><span class="font-bold text-slate-900">• 가련:</span> 벌거벗고 눈멀고 <span class="highlight-bold">수치와 어둠</span>이 가득함.</li>
+                                    <li><span class="font-bold text-slate-900">• 가난:</span> 그리스도에 대한 체험과 <span class="highlight-bold">하나님의 경륜의 영적인 실재</span> 면에서 몹시 가난함.</li>
+                                    <li><span class="font-bold text-slate-900">• 눈멀음:</span> 진정한 영적인 일들을 보는 <span class="highlight-bold">참된 영적 통찰력</span>이 부족함.</li>
+                                    <li><span class="font-bold text-slate-900">• 벌거벗음:</span> 매일의 행함에서 <span class="highlight-bold">그리스도로 말미암아 살지도 않고</span> 그리스도를 살지도 않음.</li>
+                                </ul>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="bg-indigo-50 p-6 rounded-2xl">
+                                    <h5 class="font-bold text-indigo-900 mb-2">구체적 사례 및 진단</h5>
+                                    <p class="text-indigo-800 text-sm leading-relaxed">
+                                        라오디게아는 <span class="font-bold underline underline-offset-4">가장 심각한 상태</span>에 있지만 정작 자신의 상황을 모르고 있습니다. 지식은 있었지만 주님의 임재가 없었으며, 단지 무언가를 <span class="font-bold">알고 있는 것</span>을 실재로 착각하고 있습니다.
+                                    </p>
+                                </div>
+                                <div class="bg-white border-2 border-dashed border-orange-200 p-6 rounded-2xl">
+                                    <h5 class="font-bold text-orange-600 mb-2">실행 및 적용</h5>
+                                    <p class="text-slate-600 text-sm leading-relaxed">
+                                        우리가 무언가를 단지 알고 있는 데서 구원받아야 합니다. 필요한 것인 <span class="font-bold">금과 흰옷과 안약</span>을 사기 위해 기꺼이 <span class="font-bold text-orange-700">대가를 지불</span>하는 태도가 필요합니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 요점 2: 반응 -->
+            <div class="accordion-item bg-white rounded-[2rem] border shadow-sm overflow-hidden transition-all duration-300">
+                <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between p-6 md:p-8 text-left focus:outline-none hover:bg-slate-50 transition-colors">
+                    <div class="flex items-center space-x-5">
+                        <div class="bg-blue-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl shadow-lg">2</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">문 밖에 선 주님과 개인적인 반응</h3>
+                            <p class="text-sm text-slate-500">마음의 문을 열고 주님을 안으로 모셔들임</p>
+                        </div>
+                    </div>
+                    <svg class="chevron w-6 h-6 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="accordion-content">
+                    <div class="p-8 pt-0 space-y-8 border-t border-slate-50">
+                        <div class="space-y-4 pt-6">
+                            <h4 class="text-xs font-bold text-blue-600 uppercase tracking-widest flex items-center gap-2">
+                                <span class="w-1 h-1 bg-blue-600 rounded-full"></span> 근거 성경구절
+                            </h4>
+                            <div class="bg-blue-50 p-6 rounded-2xl border-l-4 border-blue-500 text-slate-800 leading-relaxed shadow-sm">
+                                <p class="text-lg">계 3:20 "보아라, <span class="highlight-bold">내가 문밖에 서서, 문을 두드린다.</span> 누구든지 나의 음성을 듣고 문을 열면, 내가 그에게 들어가 그와 함께 먹고, 그는 나와 함께 먹을 것이다."</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                                <h5 class="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+                                    핵심 의미: 개인적 반응의 필요성
+                                </h5>
+                                <p class="text-slate-600 text-sm leading-relaxed">
+                                    문은 교회의 문이지만, 이 문은 <span class="font-bold text-slate-900">개인적인 믿는 이들이 열어야</span> 합니다. 주님은 교회 전체를 다루고 계시지만, 주님의 처리를 받아들이는 것은 <span class="font-bold text-blue-700">누가 대신 해줄 수 없고, 개인적으로 열어드려야</span> 합니다.
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-white border p-6 rounded-2xl">
+                                    <h5 class="font-bold text-red-600 mb-2">구체적 사례: 영의 감옥</h5>
+                                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                                        우리는 종종 주님을 <span class="font-bold">감정의 문 밖에</span> 세워 둡니다. 우리의 영은 주님을 가두는 <span class="font-bold text-red-700">감옥</span>과 같습니다. ​​비록 우리가 주님을 사랑하고 지속적으로 기도하며 집회에 참석하지만, 실지로는 기꺼이 대가를 지불하려고 하지 않고 그분을 문밖에 세워둘 수 있습니다.
+                                    </p>
+                                    <div class="bg-red-50 p-4 rounded-xl border border-red-100 italic text-red-900 text-xs">
+                                        "주님은 우리의 마음과 감정 안으로 들어오기를 간절히 바라시면서 우리의 차가운 영 안에 서서 문을 두드리고 계신다."
+                                    </div>
+                                </div>
+                                <div class="bg-indigo-50 p-6 rounded-2xl flex flex-col justify-center">
+                                    <h5 class="font-bold text-indigo-900 mb-2">실행 및 적용</h5>
+                                    <p class="text-indigo-800 text-sm leading-relaxed">
+                                        주님께서 들어오셔서 함께 정찬을 드실 수 있도록 <span class="font-bold">개인적으로 문을 여는 대가</span>를 지불하십시오. 주님은 우리와 <span class="font-bold underline underline-offset-4">상호 누림</span>을 갖기를 갈망하십니다. 지식뿐인 상태에서 벗어나 주님의 임재 안으로 들어오십시오.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 요점 3: 누림 -->
+            <div class="accordion-item bg-white rounded-[2rem] border shadow-sm overflow-hidden transition-all duration-300">
+                <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between p-6 md:p-8 text-left focus:outline-none hover:bg-slate-50 transition-colors">
+                    <div class="flex items-center space-x-5">
+                        <div class="bg-emerald-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl shadow-lg">3</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">풍성한 정찬과 3단계 음식의 누림</h3>
+                            <p class="text-sm text-slate-500">그리스도를 생명 공급으로 받아들임</p>
+                        </div>
+                    </div>
+                    <svg class="chevron w-6 h-6 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="accordion-content">
+                    <div class="p-8 pt-0 space-y-8 border-t border-slate-50">
+                        <div class="space-y-4 pt-6">
+                            <h4 class="text-xs font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-2">
+                                <span class="w-1 h-1 bg-emerald-600 rounded-full"></span> 근거 성경구절
+                            </h4>
+                            <div class="bg-emerald-50 p-6 rounded-2xl border-l-4 border-emerald-500 text-slate-800 leading-relaxed shadow-sm space-y-4">
+                                <p class="text-lg">수 5:11 "유월절 다음 날, 그들은 <span class="highlight-bold">그 땅의 소산을 먹었다.</span> 바로 그날에 그들은 무교 과자와 볶은 곡식을 먹었다."</p>
+                                <p class="text-lg">수 5:12 "그들이 그 땅의 소산을 먹은 그날 만나가 그쳤다. 그들은 그해에 <span class="highlight-bold">가나안 땅에서 난 것을 먹었다.</span>"</p>
+                                <p class="text-lg">계 3:20 "...내가 그에게 들어가 <span class="highlight-bold">그와 함께 먹고, 그는 나와 함께 먹을 것이다.</span>"</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="bg-white border p-6 rounded-2xl">
+                                <h5 class="font-bold text-emerald-900 mb-3 flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.704 2.704 0 01-1.5-.454M21 12.772c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.703 2.703 0 01-3 0 2.704 2.704 0 01-1.5-.454M12 21.228l-8.5-5.32c-.812-.511-1.5-1.803-1.5-2.76v-7.22c0-.957.688-1.54 1.5-1.028l8.5 5.32 8.5-5.32c.812-.511 1.5.071 1.5 1.028v7.22c0 .957-.688 2.249-1.5 2.76L12 21.228z"></path></svg>
+                                    계 3:20의 '먹고'의 의미
+                                </h5>
+                                <p class="text-slate-600 text-sm leading-relaxed">
+                                    계 3:20에 있는 ‘먹고’의 헬라어(Deipnon) 의미는 저녁에 그날의 <span class="font-bold text-slate-900">정찬</span>을 먹는 것을 가리킵니다. 단지 한 가지 음식만 먹는 것이 아니라 <span class="font-bold text-emerald-700">풍성한 식사인 잔치 음식</span>에 참여하는 것입니다. 이것은 오늘 우리가 그분 자신을 생명 공급으로 받아들여 <span class="font-bold underline">그분과 똑같이 자라고 변화되는 것</span>을 의미합니다.
+                                </p>
+                            </div>
+
+                            <div class="bg-emerald-50 p-6 rounded-3xl border border-emerald-100">
+                                <h5 class="font-bold text-emerald-900 mb-4 text-center">구체적 사례: 성경의 세 단계 음식 예표</h5>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                    <div class="bg-white p-4 rounded-2xl text-center shadow-sm">
+                                        <div class="text-2xl mb-2">🌳</div>
+                                        <h6 class="font-bold text-slate-800 mb-1 text-sm">생명나무</h6>
+                                        <p class="text-[10px] text-slate-500">에덴동산<br>(계 2:7)</p>
+                                    </div>
+                                    <div class="bg-white p-4 rounded-2xl text-center shadow-sm">
+                                        <div class="text-2xl mb-2">🍯</div>
+                                        <h6 class="font-bold text-slate-800 mb-1 text-sm">감추어진 만나</h6>
+                                        <p class="text-[10px] text-slate-500">광야<br>(계 2:17)</p>
+                                    </div>
+                                    <div class="bg-white p-4 rounded-2xl text-center shadow-sm border-2 border-emerald-400">
+                                        <div class="text-2xl mb-2">🍇</div>
+                                        <h6 class="font-bold text-emerald-700 mb-1 text-sm">풍성한 소산</h6>
+                                        <p class="text-[10px] text-slate-500">좋은 땅<br>(계 3:20)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white border-l-4 border-emerald-500 p-6 rounded-r-2xl shadow-sm">
+                                <h5 class="font-bold text-slate-900 mb-2">실행 및 적용: 그리스도로 조성됨</h5>
+                                <p class="text-slate-600 text-sm leading-relaxed">
+                                    그리스도를 누리는 것을 통해 우리는 그분으로 <span class="font-bold text-emerald-700">조성</span>될 수 있습니다. 결국 우리는 조성에 있어서 <span class="font-bold text-slate-900">그분과 한 실체로 연합</span>되어 새 예루살렘으로서 그분을 표현하게 됩니다. 정찬을 먹는 것은 장래만을 위한 것이 아니라 오늘을 위한 것이기도 합니다. 매일 주님과 함께 정찬을 누리십시오.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 요점 4: 보상 -->
+            <div class="accordion-item bg-white rounded-[2rem] border shadow-sm overflow-hidden transition-all duration-300">
+                <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between p-6 md:p-8 text-left focus:outline-none hover:bg-slate-50 transition-colors">
+                    <div class="flex items-center space-x-5">
+                        <div class="bg-purple-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl shadow-lg">4</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">이기는 이의 보상: 보좌에 함께 앉음</h3>
+                            <p class="text-sm text-slate-500">주님의 승리에 동참하는 영광</p>
+                        </div>
+                    </div>
+                    <svg class="chevron w-6 h-6 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="accordion-content">
+                    <div class="p-8 pt-0 space-y-8 border-t border-slate-50">
+                        <div class="space-y-4 pt-6">
+                            <h4 class="text-xs font-bold text-purple-600 uppercase tracking-widest flex items-center gap-2">
+                                <span class="w-1 h-1 bg-purple-600 rounded-full"></span> 근거 성경구절
+                            </h4>
+                            <div class="bg-purple-50 p-6 rounded-2xl border-l-4 border-purple-500 text-slate-800 leading-relaxed shadow-sm">
+                                <p class="text-lg">계 3:21 "이기는 이에게는, 내가 이기고 나서 나의 아버지의 보좌에 아버지와 함께 앉은 것과 같이, <span class="highlight-bold">나의 보좌에 나와 함께 앉도록 해 주겠다.</span>"</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="bg-gradient-to-br from-purple-500 to-indigo-700 p-8 rounded-3xl text-white shadow-xl">
+                                <h5 class="text-xl font-bold mb-6 flex items-center gap-2">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z"></path></svg>
+                                    핵심 요점 및 실행: 이긴다는 것의 실제
+                                </h5>
+                                <div class="space-y-4 opacity-95 text-base leading-relaxed">
+                                    <p>1. 타락한 교회의 <span class="font-bold underline underline-offset-4">미지근함과 교만(16-17절)을 이기는 것</span>입니다.</p>
+                                    <p>2. 필요한 것(금, 흰옷, 안약)을 사기 위해 <span class="font-bold underline underline-offset-4">대가를 지불(18절)하는 것</span>입니다.</p>
+                                    <p>3. 주님께서 들어오셔서 함께 정찬을 드실 수 있도록 <span class="font-bold underline underline-offset-4">문을 여는(20절) 것</span>입니다.</p>
+                                </div>
+                                <hr class="my-8 opacity-20">
+                                <p class="text-lg font-medium">"우리가 이기는 이들이라면, 주님께서 왕국 안에서 오실 때 그분과 함께 먹는 특별한 특권을 얻게 될 것입니다."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 퀴즈 섹션 -->
+        <section class="mt-24 bg-white rounded-[2.5rem] shadow-2xl border border-slate-200 overflow-hidden">
+            <div class="bg-slate-900 p-10 text-center text-white">
+                <h2 class="text-3xl font-bold mb-3">진리 확인 퀴즈</h2>
+                <p class="text-slate-400 font-light">지문의 핵심 내용을 잘 이해하셨는지 확인해보세요.</p>
+            </div>
+            <div id="quiz-container" class="p-8 md:p-12 space-y-12"></div>
+            
+            <div id="quiz-result" class="hidden mx-8 md:mx-12 mb-12 p-10 rounded-[2rem] bg-indigo-600 text-white text-center shadow-2xl animate-pulse">
+                <h3 class="text-2xl font-bold mb-4">학습 결과</h3>
+                <p id="score-text" class="text-6xl font-extrabold mb-6">0 / 5</p>
+                <p id="feedback-text" class="text-xl font-medium opacity-90 leading-relaxed"></p>
+                <button onclick="resetQuiz()" class="mt-8 px-10 py-4 bg-white text-indigo-600 rounded-full font-bold hover:bg-slate-100 transition-all shadow-md">다시 도전하기</button>
+            </div>
+            
+            <div class="p-8 md:p-12 bg-slate-50 border-t text-center">
+                <button id="submit-quiz" onclick="calculateScore()" class="px-16 py-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-bold text-2xl transition-all shadow-xl transform hover:scale-105 active:scale-95">제출하고 점수 확인</button>
+            </div>
+        </section>
+
+        <!-- 기도 섹션 -->
+        <section class="mt-24 px-6 max-w-3xl mx-auto">
+            <div class="prayer-card relative bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-indigo-50">
+                <div class="h-6 bg-gradient-to-r from-orange-400 via-indigo-500 to-purple-600"></div>
+                <div class="p-10 md:p-16 text-center">
+                    <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-10">오늘의 기도</h2>
+                    <div id="prayer-text" class="text-xl md:text-2xl text-slate-700 leading-loose space-y-6 italic font-medium">
+                        <p>"주님, 제가 지식의 부요함에 안주하여 영적인 눈이 멀고 <span class="text-orange-600 font-bold">미지근해지지 않기를</span> 기도합니다."</p>
+                        <p>"나의 영 안에만 가두어 두었던 주님께 나의 감정과 생각, <span class="text-indigo-600 font-bold">마음의 내실의 문</span>을 활짝 열어드립니다."</p>
+                        <p>"대가를 지불하여 주님의 처리를 받아들이고 주님과 <span class="text-emerald-600 font-bold">상호 누림</span>을 갖기를 갈망합니다."</p>
+                        <p>"오늘 내게 오셔서 풍성한 정찬을 베풀어 주시고, 당신을 누림으로 당신과 똑같이 조성되어 <span class="text-purple-600 font-bold">이기는 이</span>가 되게 하소서. 아멘."</p>
+                    </div>
+                </div>
+                <div class="absolute bottom-0 right-0 p-6 opacity-10">
+                    <svg class="w-32 h-32 text-indigo-900" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-200 py-20 px-6 mt-20 border-t text-center">
+        <p class="text-slate-500 mb-10 text-sm uppercase tracking-[0.3em]">© 2025 Winter Training · 2025 겨울 훈련</p>
+        <a href="https://tk-korea.github.io/2025wintertraining/" class="inline-flex items-center space-x-4 px-12 py-5 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-all font-bold text-xl shadow-lg hover:shadow-2xl">
+            <span>공식 홈페이지 방문</span>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </a>
+    </footer>
+
+    <!-- 알림 박스 -->
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-8 py-4 rounded-2xl shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-[3000]">
+        메시지가 복사되었습니다.
+    </div>
+
+    <script>
+        function changeFontSize(size, btn) {
+            const body = document.body;
+            body.classList.remove('font-size-small', 'font-size-normal', 'font-size-large');
+            body.classList.add(`font-size-${size}`);
+            const btns = document.querySelectorAll('.floating-controls button');
+            btns.forEach(b => b.classList.remove('bg-slate-100', 'active', 'bg-slate-200', 'ring-2', 'ring-indigo-500'));
+            btn.classList.add('bg-slate-200', 'ring-2', 'ring-indigo-500');
+        }
+
+        function toggleAccordion(button) {
+            const item = button.parentElement;
+            const isActive = item.classList.contains('active');
+            if (!isActive) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        }
+
+        const quizData = [
+            { q: "라오디게아 교회가 스스로 '부족한 것이 전혀 없다'고 할 때, 주님이 보신 실제 상태가 아닌 것은?", options: ["비참하고 가련함", "영적 지식이 없음", "눈멀고 벌거벗음", "체험 면에서 가난함"], answer: 1 },
+            { q: "주님이 문 밖에서 두드리실 때, 그 문을 열어야 하는 실제적인 영역은 어디입니까?", options: ["교회의 공적인 회의", "우리의 지식과 이론", "우리의 마음과 감정", "광야의 만나 항아리"], answer: 2 },
+            { q: "지문에서 설명하는 '영의 감옥'이란 무엇을 의미합니까?", options: ["영 안에 계신 주님을 마음 안으로 모시지 않는 상태", "감옥에 갇혀서 주님을 전파하는 상태", "주님의 처리를 기쁘게 받아들이는 상태", "지식이 전혀 없는 순수한 감정의 상태"], answer: 0 },
+            { q: "3단계 음식 중 요한계시록 3:20의 '정찬'과 연결되는 예표는 무엇입니까?", options: ["에덴의 생명나무", "광야의 만나", "가나안 좋은 땅의 풍성한 소산", "애굽의 부추와 마늘"], answer: 2 },
+            { q: "이기는 이에게 약속된 '보좌에 함께 앉는 보상'을 받기 위해 필요한 것이 아닌 것은?", options: ["미지근함을 이김", "안일한 지식에 만족함", "대가를 지불하여 필요한 것을 삼", "주님께 개인적으로 문을 열어드림"], answer: 1 }
+        ];
+
+        let userAnswers = new Array(quizData.length).fill(null);
+
+        function loadQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = quizData.map((item, index) => `
+                <div class="quiz-item" data-index="${index}">
+                    <div class="flex items-start gap-5 mb-8">
+                        <span class="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-2xl flex-shrink-0 shadow-md">${index + 1}</span>
+                        <p class="text-2xl font-bold text-slate-800 leading-tight pt-1">${item.q}</p>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4 pl-16">
+                        ${item.options.map((opt, i) => `
+                            <div onclick="selectOption(${index}, ${i})" class="quiz-option p-6 rounded-[1.5rem] flex items-center gap-5 text-xl hover:shadow-lg" id="q${index}o${i}">
+                                <div class="w-7 h-7 border-2 border-slate-300 rounded-full flex-shrink-0 flex items-center justify-center transition-all">
+                                    <div class="inner-dot w-4 h-4 bg-indigo-600 rounded-full opacity-0 scale-0 transition-all"></div>
+                                </div>
+                                <span class="text-slate-700 font-medium">${opt}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectOption(qIdx, oIdx) {
+            userAnswers[qIdx] = oIdx;
+            const options = document.querySelectorAll(`.quiz-item[data-index="${qIdx}"] .quiz-option`);
+            options.forEach((opt, i) => {
+                const dot = opt.querySelector('.inner-dot');
+                const circle = opt.querySelector('.w-7');
+                if (i === oIdx) {
+                    opt.classList.add('selected');
+                    dot.classList.remove('opacity-0', 'scale-0');
+                    circle.classList.add('border-indigo-600');
+                } else {
+                    opt.classList.remove('selected');
+                    dot.classList.add('opacity-0', 'scale-0');
+                    circle.classList.remove('border-indigo-600');
+                }
+            });
+        }
+
+        function calculateScore() {
+            if (userAnswers.includes(null)) {
+                alert("모든 문제를 풀어주세요!");
+                return;
+            }
+            let score = 0;
+            quizData.forEach((item, index) => { if (item.answer === userAnswers[index]) score++; });
+            const resultContainer = document.getElementById('quiz-result');
+            const scoreText = document.getElementById('score-text');
+            const feedbackText = document.getElementById('feedback-text');
+            const submitBtn = document.getElementById('submit-quiz');
+            resultContainer.classList.remove('hidden');
+            scoreText.innerText = `${score} / ${quizData.length}`;
+            feedbackText.innerText = score === quizData.length ? "놀랍습니다! 지문의 모든 실재를 완벽하게 파악하셨군요! 풍성한 정찬을 누리는 이기는 이이십니다." : "잘 하셨습니다! 조금만 더 지문의 단어들을 묵상하시면 보좌에 함께 앉는 이기는 이가 되실 거예요.";
+            submitBtn.classList.add('hidden');
+            resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetQuiz() {
+            userAnswers.fill(null);
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('submit-quiz').classList.remove('hidden');
+            loadQuiz();
+            window.scrollTo({ top: document.getElementById('quiz-container').offsetTop - 150, behavior: 'smooth' });
+        }
+
+        window.onload = loadQuiz;
+    </script>
+</body>
+</html>
