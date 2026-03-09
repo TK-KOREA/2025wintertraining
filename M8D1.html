@@ -11,7 +11,6 @@
         
         :root {
             --base-font-size: 1rem;
-            --nav-height: 40px;
         }
 
         body {
@@ -23,26 +22,51 @@
             color: #334155;
         }
 
-        /* 상단 고정 바 - 폰트 사이즈 조정에 영향받지 않음 */
+        /* 상단 고정 바 (폰트 크기 조절에 영향받지 않도록 px 단위로 고정) */
         #top-nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: var(--nav-height);
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
+            height: 36px;
+            background-color: #ffffff;
             border-bottom: 1px solid #e2e8f0;
             z-index: 1100;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0; /* 여백 최소화 */
+            padding: 0; /* 여백 제거 */
+        }
+        
+        .nav-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            flex-shrink: 0;
+            text-decoration: none;
         }
 
-        /* 내비게이션 내부 텍스트 및 아이콘 크기 고정 */
-        #top-nav * {
-            font-size: 14px !important; 
+        .nav-btn:hover {
+            background-color: #f1f5f9;
+            color: #2563eb;
+        }
+
+        .nav-title {
+            flex: 1;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 5px;
         }
 
         /* 도입부 레이어 */
@@ -131,27 +155,25 @@
         }
     </style>
 </head>
-<body class="pt-[40px]">
+<body class="pt-[36px]">
 
     <!-- 상단 고정 바 -->
     <nav id="top-nav">
-        <div class="flex items-center h-full">
-            <a href="https://tk-korea.github.io/2025wintertraining/" class="w-10 h-full flex items-center justify-center text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors border-r border-slate-100">
-                <i class="fa-solid fa-house"></i>
-            </a>
-            <span class="px-3 font-bold text-slate-800 truncate max-w-[180px] md:max-w-none">
-                사내아이: 이기는 성도들에 대한 이상과 훈련
-            </span>
+        <!-- 1. 홈페이지 바로가기 -->
+        <a href="https://tk-korea.github.io/2025wintertraining/" class="nav-btn">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        
+        <!-- 2. html의 title 텍스트 -->
+        <div class="nav-title">
+            사내아이: 이기는 성도들에 대한 이상과 훈련
         </div>
         
-        <div class="flex items-center h-full border-l border-slate-100">
-            <button onclick="changeFontSize(-1)" class="w-10 h-full flex items-center justify-center hover:bg-slate-50 text-slate-500 active:bg-slate-100 transition-colors" title="글자 작게">
-                <i class="fa-solid fa-minus"></i>
-            </button>
-            <div class="px-2 text-[10px] font-black text-slate-300 select-none tracking-tighter">가</div>
-            <button onclick="changeFontSize(1)" class="w-10 h-full flex items-center justify-center hover:bg-slate-50 text-slate-500 active:bg-slate-100 transition-colors" title="글자 크게">
-                <i class="fa-solid fa-plus"></i>
-            </button>
+        <!-- 3. 폰트 사이즈 조정 버튼 -->
+        <div style="display: flex; height: 36px; flex-shrink: 0;">
+            <button onclick="changeFontSize(-1)" class="nav-btn" style="font-size: 14px;"><i class="fa-solid fa-minus"></i></button>
+            <button onclick="resetFontSize()" class="nav-btn" style="font-size: 13px; font-weight: 900;">가</button>
+            <button onclick="changeFontSize(1)" class="nav-btn" style="font-size: 14px;"><i class="fa-solid fa-plus"></i></button>
         </div>
     </nav>
 
@@ -248,7 +270,7 @@
                     <div class="space-y-4 mb-8">
                         <div class="p-4 bg-slate-50 rounded-xl border-l-4 border-blue-500">
                             <p class="text-sm font-bold text-blue-600 mb-1">근거 성경구절</p>
-                            <p class="text-slate-700 leading-relaxed italic">[벧전 3:7] 마찬가지로 남편 여러분, 지식에 따라 아내와 함께 살아야 합니다. <span class="highlight-text">아내는 더 약한, 여성의 그릇</span>으로서, 또한 생명의 은혜를 함께 상속받을 사람이니, 아내를 존중하십시오.</p>
+                            <p class="text-slate-700 leading-relaxed italic">[벧전 3:7] 마찬가지로 남편 여러분, 지식에 따라 아내와 함께 살아야 합니다. <span class="highlight-text">아내는 더 약한, 여성의 그릇</span>으로서, 또한 생명의 은혜를 함께 상속받을 사람이니, 아내를 존 정하십시오.</p>
                             <p class="text-slate-700 leading-relaxed mt-2 italic">[계 12:5] 그 <span class="highlight-text">여자가 아들, 곧 쇠막대기로 모든 민족을 다스릴 사내아이</span>를 낳았으며...</p>
                         </div>
                     </div>
@@ -313,6 +335,7 @@
                 </button>
                 <div id="content-3" class="accordion-content px-4 md:px-12">
                     
+                    <!-- 휴거의 두 방면 설명 카드 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
                         <div class="p-5 bg-blue-900 text-white rounded-2xl shadow-lg">
                             <h5 class="font-black text-blue-300 mb-2 flex items-center gap-2">
@@ -334,7 +357,9 @@
                         </div>
                     </div>
 
+                    <!-- 타임라인 비주얼 -->
                     <div class="relative space-y-12">
+                        
                         <!-- 1. 사내아이 휴거 -->
                         <div class="relative pl-10">
                             <div class="timeline-connector"></div>
@@ -453,13 +478,21 @@
     </main>
 
     <script>
-        // 폰트 조절
-        let baseSize = 16;
+        // 폰트 조절 로직 
+        // 전체 html의 기본 사이즈를 조절하여 본문의 rem 단위 크기들을 비율에 맞춰 일괄 확대/축소함
+        let zoomLevel = 100;
+        
         function changeFontSize(delta) {
-            baseSize += delta;
-            if (baseSize < 12) baseSize = 12;
-            if (baseSize > 24) baseSize = 24;
-            document.documentElement.style.setProperty('--base-font-size', baseSize + 'px');
+            zoomLevel += delta * 10;
+            // 폰트 크기 최소 60%, 최대 180% 로 제한
+            if (zoomLevel < 60) zoomLevel = 60;
+            if (zoomLevel > 180) zoomLevel = 180;
+            document.documentElement.style.fontSize = zoomLevel + '%';
+        }
+
+        function resetFontSize() {
+            zoomLevel = 100;
+            document.documentElement.style.fontSize = '100%';
         }
 
         // 레이어 벗기기
@@ -513,7 +546,6 @@
                 a: 1
             }
         ];
-
 
         let currentIdx = 0;
         let score = 0;
