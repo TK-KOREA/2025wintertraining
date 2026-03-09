@@ -11,6 +11,7 @@
         
         :root {
             --base-font-size: 1rem;
+            --nav-height: 40px;
         }
 
         body {
@@ -22,20 +23,26 @@
             color: #334155;
         }
 
-        /* 상단 고정 바 */
+        /* 상단 고정 바 - 폰트 사이즈 조정에 영향받지 않음 */
         #top-nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 45px;
-            background-color: white;
+            height: var(--nav-height);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
             border-bottom: 1px solid #e2e8f0;
             z-index: 1100;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 1rem;
+            padding: 0; /* 여백 최소화 */
+        }
+
+        /* 내비게이션 내부 텍스트 및 아이콘 크기 고정 */
+        #top-nav * {
+            font-size: 14px !important; 
         }
 
         /* 도입부 레이어 */
@@ -124,26 +131,33 @@
         }
     </style>
 </head>
-<body class="pt-[45px]">
+<body class="pt-[40px]">
 
     <!-- 상단 고정 바 -->
     <nav id="top-nav">
-        <div class="flex items-center">
-            <a href="https://tk-korea.github.io/2025wintertraining/" class="p-2 text-slate-500 hover:text-blue-600">
+        <div class="flex items-center h-full">
+            <a href="https://tk-korea.github.io/2025wintertraining/" class="w-10 h-full flex items-center justify-center text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-colors border-r border-slate-100">
                 <i class="fa-solid fa-house"></i>
             </a>
-            <span class="ml-2 text-sm font-bold text-slate-700">사내아이</span>
+            <span class="px-3 font-bold text-slate-800 truncate max-w-[180px] md:max-w-none">
+                사내아이: 이기는 성도들에 대한 이상과 훈련
+            </span>
         </div>
-        <div class="flex items-center gap-1">
-            <button onclick="changeFontSize(-1)" class="w-8 h-8 flex items-center justify-center hover:bg-slate-100 rounded text-slate-500"><i class="fa-solid fa-minus text-xs"></i></button>
-            <span class="text-[10px] font-bold text-slate-300">FONT</span>
-            <button onclick="changeFontSize(1)" class="w-8 h-8 flex items-center justify-center hover:bg-slate-100 rounded text-slate-500"><i class="fa-solid fa-plus text-xs"></i></button>
+        
+        <div class="flex items-center h-full border-l border-slate-100">
+            <button onclick="changeFontSize(-1)" class="w-10 h-full flex items-center justify-center hover:bg-slate-50 text-slate-500 active:bg-slate-100 transition-colors" title="글자 작게">
+                <i class="fa-solid fa-minus"></i>
+            </button>
+            <div class="px-2 text-[10px] font-black text-slate-300 select-none tracking-tighter">가</div>
+            <button onclick="changeFontSize(1)" class="w-10 h-full flex items-center justify-center hover:bg-slate-50 text-slate-500 active:bg-slate-100 transition-colors" title="글자 크게">
+                <i class="fa-solid fa-plus"></i>
+            </button>
         </div>
     </nav>
 
     <!-- 도입부 -->
     <div id="intro-layer" onclick="peelLayer()">
-        <i class="fa-solid fa-crown text-6xl text-amber-400 mb-6 opacity-80"></i>
+        <i class="fa-solid fa-shield-halved text-6xl text-blue-400 mb-6 opacity-80"></i>
         <h1 class="text-3xl md:text-5xl font-black mb-4">여자와 사내아이</h1>
         <p class="text-slate-400 text-lg mb-8">쇠막대기로 모든 민족을 다스릴 사내아이를 발견하십시오</p>
         <div class="animate-bounce text-slate-500"><i class="fa-solid fa-chevron-down text-2xl"></i></div>
@@ -288,7 +302,7 @@
                 </div>
             </div>
 
-            <!-- 3. 휴거 타임라인 (상세 정보 보강 및 시각화 개선) -->
+            <!-- 3. 휴거 타임라인 -->
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden border-t-4 border-amber-500">
                 <button onclick="toggleAccordion(3)" class="w-full text-left p-6 md:p-8 flex justify-between items-center group">
                     <div class="flex items-center gap-4">
@@ -299,7 +313,6 @@
                 </button>
                 <div id="content-3" class="accordion-content px-4 md:px-12">
                     
-                    <!-- 휴거의 두 방면 설명 카드 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
                         <div class="p-5 bg-blue-900 text-white rounded-2xl shadow-lg">
                             <h5 class="font-black text-blue-300 mb-2 flex items-center gap-2">
@@ -321,9 +334,7 @@
                         </div>
                     </div>
 
-                    <!-- 타임라인 비주얼 -->
                     <div class="relative space-y-12">
-                        
                         <!-- 1. 사내아이 휴거 -->
                         <div class="relative pl-10">
                             <div class="timeline-connector"></div>
