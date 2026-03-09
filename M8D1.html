@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사내아이: 이기는 성도들에 대한 이상과 훈련</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        :root {
+            --base-font-size: 1rem;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+            scroll-behavior: smooth;
+            font-size: var(--base-font-size);
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        /* 상단 고정 바 */
+        #top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 45px;
+            background-color: white;
+            border-bottom: 1px solid #e2e8f0;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+        }
+
+        /* 도입부 레이어 */
+        #intro-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
+            cursor: pointer;
+        }
+        #intro-layer.peeled { transform: translateY(-100%); }
+
+        /* 하이라이트 */
+        .highlight-text {
+            background: linear-gradient(to bottom, transparent 60%, #fef08a 40%);
+            font-weight: 700;
+            padding: 0 2px;
+        }
+
+        /* 아코디언 */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .accordion-content.active { max-height: 3500px; padding-bottom: 2rem; }
+
+        /* 퀴즈 가독성 개선 */
+        .quiz-option {
+            font-size: 1rem;
+            border: 2px solid #334155;
+            transition: all 0.2s ease;
+        }
+        .quiz-option:hover {
+            background-color: #475569;
+            border-color: #60a5fa;
+        }
+        .badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #1e293b;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* 대시보드 커스텀 */
+        .dashboard-step {
+            position: relative;
+        }
+        @media (min-width: 768px) {
+            .dashboard-step:not(:last-child)::after {
+                content: '\f105';
+                font-family: 'Font Awesome 6 Free';
+                font-weight: 900;
+                position: absolute;
+                right: -1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #e2e8f0;
+                font-size: 1.5rem;
+            }
+        }
+
+        /* 타임라인 보완 */
+        .timeline-connector {
+            position: absolute;
+            left: 15px;
+            top: 40px;
+            bottom: -20px;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #cbd5e1, #cbd5e1 5px, transparent 5px, transparent 10px);
+        }
+    </style>
+</head>
+<body class="pt-[45px]">
+
+    <!-- 상단 고정 바 -->
+    <nav id="top-nav">
+        <div class="flex items-center">
+            <a href="https://tk-korea.github.io/2025wintertraining/" class="p-2 text-slate-500 hover:text-blue-600">
+                <i class="fa-solid fa-house"></i>
+            </a>
+            <span class="ml-2 text-sm font-bold text-slate-700">사내아이</span>
+        </div>
+        <div class="flex items-center gap-1">
+            <button onclick="changeFontSize(-1)" class="w-8 h-8 flex items-center justify-center hover:bg-slate-100 rounded text-slate-500"><i class="fa-solid fa-minus text-xs"></i></button>
+            <span class="text-[10px] font-bold text-slate-300">FONT</span>
+            <button onclick="changeFontSize(1)" class="w-8 h-8 flex items-center justify-center hover:bg-slate-100 rounded text-slate-500"><i class="fa-solid fa-plus text-xs"></i></button>
+        </div>
+    </nav>
+
+    <!-- 도입부 -->
+    <div id="intro-layer" onclick="peelLayer()">
+        <i class="fa-solid fa-crown text-6xl text-amber-400 mb-6 opacity-80"></i>
+        <h1 class="text-3xl md:text-5xl font-black mb-4">여자와 사내아이</h1>
+        <p class="text-slate-400 text-lg mb-8">쇠막대기로 모든 민족을 다스릴 사내아이를 발견하십시오</p>
+        <div class="animate-bounce text-slate-500"><i class="fa-solid fa-chevron-down text-2xl"></i></div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        
+        <!-- 제목 -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
+                사내아이
+            </h1>
+            <p class="text-slate-500 max-w-xl mx-auto">하나님의 백성의 더 강한부분과 오늘날의 필요</p>
+        </header>
+
+        <!-- 핵심 요약 대시보드 -->
+        <section class="bg-white rounded-3xl shadow-xl overflow-hidden mb-16 border border-slate-200">
+            <div class="bg-slate-800 px-6 py-4 flex items-center justify-between">
+                <h3 class="text-white font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-blue-400"></i>
+                    이상과 성취 로드맵
+                </h3>
+                <span class="text-[10px] text-slate-400 tracking-widest uppercase text-right">Overview<br class="md:hidden"> Dashboard</span>
+            </div>
+            <div class="p-6 md:p-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-8">
+                    <!-- Step 1 -->
+                    <div class="dashboard-step group">
+                        <div class="bg-blue-50 rounded-2xl p-4 transition-all group-hover:bg-blue-100">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-xs">01</span>
+                                <i class="fa-solid fa-user-shield text-blue-600"></i>
+                            </div>
+                            <div class="font-black text-slate-800 text-sm mb-1">정의와 대조</div>
+                            <p class="text-[11px] text-slate-500 leading-tight">하나님의 백성 중<br><span class="text-blue-600 font-bold">더 강한 부분</span></p>
+                        </div>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="dashboard-step group">
+                        <div class="bg-emerald-50 rounded-2xl p-4 transition-all group-hover:bg-emerald-100">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">02</span>
+                                <i class="fa-solid fa-person-rising text-emerald-600"></i>
+                            </div>
+                            <div class="font-black text-slate-800 text-sm mb-1">부활의 출생</div>
+                            <p class="text-[11px] text-slate-500 leading-tight"><span class="text-emerald-600 font-bold">부활한 이기는</span><br>성도들로 구성</p>
+                        </div>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="dashboard-step group">
+                        <div class="bg-amber-50 rounded-2xl p-4 transition-all group-hover:bg-amber-100">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="w-8 h-8 rounded-lg bg-amber-600 text-white flex items-center justify-center font-bold text-xs">03</span>
+                                <i class="fa-solid fa-up-long text-amber-600"></i>
+                            </div>
+                            <div class="font-black text-slate-800 text-sm mb-1">보좌로 휴거</div>
+                            <p class="text-[11px] text-slate-500 leading-tight">대환난 이전<br><span class="text-amber-600 font-bold">하나님의 보좌로</span></p>
+                        </div>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="dashboard-step group">
+                        <div class="bg-indigo-50 rounded-2xl p-4 transition-all group-hover:bg-indigo-100">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-xs">04</span>
+                                <i class="fa-solid fa-dumbbell text-indigo-600"></i>
+                            </div>
+                            <div class="font-black text-slate-800 text-sm mb-1">오늘의 훈련</div>
+                            <p class="text-[11px] text-slate-500 leading-tight">강하게 되기 위한<br><span class="text-indigo-600 font-bold">영광스러운 갈망</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 요점 아코디언 -->
+        <div class="space-y-6">
+            
+            <!-- 1. 정의와 대조 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <button onclick="toggleAccordion(1)" class="w-full text-left p-6 md:p-8 flex justify-between items-center group">
+                    <div class="flex items-center gap-4">
+                        <span class="text-3xl font-black text-slate-200 group-hover:text-blue-500 transition-colors">01</span>
+                        <h4 class="text-xl font-bold text-slate-800">사내아이의 정의: 여자와의 대조</h4>
+                    </div>
+                    <i id="icon-1" class="fa-solid fa-chevron-down text-slate-300"></i>
+                </button>
+                <div id="content-1" class="accordion-content px-6 md:px-20">
+                    <div class="space-y-4 mb-8">
+                        <div class="p-4 bg-slate-50 rounded-xl border-l-4 border-blue-500">
+                            <p class="text-sm font-bold text-blue-600 mb-1">근거 성경구절</p>
+                            <p class="text-slate-700 leading-relaxed italic">[벧전 3:7] 마찬가지로 남편 여러분, 지식에 따라 아내와 함께 살아야 합니다. <span class="highlight-text">아내는 더 약한, 여성의 그릇</span>으로서, 또한 생명의 은혜를 함께 상속받을 사람이니, 아내를 존중하십시오.</p>
+                            <p class="text-slate-700 leading-relaxed mt-2 italic">[계 12:5] 그 <span class="highlight-text">여자가 아들, 곧 쇠막대기로 모든 민족을 다스릴 사내아이</span>를 낳았으며...</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="p-5 rounded-2xl bg-pink-50 border border-pink-100">
+                            <h5 class="font-black text-pink-700 mb-2"><i class="fa-solid fa-venus mr-2"></i>여자 (Woman)</h5>
+                            <ul class="text-sm space-y-2 text-pink-900/70">
+                                <li>• 하나님의 백성의 총체를 대표함</li>
+                                <li>• 비교적 <span class="font-bold">약한 이</span>를 상징함</li>
+                                <li>• 모든 시대의 성도들을 포함함</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-blue-50 border border-blue-100">
+                            <h5 class="font-black text-blue-700 mb-2"><i class="fa-solid fa-mars mr-2"></i>사내아이 (Man-child)</h5>
+                            <ul class="text-sm space-y-2 text-blue-900/70">
+                                <li>• 하나님의 백성 중 <span class="font-bold">더 강한 부분</span></li>
+                                <li>• 하늘을 위해 <span class="font-bold">전쟁을 수행함</span></li>
+                                <li>• 하나님 왕국을 땅으로 이끌어 오는 하나의 집합적인 단위</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="text-slate-600">사내아이는 아기를 가리키지 않습니다. 그보다 여자 안에 있는 <strong>더 강한 부분</strong>을 나타냅니다. 성경에서 이들은 하나님을 위해 전쟁을 하고 하나님의 왕국을 땅으로 이끌어 오는 하나의 집합적인 단위로 여겨집니다.</p>
+                </div>
+            </div>
+
+            <!-- 2. 부활의 의미 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <button onclick="toggleAccordion(2)" class="w-full text-left p-6 md:p-8 flex justify-between items-center group">
+                    <div class="flex items-center gap-4">
+                        <span class="text-3xl font-black text-slate-200 group-hover:text-emerald-500 transition-colors">02</span>
+                        <h4 class="text-xl font-bold text-slate-800">사내아이의 출생</h4>
+                    </div>
+                    <i id="icon-2" class="fa-solid fa-chevron-down text-slate-300"></i>
+                </button>
+                <div id="content-2" class="accordion-content px-6 md:px-20">
+                    <div class="space-y-4 mb-8">
+                        <div class="p-4 bg-slate-50 rounded-xl border-l-4 border-emerald-500">
+                            <p class="text-sm font-bold text-emerald-600 mb-1">근거 성경구절</p>
+                            <p class="text-slate-700 italic">[행 13:33-34] ... 너는 내 아들이다. <span class="highlight-text">오늘 내가 너를 낳았다</span>... 하나님께서 그분을 <span class="highlight-text">죽은 사람들 가운데서 살리심으로</span>...</p>
+                            <p class="text-slate-700 mt-2 italic">[계 12:11] 그들은 어린양의 피와 자기들이 증언하는 말로 그를 이겼으며, 또한 <span class="highlight-text">죽기까지 자기들의 혼생명을 사랑하지 않았다.</span></p>
+                        </div>
+                    </div>
+                    <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 mb-6">
+                        <h5 class="font-bold text-emerald-800 mb-3 underline decoration-emerald-200 underline-offset-4">부활로 말미암아 존재하게 됨</h5>
+                        <p class="text-slate-700">여자가 사내아이를 '낳았으며'는 사도행전의 계시와 같이 <strong>부활을 의미</strong>합니다. 사내아이는 죽고 부활한 이기는 성도들로 구성되어 있습니다. 이것은 요한계시록 12장 11절에 있는 <strong>'죽기까지'</strong>라는 말로 증명됩니다.</p>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 bg-amber-50 rounded-xl">
+                        <i class="fa-solid fa-circle-exclamation text-amber-500 mt-1"></i>
+                        <p class="text-sm text-amber-900"><strong>실행 및 적용:</strong> 여러분이 이기는 이로서 주님 오실 때까지 살아 있다면 '첫 열매'가 되겠지만, 죽는다면 <strong>부활하여 사내아이의 일부</strong>가 될 것입니다. 사내아이는 부활로 말미암아 완전하게 존재하게 될 것입니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 휴거 타임라인 (상세 정보 보강 및 시각화 개선) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden border-t-4 border-amber-500">
+                <button onclick="toggleAccordion(3)" class="w-full text-left p-6 md:p-8 flex justify-between items-center group">
+                    <div class="flex items-center gap-4">
+                        <span class="text-3xl font-black text-slate-200 group-hover:text-amber-500 transition-colors">03</span>
+                        <h4 class="text-xl font-bold text-slate-800">휴거의 타임라인</h4>
+                    </div>
+                    <i id="icon-3" class="fa-solid fa-chevron-down text-slate-300"></i>
+                </button>
+                <div id="content-3" class="accordion-content px-4 md:px-12">
+                    
+                    <!-- 휴거의 두 방면 설명 카드 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+                        <div class="p-5 bg-blue-900 text-white rounded-2xl shadow-lg">
+                            <h5 class="font-black text-blue-300 mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-medal"></i> 이기는 이들의 휴거
+                            </h5>
+                            <ul class="text-xs space-y-2 opacity-90">
+                                <li class="flex items-start gap-2">• <span class="font-bold">사내아이:</span> 죽은 이기는 이들 (계 12:5)</li>
+                                <li class="flex items-start gap-2">• <span class="font-bold">첫 열매:</span> 살아있는 이기는 이들 (계 14:1-5)</li>
+                                <li class="flex items-start gap-2">• <span class="font-bold">후기 이기는 이들:</span> 적그리스도를 이긴 이들 (계 15:2-4)</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 bg-slate-100 border border-slate-200 rounded-2xl">
+                            <h5 class="font-black text-slate-800 mb-2 flex items-center gap-2">
+                                <i class="fa-solid fa-users"></i> 대다수 믿는 이들의 휴거
+                            </h5>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                대환난을 통과한 후, 일곱째 나팔(마지막 나팔) 때 공중으로 휴거되는 대다수의 성도들 (살전 4:17).
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 타임라인 비주얼 -->
+                    <div class="relative space-y-12">
+                        
+                        <!-- 1. 사내아이 휴거 -->
+                        <div class="relative pl-10">
+                            <div class="timeline-connector"></div>
+                            <div class="absolute left-0 top-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white z-10 shadow-lg border-2 border-white">
+                                <i class="fa-solid fa-bolt-lightning text-xs"></i>
+                            </div>
+                            <div class="bg-white border-2 border-blue-500 p-5 rounded-2xl shadow-sm">
+                                <div class="flex flex-wrap items-center gap-2 mb-3">
+                                    <span class="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">대환난 이전</span>
+                                    <span class="text-blue-700 font-black text-sm">사내아이의 휴거 (계 12:5)</span>
+                                </div>
+                                <div class="space-y-3 text-[13px] text-slate-700 leading-relaxed">
+                                    <p class="bg-blue-50 p-3 rounded-lg border-l-4 border-blue-600">
+                                        사내아이는 해산되자마자 곧 <span class="highlight-text">하나님과 하나님의 보좌</span> 앞으로 올라갔습니다. 이 휴거는 즉시 <span class="font-bold text-blue-700">하늘에서의 전쟁</span>을 일으켰고 사탄은 땅으로 내던져졌습니다.
+                                    </p>
+                                    <p class="italic text-slate-500 font-medium">
+                                        "이것은 하나님의 어려움이 사내아이의 휴거로 인해서 해결되었다는 것입니다."
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. 대환난과 여자의 보양 -->
+                        <div class="relative pl-10">
+                            <div class="timeline-connector"></div>
+                            <div class="absolute left-0 top-0 w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white z-10 shadow-lg border-2 border-white">
+                                <i class="fa-solid fa-hourglass-half text-xs"></i>
+                            </div>
+                            <div class="bg-amber-50 border-2 border-amber-200 p-5 rounded-2xl shadow-sm">
+                                <div class="flex flex-wrap items-center gap-2 mb-3">
+                                    <span class="bg-amber-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">대환난 삼 년 반(1260일)</span>
+                                    <span class="text-amber-800 font-black text-sm">여자의 광야 피신 (계 12:13-14)</span>
+                                </div>
+                                <div class="space-y-3 text-[13px] text-slate-700 leading-relaxed">
+                                    <p>
+                                        용이 여자를 박해하자, 여자는 <span class="font-bold">큰 독수리의 두 날개</span>로 광야의 자기 처소로 날아갑니다. 거기서 뱀의 낯을 피하여 <span class="highlight-text">한 때와 두 때와 반 때(3.5년)</span> 동안 음식을 공급받습니다.
+                                    </p>
+                                    <div class="bg-white/60 p-3 rounded-lg text-amber-900 text-xs border border-amber-200">
+                                        <i class="fa-solid fa-quote-left mr-1 opacity-50"></i> 
+                                        하나님은 40년 동안 광야에서 이스라엘에게 음식을 공급하셨던 것처럼, 대환난 기간에 남은 믿는 이들에게 동일하게 행하실 것입니다.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. 대다수 휴거 -->
+                        <div class="relative pl-10">
+                            <div class="absolute left-0 top-0 w-8 h-8 bg-slate-400 rounded-full flex items-center justify-center text-white z-10 shadow-lg border-2 border-white">
+                                <i class="fa-solid fa-users text-xs"></i>
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl">
+                                <div class="flex flex-wrap items-center gap-2 mb-2">
+                                    <span class="bg-slate-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">일곱째 나팔(마지막 나팔)</span>
+                                    <span class="text-slate-700 font-black text-sm">대다수 믿는 이들의 휴거 (살전 4:17)</span>
+                                </div>
+                                <p class="text-[12px] text-slate-500 leading-snug">
+                                    일곱째 천사가 나팔을 불 때(마지막 나팔), 살아남아 있는 자들이 구름 속으로 이끌려 올라가 <span class="font-bold underline decoration-slate-300">공중</span>에서 주님을 만나게 됩니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. 오늘날의 현실과 훈련 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden border-b-4 border-indigo-500">
+                <button onclick="toggleAccordion(4)" class="w-full text-left p-6 md:p-8 flex justify-between items-center group">
+                    <div class="flex items-center gap-4">
+                        <span class="text-3xl font-black text-slate-200 group-hover:text-indigo-500 transition-colors">04</span>
+                        <h4 class="text-xl font-bold text-slate-800">오늘날의 필요: 이기는 성도들이 되기 위한 훈련</h4>
+                    </div>
+                    <i id="icon-4" class="fa-solid fa-chevron-down text-slate-300"></i>
+                </button>
+                <div id="content-4" class="accordion-content px-6 md:px-20">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 py-4">
+                        <div class="space-y-4">
+                            <h5 class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-history mr-2 text-indigo-500"></i>역사가 증명하는 현실</h5>
+                            <p class="text-sm text-slate-600 leading-relaxed">하나님의 백성 가운데 모든 이가 강한 이들은 아니었습니다. 족장 시대에도, 이스라엘 시대에도 수많은 이들이 있었지만 <strong>노아, 엘리야, 예레미야</strong>와 같은 오직 소수만이 강했습니다. 신약 초기와 지금도 수천 수백만의 그리스도인이 있지만 <strong>대다수가 강하지 못합니다.</strong></p>
+                        </div>
+                        <div class="space-y-4">
+                            <h5 class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-fire-pulse mr-2 text-indigo-500"></i>우리의 갈망과 훈련</h5>
+                            <p class="text-sm text-slate-600 leading-relaxed italic">"엄밀히 말해서, 우리 중 그 누구도 '저는 이긴 이입니다.'라고 말할 수 없다. 그러나 우리는 <strong>이기는 성도들이 되기 위해 이기는 훈련을 받고 있다.</strong>"</p>
+                            <p class="text-sm text-slate-600 leading-relaxed">사탄이 미워하고 두려워하는 이 길을 가기 위해 우리는 <strong>존재를 완전히 열고 영을 사용해야 합니다.</strong> 내주하시는 그리스도에 의해 원수는 다시 짓밟힐 것입니다. 하나님은 그분의 본래의 목적을 성취할 수 있는 한 무리의 사람을 얻기 원하십니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 퀴즈 섹션 -->
+        <section class="mt-24 bg-slate-900 rounded-[2.5rem] p-8 md:p-12 shadow-2xl">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-black text-white mb-2">진리 확인 퀴즈: 사내아이의 이상</h3>
+                <p class="text-slate-400 text-sm">핵심 내용을 잘 파악하셨는지 확인해 보세요.</p>
+            </div>
+            <div id="quiz-container" class="space-y-8">
+                <!-- JS Insert -->
+            </div>
+            <div id="quiz-result" class="hidden mt-10 p-8 bg-slate-800 rounded-3xl border border-slate-700 text-center">
+                <!-- JS Insert -->
+            </div>
+        </section>
+
+        <!-- 기도문 -->
+        <section class="mt-24 mb-32">
+            <div class="bg-indigo-50 rounded-3xl p-10 md:p-16 text-center border border-indigo-100">
+                <h3 class="text-2xl font-black text-slate-800 mb-8">오늘의 기도</h3>
+                <div class="max-w-2xl mx-auto text-lg text-slate-700 leading-relaxed italic space-y-6">
+                    <p>"주님, 우리가 우리 존재를 완전히 열고 우리 영을 사용합니다. 사탄이 미워하고 두려워하는 사내아이의 이상을 우리 영 안에 밝히 비추어 주소서."</p>
+                    <p>"우리가 단지 여자의 일부분에 머물지 않고, 하나님의 왕국을 땅으로 이끌어 오는 <strong>강한 사내아이의 일부분</strong>이 되게 하소서. 내주하시는 그리스도의 권위와 부활 능력으로 원수를 다시 짓밟으소서."</p>
+                    <p>"오늘 <strong>이기는 성도들이 되기 위해 이기는 훈련</strong>을 받기 원합니다. 아멘!"</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // 폰트 조절
+        let baseSize = 16;
+        function changeFontSize(delta) {
+            baseSize += delta;
+            if (baseSize < 12) baseSize = 12;
+            if (baseSize > 24) baseSize = 24;
+            document.documentElement.style.setProperty('--base-font-size', baseSize + 'px');
+        }
+
+        // 레이어 벗기기
+        function peelLayer() {
+            document.getElementById('intro-layer').classList.add('peeled');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 아코디언
+        function toggleAccordion(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            const isActive = content.classList.contains('active');
+            
+            if(!isActive) {
+                content.classList.add('active');
+                icon.style.transform = 'rotate(180deg)';
+                icon.style.color = '#3b82f6';
+            } else {
+                content.classList.remove('active');
+                icon.style.transform = 'rotate(0deg)';
+                icon.style.color = '#cbd5e1';
+            }
+        }
+
+        // 퀴즈 데이터
+        const quizData = [
+            {
+                q: "요한계시록 12장에 등장하는 '여자'는 성경적으로 무엇을 상징합니까?",
+                o: ["신약 시대의 이방인 교회", "예수님을 낳은 마리아 개인", "하나님의 백성의 총체", "하늘의 천사들"],
+                a: 2
+            },
+            {
+                q: "본문에서 '사내아이'가 상징하는 의미로 가장 적절한 것은 무엇입니까?",
+                o: ["구약 시대의 유대인들", "육신으로 태어난 갓난아기", "하나님의 백성 중 더 강한 부분", "대환난을 통과하는 모든 믿는 이들"],
+                a: 2
+            },
+            {
+                q: "요한계시록 12장 5절의 '낳았으며'라는 표현이 사도행전 13장 33-34절의 맥락에서 의미하는 것은 무엇입니까?",
+                o: ["부활", "거듭남", "복음전파", "성육신"],
+                a: 0
+            },
+            {
+                q: "사내아이의 휴거 시점과 장소는 대다수 믿는 이들의 휴거와 어떻게 다릅니까?",
+                o: ["천년왕국 이후, 새 예루살렘으로 휴거됨", "대환난 전, 하나님의 보좌로 휴거됨", "대환난 중, 구름 속으로 휴거됨", "일곱째 나팔 때, 공중으로 휴거됨"],
+                a: 1
+            },
+            {
+                q: "사내아이와 '첫 열매'(계 14장)의 공통점과 차이점에 대한 설명으로 옳은 것은?",
+                o: ["사내아이는 구약 성도이고, 첫 열매는 신약 성도이다.", "둘 다 이기는 이들이지만, 사내아이는 부활한 이들이고 첫 열매는 살아 있는 이들이다.", "사내아이는 천사들의 무리이고, 첫 열매는 인간 믿는 이들이다.", "사내아이는 대환난을 통과하며, 첫 열매는 대환난 전에 휴거된다."],
+                a: 1
+            }
+        ];
+
+
+        let currentIdx = 0;
+        let score = 0;
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            if(!container) return;
+            const item = quizData[currentIdx];
+            container.innerHTML = `
+                <div class="animate-fadeIn">
+                    <div class="flex items-center gap-4 mb-8">
+                        <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">${currentIdx + 1}</span>
+                        <h4 class="text-xl font-bold text-white font-controlled">${item.q}</h4>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4">
+                        ${item.o.map((opt, i) => `
+                            <button onclick="handleQuiz(${i})" class="quiz-option w-full p-4 rounded-xl text-left flex items-center text-slate-300 hover:text-white">
+                                <span class="badge font-controlled">${i+1}</span>
+                                <span class="font-controlled">${opt}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="mt-8 text-center text-slate-500 text-xs tracking-widest uppercase font-controlled">
+                        Question ${currentIdx + 1} of ${quizData.length}
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleQuiz(idx) {
+            const btns = document.querySelectorAll('.quiz-option');
+            const correct = quizData[currentIdx].a;
+            btns.forEach(b => b.onclick = null);
+
+            if(idx === correct) {
+                btns[idx].style.borderColor = "#22c55e";
+                btns[idx].style.backgroundColor = "#14532d";
+                score++;
+            } else {
+                btns[idx].style.borderColor = "#ef4444";
+                btns[idx].style.backgroundColor = "#7f1d1d";
+                btns[correct].style.borderColor = "#22c55e";
+            }
+
+            setTimeout(() => {
+                currentIdx++;
+                if(currentIdx < quizData.length) renderQuiz();
+                else showResult();
+            }, 1200);
+        }
+
+        function showResult() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const res = document.getElementById('quiz-result');
+            res.classList.remove('hidden');
+            const s = (score / quizData.length) * 100;
+            res.innerHTML = `
+                <div class="text-5xl font-black text-blue-500 mb-4 font-controlled">${s}점</div>
+                <p class="text-slate-300 mb-8 font-controlled">${score === 5 ? '완벽한 이해도입니다! 사내아이의 실제가 되시길 축복합니다.' : '다시 한번 지문을 정독하며 사내아이의 이상을 그려보세요.'}</p>
+                <button onclick="location.reload()" class="px-8 py-3 bg-indigo-600 text-white rounded-full font-bold hover:bg-indigo-500 font-controlled">다시 풀기</button>
+            `;
+        }
+
+        window.onload = () => {
+            renderQuiz();
+            document.body.style.overflow = 'hidden';
+        };
+    </script>
+</body>
+</html>
