@@ -69,14 +69,23 @@
             font-size: 14px;
         }
 
-        /* 아코디언 부드러운 전환 효과 */
+        /* 아코디언 부드러운 전환 효과 (Grid 방식 적용으로 유동적 높이 조절) */
         .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
             opacity: 0;
+            background-color: #f9fafb; /* bg-gray-50 */
+            border-top: 1px solid #f3f4f6; /* border-gray-100 */
         }
-        .accordion-item.active .accordion-content { opacity: 1; }
+        .accordion-content > div {
+            overflow: hidden;
+        }
+        .accordion-item.active .accordion-content { 
+            grid-template-rows: 1fr;
+            opacity: 1; 
+        }
+        
         .accordion-icon { transition: transform 0.3s ease; }
         .accordion-item.active .accordion-icon { transform: rotate(180deg); }
 
@@ -220,7 +229,7 @@
         
         <!-- 핵심 요점 1 -->
         <div class="accordion-item relative bg-white rounded-xl shadow-md border border-gray-200">
-            <button class="accordion-header w-full text-left p-5 flex items-center justify-between focus:outline-none hover:bg-heavenly-50 transition-colors rounded-xl">
+            <button class="accordion-header w-full text-left p-5 flex items-center justify-between focus:outline-none hover:bg-heavenly-50 transition-colors rounded-xl z-10 relative">
                 <div class="flex items-center gap-4">
                     <div class="w-10 h-10 flex-shrink-0 bg-heavenly-700 text-white rounded-full flex items-center justify-center font-bold text-lg shadow">1</div>
                     <div>
@@ -233,7 +242,7 @@
                 <div class="text-heavenly-500 accordion-icon text-xl px-2"><i class="fa-solid fa-chevron-down"></i></div>
             </button>
             
-            <div class="accordion-content bg-gray-50 rounded-b-xl border-t border-gray-100">
+            <div class="accordion-content rounded-b-xl">
                 <div class="p-6 md:p-8 space-y-6">
                     
                     <!-- 성경 구절 -->
@@ -258,6 +267,18 @@
                         <p class="text-gray-700 mb-2">이것은 하나님의 백성 중 강한 부분인 사내아이가 항상 하나님의 원수인 사탄과 싸우는 데 참여하고 있다는 것을 가리킵니다. 이기는 이들은 쉬지 않고 땅에서 사탄과 심지어 죽기까지 싸워 왔습니다. <strong>그러나 지금 하늘은 사내아이가 와서 전쟁을 수행하여 사탄을 하늘에서 쫓아내어 주기를 여전히 기다리고 있습니다.</strong> 하나님은 하늘들에서 이런 집행관을 기다리고 계십니다. 바로 사내아이인 우리가 집행관이 될 것입니다.</p>
                     </div>
 
+                    <!-- 우주의 세 천사장 추가 요점 -->
+                    <div class="mt-2">
+                        <span class="inline-block bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm font-bold mb-2">성경에 계시된 세 명의 천사장</span>
+                        <div class="bg-white p-4 rounded border border-gray-200 space-y-3 text-gray-700">
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li><strong>가브리엘 (비서실장):</strong> 하나님의 백성에게 소식을 가져다 주는 보고자입니다.</li>
+                                <li><strong>미가엘 (군대장관):</strong> 하나님의 백성을 위해 싸우는 전사입니다.</li>
+                                <li><strong>루시퍼 (국무총리):</strong> 우주를 다스릴 권위를 지녔으며, 왕권과 제사장 직분을 가졌던 자입니다. 성경은 그가 하나님 다음으로 높은 자였다는 것을 알려줍니다. 미가엘도 천사장이었지만 사탄에게 직접 거스르는 말을 할 수 없었던 것으로 보아(유 1:9), 사탄은 천사장 중에서도 최고 우두머리였다는 것을 알 수 있습니다.</li>
+                            </ul>
+                        </div>
+                    </div>
+
                     <!-- 구체적 사례 -->
                     <div>
                         <span class="inline-block bg-heavenly-100 text-heavenly-800 px-2 py-1 rounded text-sm font-bold mb-2">집행관(사내아이)이 사탄에게 전하는 네 번의 메시지</span>
@@ -269,18 +290,7 @@
                         </div>
                     </div>
 
-                    <!-- 우주의 세 천사장 추가 요점 -->
-                    <div class="mt-2">
-                        <span class="inline-block bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm font-bold mb-2">성경이 계시하는 세 명의 천사장</span>
-                        <div class="bg-white p-4 rounded border border-gray-200 space-y-3 text-gray-700">
-                            <p class="font-medium text-gray-800">성경은 우주 가운데 세 명의 천사장이 있었다고 계시해 줍니다.</p>
-                            <ul class="list-disc pl-5 space-y-2">
-                                <li><strong>가브리엘 (비서실장):</strong> 하나님의 백성에게 소식을 가져다 주는 보고자입니다.</li>
-                                <li><strong>미가엘 (군대장관):</strong> 하나님의 백성을 위해 싸우는 전사입니다.</li>
-                                <li><strong>루시퍼 (국무총리):</strong> 우주를 다스릴 권위를 지녔으며, 왕권과 제사장 직분을 가졌던 자입니다. 성경은 그가 하나님 다음으로 높은 자였다는 것을 알려줍니다. 미가엘도 천사장이었지만 사탄에게 직접 거스르는 말을 할 수 없었던 것으로 보아(유 1:9), 사탄은 천사장 중에서도 최고 우두머리였다는 것을 알 수 있습니다.</li>
-                            </ul>
-                        </div>
-                    </div>
+                    
 
                 </div>
             </div>
@@ -288,7 +298,7 @@
 
         <!-- 핵심 요점 2 -->
         <div class="accordion-item relative bg-white rounded-xl shadow-md border border-gray-200">
-            <button class="accordion-header w-full text-left p-5 flex items-center justify-between focus:outline-none hover:bg-heavenly-50 transition-colors rounded-xl">
+            <button class="accordion-header w-full text-left p-5 flex items-center justify-between focus:outline-none hover:bg-heavenly-50 transition-colors rounded-xl z-10 relative">
                 <div class="flex items-center gap-4">
                     <div class="w-10 h-10 flex-shrink-0 bg-red-600 text-white rounded-full flex items-center justify-center font-bold text-lg shadow">2</div>
                     <div>
@@ -301,7 +311,7 @@
                 <div class="text-red-400 accordion-icon text-xl px-2"><i class="fa-solid fa-chevron-down"></i></div>
             </button>
             
-            <div class="accordion-content bg-gray-50 rounded-b-xl border-t border-gray-100">
+            <div class="accordion-content rounded-b-xl">
                 <div class="p-6 md:p-8 space-y-6">
                     
                     <!-- 의미 -->
@@ -333,7 +343,7 @@
 
         <!-- 핵심 요점 3 -->
         <div class="accordion-item relative bg-white rounded-xl shadow-md border border-gray-200">
-            <button class="accordion-header w-full text-left p-5 flex items-center justify-between focus:outline-none hover:bg-heavenly-50 transition-colors rounded-xl">
+            <button class="accordion-header w-full text-left p-5 flex items-center justify-between focus:outline-none hover:bg-heavenly-50 transition-colors rounded-xl z-10 relative">
                 <div class="flex items-center gap-4">
                     <div class="w-10 h-10 flex-shrink-0 bg-victory-500 text-white rounded-full flex items-center justify-center font-bold text-lg shadow">3</div>
                     <div>
@@ -346,7 +356,7 @@
                 <div class="text-victory-500 accordion-icon text-xl px-2"><i class="fa-solid fa-chevron-down"></i></div>
             </button>
             
-            <div class="accordion-content bg-gray-50 rounded-b-xl border-t border-gray-100">
+            <div class="accordion-content rounded-b-xl">
                 <div class="p-6 md:p-8 space-y-6">
 
                     <!-- 의미 -->
@@ -458,28 +468,18 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. 아코디언 로직 (첫번째는 기본으로 열어두기)
+            // 1. 아코디언 로직 (단순화 및 CSS Grid 연동)
             const accordions = document.querySelectorAll('.accordion-header');
             
             accordions.forEach((acc, index) => {
+                // 첫번째 아이템 기본 활성화
                 if(index === 0) {
-                    const item = acc.parentElement;
-                    const content = acc.nextElementSibling;
-                    item.classList.add('active');
-                    content.style.maxHeight = "1000px";
+                    acc.parentElement.classList.add('active');
                 }
 
                 acc.addEventListener('click', function() {
-                    const item = this.parentElement;
-                    const content = this.nextElementSibling;
-                    
-                    item.classList.toggle('active');
-                    
-                    if (item.classList.contains('active')) {
-                        content.style.maxHeight = content.scrollHeight + 100 + "px";
-                    } else {
-                        content.style.maxHeight = null;
-                    }
+                    // 단순히 클래스만 토글, 높이 조절은 CSS Grid가 담당
+                    this.parentElement.classList.toggle('active');
                 });
             });
 
