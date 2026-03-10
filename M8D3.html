@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사내아이의 사명</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 기본 폰트 사이즈 설정 (JS로 제어됨) */
+            --base-font-size: 16px;
+        }
+
+        html {
+            font-size: var(--base-font-size);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            /* 상단 고정 바를 위한 여백 */
+            padding-top: 40px; 
+            line-height: 1.6;
+        }
+        
+        /* 폰트 크기 조절의 영향을 받지 않는 상단 네비게이션 바 컴포넌트 */
+        .fixed-navbar {
+            height: 40px;
+            font-size: 14px;
+            padding: 0 12px;
+        }
+        .fixed-navbar .icon-btn {
+            width: 32px;
+            height: 32px;
+            font-size: 16px;
+        }
+        .fixed-navbar .text-title {
+            font-size: 14px;
+        }
+        .fixed-navbar .font-controls button {
+            width: 32px;
+            height: 28px;
+            font-size: 14px;
+        }
+
+        /* 형광펜 하이라이트 효과 */
+        .highlight {
+            background: linear-gradient(180deg, rgba(255,255,255,0) 60%, #fde047 60%);
+            font-weight: 700;
+            padding: 0 0.15rem;
+            border-radius: 2px;
+        }
+
+        /* 연결고리 흐름도 라인 애니메이션 */
+        .connecting-line {
+            position: relative;
+        }
+        .connecting-line::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #cbd5e1 50%, transparent 50%);
+            background-size: 10px 10px;
+            transform: translateY(-50%);
+            z-index: 0;
+            animation: move-line 20s linear infinite;
+        }
+        @media (max-width: 768px) {
+            .connecting-line::after { display: none; }
+        }
+        @keyframes move-line {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 0; }
+        }
+
+        /* 아코디언 부드러운 전환 */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .expanded .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        /* 성경구절 박스 스타일 */
+        .bible-verse-box {
+            border-left-width: 4px;
+            background-color: #f8fafc;
+            padding: 1rem 1.25rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+            margin-bottom: 1.5rem;
+        }
+
+        /* 퀴즈 옵션 호버 및 가독성 최적화 */
+        .quiz-option {
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+        .quiz-option:hover {
+            background-color: #334155; 
+            border-color: #64748b;
+        }
+        .quiz-option input[type="radio"]:checked + span {
+            font-weight: 700;
+            color: #10b981; /* Emerald 500 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- 상단 고정 바 (폰트 크기 조절의 영향을 받지 않음) -->
+    <nav class="fixed top-0 left-0 w-full bg-white shadow flex items-center justify-between fixed-navbar z-50">
+        <a href="https://tk-korea.github.io/2025wintertraining/" class="text-gray-600 hover:text-indigo-600 flex items-center justify-center icon-btn rounded-md hover:bg-gray-100 transition" title="홈으로 가기">
+            <i class="fas fa-home"></i>
+        </a>
+        <span class="font-bold text-slate-800 text-title truncate px-2">사내아이의 휴거와 영적 전쟁</span>
+        <div class="flex items-center border border-gray-200 rounded-md font-controls bg-gray-50 overflow-hidden">
+            <button onclick="changeFontSize(-1)" class="hover:bg-gray-200 text-gray-700 border-r border-gray-200 flex items-center justify-center" title="글꼴 축소">-</button>
+            <button onclick="changeFontSize(0)" class="hover:bg-gray-200 text-gray-700 font-bold border-r border-gray-200 flex items-center justify-center" title="글꼴 초기화">가</button>
+            <button onclick="changeFontSize(1)" class="hover:bg-gray-200 text-gray-700 flex items-center justify-center" title="글꼴 확대">+</button>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        
+        <!-- 타이틀 헤더 -->
+        <header class="text-center mb-10 mt-4">
+            <p class="text-sm font-bold tracking-widest text-indigo-500 mb-2">Ⅱ. “그때 하늘에서 전쟁이 일어났습니다.” — 계 12:7상.</p>
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-4 leading-tight text-slate-800">
+                하늘에서의 전쟁과 <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">사내아이의 사명</span>
+            </h1>
+        </header>
+
+        <!-- 핵심 강조 요점 3가지 및 논리적 흐름 통합 (신규 구성) -->
+        <section class="mb-16 relative z-10 bg-white rounded-3xl shadow-lg border border-slate-100 p-6 md:p-10">
+            <div class="text-center mb-10">
+                <span class="bg-slate-800 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-sm">Core Framework</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mt-4">사내아이의 영적 여정: 3단계</h2>
+                <p class="text-gray-600 mt-2">이 세 가지 요점은 개별적인 사건이 아니라, <strong class="text-indigo-600">자격 획득 ➔ 하늘로의 휴거 ➔ 판결 집행</strong>이라는 하나님의 경륜을 이루는 하나의 흐름입니다.</p>
+            </div>
+
+            <!-- 시각적 연결망 (3대 요점) -->
+            <div class="flex flex-col md:flex-row justify-between items-stretch gap-6 relative">
+                <!-- 데스크톱 배경 흐름선 -->
+                <div class="hidden md:block absolute top-[4.5rem] left-16 right-16 h-1 bg-gradient-to-r from-emerald-300 via-purple-300 to-red-300 z-0"></div>
+
+                <!-- 강조 포인트 3 (논리적 시작점: 이 땅) -->
+                <div class="flex-1 bg-slate-50 rounded-2xl p-6 border-t-4 border-emerald-500 relative z-10 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 mx-auto bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-2xl mb-5 shadow-sm border-4 border-white">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <div class="text-center mb-3">
+                        <span class="text-xs font-bold text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full">Step 1. 자격 획득</span>
+                    </div>
+                    <h3 class="text-[1.1rem] font-bold text-slate-800 mb-3 text-center">이 땅에서의 영적 전투</h3>
+                    <p class="text-gray-700 text-[0.95rem] leading-relaxed">
+                        하늘에서 사탄을 내쫓는 심판을 집행할 자격을 얻기 위해, 이기는 믿는 이들은 하늘로 올려지기 전인 <span class="highlight">오늘날 이 땅의 교회 안에서부터 사탄을 대항하여 싸워야</span> 합니다.
+                    </p>
+                </div>
+                
+                <i class="fas fa-chevron-down text-gray-300 text-2xl block md:hidden mx-auto my-2"></i>
+
+                <!-- 강조 포인트 1 (사건의 전환: 휴거) -->
+                <div class="flex-1 bg-slate-50 rounded-2xl p-6 border-t-4 border-purple-500 relative z-10 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 mx-auto bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-2xl mb-5 shadow-sm border-4 border-white">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="text-center mb-3">
+                        <span class="text-xs font-bold text-purple-600 bg-purple-100 px-2 py-1 rounded-full">Step 2. 하늘로의 휴거</span>
+                    </div>
+                    <h3 class="text-[1.1rem] font-bold text-slate-800 mb-3 text-center">하나님의 목적 성취</h3>
+                    <p class="text-gray-700 text-[0.95rem] leading-relaxed">
+                        휴거는 단순히 죽은 후의 행복을 위한 것이 아니라, <span class="highlight">하나님의 경륜을 이루고, 십자가에서 이미 선고된 판결을 원수 사탄에게 집행</span> 하기 위해 하늘로 이끌려 가는 것입니다.
+                    </p>
+                </div>
+
+                <i class="fas fa-chevron-down text-gray-300 text-2xl block md:hidden mx-auto my-2"></i>
+
+                <!-- 강조 포인트 2 (최종 목적: 집행관) -->
+                <div class="flex-1 bg-slate-50 rounded-2xl p-6 border-t-4 border-red-500 relative z-10 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 mx-auto bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl mb-5 shadow-sm border-4 border-white">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <div class="text-center mb-3">
+                        <span class="text-xs font-bold text-red-600 bg-red-100 px-2 py-1 rounded-full">Step 3. 판결 집행</span>
+                    </div>
+                    <h3 class="text-[1.1rem] font-bold text-slate-800 mb-3 text-center">하늘의 집행관</h3>
+                    <p class="text-gray-700 text-[0.95rem] leading-relaxed">
+                        사내아이는 직접 싸우지 않고 명령을 내리는 <span class="highlight">'집행관'의 위치</span>에서 명령을 내립니다. 사내아이가 명령을 내릴 때, 미가엘과 천사들이 앞장서서 사탄과 싸워 그를 하늘에서 완전히 내쫓습니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 아코디언 요점 섹션 (3대 핵심 진리를 구체화하는 수직 타임라인) -->
+        <section class="relative mb-20 mt-8 pt-2">
+            <h2 class="sr-only">단계별 핵심 요점 상세</h2>
+            
+            <!-- 수직 연결 선 (데스크톱/태블릿 전용) -->
+            <div class="absolute left-[2.25rem] md:left-[3.5rem] top-10 bottom-12 w-1 bg-gradient-to-b from-emerald-300 via-purple-300 to-red-300 hidden sm:block z-0 rounded-full opacity-60"></div>
+
+            <!-- 타임라인 1: 이 땅에서의 전투 -->
+            <div class="relative mb-14 sm:pl-[6.5rem] md:pl-[8rem]">
+                <!-- 타임라인 노드 아이콘 -->
+                <div class="hidden sm:flex absolute left-[2.25rem] md:left-[3.5rem] top-6 -translate-x-1/2 w-12 h-12 rounded-full bg-emerald-500 text-white font-black text-xl items-center justify-center border-4 border-[#f8fafc] shadow-md z-10">
+                    1
+                </div>
+                <!-- 논리적 연결 고리 (다음 단계로) -->
+                <div class="hidden sm:flex absolute left-[2.25rem] md:left-[3.5rem] -bottom-8 -translate-x-1/2 bg-white border-2 border-emerald-200 text-emerald-700 px-4 py-1.5 rounded-full text-sm font-bold z-10 shadow-sm whitespace-nowrap items-center">
+                    <i class="fas fa-link mr-2 opacity-50"></i> 이 땅에서 자격을 얻어 <i class="fas fa-arrow-down ml-2 text-emerald-400"></i>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border-l-4 border-emerald-500 accordion-container relative z-10">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-slate-50 transition" onclick="toggleAccordion(this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-500 flex-shrink-0 sm:hidden">
+                                <span class="font-black text-lg">1</span>
+                            </div>
+                            <h2 class="text-xl font-bold text-slate-800">이 땅에서의 영적 전투 (자격의 획득)</h2>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 accordion-icon text-lg"></i>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        <div class="p-6 pt-2 border-t border-gray-100">
+                            <!-- 성경 구절 -->
+                            <div class="bible-verse-box border-emerald-400">
+                                <h4 class="font-bold text-emerald-800 text-sm mb-3 flex items-center"><i class="fas fa-book-open mr-2"></i>관련 회복역 성경</h4>
+                                <p class="text-gray-800 mb-2"><span class="font-bold text-emerald-600 bg-emerald-50 px-1 rounded">[요 16:11]</span> ‘심판에 대하여’라 한 것은 이 세상의 통치자가 이미 심판을 받았기 때문입니다.</p>
+                                <p class="text-gray-800"><span class="font-bold text-emerald-600 bg-emerald-50 px-1 rounded">[골 2:15]</span> 하나님께서 통치자들과 권세자들을 벗기시어 공개적으로 드러내시고, 십자가로 그들을 이기셨습니다.</p>
+                            </div>
+                            <!-- 구체적 의미 -->
+                            <div class="mb-4">
+                                <h5 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">핵심 의미</h5>
+                                <p class="text-gray-700 mb-3">
+                                    우리가 사탄에게 심판을 집행하기 위해 저 하늘에 있을 자격을 얻고자 한다면, <span class="highlight">우리는 반드시 지금 이 땅에서 그에게 심판을 집행하기 시작해야 합니다.</span> 심지어 오늘날에도 우리는 교회 안에서 사탄이 보이는 것을 용납하지 말아야 하고 그를 대항하여 싸워야 합니다.
+                                </p>
+                            </div>
+                            <!-- 실행 및 적용 -->
+                            <div>
+                                <h5 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">적용 및 기도의 선포</h5>
+                                <p class="text-gray-700">
+                                    여자의 더 강한 부분 안에 있고자 한다면 여러분은 사탄에게 말씀을 전하기를 배워야 합니다. 이렇게 말하십시오. <span class="highlight">“사탄아, 나는 네가 가도록 두지 않겠다. 나는 너를 묶고 패배시킬 것이다. 아직 떠나지 마라. 내가 그렇게 하라고 명령하기 전까지 너는 떠날 수 없다. 내가 말을 마칠 때까지 여기 있어라.”</span> 여러분이 그에게 말씀을 전하기로 결정한 후에는 그가 달아나 버릴지도 모릅니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 타임라인 2: 휴거의 목적 -->
+            <div class="relative mb-14 sm:pl-[6.5rem] md:pl-[8rem]">
+                <!-- 타임라인 노드 아이콘 -->
+                <div class="hidden sm:flex absolute left-[2.25rem] md:left-[3.5rem] top-6 -translate-x-1/2 w-12 h-12 rounded-full bg-purple-500 text-white font-black text-xl items-center justify-center border-4 border-[#f8fafc] shadow-md z-10">
+                    2
+                </div>
+                <!-- 논리적 연결 고리 (다음 단계로) -->
+                <div class="hidden sm:flex absolute left-[2.25rem] md:left-[3.5rem] -bottom-8 -translate-x-1/2 bg-white border-2 border-purple-200 text-purple-700 px-4 py-1.5 rounded-full text-sm font-bold z-10 shadow-sm whitespace-nowrap items-center">
+                    <i class="fas fa-link mr-2 opacity-50"></i> 하늘 보좌로 이끌려가 <i class="fas fa-arrow-down ml-2 text-purple-400"></i>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border-l-4 border-purple-500 accordion-container relative z-10">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-slate-50 transition" onclick="toggleAccordion(this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-500 flex-shrink-0 sm:hidden">
+                                <span class="font-black text-lg">2</span>
+                            </div>
+                            <h2 class="text-xl font-bold text-slate-800">휴거의 진정한 목적 (하나님의 경륜 성취)</h2>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 accordion-icon text-lg"></i>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        <div class="p-6 pt-2 border-t border-gray-100">
+                            <!-- 성경 구절 -->
+                            <div class="bible-verse-box border-purple-400">
+                                <h4 class="font-bold text-purple-800 text-sm mb-3 flex items-center"><i class="fas fa-book-open mr-2"></i>관련 회복역 성경</h4>
+                                <p class="text-gray-800 mb-2"><span class="font-bold text-purple-600 bg-purple-50 px-1 rounded">[요 12:31]</span> 이제 이 세상이 심판을 받을 때이니, 이 세상의 통치자가 쫓겨날 것입니다.</p>
+                                <p class="text-gray-800"><span class="font-bold text-purple-600 bg-purple-50 px-1 rounded">[계 12:10]</span> 또 나는 하늘에 있는 큰 음성을 들었습니다. “우리 하나님의 구원과 능력과 왕국과 그분의 그리스도의 권위가 이제 나타났다. 왜냐하면 우리 하나님 앞에서 밤낮으로 우리 형제들을 비난하던 그 비난자가 내던져졌기 때문이다.”</p>
+                            </div>
+                            <!-- 구체적 의미 -->
+                            <div class="mb-4">
+                                <h5 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">핵심 의미</h5>
+                                <p class="text-gray-700 mb-3">
+                                    종교는 인간의 행복을 위한 것이며, 죽은 후 즐거운 곳에서 복락의 삶을 살기 위한 것입니다. 
+                                    <span class="highlight">이런 사상은 마귀적인 것입니다.</span> 그러나 유감스럽게도 이런 관념이 기독교 전체에 침투했습니다. 
+                                    우리는 자신의 행복을 위해서가 아니라 <span class="highlight">하나님의 목적을 이루기 위해 하늘로 휴거되어야 합니다.</span>
+                                </p>
+                            </div>
+                            <!-- 실행 및 적용 -->
+                            <div>
+                                <h5 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">사명과 갈망</h5>
+                                <p class="text-gray-700">
+                                    휴거는 단지 우리를 위한 것만이 아니라 하나님의 경륜과 하나님의 전략을 위한 것이기도 합니다. 우리는 하나님의 원수에게 <span class="highlight">그분의 심판을 집행하기 위해 그곳에 가야 합니다.</span> 하나님은 이것을 성취하시기 위하여 사람이 필요하시며, 그분의 판결을 사탄에게 집행할 사람을 오랜 세월 동안 기다려 오셨습니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 타임라인 3: 사내아이의 역할 -->
+            <div class="relative sm:pl-[6.5rem] md:pl-[8rem]">
+                <!-- 타임라인 노드 아이콘 -->
+                <div class="hidden sm:flex absolute left-[2.25rem] md:left-[3.5rem] top-6 -translate-x-1/2 w-12 h-12 rounded-full bg-red-500 text-white font-black text-xl items-center justify-center border-4 border-[#f8fafc] shadow-md z-10">
+                    3
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border-l-4 border-red-500 accordion-container relative z-10">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-slate-50 transition" onclick="toggleAccordion(this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-500 flex-shrink-0 sm:hidden">
+                                <span class="font-black text-lg">3</span>
+                            </div>
+                            <h2 class="text-xl font-bold text-slate-800">사내아이의 역할 (명령을 내리는 집행관)</h2>
+                        </div>
+                        <i class="fas fa-chevron-down text-gray-400 accordion-icon text-lg"></i>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        <div class="p-6 pt-2 border-t border-gray-100">
+                            <!-- 성경 구절 -->
+                            <div class="bible-verse-box border-red-400">
+                                <h4 class="font-bold text-red-800 text-sm mb-3 flex items-center"><i class="fas fa-book-open mr-2"></i>관련 회복역 성경</h4>
+                                <p class="text-gray-800 mb-2"><span class="font-bold text-red-600 bg-red-50 px-1 rounded">[계 12:7]</span> 그때 하늘에서 전쟁이 일어났습니다. 미가엘과 미가엘의 천사들이 용과 싸우게 되었습니다. 용과 용의 천사들이 맞서 싸웠지만</p>
+                                <p class="text-gray-800 mb-2"><span class="font-bold text-red-600 bg-red-50 px-1 rounded">[계 12:8]</span> 이기지 못하였으므로, 하늘에는 더 이상 있을 곳이 없었습니다.</p>
+                                <p class="text-gray-800"><span class="font-bold text-red-600 bg-red-50 px-1 rounded">[계 12:9]</span> 큰 용, 곧 옛 뱀이 내던져졌습니다. 마귀라고도 하고 사탄이라고도 하는 그는 사람들이 사는 온 땅을 속이는 자입니다. 그가 땅으로 내던져졌으며, 그의 천사들도 그와 함께 내던져졌습니다.</p>
+                            </div>
+                            <!-- 구체적 의미 -->
+                            <div class="mb-4">
+                                <h5 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">핵심 의미</h5>
+                                <p class="text-gray-700 mb-3">
+                                    사내아이가 하늘로 휴거되자마자 곧 전쟁이 시작됩니다. 왜 사내아이가 직접 싸우지 않고 미가엘과 그의 천사들이 싸울까요? 그 이유는 <span class="highlight">사내아이는 집행관이며 집행관은 싸울 필요가 없기 때문입니다.</span> 오히려 그는 단순히 명령을 내립니다.
+                                    천사들은 이렇게 명령을 내릴 위치를 갖고 있지 못합니다. 왜냐하면 천사들인 그들은 전에 그들 가운데 있었던 사탄과 같은 지위에 있기 때문입니다.
+                                </p>
+                            </div>
+                            <!-- 실행 및 적용 -->
+                            <div>
+                                <h5 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">실행 및 완결</h5>
+                                <p class="text-gray-700">
+                                    집행관인 우리가 명령을 내린 후 우리를 섬기는 천사들이 우리를 위해 싸울 것입니다. 우리가 <span class="highlight">“사탄아, 사라져라.”라고 말할 때 미가엘이 앞장서서 그와 싸울 것입니다.</span> 하나님의 보좌로 휴거된 후에 우리는 사탄을 만날 것이며, 그는 우리를 두려워할 것입니다. 우리는 <span class="highlight">“사탄아, 너는 아직도 우리 하나님의 성소에 있느냐? 이곳은 네가 있을 곳이 아니다. 사탄아, 너는 가야 한다.”</span>라고 말할 것이며 마침내 사탄은 하늘에서 내쫓깁니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 이해도 점검 퀴즈 섹션 (NotebookLM 기반 분석형 질문) -->
+        <section class="bg-slate-800 text-white rounded-2xl shadow-xl p-6 md:p-10 mb-16 relative overflow-hidden">
+            <i class="fas fa-question-circle absolute -right-10 -bottom-10 text-9xl text-slate-700 opacity-30"></i>
+            
+            <div class="relative z-10">
+                <div class="text-center mb-10 border-b border-slate-600 pb-6">
+                    <span class="inline-block py-1 px-4 rounded-full bg-emerald-500 text-white text-sm font-bold tracking-wider mb-3 shadow-sm">퀴즈</span>
+                </div>
+
+                <form id="quizForm" class="space-y-10">
+                    <!-- Q1 -->
+                    <div class="quiz-item" data-answer="1">
+                        <div class="flex items-start mb-4">
+                            <span class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold mr-3 flex-shrink-0 mt-0.5">1</span>
+                            <h3 class="font-bold text-[1.125rem] text-white leading-relaxed">사내아이가 하늘에서 직접 싸우지 않고 '집행관'의 역할을 한다고 설명하는 이유는 무엇입니까?</h3>
+                        </div>
+                        <div class="space-y-3 pl-0 md:pl-11">
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q1" value="1" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>집행관은 싸우는 대신 명령을 내리는 위치에 있기 때문</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q1" value="2" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>사내아이에게는 싸울 능력이 없기 때문</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q1" value="3" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>이미 전쟁이 승리로 끝났기 때문</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q1" value="4" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>사탄이 사내아이를 두려워하여 피하기 때문</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="quiz-item" data-answer="2">
+                        <div class="flex items-start mb-4">
+                            <span class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold mr-3 flex-shrink-0 mt-0.5">2</span>
+                            <h3 class="font-bold text-[1.125rem] text-white leading-relaxed">하늘에서 사탄을 대항하여 싸울 자격을 얻기 위해 우리가 지금 이 땅에서 해야 할 일은 무엇입니까?</h3>
+                        </div>
+                        <div class="space-y-3 pl-0 md:pl-11">
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q2" value="1" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>종교적인 지식을 더 많이 쌓아야 함</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q2" value="2" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>지금 이 땅에서 사탄에게 심판을 집행하기 시작해야 함</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q2" value="3" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>전쟁이 일어나지 않도록 평화를 위해 기도해야 함</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q2" value="4" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>천사 미가엘에게 도움을 청하는 법을 배워야 함</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="quiz-item" data-answer="3">
+                        <div class="flex items-start mb-4">
+                            <span class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold mr-3 flex-shrink-0 mt-0.5">3</span>
+                            <h3 class="font-bold text-[1.125rem] text-white leading-relaxed">요한복음 12장 31절과 16장 11절에 따르면, 이 세상의 통치자인 사탄은 어떤 상태에 있습니까?</h3>
+                        </div>
+                        <div class="space-y-3 pl-0 md:pl-11">
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q3" value="1" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>하늘에서 완전히 쫓겨나 땅에만 갇혀 있는 상태</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q3" value="2" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>회개할 기회를 얻어 기다리고 있는 상태</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q3" value="3" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>이미 심판을 받았고 판결이 선고된 상태</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q3" value="4" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>아직 심판을 받지 않고 유예된 상태</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q4 -->
+                    <div class="quiz-item" data-answer="1">
+                        <div class="flex items-start mb-4">
+                            <span class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold mr-3 flex-shrink-0 mt-0.5">4</span>
+                            <h3 class="font-bold text-[1.125rem] text-white leading-relaxed">본문에서 언급된 '이기는 믿는 이들'의 전쟁의 본질은 무엇입니까?</h3>
+                        </div>
+                        <div class="space-y-3 pl-0 md:pl-11">
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q4" value="1" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>사탄에 대한 주님의 심판을 실제로 집행하는 것</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q4" value="2" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>땅에서의 평화를 위해 사탄과 타협하는 것</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q4" value="3" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>자신의 개인적인 도덕성을 증명하는 것</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q4" value="4" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>천사들의 도움 없이 인간의 힘만으로 이기는 것</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q5 -->
+                    <div class="quiz-item" data-answer="2">
+                        <div class="flex items-start mb-4">
+                            <span class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold mr-3 flex-shrink-0 mt-0.5">5</span>
+                            <h3 class="font-bold text-[1.125rem] text-white leading-relaxed">사내아이가 하늘로 휴거되어야 하는 이유 중 '하나님의 필요'와 관련된 것은 무엇입니까?</h3>
+                        </div>
+                        <div class="space-y-3 pl-0 md:pl-11">
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q5" value="1" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>더 이상 땅에 살 곳이 없기 때문</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q5" value="2" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>하늘에 있는 원수를 내쫓아 하나님의 전략을 완성하기 위해</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q5" value="3" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>천사들의 수가 부족하여 보충하기 위해</span>
+                            </label>
+                            <label class="quiz-option flex items-center p-4 rounded-xl border-2 border-slate-600 cursor-pointer text-[1rem]">
+                                <input type="radio" name="q5" value="4" class="form-radio text-emerald-500 h-5 w-5 mr-4 flex-shrink-0">
+                                <span>사탄이 하늘을 점령하여 하나님이 곤경에 처하셨기 때문</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="text-center pt-8">
+                        <button type="button" onclick="submitQuiz()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-extrabold text-lg py-4 px-10 rounded-full shadow-lg transition-transform transform hover:-translate-y-1 w-full md:w-auto">
+                            답안 제출 및 결과 확인하기
+                        </button>
+                    </div>
+                </form>
+
+                <!-- 결과 표시 영역 -->
+                <div id="quizResult" class="mt-10 hidden bg-slate-900 rounded-2xl p-8 text-center border-2 border-emerald-500 shadow-inner">
+                    <h3 class="text-3xl font-bold text-white mb-3">최종 점수: <span id="scoreText" class="text-emerald-400"></span></h3>
+                    <p id="feedbackText" class="text-xl"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 결론: 선포 및 기도문 섹션 (지문의 어조 활용) -->
+        <section class="bg-gradient-to-br from-indigo-900 via-slate-800 to-black rounded-2xl shadow-2xl p-8 md:p-12 text-center relative overflow-hidden mb-10">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50"></div>
+            <div class="w-16 h-16 mx-auto bg-indigo-800/50 rounded-full flex items-center justify-center mb-6">
+                <i class="fas fa-hands-praying text-3xl text-indigo-300"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-8 tracking-wide">오늘의 기도</h2>
+            <div class="max-w-2xl mx-auto">
+                <p class="text-indigo-100 text-lg md:text-xl leading-relaxed italic font-light space-y-6">
+                    주님, 오늘날 사내아이의 영적인 여정을 가는 사람으로 발견되기 원합니다.<br/>
+                    먼저 오늘날 이 땅의 교회 안에서, 사탄에게 말씀을 선포함으로 그를 대적하고 싸우는 법을 배우고 훈련합니다.<br/><br/>
+                    
+                    나 개인의 축복을 위해 휴거를 바라는 얄팍한 종교적 관념에서 저를 건져주시고,<br/>
+                    <strong class="text-yellow-400 font-bold not-italic px-2">오직 하나님의 필요를 채워드리기 위해 하늘로 이끌리기를 갈망합니다.</strong><br/><br/>
+
+                    지금 이 땅에서 사탄에게 심판을 집행함으로,<br/>
+                    장차 하늘에서의 전쟁에서 그에 대한 판결을 집행할 집행관으로서의 자격을 오늘부터 준비하기 원합니다.
+                </p>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-400 text-sm pb-8">
+            <p>본 인포그래픽은 요한계시록 라이프 스타디 및 회복역 성경을 바탕으로 제작되었습니다.</p>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript 로직 -->
+    <script>
+        // 폰트 크기 조절 로직
+        let currentFontSize = 16; // 기본값 16px
+        const minFontSize = 12;
+        const maxFontSize = 24;
+
+        function changeFontSize(step) {
+            const root = document.documentElement;
+            
+            if (step === 0) {
+                currentFontSize = 16; // '가' 버튼 (초기화)
+            } else {
+                currentFontSize += step; // '+', '-' 버튼
+            }
+
+            // 최소/최대 크기 제한
+            if (currentFontSize < minFontSize) currentFontSize = minFontSize;
+            if (currentFontSize > maxFontSize) currentFontSize = maxFontSize;
+
+            // CSS 변수 업데이트
+            root.style.setProperty('--base-font-size', currentFontSize + 'px');
+        }
+
+        // 아코디언 토글 기능
+        function toggleAccordion(button) {
+            const container = button.parentElement;
+            const content = container.querySelector('.accordion-content');
+            
+            if (container.classList.contains('expanded')) {
+                container.classList.remove('expanded');
+                content.style.maxHeight = null;
+            } else {
+                // 다른 열려있는 아코디언 닫기
+                document.querySelectorAll('.accordion-container').forEach(c => {
+                    if(c !== container && c.classList.contains('expanded')) {
+                        c.classList.remove('expanded');
+                        c.querySelector('.accordion-content').style.maxHeight = null;
+                    }
+                });
+
+                container.classList.add('expanded');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+
+        // 페이지 로드 시 첫 번째 요점 열어두기
+        window.onload = () => {
+            const firstButton = document.querySelector('.accordion-container button');
+            if (firstButton) toggleAccordion(firstButton);
+        }
+
+        // 퀴즈 채점 로직
+        function submitQuiz() {
+            const form = document.getElementById('quizForm');
+            const resultDiv = document.getElementById('quizResult');
+            const scoreText = document.getElementById('scoreText');
+            const feedbackText = document.getElementById('feedbackText');
+            const questions = document.querySelectorAll('.quiz-item');
+            
+            let score = 0;
+            let total = questions.length;
+            let answeredCount = 0;
+
+            questions.forEach((q, index) => {
+                const correctAnswer = q.getAttribute('data-answer');
+                const selectedOption = form.querySelector(`input[name="q${index + 1}"]:checked`);
+                
+                // 기존 스타일 초기화
+                q.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('border-emerald-500', 'bg-emerald-900/50', 'border-red-500', 'bg-red-900/50');
+                    opt.classList.add('border-slate-600');
+                });
+
+                if (selectedOption) {
+                    answeredCount++;
+                    if (selectedOption.value === correctAnswer) {
+                        score++;
+                        // 정답 시각적 피드백
+                        selectedOption.closest('.quiz-option').classList.remove('border-slate-600');
+                        selectedOption.closest('.quiz-option').classList.add('border-emerald-500', 'bg-emerald-900/50');
+                    } else {
+                        // 오답 시각적 피드백
+                        selectedOption.closest('.quiz-option').classList.remove('border-slate-600');
+                        selectedOption.closest('.quiz-option').classList.add('border-red-500', 'bg-red-900/50');
+                        // 정답 표시
+                        const correctRadio = form.querySelector(`input[name="q${index + 1}"][value="${correctAnswer}"]`);
+                        if (correctRadio) {
+                            correctRadio.closest('.quiz-option').classList.remove('border-slate-600');
+                            correctRadio.closest('.quiz-option').classList.add('border-emerald-500');
+                        }
+                    }
+                }
+            });
+
+            if (answeredCount < total) {
+                alert("모든 문제에 답해주세요!");
+                return;
+            }
+
+            // 결과 표시
+            const finalScore = (score / total) * 100;
+            scoreText.innerText = `${score} / ${total} (${finalScore}점)`;
+            
+            if (score === 5) {
+                feedbackText.innerText = "완벽합니다! 지문의 핵심 논리와 영적 인과관계를 정확히 파악하셨습니다.";
+                feedbackText.className = "text-emerald-300 mt-3 font-bold";
+            } else if (score >= 3) {
+                feedbackText.innerText = "잘 하셨습니다! 훌륭한 이해도를 보이셨습니다. 틀린 문제를 통해 본문의 깊은 의미를 다시 확인해보세요.";
+                feedbackText.className = "text-yellow-300 mt-3 font-bold";
+            } else {
+                feedbackText.innerText = "단순한 글 읽기를 넘어서 지문의 인과관계를 묵상하며 다시 한번 읽어보시는 것을 추천합니다.";
+                feedbackText.className = "text-orange-300 mt-3 font-bold";
+            }
+
+            resultDiv.classList.remove('hidden');
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>
