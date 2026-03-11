@@ -76,7 +76,6 @@
             border: 1px solid #e2e8f0;
         }
 
-        /* Active State (Link exists) */
         .day-active {
             background-color: #ebf2ff;
             border-color: #bfdbfe;
@@ -91,7 +90,6 @@
             transform: translateY(-2px);
         }
 
-        /* Disabled State (Link doesn't exist) */
         .day-disabled {
             background-color: #f1f5f9;
             color: #94a3b8;
@@ -112,29 +110,44 @@
             100% { transform: translateX(100%); }
         }
 
-        /* Audio Player Styles */
+        /* Audio Player Styles - 반응형 위치 및 크기 조정 */
         #audio-player-container {
             position: fixed;
-            bottom: 6rem;
-            right: 2rem;
+            bottom: 1.25rem; /* bottom-5 와 동일 선상 */
+            left: 1.25rem;   /* 모바일에서는 좌측에 배치하여 공간 분리 */
             z-index: 45;
             display: flex;
             align-items: center;
             background: white;
-            padding: 0.75rem 1.25rem;
-            border-radius: 3rem;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15);
+            padding: 0.4rem 0.75rem; /* 모바일 크기 축소 */
+            border-radius: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             border: 1px solid #e2e8f0;
             transition: all 0.3s ease;
-            max-width: 320px;
+            max-width: calc(100vw - 4.5rem); /* 위로 가기 버튼과 안 겹치게 제한 */
+        }
+
+        /* 데스크탑 화면 (md 이상) 에서는 우측 하단 버튼 옆에 나란히 배치 */
+        @media (min-width: 768px) {
+            #audio-player-container {
+                bottom: 2rem;     /* md:bottom-8 과 동일 */
+                left: auto;
+                right: 6rem;      /* 위로 가기 버튼 왼쪽에 위치 */
+                padding: 0.6rem 1rem;
+                max-width: 320px;
+            }
         }
 
         .music-bars {
             display: flex;
             align-items: flex-end;
             gap: 2px;
-            height: 15px;
-            margin-right: 12px;
+            height: 12px; /* 모바일 축소 */
+            margin-right: 8px;
+        }
+        
+        @media (min-width: 768px) {
+            .music-bars { height: 15px; margin-right: 12px; }
         }
 
         .bar { width: 3px; background: var(--primary); border-radius: 1px; height: 3px; transition: height 0.2s; }
@@ -142,11 +155,13 @@
         .playing .bar:nth-child(2) { animation-delay: 0.2s; }
         .playing .bar:nth-child(3) { animation-delay: 0.4s; }
 
-        @keyframes bounce { from { height: 3px; } to { height: 15px; } }
+        @keyframes bounce { from { height: 3px; } to { height: 100%; } }
 
-        .music-info { max-width: 160px; margin-right: 12px; }
+        .music-info { max-width: 120px; margin-right: 8px; }
+        @media (min-width: 768px) { .music-info { max-width: 160px; margin-right: 12px; } }
+
         .music-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem; /* 모바일 폰트 축소 */
             font-weight: 700;
             color: #334155;
             white-space: nowrap;
@@ -154,6 +169,11 @@
             text-overflow: ellipsis;
             display: block;
         }
+        @media (min-width: 768px) { .music-title { font-size: 0.75rem; } }
+
+        /* 반응형 플레이 버튼 크기 */
+        .audio-btn { width: 2rem; height: 2rem; font-size: 0.75rem; }
+        @media (min-width: 768px) { .audio-btn { width: 2.5rem; height: 2.5rem; font-size: 1rem; } }
 
         /* Bible Link Style */
         .bible-link {
@@ -262,7 +282,8 @@
         <div class="music-info">
             <span class="music-title">O the Joy of having nothing</span>
         </div>
-        <button id="play-pause-btn" class="w-10 h-10 rounded-full bg-blue-800 text-white flex items-center justify-center hover:bg-blue-700 transition shadow-md">
+        <!-- Tailwind 고정 크기(w-10) 제거, 커스텀 클래스(audio-btn) 적용 -->
+        <button id="play-pause-btn" class="audio-btn rounded-full bg-blue-800 text-white flex items-center justify-center hover:bg-blue-700 transition shadow-md">
             <i class="fas fa-play ml-1" id="play-icon"></i>
         </button>
         <audio id="bg-music" loop crossorigin="anonymous">
@@ -286,7 +307,8 @@
     </footer>
 
     <!-- Back to top button -->
-    <a href="#" id="backToTop" class="fixed bottom-8 right-8 bg-blue-800 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition z-40 opacity-0 pointer-events-none">
+    <!-- 모바일: bottom-5 right-5 (1.25rem), w-10 h-10 / PC: md:bottom-8 md:right-8 (2rem), md:w-12 md:h-12 -->
+    <a href="#" id="backToTop" class="fixed bottom-5 right-5 md:bottom-8 md:right-8 bg-blue-800 text-white w-10 h-10 md:w-12 md:h-12 text-sm md:text-base rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition z-40 opacity-0 pointer-events-none">
         <i class="fas fa-arrow-up"></i>
     </a>
 
@@ -470,7 +492,7 @@
             await Promise.allSettled(checks);
         }
 
-        // 오디오 플레이어 로직 (자동 재생 제거)
+        // 오디오 플레이어 로직
         function initAudioPlayer() {
             const music = document.getElementById('bg-music');
             const playPauseBtn = document.getElementById('play-pause-btn');
@@ -506,8 +528,6 @@
                     container.classList.remove('border-blue-200');
                 }
             });
-            
-            // 자동 재생 및 첫 클릭 재생 로직 삭제됨
         }
 
         window.onload = () => {
@@ -529,8 +549,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
