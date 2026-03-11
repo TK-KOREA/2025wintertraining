@@ -110,70 +110,15 @@
             100% { transform: translateX(100%); }
         }
 
-        /* Audio Player Styles - 반응형 위치 및 크기 조정 */
-        #audio-player-container {
-            position: fixed;
-            bottom: 1.25rem; /* bottom-5 와 동일 선상 */
-            left: 1.25rem;   /* 모바일에서는 좌측에 배치하여 공간 분리 */
-            z-index: 45;
-            display: flex;
-            align-items: center;
-            background: white;
-            padding: 0.4rem 0.75rem; /* 모바일 크기 축소 */
-            border-radius: 2rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
-            max-width: calc(100vw - 4.5rem); /* 위로 가기 버튼과 안 겹치게 제한 */
+        /* 음악 재생 중 애니메이션 (물결 효과) */
+        @keyframes play-ripple {
+            0% { box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.6); }
+            70% { box-shadow: 0 0 0 15px rgba(30, 58, 138, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(30, 58, 138, 0); }
         }
-
-        /* 데스크탑 화면 (md 이상) 에서는 우측 하단 버튼 옆에 나란히 배치 */
-        @media (min-width: 768px) {
-            #audio-player-container {
-                bottom: 2rem;     /* md:bottom-8 과 동일 */
-                left: auto;
-                right: 6rem;      /* 위로 가기 버튼 왼쪽에 위치 */
-                padding: 0.6rem 1rem;
-                max-width: 320px;
-            }
+        .is-playing {
+            animation: play-ripple 2s infinite;
         }
-
-        .music-bars {
-            display: flex;
-            align-items: flex-end;
-            gap: 2px;
-            height: 12px; /* 모바일 축소 */
-            margin-right: 8px;
-        }
-        
-        @media (min-width: 768px) {
-            .music-bars { height: 15px; margin-right: 12px; }
-        }
-
-        .bar { width: 3px; background: var(--primary); border-radius: 1px; height: 3px; transition: height 0.2s; }
-        .playing .bar { animation: bounce 0.8s ease infinite alternate; }
-        .playing .bar:nth-child(2) { animation-delay: 0.2s; }
-        .playing .bar:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes bounce { from { height: 3px; } to { height: 100%; } }
-
-        .music-info { max-width: 120px; margin-right: 8px; }
-        @media (min-width: 768px) { .music-info { max-width: 160px; margin-right: 12px; } }
-
-        .music-title {
-            font-size: 0.7rem; /* 모바일 폰트 축소 */
-            font-weight: 700;
-            color: #334155;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: block;
-        }
-        @media (min-width: 768px) { .music-title { font-size: 0.75rem; } }
-
-        /* 반응형 플레이 버튼 크기 */
-        .audio-btn { width: 2rem; height: 2rem; font-size: 0.75rem; }
-        @media (min-width: 768px) { .audio-btn { width: 2.5rem; height: 2.5rem; font-size: 1rem; } }
 
         /* Bible Link Style */
         .bible-link {
@@ -272,24 +217,14 @@
         </div>
     </section>
 
-    <!-- Audio Player Container -->
-    <div id="audio-player-container">
-        <div id="music-animation" class="music-bars">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
-        <div class="music-info">
-            <span class="music-title">O the Joy of having nothing</span>
-        </div>
-        <!-- Tailwind 고정 크기(w-10) 제거, 커스텀 클래스(audio-btn) 적용 -->
-        <button id="play-pause-btn" class="audio-btn rounded-full bg-blue-800 text-white flex items-center justify-center hover:bg-blue-700 transition shadow-md">
-            <i class="fas fa-play ml-1" id="play-icon"></i>
-        </button>
+    <!-- Audio Player Icon Button -->
+    <!-- 모바일: 좌측 하단 (left-5) / PC: 우측 하단 위로가기 버튼 옆 (md:right-[5.5rem]) -->
+    <button id="play-pause-btn" class="fixed bottom-5 left-5 md:bottom-8 md:left-auto md:right-[5.5rem] bg-blue-800 text-white w-10 h-10 md:w-12 md:h-12 text-sm md:text-base rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition z-40">
+        <i class="fas fa-play pl-1" id="play-icon"></i>
         <audio id="bg-music" loop crossorigin="anonymous">
             <source id="audio-source" src="https://tk-korea.github.io/2025wintertraining/O%20the%20Joy%20of%20having%20nothing.mp3" type="audio/mpeg">
         </audio>
-    </div>
+    </button>
 
     <!-- Footer -->
     <footer class="bg-slate-900 text-slate-400 py-16 px-4 border-t border-slate-800">
@@ -307,7 +242,7 @@
     </footer>
 
     <!-- Back to top button -->
-    <!-- 모바일: bottom-5 right-5 (1.25rem), w-10 h-10 / PC: md:bottom-8 md:right-8 (2rem), md:w-12 md:h-12 -->
+    <!-- 모바일: 우측 하단 (right-5) / PC: 우측 하단 (md:right-8) -->
     <a href="#" id="backToTop" class="fixed bottom-5 right-5 md:bottom-8 md:right-8 bg-blue-800 text-white w-10 h-10 md:w-12 md:h-12 text-sm md:text-base rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition z-40 opacity-0 pointer-events-none">
         <i class="fas fa-arrow-up"></i>
     </a>
@@ -396,7 +331,7 @@
             ]},
             { id: 12, title: "상과 벌을 가지고 오시는 그리스도, 어두운 곳을 비추는 등불, 샛별로서 이기는 이들에게 은밀히 나타나심", outlines: [
                 "Ⅰ. “보아라, 내가 속히 가겠다. 내가 줄 상벌이 나에게 있으니, 각 사람에게 그의 일에 따라 갚아 주겠다.” — 계 22:12.",
-                "Ⅱ. “우리에게는 신언자가 말한 더 확실한 말씀이 있습니다. 어두운 곳을 비추는 등불에 주의를 기울이는 것처럼, 여러분은 날이 밝고 샛별이 여러분의 마음속에 떠오를 때까지, 이 말씀에 주의를 기울이는 것이 좋습니다.” — 벧후 1:19.",
+                "Ⅱ. “우리에게는 신언자가 말한 더 확실한 말씀이 있습니다. 어두운 곳을 비추는 등불에 주의를 기울이는 것처럼, 여러분은 날이 밝고 샛별이 여러분의 마음속에 떠오를 때까지, 이 말씀에 주의를 기울이는 초상화이다 — 벧후 1:19.",
                 "Ⅲ. “나는 다윗의 뿌리이고 자손이며, 빛나는 샛별이다.” — 계 22:16하."
             ]}
         ];
@@ -497,8 +432,6 @@
             const music = document.getElementById('bg-music');
             const playPauseBtn = document.getElementById('play-pause-btn');
             const playIcon = document.getElementById('play-icon');
-            const musicAnim = document.getElementById('music-animation');
-            const container = document.getElementById('audio-player-container');
 
             let playPromise = null;
 
@@ -508,13 +441,12 @@
                     if (playPromise !== undefined) {
                         await playPromise;
                         playIcon.className = 'fas fa-pause';
-                        musicAnim.classList.add('playing');
-                        container.classList.add('border-blue-200');
+                        playPauseBtn.classList.add('is-playing');
                     }
                 } catch (err) {
                     console.error("재생 오류:", err);
-                    playIcon.className = 'fas fa-play ml-1';
-                    musicAnim.classList.remove('playing');
+                    playIcon.className = 'fas fa-play pl-1';
+                    playPauseBtn.classList.remove('is-playing');
                 }
             }
 
@@ -523,9 +455,8 @@
                     playMusic();
                 } else {
                     music.pause();
-                    playIcon.className = 'fas fa-play ml-1';
-                    musicAnim.classList.remove('playing');
-                    container.classList.remove('border-blue-200');
+                    playIcon.className = 'fas fa-play pl-1';
+                    playPauseBtn.classList.remove('is-playing');
                 }
             });
         }
