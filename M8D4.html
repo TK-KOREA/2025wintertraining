@@ -400,13 +400,24 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        /* 5. 기도문 */
+        /* 5. 기도문 (가독성 개선) */
         .prayer-section {
-            text-align: center; padding: 50px 30px; color: white; border-radius: 15px;
-            background: linear-gradient(rgba(139, 0, 0, 0.92), rgba(139, 0, 0, 0.92)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.1"><circle cx="50" cy="50" r="40" stroke="white" stroke-width="2" fill="none"/></svg>');
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center; 
+            padding: 50px 30px; 
+            border-radius: 15px;
+            background-color: #fdfbf7; /* 눈이 편안한 따뜻한 베이지/크림색 배경 */
+            border: 1px solid #e8e4d9; /* 부드러운 테두리 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* 은은한 그림자 */
         }
-        .prayer-text { font-family: 'Nanum Myeongjo', serif; font-size: 1.15rem; line-height: 2.2; margin: 30px 0; font-style: italic; }
+        .prayer-text { 
+            font-family: 'Noto Sans KR', sans-serif; /* 명조체에서 가독성 좋은 고딕으로 변경 */
+            font-size: 1.15rem; 
+            line-height: 2.0; 
+            margin: 30px 0; 
+            font-weight: 500; /* 이탤릭체를 제거하고 굵기를 약간 줌 */
+            color: #333333; /* 뚜렷한 진회색 글씨 */
+            word-break: keep-all; /* 단어 단위로 줄바꿈 되어 읽기 편하게 설정 */
+        }
 
         @media (max-width: 768px) {
             .dashboard-grid { grid-template-columns: 1fr; }
@@ -740,7 +751,7 @@
 
         <!-- 5. 마무리 기도문 -->
         <div class="prayer-section reveal-on-scroll">
-            <h2 style="color: var(--secondary-color); margin-bottom: 10px;">사탄의 비난을 거절하는 기도</h2>
+            <h2 style="color: var(--primary-color); margin-bottom: 10px;">사탄의 비난을 거절하는 기도</h2>
             <div class="prayer-text">
                 "오 주님, 저의 존재를 열고 주님께 나아갑니다.<br>
                 당신은 하나님의 어린양이시며, 저는 당신의 피를 적용합니다.<br>
@@ -748,7 +759,7 @@
                 비록 저는 온전하지 않지만, 당신의 피의 능력 아래 있음을 원수에게 선포합니다."<br><br>
 
                 "원수야, 비록 나는 온전하지 않지만 <br>
-                내가 어린양의 피 아래 있고<br> 
+                내가 어린양의 피 아래 있고 <br> 
                 그 피가 나의 온전함이라는 것을 너는 알아야 한다. <br>
                 나는 너를 이긴 형제들 가운데 하나이다. <br>
                 그것은 나의 온전함으로 말미암은 것이 아니라 나의 구속자의 피로 인한 것이다."<br><br>
@@ -758,9 +769,6 @@
                 나는 어린양의 피의 능력 아래 여기에 있다. <br>
                 나는 너를 처리하기 위해 어린양의 피를 적용하고 있다. <br>
                 너는 나를 비난할 수 없다!"<br>
-
-                
-
             </div>
         </div>
     </div>
