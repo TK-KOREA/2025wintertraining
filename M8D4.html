@@ -319,7 +319,7 @@
             background-color: #fffaf0;
             border-left: 5px solid var(--secondary-color);
             padding: 20px;
-            margin-bottom: 20px; /* 요점 내용과 확실히 구분되도록 하단 여백 부여 */
+            margin-bottom: 20px;
             border-radius: 0 8px 8px 0;
             box-shadow: 0 2px 5px rgba(0,0,0,0.03);
         }
@@ -346,7 +346,38 @@
             background: #f0f4f8; padding: 15px; border-radius: 8px; font-size: 0.95rem; border-left: 3px solid #607d8b;
         }
 
-        /* 4. 퀴즈 섹션 (가시성/가독성 극대화) */
+        /* 선포 기도문 전용 박스 스타일 */
+        .declaration-box {
+            background: #fff;
+            border: 2px dashed var(--secondary-color);
+            border-radius: 12px;
+            padding: 30px 20px 25px;
+            margin-top: 25px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #2c3e50;
+            line-height: 1.9;
+            text-align: center;
+            position: relative;
+            word-break: keep-all;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        
+        .declaration-box::before {
+            content: '\f10d'; /* FontAwesome quote-left */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 0 10px;
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+        }
+
+        /* 4. 퀴즈 섹션 */
         .quiz-section {
             background: var(--bg-card); padding: 40px; border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 40px;
@@ -370,7 +401,6 @@
 
         .options-wrapper { display: flex; flex-direction: column; gap: 12px; }
         
-        /* 퀴즈 옵션 - 모바일/데스크톱 조작 편리 */
         .option-label {
             display: flex; align-items: center; padding: 18px 20px; background: #fafafa; 
             border: 2px solid var(--border-color); border-radius: 10px; cursor: pointer; 
@@ -405,18 +435,18 @@
             text-align: center; 
             padding: 50px 30px; 
             border-radius: 15px;
-            background-color: #fdfbf7; /* 눈이 편안한 따뜻한 베이지/크림색 배경 */
-            border: 1px solid #e8e4d9; /* 부드러운 테두리 */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* 은은한 그림자 */
+            background-color: #fdfbf7; 
+            border: 1px solid #e8e4d9; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
         }
         .prayer-text { 
-            font-family: 'Noto Sans KR', sans-serif; /* 명조체에서 가독성 좋은 고딕으로 변경 */
+            font-family: 'Noto Sans KR', sans-serif; 
             font-size: 1.15rem; 
             line-height: 2.0; 
             margin: 30px 0; 
-            font-weight: 500; /* 이탤릭체를 제거하고 굵기를 약간 줌 */
-            color: #333333; /* 뚜렷한 진회색 글씨 */
-            word-break: keep-all; /* 단어 단위로 줄바꿈 되어 읽기 편하게 설정 */
+            font-weight: 500; 
+            color: #333333; 
+            word-break: keep-all; 
         }
 
         @media (max-width: 768px) {
@@ -482,7 +512,7 @@
         
         <!-- 핵심 대시보드 (전체 요약) -->
         <div class="dashboard reveal-on-scroll">
-            <h2 class="section-title" style="margin-bottom: 20px; font-size: 1.5rem;">사탄의 비난을 이기는 생활 대시보드</h2>
+            <h2 class="section-title" style="margin-bottom: 20px; font-size: 1.5rem;">사탄의 비난을 이기는 생활 로드맵</h2>
             
             <div class="dashboard-grid">
                 <div class="dash-card">
@@ -526,7 +556,6 @@
                     <div class="accordion-toggle"><i class="fa-solid fa-chevron-down"></i></div>
                 </div>
                 <div class="accordion-content">
-                    <!-- 관련 성경 최상단 배치 및 분리 -->
                     <div class="bible-box">
                         <div class="bible-verse">
                             그러나 하나님께서 빛 안에 계신 것같이 우리도 빛 안에서 행하면, 우리는 서로 교통을 갖게 되고, <span class="highlight">그분의 아들 예수님의 피가 우리를 온갖 죄에서 깨끗하게 합니다.</span>
@@ -639,7 +668,7 @@
                     <div class="point-content">
                         <h4><i class="fa-solid fa-circle-check" style="color:var(--secondary-color)"></i> 승리의 선포</h4>
                         <p>우리는 매일같이 비난을 수용하는 것이 겸손이라고 생각해서는 안 됩니다. 구원받은 날 그분의 피를 의지하고 신뢰한 것처럼, 그날 이후로도 날마다 그분의 피를 의지해야 합니다. 사탄이 우리를 비난할 때 우리는 항상 피를 적용하며 마귀에게 직접 말해야 합니다.</p>
-                        <div class="example-box" style="font-size:1.05rem; font-weight:bold; color:var(--primary-color); text-align:center;">
+                        <div class="declaration-box">
                             "나는 온전하지 않지만, 예수님의 피의 능력 아래 있다.<br>
                              나는 해방되었다. 나에게는 평안과 기쁨과 모든 긍정적인 것들이 있다.<br>
                              사탄아, 너는 십자가에서 너에게 무슨 일이 일어났는지 아느냐?<br>
@@ -648,7 +677,7 @@
                              네가 무저갱으로 던져져 천 년 동안 그곳에 있을 때가 올 것이다.<br>
                              내가 그리스도와 함께 공동 왕으로서 다스리고 있는 동안 너는 무저갱에 있을 것이다.<br>
                              그런 다음 너는 불 못에 던져져 거기에 영원토록 있을 것이다.<br>
-                             사탄아, 물러가라!"
+                             <strong style="color: var(--primary-color); font-size: 1.25rem; display: block; margin-top: 15px;">사탄아, 물러가라!</strong>"
                         </div>
                     </div>
                 </div>
@@ -788,80 +817,107 @@
             document.documentElement.style.fontSize = baseFontSize + 'px';
         }
 
-        // --- 스크롤 애니메이션 ---
-        window.addEventListener('scroll', () => {
-            const sequence = document.getElementById('scrollSequence');
+        // --- 스크롤 애니메이션 (Smooth 보간 적용) ---
+        const sequence = document.getElementById('scrollSequence');
+        const l1 = document.getElementById('layer1');
+        const l2 = document.getElementById('layer2');
+        const l3 = document.getElementById('layer3');
+        const l4 = document.getElementById('layer4');
+        const l5 = document.getElementById('layer5');
+        const layerWrapper = document.getElementById('layerWrapper');
+        const heroText = document.getElementById('heroText');
+        const hint = document.getElementById('scrollHint');
+
+        let targetProgress = 0;
+        let currentProgress = 0;
+
+        // 목표 스크롤 값 계산 함수
+        function updateTargetProgress() {
+            if (!sequence) return;
             const rect = sequence.getBoundingClientRect();
-            
             // 헤더 높이(40px)를 고려하여 계산
             let progress = -(rect.top - 40) / (rect.height - window.innerHeight + 40);
-            progress = Math.max(0, Math.min(1, progress));
+            targetProgress = Math.max(0, Math.min(1, progress));
+        }
 
-            const l1 = document.getElementById('layer1');
-            const l2 = document.getElementById('layer2');
-            const l3 = document.getElementById('layer3');
-            const l4 = document.getElementById('layer4');
-            const l5 = document.getElementById('layer5');
-            const layerWrapper = document.getElementById('layerWrapper');
-            const heroText = document.getElementById('heroText');
-            const hint = document.getElementById('scrollHint');
+        // 스크롤 및 리사이즈 시 목표 위치 업데이트
+        window.addEventListener('scroll', updateTargetProgress);
+        window.addEventListener('resize', updateTargetProgress);
+        updateTargetProgress(); // 초기화
 
-            hint.style.opacity = progress > 0.05 ? 0 : 1;
+        // 실제 렌더링 함수 (requestAnimationFrame 루프)
+        function renderScroll() {
+            // Lerp(선형 보간)를 사용하여 부드러운 감속 효과 적용 (수치가 낮을수록 더 부드러움)
+            currentProgress += (targetProgress - currentProgress) * 0.08;
 
-            const step = 1 / 6;
+            // 소수점 미세 조정 및 성능 최적화 (목표치와 차이가 날 때만 DOM 업데이트)
+            if (Math.abs(targetProgress - currentProgress) > 0.0001) {
+                let progress = currentProgress;
 
-            // Layer 1
-            if (progress < step) {
-                let p = progress / step;
-                l1.style.transform = `translateY(${-120 * p}%) rotateX(${20 * p}deg) scale(${1 - 0.2*p})`;
-                l1.style.opacity = 1 - (p * 1.5);
-            } else { l1.style.opacity = 0; }
+                hint.style.opacity = progress > 0.05 ? 0 : 1;
 
-            // Layer 2
-            if (progress >= step && progress < step*2) {
-                let p = (progress - step) / step;
-                l2.style.transform = `translateX(${120 * p}%) rotateY(${20 * p}deg) scale(${1 - 0.2*p})`;
-                l2.style.opacity = 1 - (p * 1.5);
-            } else if (progress >= step*2) { l2.style.opacity = 0; }
-            else { l2.style.transform = 'none'; l2.style.opacity = 1; }
+                const step = 1 / 6;
 
-            // Layer 3
-            if (progress >= step*2 && progress < step*3) {
-                let p = (progress - step*2) / step;
-                l3.style.transform = `translateX(${-120 * p}%) rotateY(${-20 * p}deg) scale(${1 - 0.2*p})`;
-                l3.style.opacity = 1 - (p * 1.5);
-            } else if (progress >= step*3) { l3.style.opacity = 0; }
-            else { l3.style.transform = 'none'; l3.style.opacity = 1; }
+                // Layer 1
+                if (progress < step) {
+                    let p = progress / step;
+                    l1.style.transform = `translateY(${-120 * p}%) rotateX(${20 * p}deg) scale(${1 - 0.2*p})`;
+                    l1.style.opacity = 1 - (p * 1.5);
+                } else { l1.style.opacity = 0; }
 
-            // Layer 4
-            if (progress >= step*3 && progress < step*4) {
-                let p = (progress - step*3) / step;
-                l4.style.transform = `translateY(${120 * p}%) rotateX(${-20 * p}deg) scale(${1 - 0.2*p})`;
-                l4.style.opacity = 1 - (p * 1.5);
-            } else if (progress >= step*4) { l4.style.opacity = 0; }
-            else { l4.style.transform = 'none'; l4.style.opacity = 1; }
+                // Layer 2
+                if (progress >= step && progress < step*2) {
+                    let p = (progress - step) / step;
+                    l2.style.transform = `translateX(${120 * p}%) rotateY(${20 * p}deg) scale(${1 - 0.2*p})`;
+                    l2.style.opacity = 1 - (p * 1.5);
+                } else if (progress >= step*2) { l2.style.opacity = 0; }
+                else { l2.style.transform = 'none'; l2.style.opacity = 1; }
 
-            // Layer 5
-            if (progress >= step*4 && progress < step*5) {
-                let p = (progress - step*4) / step;
-                l5.style.transform = `translate(${120 * p}%, ${-120 * p}%) rotateZ(${20 * p}deg) scale(${1 - 0.2*p})`;
-                l5.style.opacity = 1 - (p * 1.5);
-            } else if (progress >= step*5) { l5.style.opacity = 0; }
-            else { l5.style.transform = 'none'; l5.style.opacity = 1; }
+                // Layer 3
+                if (progress >= step*2 && progress < step*3) {
+                    let p = (progress - step*2) / step;
+                    l3.style.transform = `translateX(${-120 * p}%) rotateY(${-20 * p}deg) scale(${1 - 0.2*p})`;
+                    l3.style.opacity = 1 - (p * 1.5);
+                } else if (progress >= step*3) { l3.style.opacity = 0; }
+                else { l3.style.transform = 'none'; l3.style.opacity = 1; }
 
-            // 최종 텍스트 표시
-            if (progress >= step*5) {
-                let p = (progress - step*5) / step;
-                layerWrapper.style.opacity = 1 - p;
-                layerWrapper.style.transform = `scale(${1 + 0.5 * p})`;
-                heroText.style.opacity = p;
-                heroText.style.transform = `translate(-50%, -50%) translateY(${40 * (1-p)}px)`;
-            } else {
-                layerWrapper.style.opacity = 1;
-                layerWrapper.style.transform = 'none';
-                heroText.style.opacity = 0;
+                // Layer 4
+                if (progress >= step*3 && progress < step*4) {
+                    let p = (progress - step*3) / step;
+                    l4.style.transform = `translateY(${120 * p}%) rotateX(${-20 * p}deg) scale(${1 - 0.2*p})`;
+                    l4.style.opacity = 1 - (p * 1.5);
+                } else if (progress >= step*4) { l4.style.opacity = 0; }
+                else { l4.style.transform = 'none'; l4.style.opacity = 1; }
+
+                // Layer 5
+                if (progress >= step*4 && progress < step*5) {
+                    let p = (progress - step*4) / step;
+                    l5.style.transform = `translate(${120 * p}%, ${-120 * p}%) rotateZ(${20 * p}deg) scale(${1 - 0.2*p})`;
+                    l5.style.opacity = 1 - (p * 1.5);
+                } else if (progress >= step*5) { l5.style.opacity = 0; }
+                else { l5.style.transform = 'none'; l5.style.opacity = 1; }
+
+                // 최종 텍스트 표시
+                if (progress >= step*5) {
+                    let p = (progress - step*5) / step;
+                    layerWrapper.style.opacity = 1 - p;
+                    layerWrapper.style.transform = `scale(${1 + 0.5 * p})`;
+                    heroText.style.opacity = p;
+                    heroText.style.transform = `translate(-50%, -50%) translateY(${40 * (1-p)}px)`;
+                } else {
+                    layerWrapper.style.opacity = 1;
+                    layerWrapper.style.transform = 'none';
+                    heroText.style.opacity = 0;
+                }
             }
-        });
+
+            // 다음 프레임 요청
+            requestAnimationFrame(renderScroll);
+        }
+
+        // 애니메이션 루프 시작
+        requestAnimationFrame(renderScroll);
+
 
         // --- 부드러운 등장 (Fade Up) ---
         const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
@@ -896,15 +952,12 @@
 
         // 선택영역 클릭 시 라디오 체크 및 스타일 변경
         function selectOption(labelElement) {
-            // 해당 질문 내 모든 라디오 버튼의 selected 클래스 제거
             const wrapper = labelElement.parentElement;
             const labels = wrapper.querySelectorAll('.option-label');
             labels.forEach(lbl => lbl.classList.remove('selected'));
             
-            // 클릭된 요소에 selected 부여
             labelElement.classList.add('selected');
             
-            // 라디오 버튼 체크 (이미 label 클릭으로 네이티브 작동하지만 명확히 함)
             const radio = labelElement.querySelector('input[type="radio"]');
             radio.checked = true;
         }
@@ -986,7 +1039,6 @@
             currentQuestion = 1;
             document.getElementById('quizForm').reset();
             
-            // 모든 선택된 스타일 초기화
             document.querySelectorAll('.option-label').forEach(lbl => lbl.classList.remove('selected'));
 
             document.getElementById('quizForm').style.display = 'block';
