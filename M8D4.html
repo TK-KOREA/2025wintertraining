@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>어린양의 피로 이김</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #8B0000;
+            --secondary-color: #D4AF37;
+            --bg-light: #F4F6F8;
+            --bg-card: #FFFFFF;
+            --text-main: #2C3E50;
+            --text-muted: #596A7A;
+            --border-color: #E2E8F0;
+            --highlight-bg: rgba(212, 175, 55, 0.25);
+            --badge-color: #E74C3C;
+        }
+
+        /* 기본 폰트 사이즈 (자바스크립트로 조절됨) */
+        html { font-size: 16px; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: 40px; /* 상단 바 공간 */
+        }
+
+        /* --- 상단 고정 바 (Top Bar) --- */
+        #top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: #FFFFFF;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            /* 여백 최소화 */
+            padding: 0 10px; 
+        }
+
+        /* Top bar 내부는 rem 대신 px을 사용하여 폰트 조절에 영향받지 않게 함 */
+        .top-bar-left a {
+            color: var(--primary-color);
+            font-size: 18px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+        }
+
+        .top-bar-title {
+            font-family: 'Nanum Myeongjo', serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .top-bar-controls {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .top-bar-controls button {
+            background: transparent;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            cursor: pointer;
+            color: var(--text-main);
+            background-color: #f9f9f9;
+        }
+
+        .top-bar-controls button:hover {
+            background-color: #e9e9e9;
+        }
+
+        /* 공통 스타일 */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .highlight {
+            font-weight: 700;
+            background: linear-gradient(180deg, transparent 60%, var(--highlight-bg) 40%);
+            color: #000;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Nanum Myeongjo', serif;
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+
+        /* 1. 스크롤 시퀀스 영역 */
+        .scroll-sequence {
+            height: 400vh;
+            position: relative;
+            background: linear-gradient(135deg, #111 0%, #333 100%);
+        }
+
+        .sticky-container {
+            position: sticky;
+            top: 40px; /* top-bar 높이 반영 */
+            height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            animation: bounce 2s infinite;
+            z-index: 10;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+            40% { transform: translate(-50%, -15px); }
+            60% { transform: translate(-50%, -7px); }
+        }
+
+        .layer-wrapper {
+            position: relative;
+            width: 320px;
+            height: 420px;
+            margin-bottom: 30px;
+            perspective: 1000px;
+        }
+
+        .layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-main);
+            transform-style: preserve-3d;
+            border: 2px solid var(--border-color);
+            will-change: transform, opacity;
+            line-height: 1.4;
+        }
+
+        .layer-1 { z-index: 6; background-color: #ffffff; }
+        .layer-2 { z-index: 5; background-color: #f8f8f8; }
+        .layer-3 { z-index: 4; background-color: #eeeeee; }
+        .layer-4 { z-index: 3; background-color: #e5e5e5; }
+        .layer-5 { z-index: 2; background-color: #dcdcdc; }
+        .layer-6 { 
+            z-index: 1; 
+            background: linear-gradient(135deg, var(--primary-color), #4a0000); 
+            color: white;
+            border: 2px solid var(--secondary-color);
+            font-size: 1.4rem;
+        }
+
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            padding: 0 20px;
+            opacity: 0;
+            pointer-events: none;
+            will-change: opacity, transform;
+        }
+
+        /* 스크롤 등장 애니메이션 */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .reveal-on-scroll.is-revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 2. 핵심 대시보드 (요약) */
+        .dashboard {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 50px;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .dash-card {
+            text-align: center;
+            padding: 20px;
+            background: var(--bg-light);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .dash-icon {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        /* 아코디언 스타일 */
+        .timeline { position: relative; margin: 40px 0; }
+        .timeline::before {
+            content: ''; position: absolute; left: 24px; top: 0; bottom: 0;
+            width: 3px; background-color: var(--border-color);
+        }
+
+        .accordion-item { margin-bottom: 25px; position: relative; padding-left: 70px; }
+        
+        .accordion-badge {
+            position: absolute; left: 5px; top: 15px; width: 40px; height: 40px;
+            background: var(--primary-color); color: white; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: 900; font-size: 1.1rem;
+            border: 3px solid white; box-shadow: 0 0 0 2px var(--secondary-color); z-index: 2;
+        }
+
+        .accordion-header {
+            background: var(--bg-card); padding: 20px 25px; border-radius: 10px;
+            cursor: pointer; box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            display: flex; justify-content: space-between; align-items: center;
+            transition: all 0.3s ease; border: 1px solid var(--border-color);
+        }
+        .accordion-header:hover { border-color: var(--secondary-color); }
+        .accordion-title { font-weight: 700; font-size: 1.15rem; color: var(--primary-color); }
+        .accordion-toggle { font-size: 1.2rem; color: var(--text-muted); transition: transform 0.3s ease; }
+        .accordion-item.active .accordion-toggle { transform: rotate(180deg); color: var(--secondary-color); }
+
+        .accordion-content {
+            background: var(--bg-card); border-radius: 0 0 10px 10px; padding: 0 25px;
+            max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.5s ease;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05); margin-top: -5px;
+            border: 1px solid transparent; border-top: none;
+        }
+        .accordion-item.active .accordion-content { 
+            padding: 25px; border-color: var(--border-color);
+        }
+
+        /* 성경 구절 독립적 강조 */
+        .bible-box {
+            background-color: #fffaf0;
+            border-left: 5px solid var(--secondary-color);
+            padding: 20px;
+            margin-bottom: 20px; /* 요점 내용과 확실히 구분되도록 하단 여백 부여 */
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+        
+        .bible-verse {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .bible-ref {
+            display: block; text-align: right; font-size: 0.95rem;
+            font-weight: bold; margin-top: 12px; color: var(--primary-color);
+        }
+
+        .point-content h4 {
+            color: var(--text-main); margin-top: 15px; margin-bottom: 5px; font-size: 1.05rem;
+        }
+        .point-content p {
+            margin-bottom: 15px; color: #444; font-size: 1rem;
+        }
+        .point-content .example-box {
+            background: #f0f4f8; padding: 15px; border-radius: 8px; font-size: 0.95rem; border-left: 3px solid #607d8b;
+        }
+
+        /* 4. 퀴즈 섹션 (가시성/가독성 극대화) */
+        .quiz-section {
+            background: var(--bg-card); padding: 40px; border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+        }
+        .quiz-question { margin-bottom: 25px; display: none; }
+        .quiz-question.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+        
+        .question-header {
+            display: flex; align-items: flex-start; margin-bottom: 20px; gap: 15px;
+        }
+        .q-badge {
+            background: var(--primary-color); color: white; width: 32px; height: 32px;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-weight: bold; flex-shrink: 0; font-size: 1rem;
+        }
+        .question-text { 
+            font-size: 1.15rem; font-weight: 700; color: var(--text-main); line-height: 1.5; padding-top: 2px;
+        }
+
+        .options-wrapper { display: flex; flex-direction: column; gap: 12px; }
+        
+        /* 퀴즈 옵션 - 모바일/데스크톱 조작 편리 */
+        .option-label {
+            display: flex; align-items: center; padding: 18px 20px; background: #fafafa; 
+            border: 2px solid var(--border-color); border-radius: 10px; cursor: pointer; 
+            transition: all 0.2s; font-size: 1rem; color: #333; font-weight: 500;
+        }
+        .option-label:hover { background: #f0f4f8; border-color: #cbd5e1; }
+        .option-label.selected { background: #eff6ff; border-color: var(--secondary-color); }
+        input[type="radio"] { 
+            margin-right: 15px; width: 20px; height: 20px; accent-color: var(--primary-color); cursor: pointer;
+        }
+
+        .quiz-nav { display: flex; justify-content: space-between; margin-top: 35px; padding-top: 20px; border-top: 1px solid var(--border-color); }
+        .btn { padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; transition: all 0.3s; font-size: 1rem; }
+        .btn-primary { background: var(--primary-color); color: white; }
+        .btn-primary:hover { background: #600000; box-shadow: 0 4px 10px rgba(139,0,0,0.3); }
+        .btn-secondary { background: #e2e8f0; color: #475569; }
+        .btn-secondary:hover { background: #cbd5e1; }
+        
+        .quiz-result {
+            display: none; text-align: center; padding: 40px 20px; background: #fdfaf0;
+            border: 2px solid var(--secondary-color); border-radius: 12px; margin-top: 20px;
+        }
+        .score-circle {
+            width: 110px; height: 110px; border-radius: 50%; background: var(--primary-color);
+            color: white; display: flex; justify-content: center; align-items: center;
+            font-size: 2.5rem; font-weight: 900; margin: 0 auto 20px; border: 5px solid rgba(255,255,255,0.5);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* 5. 기도문 */
+        .prayer-section {
+            text-align: center; padding: 50px 30px; color: white; border-radius: 15px;
+            background: linear-gradient(rgba(139, 0, 0, 0.92), rgba(139, 0, 0, 0.92)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.1"><circle cx="50" cy="50" r="40" stroke="white" stroke-width="2" fill="none"/></svg>');
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .prayer-text { font-family: 'Nanum Myeongjo', serif; font-size: 1.15rem; line-height: 2.2; margin: 30px 0; font-style: italic; }
+
+        @media (max-width: 768px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .accordion-item { padding-left: 0; }
+            .accordion-badge { display: none; }
+            .timeline::before { display: none; }
+            .hero-text h1 { font-size: 1.8rem !important; }
+            .hero-text p { font-size: 1rem !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 상단 고정 바 -->
+    <div id="top-bar">
+        <div class="top-bar-left">
+            <a href="https://tk-korea.github.io/2025wintertraining/" title="홈페이지로 바로가기">
+                <i class="fa-solid fa-house"></i>
+            </a>
+        </div>
+        <div class="top-bar-title">어린양의 피로 이김</div>
+        <div class="top-bar-controls">
+            <button onclick="changeFontSize(-1)" title="글꼴 축소"><i class="fa-solid fa-minus"></i></button>
+            <button onclick="resetFontSize()" title="글꼴 초기화" style="font-weight:bold; font-family:'Noto Sans KR';">가</button>
+            <button onclick="changeFontSize(1)" title="글꼴 확대"><i class="fa-solid fa-plus"></i></button>
+        </div>
+    </div>
+
+    <!-- 1. 스크롤 시퀀스 도입부 -->
+    <section class="scroll-sequence" id="scrollSequence">
+        <div class="sticky-container">
+            <div class="scroll-hint" id="scrollHint">
+                <i class="fa-solid fa-chevron-down"></i> 스크롤하여 진리 발견하기
+            </div>
+            
+            <div class="layer-wrapper" id="layerWrapper">
+                <!-- 6단계 레이어 구조 -->
+                <div class="layer layer-1" id="layer1">약함과 실패<br>죄와 허물</div>
+                <div class="layer layer-2" id="layer2">끝없는 정죄와 두려움</div>
+                <div class="layer layer-3" id="layer3">자백한 후에도 계속되는 유죄판결의 느낌</div>
+                <div class="layer layer-4" id="layer4">이것은 진정 하나님의 빛 비춤일까요?</div>
+                <div class="layer layer-5" id="layer5">아니면 우리를 약하게 만들려는<br>사탄의 비난일까요?</div>
+                <div class="layer layer-6" id="layer6">
+                    <div style="text-align: center;">
+                        <i class="fa-solid fa-droplet" style="font-size: 3.5rem; margin-bottom: 15px; color: var(--secondary-color);"></i><br>
+                        그들은<br> 어린양의 피로<br>그(마귀)를 이겼다!
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-text" id="heroText">
+                <h1 style="color: var(--secondary-color); font-size: 2.5rem; margin-bottom: 15px;">어린양의 피</h1>
+                <p style="font-size: 1.1rem; max-width: 650px; margin: 0 auto; color: #ddd; text-shadow: 0 2px 10px rgba(0,0,0,0.8); line-height:1.8;">
+                    “주님, 저의 존재를 열고 주님께 나아갑니다.<br> 당신은 하나님의 어린양이시며, 저는 당신의 피를 적용합니다.<br> 당신은 어떠한 대가를 지불하셨는지요!”
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="container" id="main-content">
+        
+        <!-- 핵심 대시보드 (전체 요약) -->
+        <div class="dashboard reveal-on-scroll">
+            <h2 class="section-title" style="margin-bottom: 20px; font-size: 1.5rem;">사탄의 비난을 이기는 생활 대시보드</h2>
+            
+            <div class="dashboard-grid">
+                <div class="dash-card">
+                    <div class="dash-icon"><i class="fa-solid fa-droplet"></i></div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 8px;">1. 자백과 씻음</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">죄를 자백하고 온전한 용서를 확신함</p>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-icon" style="color: var(--primary-color);"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 8px; color: var(--primary-color);">2. 비난 분별</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">자백 후의 끈질긴 유죄판결은 원수의 비난임을 분별</p>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 8px;">3. 비난 거절</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">이유 유무를 막론하고 사탄의 비난을 단호히 거절</p>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-icon" style="color: var(--primary-color);"><i class="fa-solid fa-anchor"></i></div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 8px; color: var(--primary-color);">4. 보혈 신뢰</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">느낌이 아닌 말씀과 하나님의 평가에 초점 맞춤</p>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 8px;">5. 선포와 적용</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">마귀를 향해 보혈 아래 있음을 직접 선포하여 이김</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="reveal-on-scroll">
+            <h2 class="section-title">사탄의 비난을 이기는 영적 실행</h2>
+        </div>
+        
+        <div class="timeline">
+            <!-- Point 1 -->
+            <div class="accordion-item reveal-on-scroll">
+                <div class="accordion-badge">1</div>
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">자백과 씻음</div>
+                    <div class="accordion-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+                </div>
+                <div class="accordion-content">
+                    <!-- 관련 성경 최상단 배치 및 분리 -->
+                    <div class="bible-box">
+                        <div class="bible-verse">
+                            그러나 하나님께서 빛 안에 계신 것같이 우리도 빛 안에서 행하면, 우리는 서로 교통을 갖게 되고, <span class="highlight">그분의 아들 예수님의 피가 우리를 온갖 죄에서 깨끗하게 합니다.</span>
+                        </div>
+                        <span class="bible-ref">— 요한일서 1:7</span>
+                    </div>
+                    
+                    <div class="point-content">
+                        <h4><i class="fa-solid fa-circle-check" style="color:var(--secondary-color)"></i> 의미와 적용</h4>
+                        <p>주님의 회복 안에 있은 지 얼마나 되었든, 우리는 예수님의 피를 적용하지 않고는 매일 그리스도인의 생활을 할 수 없습니다. 어떤 죄든지 우리가 깨닫고 자백하면 하나님은 용서하시고 잊어버리십니다.</p>
+                        <p><strong>죄를 한 번 자백하면 같은 죄를 다시 자백할 필요가 없습니다.</strong> 다시 자백해야 한다고 느끼는 것은 귀신이 우리를 괴롭히고 있기 때문입니다. 우리는 사탄에게 입을 닫고 떠나라고 말해야 합니다. 우리는 우리에게 개인적으로 적용되는 어린양의 피의 능력 아래 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Point 2 -->
+            <div class="accordion-item reveal-on-scroll">
+                <div class="accordion-badge">2</div>
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">비난 분별</div>
+                    <div class="accordion-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-box">
+                        <div class="bible-verse">
+                            우리가 우리의 죄들을 자백하면, 하나님은 신실하시고 의로우셔서 <span class="highlight">우리 죄들을 용서하시고 모든 불의에서 우리를 깨끗하게</span> 하실 것입니다.
+                        </div>
+                        <span class="bible-ref">— 요한일서 1:9</span>
+                    </div>
+                    
+                    <div class="point-content">
+                        <h4><i class="fa-solid fa-circle-check" style="color:var(--secondary-color)"></i> 비난 분별</h4>
+                        <p>우리가 자백하고 피를 적용한 후에도 유죄판결 하는 느낌이 계속 든다면, 이런 느낌은 모두 하나님의 빛 비춤이 아니라 <strong>사탄의 비난</strong>입니다. 사탄은 우리를 자아 안으로 끌어당기려고 안간힘을 씁니다. 우리는 항상 더 많은 것을 자백해야 한다고 느낄 필요가 없습니다.</p>
+                        
+                        <div class="example-box">
+                            <strong>구체적 사례:</strong> 한 사랑스러운 형제는 아침에 주님과 시간을 보내면서 자백할 것이 아무것도 없어서 힘들어했습니다. 그래서 그는 우리가 범할 수 있는 모든 종류의 잘못을 적은 목록이 있는 책을 펴고, 그 목록을 사용하여 자신이 얼마나 나빴는지를 자백했습니다. 그러나 우리는 그러한 체험이 <strong>우리를 약하게 만들려는 원수의 비난의 결과</strong>라는 것을 알아야 합니다.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Point 3 -->
+            <div class="accordion-item reveal-on-scroll">
+                <div class="accordion-badge">3</div>
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">비난 거절</div>
+                    <div class="accordion-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-box">
+                        <div class="bible-verse">
+                            ...왜냐하면 우리 하나님 앞에서 밤낮으로 우리 형제들을 비난하던 <span class="highlight">그 비난자가 내던져졌기 때문</span>이다.
+                        </div>
+                        <span class="bible-ref">— 요한계시록 12:10</span>
+                    </div>
+
+                    <div class="point-content">
+                        <h4><i class="fa-solid fa-circle-check" style="color:var(--secondary-color)"></i> 단호한 거절</h4>
+                        <p>우리는 이유 없는 비난들을 거절해야 할 뿐 아니라 <strong>이유 있는 모든 비난도 거절</strong>해야 합니다. 하나님의 자녀들이 그릇된 어떤 일을 저질렀다 해도, 우리에게는 다만 그분의 아들 예수님의 피가 필요할 뿐 사탄의 비난은 필요하지 않습니다.</p>
+                        <p><strong>우리가 이미 자백했다면 더 이상 무슨 할 말이 있겠습니까?</strong> 우리가 죄를 짓고도 자백하지 않는다면 비난받아 마땅하지만, 죄가 없다면 비난받아야 할 이유도 없습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Point 4 -->
+            <div class="accordion-item reveal-on-scroll">
+                <div class="accordion-badge">4</div>
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">보혈 신뢰</div>
+                    <div class="accordion-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-box" style="margin-bottom:10px;">
+                        <div class="bible-verse">
+                            이것은 죄들이 용서받을 수 있도록 <span class="highlight">많은 사람을 위하여 쏟는 나의 피, 곧 언약의 피</span>입니다.
+                        </div>
+                        <span class="bible-ref">— 마태복음 26:28</span>
+                    </div>
+                    <div class="bible-box">
+                        <div class="bible-verse">
+                            하물며 하나님의 아들을 짓밟고 <span class="highlight">자기를 거룩하게 해 준 언약의 피</span>를 하찮은 것으로 여기며 은혜의 영을 모욕한 사람은 얼마나 더 심한 형벌을 받게 될 것인지를 생각해 보십시오.
+                        </div>
+                        <span class="bible-ref">— 히브리서 10:29</span>
+                    </div>
+
+                    <div class="point-content">
+                        <h4><i class="fa-solid fa-circle-check" style="color:var(--secondary-color)"></i> 느낌이 아닌 말씀에 초점</h4>
+                        <p>죄를 범할 때 우리는 하나님을 영광스럽게 하지 못하지만, <strong>보배로운 피를 신뢰하지 않을 때 우리는 하나님을 한층 더 욕되게 하는 것</strong>입니다. 우리는 보배로운 피를 신뢰해야 합니다. 이것에 관한 우리의 믿음은 매우 능동적이어야 합니다.</p>
+                        <p>우리는 우리의 느낌에 초점을 맞추어서는 안 됩니다. 그보다 그리스도와 그분의 말씀에 초점을 맞추어야 합니다. </p>
+                        <p>이기는 이들은 반드시 피의 가치를 알아야 합니다. 비록 우리는 피가 지닌 가치의 광대함을 알 수는 없지만, 여전히 이렇게 말씀드릴 수 있습니다. “오, 주님, 당신의 평가에 따라 피를 제게 적용해 주십시오.” 우리는 <strong>피의 가치에 대한 우리의 평가에 따라서가 아니라 하나님의 평가에 따라서</strong> 사탄의 세력을 처리해야 합니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Point 5 -->
+            <div class="accordion-item reveal-on-scroll">
+                <div class="accordion-badge">5</div>
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">선포와 적용</div>
+                    <div class="accordion-toggle"><i class="fa-solid fa-chevron-down"></i></div>
+                </div>
+                <div class="accordion-content">
+                    <div class="bible-box">
+                        <div class="bible-verse">
+                            여러분이 조상에게서 물려받은 헛된 생활 방식에서 구속된 것은... 흠이 없고 점도 없는 <span class="highlight">어린양의 피와 같은, 그리스도의 보배로운 피</span>로 된 것입니다.
+                        </div>
+                        <span class="bible-ref">— 베드로전서 1:18-19</span>
+                    </div>
+
+                    <div class="point-content">
+                        <h4><i class="fa-solid fa-circle-check" style="color:var(--secondary-color)"></i> 승리의 선포</h4>
+                        <p>우리는 매일같이 비난을 수용하는 것이 겸손이라고 생각해서는 안 됩니다. 구원받은 날 그분의 피를 의지하고 신뢰한 것처럼, 그날 이후로도 날마다 그분의 피를 의지해야 합니다. 사탄이 우리를 비난할 때 우리는 항상 피를 적용하며 마귀에게 직접 말해야 합니다.</p>
+                        <div class="example-box" style="font-size:1.05rem; font-weight:bold; color:var(--primary-color); text-align:center;">
+                            "나는 온전하지 않지만, 예수님의 피의 능력 아래 있다.<br>
+                             나는 해방되었다. 나에게는 평안과 기쁨과 모든 긍정적인 것들이 있다.<br>
+                             사탄아, 너는 십자가에서 너에게 무슨 일이 일어났는지 아느냐?<br>
+                             그리스도께서 너를 패배시키셨다. <br>
+                             그분께서 너를 끝내셨다. <br>
+                             네가 무저갱으로 던져져 천 년 동안 그곳에 있을 때가 올 것이다.<br>
+                             내가 그리스도와 함께 공동 왕으로서 다스리고 있는 동안 너는 무저갱에 있을 것이다.<br>
+                             그런 다음 너는 불 못에 던져져 거기에 영원토록 있을 것이다.<br>
+                             사탄아, 물러가라!"
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 4. 퀴즈 섹션 -->
+        <div class="reveal-on-scroll">
+            <h2 class="section-title">진리 되새기기 (Quiz)</h2>
+            <div class="quiz-section" id="quiz-container">
+                <div id="quiz-progress" style="margin-bottom: 25px; font-weight: 800; color: var(--secondary-color); font-size: 1.1rem; text-align: right;">문제 1 / 5</div>
+                
+                <form id="quizForm">
+                    <!-- Q1 -->
+                    <div class="quiz-question active" id="q1">
+                        <div class="question-header">
+                            <div class="q-badge">1</div>
+                            <div class="question-text">우리가 죄를 자백하고 피를 적용한 후에도 계속해서 유죄판결 하는 느낌이 든다면, 이 느낌의 출처는 무엇입니까?</div>
+                        </div>
+                        <div class="options-wrapper">
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question1" value="wrong1"> 양심의 가책</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question1" value="wrong2"> 하나님의 빛 비추심</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question1" value="correct"> 사탄의 비난(참소)</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question1" value="wrong3"> 성령의 책망</label>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="quiz-question" id="q2">
+                        <div class="question-header">
+                            <div class="q-badge">2</div>
+                            <div class="question-text">어떤 형제가 아침에 자백할 것이 없어서 모든 종류의 잘못을 적은 '죄 목록 책'을 펴고 자백했습니다. 지문은 이 체험을 무엇의 결과라고 말합니까?</div>
+                        </div>
+                        <div class="options-wrapper">
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question2" value="wrong1"> 철저한 회개와 영적 성장의 증거</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question2" value="wrong2"> 성령의 강력한 빛 비추심</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question2" value="correct"> 우리를 약하게 만들려는 원수의 비난</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question2" value="wrong3"> 율법을 완성해가는 정상적인 과정</label>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="quiz-question" id="q3">
+                        <div class="question-header">
+                            <div class="q-badge">3</div>
+                            <div class="question-text">우리가 죄를 짓는 것보다 하나님을 '한층 더 욕되게 하는(모욕하는)' 행위는 무엇입니까?</div>
+                        </div>
+                        <div class="options-wrapper">
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question3" value="wrong1"> 반복해서 같은 죄를 짓는 것</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question3" value="correct"> 보배로운 피를 신뢰하지 않는 것</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question3" value="wrong2"> 율법을 온전히 지키지 못하는 것</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question3" value="wrong3"> 교회의 집회에 참석하지 않는 것</label>
+                        </div>
+                    </div>
+
+                    <!-- Q4 -->
+                    <div class="quiz-question" id="q4">
+                        <div class="question-header">
+                            <div class="q-badge">4</div>
+                            <div class="question-text">우리가 피의 가치를 평가하고 사탄의 세력을 처리할 때, 그 기준은 무엇이 되어야 합니까?</div>
+                        </div>
+                        <div class="options-wrapper">
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question4" value="correct"> 하나님의 평가</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question4" value="wrong1"> 우리 자신의 양심과 느낌</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question4" value="wrong2"> 영적 지도자의 조언</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question4" value="wrong3"> 성도들의 일반적인 평가</label>
+                        </div>
+                    </div>
+
+                    <!-- Q5 -->
+                    <div class="quiz-question" id="q5">
+                        <div class="question-header">
+                            <div class="q-badge">5</div>
+                            <div class="question-text">이유 있는 비난(우리가 실제로 잘못을 저지른 경우)을 받을 때, 우리가 취해야 할 올바른 태도는 무엇입니까?</div>
+                        </div>
+                        <div class="options-wrapper">
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question5" value="wrong1"> 겸손하게 모든 비난을 수용하는 것이 미덕이다</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question5" value="wrong2"> 행위를 완전히 교정할 때까지 피의 적용을 미룬다</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question5" value="wrong3"> 일단 죄를 부인하며 자신은 결백하다고 우긴다</label>
+                            <label class="option-label" onclick="selectOption(this)"><input type="radio" name="question5" value="correct"> 죄를 자백하고, 어린양의 피를 의지하여 비난을 단호히 거절한다</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-nav">
+                        <button type="button" class="btn btn-secondary" id="btnPrev" style="display:none;" onclick="navigateQuiz(-1)">이전 문제</button>
+                        <button type="button" class="btn btn-primary" id="btnNext" onclick="navigateQuiz(1)" style="margin-left: auto;">다음 문제</button>
+                        <button type="button" class="btn btn-primary" id="btnSubmit" style="display:none; margin-left: auto;" onclick="submitQuiz()">제출 확인</button>
+                    </div>
+                </form>
+
+                <div class="quiz-result" id="quizResult">
+                    <div class="score-circle" id="scoreDisplay">100</div>
+                    <h3 style="margin-bottom: 15px; font-size: 1.6rem; color:var(--text-main)" id="feedbackTitle">훌륭합니다!</h3>
+                    <p id="feedbackText" style="color: var(--text-muted); font-size: 1.1rem; line-height:1.6; max-width: 500px; margin: 0 auto;"></p>
+                    <button type="button" class="btn btn-primary" style="margin-top: 30px;" onclick="resetQuiz()">다시 풀어보기</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. 마무리 기도문 -->
+        <div class="prayer-section reveal-on-scroll">
+            <h2 style="color: var(--secondary-color); margin-bottom: 10px;">사탄의 비난을 거절하는 기도</h2>
+            <div class="prayer-text">
+                "오 주님, 저의 존재를 열고 주님께 나아갑니다.<br>
+                당신은 하나님의 어린양이시며, 저는 당신의 피를 적용합니다.<br>
+                당신은 저를 위해 어떠한 대가를 지불하셨는지요!<br>
+                비록 저는 온전하지 않지만, 당신의 피의 능력 아래 있음을 원수에게 선포합니다."<br><br>
+
+                "원수야, 비록 나는 온전하지 않지만 <br>
+                내가 어린양의 피 아래 있고<br> 
+                그 피가 나의 온전함이라는 것을 너는 알아야 한다. <br>
+                나는 너를 이긴 형제들 가운데 하나이다. <br>
+                그것은 나의 온전함으로 말미암은 것이 아니라 나의 구속자의 피로 인한 것이다."<br><br>
+
+                "너는 나를 심판하고 공격하지만, <br>
+                나는 어린양의 피로 너를 이긴다. <br>
+                나는 어린양의 피의 능력 아래 여기에 있다. <br>
+                나는 너를 처리하기 위해 어린양의 피를 적용하고 있다. <br>
+                너는 나를 비난할 수 없다!"<br>
+
+                
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 폰트 조절 로직 ---
+        let baseFontSize = 16;
+        function changeFontSize(step) {
+            baseFontSize += (step * 2);
+            // 최소 12px, 최대 24px 제한
+            if(baseFontSize < 12) baseFontSize = 12;
+            if(baseFontSize > 24) baseFontSize = 24;
+            document.documentElement.style.fontSize = baseFontSize + 'px';
+        }
+        function resetFontSize() {
+            baseFontSize = 16;
+            document.documentElement.style.fontSize = baseFontSize + 'px';
+        }
+
+        // --- 스크롤 애니메이션 ---
+        window.addEventListener('scroll', () => {
+            const sequence = document.getElementById('scrollSequence');
+            const rect = sequence.getBoundingClientRect();
+            
+            // 헤더 높이(40px)를 고려하여 계산
+            let progress = -(rect.top - 40) / (rect.height - window.innerHeight + 40);
+            progress = Math.max(0, Math.min(1, progress));
+
+            const l1 = document.getElementById('layer1');
+            const l2 = document.getElementById('layer2');
+            const l3 = document.getElementById('layer3');
+            const l4 = document.getElementById('layer4');
+            const l5 = document.getElementById('layer5');
+            const layerWrapper = document.getElementById('layerWrapper');
+            const heroText = document.getElementById('heroText');
+            const hint = document.getElementById('scrollHint');
+
+            hint.style.opacity = progress > 0.05 ? 0 : 1;
+
+            const step = 1 / 6;
+
+            // Layer 1
+            if (progress < step) {
+                let p = progress / step;
+                l1.style.transform = `translateY(${-120 * p}%) rotateX(${20 * p}deg) scale(${1 - 0.2*p})`;
+                l1.style.opacity = 1 - (p * 1.5);
+            } else { l1.style.opacity = 0; }
+
+            // Layer 2
+            if (progress >= step && progress < step*2) {
+                let p = (progress - step) / step;
+                l2.style.transform = `translateX(${120 * p}%) rotateY(${20 * p}deg) scale(${1 - 0.2*p})`;
+                l2.style.opacity = 1 - (p * 1.5);
+            } else if (progress >= step*2) { l2.style.opacity = 0; }
+            else { l2.style.transform = 'none'; l2.style.opacity = 1; }
+
+            // Layer 3
+            if (progress >= step*2 && progress < step*3) {
+                let p = (progress - step*2) / step;
+                l3.style.transform = `translateX(${-120 * p}%) rotateY(${-20 * p}deg) scale(${1 - 0.2*p})`;
+                l3.style.opacity = 1 - (p * 1.5);
+            } else if (progress >= step*3) { l3.style.opacity = 0; }
+            else { l3.style.transform = 'none'; l3.style.opacity = 1; }
+
+            // Layer 4
+            if (progress >= step*3 && progress < step*4) {
+                let p = (progress - step*3) / step;
+                l4.style.transform = `translateY(${120 * p}%) rotateX(${-20 * p}deg) scale(${1 - 0.2*p})`;
+                l4.style.opacity = 1 - (p * 1.5);
+            } else if (progress >= step*4) { l4.style.opacity = 0; }
+            else { l4.style.transform = 'none'; l4.style.opacity = 1; }
+
+            // Layer 5
+            if (progress >= step*4 && progress < step*5) {
+                let p = (progress - step*4) / step;
+                l5.style.transform = `translate(${120 * p}%, ${-120 * p}%) rotateZ(${20 * p}deg) scale(${1 - 0.2*p})`;
+                l5.style.opacity = 1 - (p * 1.5);
+            } else if (progress >= step*5) { l5.style.opacity = 0; }
+            else { l5.style.transform = 'none'; l5.style.opacity = 1; }
+
+            // 최종 텍스트 표시
+            if (progress >= step*5) {
+                let p = (progress - step*5) / step;
+                layerWrapper.style.opacity = 1 - p;
+                layerWrapper.style.transform = `scale(${1 + 0.5 * p})`;
+                heroText.style.opacity = p;
+                heroText.style.transform = `translate(-50%, -50%) translateY(${40 * (1-p)}px)`;
+            } else {
+                layerWrapper.style.opacity = 1;
+                layerWrapper.style.transform = 'none';
+                heroText.style.opacity = 0;
+            }
+        });
+
+        // --- 부드러운 등장 (Fade Up) ---
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+        // --- 아코디언 로직 ---
+        function toggleAccordion(element) {
+            const item = element.parentElement;
+            const content = element.nextElementSibling;
+            
+            if (item.classList.contains('active')) {
+                item.classList.remove('active');
+                content.style.maxHeight = null;
+            } else {
+                item.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + 100 + "px"; // 여유값
+            }
+        }
+
+        // --- 퀴즈 UI 및 로직 ---
+        let currentQuestion = 1;
+        const totalQuestions = 5;
+
+        // 선택영역 클릭 시 라디오 체크 및 스타일 변경
+        function selectOption(labelElement) {
+            // 해당 질문 내 모든 라디오 버튼의 selected 클래스 제거
+            const wrapper = labelElement.parentElement;
+            const labels = wrapper.querySelectorAll('.option-label');
+            labels.forEach(lbl => lbl.classList.remove('selected'));
+            
+            // 클릭된 요소에 selected 부여
+            labelElement.classList.add('selected');
+            
+            // 라디오 버튼 체크 (이미 label 클릭으로 네이티브 작동하지만 명확히 함)
+            const radio = labelElement.querySelector('input[type="radio"]');
+            radio.checked = true;
+        }
+
+        function navigateQuiz(direction) {
+            if (direction === 1) {
+                const selected = document.querySelector(`input[name="question${currentQuestion}"]:checked`);
+                if (!selected) {
+                    alert("답변을 선택해주세요.");
+                    return;
+                }
+            }
+
+            document.getElementById(`q${currentQuestion}`).classList.remove('active');
+            currentQuestion += direction;
+            document.getElementById(`q${currentQuestion}`).classList.add('active');
+            
+            document.getElementById('quiz-progress').innerText = `문제 ${currentQuestion} / ${totalQuestions}`;
+
+            document.getElementById('btnPrev').style.display = currentQuestion > 1 ? 'block' : 'none';
+            
+            if (currentQuestion === totalQuestions) {
+                document.getElementById('btnNext').style.display = 'none';
+                document.getElementById('btnSubmit').style.display = 'block';
+            } else {
+                document.getElementById('btnNext').style.display = 'block';
+                document.getElementById('btnSubmit').style.display = 'none';
+            }
+        }
+
+        function submitQuiz() {
+            const selected = document.querySelector(`input[name="question${currentQuestion}"]:checked`);
+            if (!selected) {
+                alert("답변을 선택해주세요.");
+                return;
+            }
+
+            let score = 0;
+            for (let i = 1; i <= totalQuestions; i++) {
+                const answer = document.querySelector(`input[name="question${i}"]:checked`).value;
+                if (answer === 'correct') {
+                    score += 20;
+                }
+            }
+
+            document.getElementById('quizForm').style.display = 'none';
+            document.getElementById('quiz-progress').style.display = 'none';
+            
+            const resultDiv = document.getElementById('quizResult');
+            resultDiv.style.display = 'block';
+            
+            let currentScore = 0;
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const timer = setInterval(() => {
+                currentScore++;
+                scoreDisplay.innerText = currentScore;
+                if (currentScore >= score) clearInterval(timer);
+            }, 20);
+
+            const title = document.getElementById('feedbackTitle');
+            const text = document.getElementById('feedbackText');
+            
+            if (score === 100) {
+                title.innerText = "완벽합니다! (100점)";
+                text.innerHTML = "말씀의 핵심을 정확히 꿰뚫고 계시군요.<br>어린양의 피를 신뢰함으로 매일 승리하는 삶을 누리시길 바랍니다.";
+                scoreDisplay.style.backgroundColor = "var(--secondary-color)";
+            } else if (score >= 60) {
+                title.innerText = "잘 하셨습니다! (" + score + "점)";
+                text.innerHTML = "핵심 내용을 잘 이해하고 계십니다.<br>틀린 문제는 본문의 요점을 다시 한번 확인해 보세요.";
+                scoreDisplay.style.backgroundColor = "var(--primary-color)";
+            } else {
+                title.innerText = "조금 더 확인이 필요합니다. (" + score + "점)";
+                text.innerHTML = "사탄의 비난과 어린양의 피에 관한 중요한 영적 원리입니다.<br>본문을 처음부터 천천히 다시 읽으며 주님의 빛 비추심을 구해보세요.";
+                scoreDisplay.style.backgroundColor = "#596A7A";
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestion = 1;
+            document.getElementById('quizForm').reset();
+            
+            // 모든 선택된 스타일 초기화
+            document.querySelectorAll('.option-label').forEach(lbl => lbl.classList.remove('selected'));
+
+            document.getElementById('quizForm').style.display = 'block';
+            document.getElementById('quiz-progress').style.display = 'block';
+            document.getElementById('quizResult').style.display = 'none';
+            
+            document.querySelectorAll('.quiz-question').forEach(q => q.classList.remove('active'));
+            document.getElementById('q1').classList.add('active');
+            
+            document.getElementById('quiz-progress').innerText = `문제 1 / 5`;
+            document.getElementById('btnPrev').style.display = 'none';
+            document.getElementById('btnNext').style.display = 'block';
+            document.getElementById('btnSubmit').style.display = 'none';
+            document.getElementById('scoreDisplay').innerText = '0';
+            document.getElementById('scoreDisplay').style.backgroundColor = 'var(--primary-color)';
+        }
+    </script>
+</body>
+</html>
