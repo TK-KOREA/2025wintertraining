@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>증언하는 말로 이김</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#2563EB', // Blue 600
+                        secondary: '#DC2626', // Red 600
+                        accent: '#7C3AED', // Violet 600
+                        dark: '#1E293B', // Slate 800
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 기본 폰트 사이즈 변수 (JS로 제어) */
+        :root {
+            --base-font-size: 16px;
+        }
+        
+        html {
+            font-size: var(--base-font-size);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F8FAFC;
+            overflow-x: hidden;
+            /* 상단 고정 바 공간 확보 */
+            padding-top: 44px; 
+        }
+
+        /* --- 상단 고정 바 (폰트 스케일 영향 받지 않도록 고정 px 사용) --- */
+        #top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 44px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            width: 32px;
+            border-radius: 4px;
+            background-color: #f1f5f9;
+            color: #334155;
+            font-size: 14px;
+            border: 1px solid #cbd5e1;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover { background-color: #e2e8f0; }
+
+        /* --- Layer Peel Effect --- */
+        #intro-layer {
+            position: fixed;
+            top: 44px; /* 바 아래부터 시작 */
+            left: 0;
+            width: 100%;
+            height: calc(100% - 44px);
+            z-index: 50;
+            display: flex;
+            transition: visibility 1s;
+        }
+        .curtain {
+            width: 50%;
+            height: 100%;
+            background-color: #1e293b;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .curtain-left { border-right: 1px solid #334155; }
+        .curtain-right { border-left: 1px solid #334155; }
+        
+        #intro-layer.peeled .curtain-left { transform: translateX(-100%); }
+        #intro-layer.peeled .curtain-right { transform: translateX(100%); }
+        #intro-layer.peeled .intro-content { opacity: 0; pointer-events: none; }
+        #intro-layer.hidden-layer { display: none; }
+
+        .intro-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 51;
+            transition: opacity 0.5s ease;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        /* --- Accordion Styles --- */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+            opacity: 0;
+        }
+        .accordion-item.active .accordion-content {
+            opacity: 1;
+        }
+        .accordion-item.active .chevron {
+            transform: rotate(180deg);
+            color: #2563EB;
+        }
+        .accordion-item.active .acc-header-bg {
+            background-color: #EFF6FF; /* blue-50 */
+        }
+
+        /* --- Timeline Connector --- */
+        .timeline-container {
+            position: relative;
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            bottom: 40px;
+            left: 28px;
+            width: 3px;
+            background: #E2E8F0;
+            border-radius: 2px;
+            z-index: 0;
+        }
+        @media (max-width: 640px) {
+            .timeline-container::before { left: 24px; }
+        }
+
+        /* --- Bible Verse Block --- */
+        .verse-block {
+            border-left: 4px solid;
+            background: #ffffff;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.75rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .verse-block.blue { border-color: #3B82F6; }
+        .verse-block.red { border-color: #EF4444; }
+        .verse-block.purple { border-color: #8B5CF6; }
+        .verse-block.green { border-color: #10B981; }
+
+        /* --- Dashboard Path --- */
+        .dash-arrow {
+            position: absolute;
+            right: -1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #CBD5E1;
+            z-index: 10;
+        }
+        @media (max-width: 768px) {
+            .dash-arrow {
+                right: auto;
+                bottom: -1.5rem;
+                top: auto;
+                left: 50%;
+                transform: translateX(-50%) rotate(90deg);
+            }
+        }
+
+        /* --- Highlights --- */
+        .hl-bold {
+            font-weight: 700;
+            color: #1E3A8A; /* blue-900 */
+            background: linear-gradient(120deg, #FEF08A 0%, #FEF08A 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+        }
+
+        /* --- Quiz Options --- */
+        .quiz-option {
+            transition: all 0.2s;
+        }
+        .quiz-option input[type="radio"]:checked + div {
+            border-color: #4F46E5;
+            background-color: #EEF2FF;
+        }
+        .quiz-option input[type="radio"]:checked + div .radio-circle {
+            border-color: #4F46E5;
+            background-color: #4F46E5;
+        }
+        .quiz-option input[type="radio"]:checked + div .radio-circle::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 고정 상단 바 (폰트 사이즈 불변 영역) -->
+    <div id="top-navbar">
+        <div style="width: 80px; display: flex;">
+            <a href="https://tk-korea.github.io/2025wintertraining/" class="nav-btn" title="홈으로 가기">
+                <i class="fa-solid fa-house"></i>
+            </a>
+        </div>
+        
+        <div style="font-size: 15px; font-weight: 700; color: #1e293b; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            증언하는 말로 이김
+        </div>
+        
+        <div style="display: flex; gap: 4px; width: 80px; justify-content: flex-end;">
+            <button onclick="adjustFontSize(-1)" class="nav-btn" title="글꼴 축소"><i class="fa-solid fa-minus" style="font-size: 12px;"></i></button>
+            <button onclick="adjustFontSize(0)" class="nav-btn" style="font-weight: 700;" title="기본 크기">가</button>
+            <button onclick="adjustFontSize(1)" class="nav-btn" title="글꼴 확대"><i class="fa-solid fa-plus" style="font-size: 12px;"></i></button>
+        </div>
+    </div>
+
+    <!-- Intro Layer -->
+    <div id="intro-layer">
+        <div class="curtain curtain-left"></div>
+        <div class="curtain curtain-right"></div>
+        <div class="intro-content">
+            <i class="fa-solid fa-bullhorn text-[4rem] mb-6 text-gray-400 opacity-80"></i>
+            <h1 class="text-[2rem] md:text-[3rem] font-bold mb-4 leading-tight">영적인 사실을 선포하여<br>이기는 생활</h1>
+            <p class="text-[1.125rem] text-gray-300 mb-8">생각으로 사탄과 시비를 따지지 말고 진리를 소리 내어 선포하십시오.</p>
+            <button onclick="peelLayer()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-8 rounded-full shadow-lg transform transition hover:scale-105 flex items-center justify-center mx-auto space-x-2 text-[1.125rem]">
+                <span>진리 안으로 들어가기</span>
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="max-w-5xl mx-auto px-4 py-10 sm:px-6 lg:px-8 relative z-10" id="main-content">
+        
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">그리스도의 승리라는 <span class="text-blue-600">영적인 사실</span>을<br class="hidden md:block"> 소리 내어 선포하여 <span class="text-red-600">사탄을 이기는 생활</span></h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">어린양의 피로 담대함을 얻고, 영적인 사실들(사탄이 가장 두려워하는)을 선포하는 이기는 이들의 생활</p>
+        </header>
+
+        <!-- Summary Dashboard -->
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 md:p-8 mb-14 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-green-500"></div>
+            <h2 class="text-center font-bold text-gray-800 text-xl mb-8"><i class="fa-solid fa-route mr-2 text-blue-500"></i>이기는 생활의 전체 흐름도</h2>
+            
+            <div class="flex flex-col md:flex-row items-stretch justify-between gap-6 md:gap-2 relative">
+                
+                <!-- Step 1 -->
+                <div class="flex-1 flex flex-col items-center text-center bg-gray-50 p-4 rounded-xl border border-gray-100 relative">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl mb-3 shadow-inner font-bold">1</div>
+                    <h3 class="font-bold text-gray-800 mb-1">이기는 생활의 조건</h3>
+                    <p class="text-sm text-gray-600">어린양의 피<br>+ 증언하는 말</p>
+                    <i class="fa-solid fa-chevron-right text-2xl dash-arrow hidden md:block"></i>
+                    <i class="fa-solid fa-chevron-down text-2xl dash-arrow md:hidden block"></i>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flex-1 flex flex-col items-center text-center bg-gray-50 p-4 rounded-xl border border-gray-100 relative">
+                    <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl mb-3 shadow-inner font-bold">2</div>
+                    <h3 class="font-bold text-gray-800 mb-1">담대함의 근거</h3>
+                    <p class="text-sm text-gray-600">보혈로 씻어진 양심<br>(하나님 앞의 담대함)</p>
+                    <i class="fa-solid fa-chevron-right text-2xl dash-arrow hidden md:block"></i>
+                    <i class="fa-solid fa-chevron-down text-2xl dash-arrow md:hidden block"></i>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex-1 flex flex-col items-center text-center bg-gray-50 p-4 rounded-xl border border-gray-100 relative">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-xl mb-3 shadow-inner font-bold">3</div>
+                    <h3 class="font-bold text-gray-800 mb-1">실제적 적용</h3>
+                    <p class="text-sm text-gray-600">그리스도의 승리 선포<br>(사탄아, 너는 패배했다)</p>
+                    <i class="fa-solid fa-chevron-right text-2xl dash-arrow hidden md:block"></i>
+                    <i class="fa-solid fa-chevron-down text-2xl dash-arrow md:hidden block"></i>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="flex-1 flex flex-col items-center text-center bg-green-50 p-4 rounded-xl border border-green-200 relative shadow-sm">
+                    <div class="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center text-xl mb-3 shadow-md font-bold"><i class="fa-solid fa-flag-checkered"></i></div>
+                    <h3 class="font-bold text-green-900 mb-1">최종 결과</h3>
+                    <p class="text-sm text-green-700">사탄의 입지 상실<br>교회의 발아래 짓밟힘</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Detail Accordions (Timeline) -->
+        <div class="timeline-container space-y-6">
+
+            <!-- Point 1 -->
+            <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden relative z-10">
+                <button class="w-full text-left px-5 py-5 flex items-center justify-between acc-header-bg transition-colors duration-300" onclick="toggleAccordion(this)">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center text-lg font-bold flex-shrink-0 z-10 shadow">1</div>
+                        <h3 class="text-[1.25rem] font-bold text-gray-800">이기는 생활의 조건: 어린양의 피와 증언하는 말</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-400 chevron transition-transform duration-300 text-xl"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="p-5 md:p-8 bg-gray-50 border-t border-gray-100">
+                        <!-- 성경구절 (최우선 배치) -->
+                        <div class="verse-block blue mb-6">
+                            <p class="text-blue-800 font-bold mb-2 text-[1rem]"><i class="fa-solid fa-bookmark mr-2"></i>요한계시록 12:11</p>
+                            <p class="text-gray-800 text-[1.125rem] leading-relaxed">
+                                그들은 <span class="hl-bold">어린양의 피</span>와 자기들이 <span class="hl-bold">증언하는 말</span>로 그를 이겼으며 …
+                            </p>
+                        </div>
+                        
+                        <!-- 상세 설명 -->
+                        <div class="space-y-6 text-[1.125rem] text-gray-700 leading-relaxed">
+                            <div>
+                                <h4 class="font-bold text-blue-900 mb-2 flex items-center"><i class="fa-solid fa-circle-check text-blue-500 mr-2 text-sm"></i> 핵심 요점의 의미</h4>
+                                <p>이기는 이들은 어린양의 피와 자기들이 증언하는 말로 원수를 이겼습니다. 주님의 일은 우리에게 우리를 보호하는 <span class="hl-bold">어린양의 피</span>를 주었을 뿐 아니라, 사탄을 패배시킬 수 있는 <span class="hl-bold">증언하는 말</span>도 주었습니다. 이 두 가지가 결합될 때 비로소 우리는 사탄을 완전히 패배시킬 수 있습니다.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-blue-900 mb-2 flex items-center"><i class="fa-solid fa-person-running text-blue-500 mr-2 text-sm"></i> 실행 및 적용</h4>
+                                <p>우리는 반드시 해야 할 말을 해야 합니다. 그리스도의 십자가에서의 죽음의 효능과 그분의 피의 능력을 포함하여 그분께서 성취하신 것에 대해 입을 열어 증언해야 합니다. <span class="hl-bold">그리스도의 승리를 선포하고 적용하는 것</span>이 우리 매일의 이기는 생활의 일부입니다.</p>
+                            </div>
+
+                            <!-- 증언 vs 증언하는 말 비교 박스 -->
+                            <div class="mt-6 bg-white border-2 border-blue-100 rounded-xl overflow-hidden shadow-sm">
+                                <div class="bg-blue-50 px-4 py-3 border-b border-blue-100">
+                                    <h4 class="font-bold text-blue-900 flex items-center"><i class="fa-solid fa-magnifying-glass mr-2"></i> '증언'과 '증언하는 말'의 의미와 차이</h4>
+                                </div>
+                                <div class="p-0 sm:flex divide-y sm:divide-y-0 sm:divide-x divide-blue-50">
+                                    <div class="p-5 flex-1 bg-white">
+                                        <div class="text-blue-600 font-bold mb-2 text-[1.125rem]">🗣️ 증언 (Testimony)</div>
+                                        <p class="text-gray-700 text-[1rem] leading-relaxed">그리스도 안에 무엇이 있는지를 <strong>다른 사람들에게 말하는 것</strong>을 뜻합니다.</p>
+                                    </div>
+                                    <div class="p-5 flex-1 bg-blue-50/30">
+                                        <div class="text-red-600 font-bold mb-2 text-[1.125rem]">⚔️ 증언하는 말 (Word of Testimony)</div>
+                                        <p class="text-gray-700 text-[1rem] leading-relaxed"><strong>반드시 해야 할 말을 하는 것</strong>입니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Point 2 -->
+            <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden relative z-10">
+                <button class="w-full text-left px-5 py-5 flex items-center justify-between acc-header-bg transition-colors duration-300" onclick="toggleAccordion(this)">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center text-lg font-bold flex-shrink-0 z-10 shadow">2</div>
+                        <h3 class="text-[1.25rem] font-bold text-gray-800">담대함의 근거: 어린양의 피를 통한 양심의 정결</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-400 chevron transition-transform duration-300 text-xl"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="p-5 md:p-8 bg-gray-50 border-t border-gray-100">
+                        <!-- 성경구절 -->
+                        <div class="verse-block red mb-6">
+                            <p class="text-red-800 font-bold mb-2 text-[1rem]"><i class="fa-solid fa-bookmark mr-2"></i>요한일서 3:8</p>
+                            <p class="text-gray-800 text-[1.125rem] leading-relaxed">
+                                … 하나님의 아들께서 나타나신 목적은 <span class="hl-bold">마귀에게서 나온 일을 제거</span>하시기 위한 것입니다.
+                            </p>
+                        </div>
+                        
+                        <!-- 상세 설명 -->
+                        <div class="space-y-6 text-[1.125rem] text-gray-700 leading-relaxed">
+                            <div>
+                                <h4 class="font-bold text-red-900 mb-2 flex items-center"><i class="fa-solid fa-circle-check text-red-500 mr-2 text-sm"></i> 핵심 요점의 의미</h4>
+                                <p><span class="hl-bold">우리의 양심에 거리낌이 없을 때</span>, 비로소 우리는 우리의 입을 열어 증언할 수 있습니다. 우리의 양심에 비난이 있다면 어떤 말도 할 수 없고 말할수록 목소리에 힘이 없어질 것입니다. 하나님 앞에서 우리에게 피가 있다면 우리는 그분 앞에서 담대할 것이고, 사람 앞에서는 증언할 말이 있을 것입니다.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-red-900 mb-2 flex items-center"><i class="fa-solid fa-list-check text-red-500 mr-2 text-sm"></i> 구체적인 사례</h4>
+                                <p>마귀가 하는 가장 흔한 일은 우리를 고소하여 양심을 약화시키는 것입니다. 그러나 귀신들은 나 자신이 어떠한 사람인가를 두려워하지 않고, <span class="hl-bold">피가 어떠한 피인가를 두려워합니다.</span></p>
+                                <p>우리는 피를 적용해야 합니다. <span class="hl-bold">어린양의 피로 담대함을 얻을 때</span>, 우리는 죄인이 그리스도로 말미암아 용서받고 받아들여질 수 있다는 것뿐 아니라 더 나아가 하나님의 왕국을 증언할 것입니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Point 3 -->
+            <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden relative z-10">
+                <button class="w-full text-left px-5 py-5 flex items-center justify-between acc-header-bg transition-colors duration-300" onclick="toggleAccordion(this)">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 rounded-full bg-purple-500 text-white flex items-center justify-center text-lg font-bold flex-shrink-0 z-10 shadow">3</div>
+                        <h3 class="text-[1.25rem] font-bold text-gray-800">실제적인 적용: 영적인 사실을 소리를 내어 말함</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-400 chevron transition-transform duration-300 text-xl"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="p-5 md:p-8 bg-gray-50 border-t border-gray-100">
+                        <!-- 상세 설명 -->
+                        <div class="space-y-6 text-[1.125rem] text-gray-700 leading-relaxed">
+                            <div>
+                                <h4 class="font-bold text-purple-900 mb-2 flex items-center"><i class="fa-solid fa-circle-check text-purple-500 mr-2 text-sm"></i> 핵심 요점의 의미</h4>
+                                <p>증언하는 말은 마귀가 주님께 이미 심판받았다고 증언하는 말을 가리킵니다. 사탄은 신학을 논하거나 성경을 해석하는 것은 두려워하지 않지만, <span class="hl-bold">우리가 영적인 사실들을 선포할 때 참으로 두려워합니다.</span> 사탄이 두려워하는 것은 우리의 설교나 신학이 아니라, 우리가 증언하는 말입니다.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-purple-900 mb-2 flex items-center"><i class="fa-solid fa-person-running text-purple-500 mr-2 text-sm"></i> 실행 및 적용</h4>
+                                <p>우리가 아무리 명석할지라도 우리의 생각을 사용하여 <span class="hl-bold">사탄과 시비를 따지려고 해서는 안 됩니다.</span> 그보다 먼저 우리 영을 사용하여 그와 맞서 싸워야 합니다. 승리하신 그리스도께서 우리 영 안에 계십니다.</p>
+                                <p>마귀의 비난을 느낄 때마다 우리는 주님께서 이미 마귀를 어떻게 처리하셨는지를 입으로 증언해야 합니다. 이런 생각들을 다만 머릿속에만 두지 말고 <span class="hl-bold">반드시 사탄에게 소리를 내어 말해야 합니다.</span> 이기는 이들은 그리스도의 승리를 자주 선포하며 마귀가 주님께 이미 심판받았다는 것을 증언해야 합니다.</p>
+                            </div>
+                        </div>
+
+                        <!-- 실전 선포 스크립트 (이미지 내용 반영) -->
+                        <div class="mt-8 space-y-8">
+                            
+                            <!-- 스크립트 1 -->
+                            <div class="bg-white border-2 border-yellow-400 rounded-xl overflow-hidden shadow-md relative">
+                                <div class="absolute top-0 left-0 bg-yellow-500 text-white font-bold px-4 py-1 rounded-br-lg text-lg shadow-sm">01</div>
+                                <div class="p-6 md:p-8 pt-10 text-center">
+                                    <h4 class="text-xl font-bold text-gray-800 mb-6 flex justify-center items-center"><i class="fa-solid fa-crown text-yellow-500 mr-2"></i> 실전 선포 스크립트 1: 절대적인 주권</h4>
+                                    <div class="border-4 border-yellow-100 p-6 md:p-10 mb-6 bg-gradient-to-br from-yellow-50 to-white shadow-inner rounded-lg">
+                                        <p class="text-[2rem] md:text-[3rem] font-black text-[#1E293B] leading-tight tracking-tight break-keep">예수님은 주님이시다!</p>
+                                    </div>
+                                    <p class="text-lg text-gray-700 font-medium leading-relaxed mb-6 break-keep">
+                                        어떤 사람이 믿음으로 예수님께서 주님이시라고 선포할 때 사탄은 두려워합니다.<br class="hidden md:block">
+                                        예수님의 이름이 모든 이름 위에 뛰어나다는 것은 변할 수 없는 영적인 사실입니다.
+                                    </p>
+                                </div>
+                                <div class="bg-gray-100 flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x border-t border-gray-200">
+                                    <div class="p-4 flex-1 text-gray-600 text-[1rem] font-medium flex items-center">
+                                        <span class="border-l-4 border-gray-400 pl-3">모든 입으로 예수 그리스도께서 주님이시라는 것을 공개적으로 시인하여... (빌 2:11)</span>
+                                    </div>
+                                    <div class="p-4 flex-1 text-gray-600 text-[1rem] font-medium flex items-center bg-gray-50">
+                                        <span class="border-l-4 border-gray-400 pl-3">성령 안에 있지 않고는 아무도 '예수님은 주님이십니다!'라고 할 수 없습니다. (고전 12:3)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 스크립트 2 -->
+                            <div class="bg-white border-2 border-yellow-400 rounded-xl overflow-hidden shadow-md relative">
+                                <div class="absolute top-0 left-0 bg-yellow-500 text-white font-bold px-4 py-1 rounded-br-lg text-lg shadow-sm">02</div>
+                                <div class="p-6 md:p-8 pt-10 text-center">
+                                    <h4 class="text-xl font-bold text-gray-800 mb-6 flex justify-center items-center"><i class="fa-solid fa-gavel text-yellow-500 mr-2"></i> 실전 선포 스크립트 2: 사탄에 대한 합법적인 유죄판결</h4>
+                                    <div class="border-4 border-yellow-100 p-6 md:p-10 mb-6 bg-gradient-to-br from-yellow-50 to-white shadow-inner rounded-lg">
+                                        <div class="text-yellow-400 text-3xl mb-4"><i class="fa-solid fa-link-slash"></i></div>
+                                        <p class="text-[1.75rem] md:text-[2.25rem] font-black text-[#1E293B] leading-tight tracking-tight break-keep">사탄아, 너는 이미 십자가에 못 박혔고 심판받았다. 너의 종착지는 불 못이다.</p>
+                                    </div>
+                                    <p class="text-lg text-gray-700 font-medium leading-relaxed mb-6 break-keep">
+                                        이것은 소리를 내어 말하는 증언입니다. 이런 생각들을 다만 머릿속에만 두지 말고 반드시 사탄에게 소리를 내어 말해야 합니다. 귀신들과 사탄에게 말씀을 전파하는 것은 그들을 회개시키기 위한 것이 아니라 쫓아내기 위한 것입니다.
+                                    </p>
+                                </div>
+                                <div class="bg-gray-100 border-t border-gray-200">
+                                    <div class="p-4 md:p-5 text-gray-600 text-[1rem] font-medium flex items-center justify-center text-center">
+                                        <span class="border-l-4 border-gray-400 pl-3 break-keep">너희는 너희의 왕 사탄이 나의 주님 예수 그리스도께 패배했다는 것을 기억해야 한다. 너희는 여기서 나를 괴롭혀서는 안 된다.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 스크립트 3 -->
+                            <div class="bg-white border-2 border-yellow-400 rounded-xl overflow-hidden shadow-md relative">
+                                <div class="absolute top-0 left-0 bg-yellow-500 text-white font-bold px-4 py-1 rounded-br-lg text-lg shadow-sm">03</div>
+                                <div class="p-6 md:p-8 pt-10 text-center">
+                                    <h4 class="text-xl font-bold text-gray-800 mb-6 flex justify-center items-center"><i class="fa-solid fa-shoe-prints text-yellow-500 mr-2"></i> 실전 선포 스크립트 3: 결박된 강한 자</h4>
+                                    <div class="border-4 border-yellow-100 p-6 md:p-10 mb-6 bg-gradient-to-br from-yellow-50 to-white shadow-inner rounded-lg">
+                                        <div class="text-yellow-400 text-3xl mb-4"><i class="fa-solid fa-shoe-prints"></i></div>
+                                        <p class="text-[1.75rem] md:text-[2.25rem] font-black text-[#1E293B] leading-tight tracking-tight break-keep">주 예수님은 강한 자보다 더 강하시다.<br>하나님의 아들이 이미 사탄을 결박하셨다.</p>
+                                    </div>
+                                    <p class="text-lg text-gray-700 font-medium leading-relaxed mb-6 break-keep">
+                                        강한 자가 이미 결박되었고 사탄의 모든 일이 파괴된 것은 하나의 사실입니다.<br class="hidden md:block">우리가 증언의 말을 할 때 사탄은 입지를 잃고 일격을 당합니다.
+                                    </p>
+                                </div>
+                                <div class="bg-gray-100 flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x border-t border-gray-200">
+                                    <div class="p-4 flex-1 text-gray-600 text-[1rem] font-medium flex items-center">
+                                        <span class="border-l-4 border-gray-400 pl-3">여자의 씨는 너의 머리를 상하게 하고... (창 3:15)</span>
+                                    </div>
+                                    <div class="p-4 flex-1 text-gray-600 text-[1rem] font-medium flex items-center bg-gray-50">
+                                        <span class="border-l-4 border-gray-400 pl-3">이 세상의 통치자가 오고 있습니다.<br>그러나 그는 내 안에서 아무것도 가질 수 없습니다. (요 14:30)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Point 4 -->
+            <div class="accordion-item bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden relative z-10">
+                <button class="w-full text-left px-5 py-5 flex items-center justify-between acc-header-bg transition-colors duration-300" onclick="toggleAccordion(this)">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center text-lg font-bold flex-shrink-0 z-10 shadow">4</div>
+                        <h3 class="text-[1.25rem] font-bold text-gray-800">결과 및 승리: 사탄의 입지 상실과 패배</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-400 chevron transition-transform duration-300 text-xl"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="p-5 md:p-8 bg-gray-50 border-t border-gray-100">
+                        <!-- 성경구절 그룹 -->
+                        <div class="mb-6 space-y-3">
+                            <div class="verse-block green">
+                                <p class="text-green-800 font-bold mb-2 text-[1rem]"><i class="fa-solid fa-bookmark mr-2"></i>창세기 3:15</p>
+                                <p class="text-gray-800 text-[1.125rem] leading-relaxed">… 여자의 씨는 <span class="hl-bold">너의 머리를 상하게 하고</span> 너는 그의 발꿈치를 상하게 하리라.</p>
+                            </div>
+                            <div class="verse-block green">
+                                <p class="text-green-800 font-bold mb-2 text-[1rem]"><i class="fa-solid fa-bookmark mr-2"></i>요한복음 14:30하</p>
+                                <p class="text-gray-800 text-[1.125rem] leading-relaxed">… 이 세상의 통치자가 오고 있기 때문입니다. 그러나 그는 <span class="hl-bold">내 안에서 아무것도 가질 수 없습니다.</span></p>
+                            </div>
+                            <div class="verse-block green">
+                                <p class="text-green-800 font-bold mb-2 text-[1rem]"><i class="fa-solid fa-bookmark mr-2"></i>로마서 16:20</p>
+                                <p class="text-gray-800 text-[1.125rem] leading-relaxed">화평의 하나님께서 속히 <span class="hl-bold">사탄이 여러분의 발아래 짓밟히게 하실 것</span>입니다.</p>
+                            </div>
+                            <div class="verse-block green">
+                                <p class="text-green-800 font-bold mb-2 text-[1rem]"><i class="fa-solid fa-bookmark mr-2"></i>히브리서 2:14</p>
+                                <p class="text-gray-800 text-[1.125rem] leading-relaxed">… 그분께서 죽으심으로써 죽음의 세력을 가진 자 곧 <span class="hl-bold">마귀를 멸망</span>시키시고,</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 상세 설명 -->
+                        <div class="space-y-6 text-[1.125rem] text-gray-700 leading-relaxed">
+                            <div>
+                                <h4 class="font-bold text-green-900 mb-2 flex items-center"><i class="fa-solid fa-circle-check text-green-500 mr-2 text-sm"></i> 핵심 요점의 의미</h4>
+                                <p>증언하는 말은 사탄이 가장 두려워하는 것입니다. 우리가 증언의 말을 할 때 <span class="hl-bold">사탄은 입지를 잃고 일격을 당합니다.</span> 사탄은 다시 패배당하며, 하나님은 <span class="hl-bold">사탄을 우리의 발아래 짓밟히게 하실 것</span>입니다.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-green-900 mb-2 flex items-center"><i class="fa-solid fa-list-check text-green-500 mr-2 text-sm"></i> 선포해야 할 확고한 사실들</h4>
+                                <ul class="list-disc pl-5 space-y-2 text-green-800 bg-green-50/50 p-4 rounded-lg border border-green-100">
+                                    <li>장차 천국이 임하는 것은 하나의 사실이고, 주님께서 왕이신 것도 하나의 사실입니다.</li>
+                                    <li>그리스도께서 승리하셨고 영원히 승리하신 것도 하나의 사실이며, <span class="hl-bold">사탄이 패배했다는 것도 하나의 사실입니다.</span></li>
+                                    <li>또한 강한 자가 이미 결박되었고 합법적으로 유죄판결 받은 것도 하나의 사실입니다.</li>
+                                    <li>그리스도께서 십자가에서 <span class="hl-bold">사탄의 모든 일을 파괴하신 것</span>도 하나의 사실입니다.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-green-900 mb-2 flex items-center"><i class="fa-solid fa-person-running text-green-500 mr-2 text-sm"></i> 실행 및 적용</h4>
+                                <p><span class="hl-bold">이러한 영적인 사실들을 선포하는 것이 바로 증언하는 것입니다.</span> 우리는 그리스도의 승리 안에 있습니다. 이것은 실재이며, 이 사실들을 믿음으로 선언하는 것이 우리 매일의 생활의 일부가 되어야 합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Quiz Section (Redesigned UI) -->
+        <div class="mt-16 bg-white rounded-3xl shadow-lg border border-gray-200 p-6 md:p-10">
+            <div class="text-center mb-10">
+                <div class="inline-block bg-indigo-100 text-indigo-700 rounded-full px-4 py-1 text-[0.875rem] font-bold mb-3 uppercase tracking-wide">Quiz & Application</div>
+                <h2 class="text-3xl font-extrabold text-gray-800">핵심 정리 퀴즈</h2>
+                <p class="text-[1.125rem] text-gray-500 mt-2">오늘 배운 이기는 생활의 영적 무기를 퀴즈로 굳게 다져보세요.</p>
+            </div>
+
+            <div id="quiz-container" class="space-y-6">
+                <!-- JS에서 퀴즈 렌더링 -->
+            </div>
+
+            <div class="mt-10 text-center">
+                <button id="submit-quiz" onclick="calculateScore()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-12 rounded-full shadow-md transition transform hover:-translate-y-1 text-[1.125rem]">
+                    결과 확인하기
+                </button>
+            </div>
+
+            <!-- Quiz Result -->
+            <div id="quiz-result" class="hidden mt-8 p-6 rounded-xl text-center border-2 transition-all duration-500">
+                <h3 id="score-text" class="text-[2rem] font-bold mb-3"></h3>
+                <p id="feedback-text" class="text-[1.125rem] font-medium leading-relaxed"></p>
+                <button onclick="resetQuiz()" class="mt-6 text-[1rem] underline text-gray-500 hover:text-gray-800 font-bold">다시 풀기</button>
+            </div>
+        </div>
+
+        <!-- Concluding Declarations (Formerly Prayer) -->
+        <div class="mt-12 bg-gradient-to-br from-gray-900 to-blue-900 rounded-3xl p-8 md:p-12 text-center shadow-xl relative overflow-hidden text-white">
+            <div class="absolute top-0 right-0 opacity-10 text-[10rem] transform translate-x-1/4 -translate-y-1/4">
+                <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            
+            <div class="inline-block border-b-2 border-blue-400 pb-2 mb-8 relative z-10">
+                <h2 class="text-[1.75rem] font-bold text-blue-100 uppercase tracking-widest"><i class="fa-solid fa-microphone-lines mr-2"></i>생활 가운데 증언하는 말</h2>
+            </div>
+            
+            <div class="max-w-3xl mx-auto text-[1.125rem] font-medium leading-relaxed relative z-10 space-y-4 text-left">
+                <!-- 1 -->
+                <div class="bg-white/10 p-5 md:p-6 rounded-2xl border-l-4 border-purple-400 backdrop-blur-sm shadow-sm hover:bg-white/20 transition">
+                    <p class="text-purple-300 font-bold mb-2 text-[0.875rem] md:text-[1rem] tracking-wide">귀신들을 향하여</p>
+                    <p class="text-white text-[1.125rem] md:text-[1.25rem] leading-relaxed break-keep">"귀신들아, 너희는 너희의 왕 사탄이 나의 주님 예수 그리스도께 패배했다는 것을 기억해야 한다. 너희는 여기서 나를 괴롭혀서는 안 된다."</p>
+                </div>
+                <!-- 2 -->
+                <div class="bg-white/10 p-5 md:p-6 rounded-2xl border-l-4 border-red-400 backdrop-blur-sm shadow-sm hover:bg-white/20 transition">
+                    <p class="text-red-300 font-bold mb-2 text-[0.875rem] md:text-[1rem] tracking-wide">사탄을 향하여 1</p>
+                    <p class="text-white text-[1.125rem] md:text-[1.25rem] leading-relaxed break-keep">"사탄아, 네가 이미 십자가에 못 박혔다는 것을 모르느냐? 너는 이미 심판받았고 너의 종착지는 불 못이다."</p>
+                </div>
+                <!-- 3 -->
+                <div class="bg-white/10 p-5 md:p-6 rounded-2xl border-l-4 border-red-500 backdrop-blur-sm shadow-sm hover:bg-white/20 transition">
+                    <p class="text-red-300 font-bold mb-2 text-[0.875rem] md:text-[1rem] tracking-wide">사탄을 향하여 2 (짧은 메시지 전파)</p>
+                    <p class="text-white text-[1.125rem] md:text-[1.25rem] leading-relaxed break-keep">"사탄아, 나에게는 너에게 할 증언이 있다. 나는 그리스도께서 십자가에서 성취하신 것에 대해 너에게 짧은 메시지를 전할 것이다. 그리스도께서 십자가에서 너를 패배시키셨다. 그리스도는 승리자이시다."</p>
+                </div>
+                <!-- 4 -->
+                <div class="bg-white/10 p-5 md:p-6 rounded-2xl border-l-4 border-blue-400 backdrop-blur-sm shadow-sm hover:bg-white/20 transition">
+                    <p class="text-blue-300 font-bold mb-2 text-[0.875rem] md:text-[1rem] tracking-wide">일상 가운데 (홀로 방 안에 있을 때)</p>
+                    <p class="text-white text-[1.125rem] md:text-[1.25rem] leading-relaxed space-y-2 break-keep">
+                        <span class="block">"예수님은 주님이시다."</span>
+                        <span class="block">"주 예수님은 강한 자보다 더 강하시다."</span>
+                        <span class="block">"하나님의 아들이 이미 사탄을 결박하셨다."</span>
+                    </p>
+                </div>
+                <!-- 5 -->
+                <div class="bg-white/10 p-5 md:p-6 rounded-2xl border-l-4 border-green-400 backdrop-blur-sm shadow-sm hover:bg-white/20 transition">
+                    <p class="text-green-300 font-bold mb-2 text-[0.875rem] md:text-[1rem] tracking-wide">승리와 권위의 선언</p>
+                    <p class="text-white text-[1.125rem] md:text-[1.25rem] leading-relaxed space-y-2 break-keep">
+                        <span class="block">"예수님께서 주님이시고, 주님께서 승리하셨으며, 사탄은 주님의 발아래 짓밟혔다."</span>
+                        <span class="block mt-3 pt-3 border-t border-white/20">"주님께서 이미 우리에게 뱀과 전갈을 밟고 원수의 모든 권세를 이길 수 있는 권위를 주셨다."</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center text-gray-400 text-[0.875rem]">
+            <p>본 인포그래픽은 워치만 니 및 위트니스 리의 사역 말씀과 회복역 성경을 바탕으로 제작되었습니다.</p>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Font Size Adjustment Logic ---
+        let currentScale = 16;
+        function adjustFontSize(delta) {
+            if(delta === 0) {
+                currentScale = 16;
+            } else {
+                currentScale += delta;
+            }
+            
+            // Limit font size between 12px and 24px
+            if(currentScale < 12) currentScale = 12;
+            if(currentScale > 24) currentScale = 24;
+            
+            document.documentElement.style.setProperty('--base-font-size', currentScale + 'px');
+        }
+
+        // --- Layer Peel Logic ---
+        function peelLayer() {
+            const layer = document.getElementById('intro-layer');
+            layer.classList.add('peeled');
+            
+            setTimeout(() => {
+                layer.classList.add('hidden-layer');
+            }, 1000);
+        }
+
+        // --- Accordion Logic ---
+        function toggleAccordion(button) {
+            const item = button.parentElement;
+            const content = item.querySelector('.accordion-content');
+            
+            // Close other accordions
+            const allItems = document.querySelectorAll('.accordion-item');
+            allItems.forEach(otherItem => {
+                if (otherItem !== item && otherItem.classList.contains('active')) {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                }
+            });
+
+            // Toggle current accordion
+            item.classList.toggle('active');
+            
+            if (item.classList.contains('active')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+                setTimeout(() => {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }, 10);
+            } else {
+                content.style.maxHeight = null;
+            }
+        }
+
+        // --- Quiz Logic (Improved UI) ---
+        const quizData = [
+            {
+                id: 1,
+                question: "계시록 12장 11절에 언급된 '자기들이 증언하는 말'은 구체적으로 무엇을 의미합니까?",
+                options: [
+                    "그리스도 안에 있는 영적 사실과 그분의 승리를 선포하는 것",
+                    "자신의 고난과 인내에 대해 사람들에게 알리는 것",
+                    "지은 죄를 하나님 앞에 낱낱이 고백하는 것",
+                    "성경의 난해한 구절들을 논리적으로 설명하는 것"
+                ],
+                correctAnswer: 0
+            },
+            {
+                id: 2,
+                question: "증언하는 말을 효과적으로 하기 위해 우리의 양심은 어떤 상태여야 합니까?",
+                options: [
+                    "피 아래에서 비난이나 거리낌이 없어야 한다.",
+                    "사탄의 존재를 완전히 잊어버린 상태여야 한다.",
+                    "죄에 대한 깊은 가책을 느끼고 있어야 단다.",
+                    "자신의 선행으로 인해 자부심이 가득해야 한다."
+                ],
+                correctAnswer: 0
+            },
+            {
+                id: 3,
+                question: "요한일서 3장 8절에 따르면, 하나님의 아들이 나타나신 목적은 무엇입니까?",
+                options: [
+                    "사람들이 사탄을 더 깊이 연구하게 하기 위해",
+                    "마귀에게서 나온 일을 제거하시기 위해",
+                    "인류에게 도덕적인 가르침을 주기 위해",
+                    "사탄과 평화 협정을 맺기 위해"
+                ],
+                correctAnswer: 1
+            },
+            {
+                id: 4,
+                question: "증언하는 말을 할 때 주의해야 할 태도로 본문이 강조하는 점은 무엇입니까?",
+                options: [
+                    "사탄이 회개하고 돌아올 수 있도록 부드럽게 설득해야 한다.",
+                    "생각 속에만 두지 말고 반드시 소리를 내어 말해야 한다.",
+                    "성경의 모든 내용을 암송한 후에만 증언을 시작해야 한다.",
+                    "나 자신의 능력과 영성이 얼마나 높은지 과시해야 한다."
+                ],
+                correctAnswer: 1
+            },
+            {
+                id: 5,
+                question: "역대하 20장 20-22절의 예시를 통해 알 수 있는 승리의 비결은 무엇입니까?",
+                hint: "대하 20:20 그들은 아침 일찍 일어나 드고아 광야로 나갔다. 그들이 나갈 때에 여호사밧이 서서 말하였다. “유다와 예루살렘 주민 여러분, 내 말을 들으십시오. 여호와 여러분의 하나님을 믿으십시오. 그러면 여러분이 견고히 설 것입니다. 그분의 신언자들을 믿으십시오. 그러면 여러분이 성공할 것입니다.” (21) 여호사밧은 백성과 상의하고 나서 사람들을 세워, 거룩한 의복을 입고 군대 앞에서 나아가면서 여호와께 노래하고 감사하며 이렇게 말하게 하였다. “여호와께 감사하여라. 그분의 자애 영원하심이라.” (22) 사람들이 큰 소리로 노래하며 찬양하기 시작하자, 여호와께서 복병을 두시어 유다를 치러 나오는 암몬 자손과 모압 자손과 세일산 주민을 치게 하시니, 그들이 패배하였다.",
+                options: [
+                    "원수와 적절히 타협하여 평화를 유지하는 것",
+                    "철저한 군사 전략과 무기를 준비하는 것",
+                    "하나님을 신뢰하며 찬양과 감사를 선포할 때 원수가 패배한다.",
+                    "조용히 하나님의 때를 기다리며 아무 말도 하지 않는 것"
+                ],
+                correctAnswer: 2
+            }
+        ];
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+            
+            quizData.forEach((q, index) => {
+                let optionsHtml = '';
+                q.options.forEach((opt, optIndex) => {
+                    optionsHtml += `
+                        <label class="block cursor-pointer quiz-option mb-3 relative">
+                            <input type="radio" name="question${q.id}" value="${optIndex}" class="peer sr-only">
+                            <div class="flex items-start p-4 md:p-5 border-2 border-gray-100 rounded-xl hover:bg-gray-50 bg-white">
+                                <div class="mt-1 flex-shrink-0 w-6 h-6 rounded-full border-2 border-gray-300 radio-circle flex items-center justify-center mr-4 transition-colors"></div>
+                                <span class="text-[1rem] text-gray-700 font-medium leading-relaxed">${opt}</span>
+                            </div>
+                        </label>
+                    `;
+                });
+
+                let hintHtml = '';
+                if (q.hint) {
+                    hintHtml = `
+                        <div class="mb-5 p-4 bg-indigo-50/50 border border-indigo-100 rounded-lg text-[0.875rem] md:text-[0.95rem] text-indigo-900 shadow-sm">
+                            <span class="font-bold flex items-center mb-1"><i class="fa-solid fa-lightbulb text-yellow-500 mr-2"></i> 힌트</span> 
+                            <span class="leading-relaxed opacity-90">${q.hint}</span>
+                        </div>
+                    `;
+                }
+
+                const qHtml = `
+                    <div class="quiz-item bg-gray-50/50 p-6 md:p-8 rounded-2xl border border-gray-200">
+                        <div class="flex items-start mb-4">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-[1rem] mr-4 shadow-md">
+                                ${index + 1}
+                            </div>
+                            <h4 class="text-[1.125rem] font-bold text-gray-800 leading-snug mt-1">${q.question}</h4>
+                        </div>
+                        ${hintHtml}
+                        <div class="options-container ml-0 md:ml-12 mt-2">
+                            ${optionsHtml}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += qHtml;
+            });
+        }
+
+        function calculateScore() {
+            let score = 0;
+            let allAnswered = true;
+
+            quizData.forEach(q => {
+                const selected = document.querySelector(`input[name="question${q.id}"]:checked`);
+                if (selected) {
+                    if (parseInt(selected.value) === q.correctAnswer) {
+                        score++;
+                    }
+                } else {
+                    allAnswered = false;
+                }
+            });
+
+            if (!allAnswered) {
+                alert("모든 문제에 답을 선택해주세요.");
+                return;
+            }
+
+            const resultDiv = document.getElementById('quiz-result');
+            const scoreText = document.getElementById('score-text');
+            const feedbackText = document.getElementById('feedback-text');
+            const submitBtn = document.getElementById('submit-quiz');
+
+            resultDiv.classList.remove('hidden');
+            submitBtn.classList.add('hidden');
+            
+            scoreText.innerText = `${score} / 5 점`;
+
+            if (score === 5) {
+                resultDiv.className = "mt-8 p-6 md:p-10 rounded-2xl text-center border-2 transition-all duration-500 bg-green-50 border-green-400 text-green-900";
+                feedbackText.innerHTML = "할렐루야! 완벽하게 이해하셨습니다.<br>머릿속에만 두지 마시고, 오늘부터 담대히 소리 내어 영적 사실을 선포하십시오!";
+            } else if (score >= 3) {
+                resultDiv.className = "mt-8 p-6 md:p-10 rounded-2xl text-center border-2 transition-all duration-500 bg-blue-50 border-blue-400 text-blue-900";
+                feedbackText.innerHTML = "잘 하셨습니다! 훌륭한 이해도를 보이셨습니다.<br>틀린 부분을 다시 한 번 확인하시고, 어린양의 피와 증언하는 말의 위력을 체험하시길 바랍니다.";
+            } else {
+                resultDiv.className = "mt-8 p-6 md:p-10 rounded-2xl text-center border-2 transition-all duration-500 bg-yellow-50 border-yellow-400 text-yellow-900";
+                feedbackText.innerHTML = "조금 아쉽습니다. 사탄과 논쟁하지 말고 영적인 사실을 선포하는 것이 핵심입니다. 본문을 다시 한 번 정독해 보시기를 권해드립니다.";
+            }
+        }
+
+        function resetQuiz() {
+            document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('submit-quiz').classList.remove('hidden');
+            
+            // 퀴즈 섹션으로 부드럽게 스크롤
+            document.getElementById('quiz-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        window.onload = () => {
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
