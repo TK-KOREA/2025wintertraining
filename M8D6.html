@@ -221,8 +221,45 @@
         }
 
         /* Keywords */
-        .keyword-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2em; justify-content: center; }
-        .tag { background: #E2E8F0; color: #475569; padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 0.9em; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05); }
+        .keyword-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 1em; justify-content: center; }
+        .tag { 
+            background: #E2E8F0; color: #475569; padding: 8px 16px; border-radius: 20px; 
+            font-weight: 700; font-size: 0.9em; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05); 
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .tag:hover, .tag.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(116, 42, 42, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .keyword-desc-box {
+            background: #FFFBEB;
+            border-left: 4px solid #F59E0B;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px auto 2em auto;
+            max-width: 700px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .keyword-desc-box h4 {
+            margin: 0 0 8px 0;
+            color: #D97706;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .keyword-desc-box p {
+            margin: 0;
+            color: var(--text-main);
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Accordion Key Points */
         .accordion { margin-bottom: 1em; border: 1px solid var(--border-color); border-radius: 12px; background: var(--surface); overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
@@ -556,17 +593,25 @@
             </div>
         </section>
 
-        <!-- 3. 키워드 -->
+        <!-- 3. 키워드 (클릭 인터랙션 추가) -->
         <section id="sec-keywords">
+            <h2 style="border:none; justify-content:center; margin-top:1em;"><i class="fa-solid fa-tags"></i> 핵심 키워드</h2>
+            <p style="text-align: center; color: var(--text-muted); font-size: 0.9em; margin-bottom: 20px;">키워드를 클릭하시면 상세 정의를 보실 수 있습니다.</p>
             <div class="keyword-tags">
-                <span class="tag">#혼생명</span>
-                <span class="tag">#자아_부인</span>
-                <span class="tag">#타고난_역량</span>
-                <span class="tag">#십자가의_처리</span>
-                <span class="tag">#생명의_체험_3단계</span>
-                <span class="tag">#사역의_길</span>
-                <span class="tag">#전제물</span>
-                <span class="tag">#부활_생명</span>
+                <span class="tag" onclick="showKeywordDesc('혼생명', this)">#혼생명</span>
+                <span class="tag" onclick="showKeywordDesc('자아_부인', this)">#자아_부인</span>
+                <span class="tag" onclick="showKeywordDesc('타고난_역량', this)">#타고난_역량</span>
+                <span class="tag" onclick="showKeywordDesc('십자가의_처리', this)">#십자가의_처리</span>
+                <span class="tag" onclick="showKeywordDesc('생명의_체험_3단계', this)">#생명의_체험_3단계</span>
+                <span class="tag" onclick="showKeywordDesc('사역의_길', this)">#사역의_길</span>
+                <span class="tag" onclick="showKeywordDesc('전제물', this)">#전제물</span>
+                <span class="tag" onclick="showKeywordDesc('부활_생명', this)">#부활_생명</span>
+            </div>
+            
+            <!-- 키워드 상세 설명 박스 -->
+            <div id="keyword-desc-box" class="keyword-desc-box">
+                <h4 id="keyword-desc-title"><i class="fa-solid fa-circle-info"></i></h4>
+                <p id="keyword-desc-text"></p>
             </div>
         </section>
 
@@ -787,7 +832,7 @@
                     <div class="accordion-inner">
                         <div class="point-section">
                             <span class="point-label">의미</span>
-                            <p>은사의 길은 강단에서 말씀을 전할 때 자신의 은사(자연적인 역량)를 의지하는 것이다. 반면, 사역의 길은 반드시 십자가가 적용되어 우리 존재가 부활 생명으로 적셔져야 하며, 그 결과로 생명을 산출하는 사역이 나오는 길이다.</p>
+                            <p>은사의 길은 강단에서 말씀을 전할 때 자신의 은사(타고난 역량)를 의지하는 것이다. 반면, 사역의 길은 반드시 십자가가 적용되어 우리 존재가 부활 생명으로 적셔져야 하며, 그 결과로 생명을 산출하는 사역이 나오는 길이다.</p>
                         </div>
                         <div class="point-section">
                             <span class="point-label">구체적 사례</span>
@@ -925,6 +970,34 @@
             }
         }
 
+        // --- 키워드 툴팁 제어 ---
+        const keywordData = {
+            "혼생명": "아담의 타락 이후 사탄과 결합된 사람의 자아입니다. 영적으로 사탄의 먹이(흙)가 되는 요소이므로 철저히 부인되어야 합니다.",
+            "자아_부인": "단순한 자기 부정을 넘어, 자기 자신의 혼생명을 죽기까지 미워하고 부인함으로써 사탄에게 향하는 영양 공급을 끊어내는 영적 결단입니다.",
+            "타고난_역량": "비상한 총명함이나 유창한 언변처럼 본래 가지고 태어났지만, 십자가의 운행으로 한 번도 처리받은 적이 없어 '타고난 사람'에 근원을 둔 능력입니다.",
+            "십자가의_처리": "하나님에게서 비롯되지 않은 것을 제거하고 부활 생명만을 남기기 위해 자아와 타고난 역량을 깊이 파쇄하여 감히 스스로 움직이지 않게 하는 과정입니다.",
+            "생명의_체험_3단계": "단순한 헌신을 넘어, 십자가가 자아와 혼생명, 타고난 역량을 철저히 다루고 파쇄하는 고통스럽지만 필수적인 영적 성숙의 3단계입니다.",
+            "사역의_길": "타고난 은사를 자랑하며 스스로 움직이지 않고, 존재 자체가 십자가에 의해 산산이 부서지고 부활 생명으로 완전히 적셔져 영적인 생명을 산출하는 길입니다.",
+            "전제물": "자아의 빈 그릇에 하늘의 포도주이신 그리스도로 온전히 채워져, 하나님의 절대적인 만족과 교회의 건축을 위해 기꺼이 희생하며 쏟아 부어지는 헌신의 삶입니다.",
+            "부활_생명": "십자가에서 내 자아와 타고난 역량이 파쇄되어 빈 공간이 되었을 때, 그곳을 채우며 '신성하고도 인간적인 역량'을 발휘하게 하는 생명입니다."
+        };
+
+        function showKeywordDesc(keyword, element) {
+            const box = document.getElementById('keyword-desc-box');
+            const title = document.getElementById('keyword-desc-title');
+            const text = document.getElementById('keyword-desc-text');
+
+            // Reset active state for all tags
+            document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+            // Set active state for clicked tag
+            element.classList.add('active');
+
+            // Display content
+            title.innerHTML = `<i class="fa-solid fa-circle-info"></i> #${keyword.replace(/_/g, ' ')}`;
+            text.innerText = keywordData[keyword];
+            box.style.display = 'block';
+        }
+
         // --- 퀴즈 제어 ---
         const questions = [
             {
@@ -1028,4 +1101,3 @@
     </script>
 </body>
 </html>
-```
