@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>이기는 첫 열매들이 따르는 어린양</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            /* Color Palette - Clean, Bright, Highly Readable */
+            --bg-main: #F9FAFC;
+            --bg-card: #FFFFFF;
+            --text-main: #2D3748;
+            --text-light: #4A5568;
+            --accent-gold: #D69E2E;
+            --accent-gold-light: #FEFCBF;
+            --accent-blue: #3182CE;
+            --accent-blue-light: #EBF8FF;
+            --border-color: #E2E8F0;
+            --topbar-bg: #FFFFFF;
+            
+            /* Responsive Font Base */
+            --fs-base: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        html { font-size: var(--fs-base); scroll-behavior: smooth; }
+        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; padding-top: 44px; }
+
+        strong { font-weight: 700; color: var(--accent-blue); }
+        .highlight-text { background-color: var(--accent-gold-light); color: #975A16; padding: 0 4px; border-radius: 4px; font-weight: 700; }
+
+        /* =========================================
+           TOP FIXED BAR (Slim, Compact, White Theme)
+           ========================================= */
+        #top-bar {
+            position: fixed; top: 0; left: 0; right: 0; height: 44px;
+            background-color: var(--topbar-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: space-between;
+            z-index: 1000; padding: 0 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .topbar-left { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+        .menu-btn, .home-btn {
+            background: none; border: none; font-size: 1.1rem; color: var(--text-main);
+            cursor: pointer; padding: 6px; border-radius: 4px; text-decoration: none;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .menu-btn:hover, .home-btn:hover { background-color: var(--bg-main); }
+
+        /* Title container - Scrollable if too long */
+        .title-container {
+            flex-grow: 1; overflow-x: auto; white-space: nowrap; margin: 0 10px;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+            cursor: grab; display: flex; align-items: center;
+        }
+        .title-container::-webkit-scrollbar { display: none; }
+        .title-container:active { cursor: grabbing; }
+        /* Font size for topbar title is fixed, not affected by --fs-base */
+        .topbar-title { font-size: 15px; font-weight: 700; color: var(--text-main); pointer-events: none; }
+
+        /* Font controls - Fixed width, never shrink */
+        .font-controls {
+            display: flex; align-items: center; gap: 2px; flex-shrink: 0;
+            background: var(--bg-main); border-radius: 4px; padding: 2px;
+        }
+        .font-btn {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            color: var(--text-main); cursor: pointer; border-radius: 3px;
+            width: 28px; height: 28px; font-size: 14px; font-weight: 700; /* Fixed font size */
+            display: flex; align-items: center; justify-content: center;
+        }
+        .font-btn:hover { background: var(--accent-blue-light); color: var(--accent-blue); border-color: var(--accent-blue); }
+
+        /* =========================================
+           LEFT MENU (Drawer)
+           ========================================= */
+        #left-menu {
+            position: fixed; top: 44px; left: -280px; width: 280px; height: calc(100vh - 44px);
+            background-color: var(--bg-card); border-right: 1px solid var(--border-color);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            transition: left 0.3s ease; z-index: 999; overflow-y: auto; padding: 15px 0;
+        }
+        #left-menu.open { left: 0; }
+        #menu-overlay {
+            position: fixed; top: 44px; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); z-index: 998; display: none;
+        }
+        #menu-overlay.open { display: block; }
+        
+        .menu-nav ul { list-style: none; }
+        .menu-nav li a {
+            display: block; padding: 12px 20px; color: var(--text-main); text-decoration: none;
+            font-size: 1rem; font-weight: 500; border-left: 4px solid transparent;
+        }
+        .menu-nav li a:hover { background-color: var(--bg-main); color: var(--accent-blue); border-left-color: var(--accent-blue); }
+        .menu-nav .sub-menu { background-color: #F7FAFC; }
+        .menu-nav .sub-menu a { padding-left: 40px; font-size: 0.9rem; font-weight: 400; color: var(--text-light);}
+
+        /* =========================================
+           MAIN LAYOUT & SECTIONS
+           ========================================= */
+        main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+        section { margin-bottom: 4rem; scroll-margin-top: 60px; }
+        
+        .section-title { font-size: 1.5rem; font-weight: 900; color: var(--accent-blue); border-bottom: 2px solid var(--accent-blue); padding-bottom: 0.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;}
+
+        /* Title Area */
+        #section-title-area { text-align: center; margin-bottom: 2rem; margin-top: 1rem; }
+        #section-title-area h1 { font-size: 2.2rem; font-weight: 900; line-height: 1.3; color: var(--text-main); margin-bottom: 1rem;}
+        #section-title-area p { font-size: 1.1rem; color: var(--text-light); word-break: keep-all; }
+
+        /* Dashboard */
+        .dashboard-container { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border-color); }
+        .dashboard-intro { font-size: 1.05rem; text-align: center; margin-bottom: 1.5rem; font-weight: 700; color: var(--accent-blue); }
+        .flow-diagram { display: flex; flex-direction: column; gap: 8px; }
+        
+        @media (min-width: 768px) {
+            .flow-diagram { flex-direction: row; align-items: stretch; justify-content: space-between; gap: 10px;}
+        }
+
+        .flow-step {
+            flex: 1; background: var(--bg-main); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-blue);
+            border-radius: 8px; padding: 1rem; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .flow-step .step-num { display: inline-block; background: var(--accent-blue); color: white; width: 24px; height: 24px; border-radius: 50%; font-size: 0.8rem; line-height: 24px; font-weight: bold; margin-bottom: 0.5rem; }
+        .flow-step .step-label { font-size: 0.85rem; color: var(--text-light); font-weight: 500; margin-bottom: 0.3rem; }
+        .flow-step .step-title { font-size: 1rem; font-weight: 700; color: var(--text-main); word-break: keep-all;}
+        .flow-arrow { color: var(--border-color); font-size: 1.2rem; text-align: center; padding: 5px 0; }
+        
+        @media (min-width: 768px) {
+            .flow-arrow { display: flex; align-items: center; justify-content: center; transform: rotate(-90deg); padding: 0; }
+        }
+
+        /* Keywords */
+        .keyword-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; justify-content: center; }
+        .keyword-pill {
+            background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main);
+            padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 500; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .keyword-pill:hover { border-color: var(--accent-blue); }
+        .keyword-pill.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); box-shadow: 0 2px 8px rgba(49, 130, 206, 0.3); }
+        .keyword-desc-box {
+            background: var(--bg-card); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-blue); padding: 1.5rem;
+            border-radius: 8px; display: none; font-size: 0.95rem; color: var(--text-main); margin-top: 10px;
+        }
+        .keyword-desc-box.active { display: block; animation: fadeIn 0.3s ease; }
+        .kw-group { margin-bottom: 8px; }
+        .kw-title { display: inline-block; width: 50px; font-weight: 700; color: var(--accent-blue); font-size: 0.85rem; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Key Points (Accordion) */
+        .accordion-item { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .accordion-header {
+            width: 100%; text-align: left; background: var(--bg-card); border: none; padding: 1.2rem 1.5rem;
+            display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background 0.2s;
+        }
+        .accordion-header:hover { background: #F7FAFC; }
+        .accordion-header h3 { font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin: 0; display: flex; align-items: center; gap: 10px;}
+        .pt-badge { background: var(--accent-blue-light); color: var(--accent-blue); font-size: 0.85rem; padding: 2px 8px; border-radius: 12px; white-space: nowrap; }
+        .accordion-icon { font-size: 1rem; color: var(--text-light); transition: transform 0.3s ease; }
+        .accordion-item.active .accordion-icon { transform: rotate(180deg); color: var(--accent-blue); }
+        
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: var(--bg-main); }
+        .accordion-content-inner { padding: 1.5rem; border-top: 1px solid var(--border-color); }
+
+        /* Bible Verses */
+        .bible-verses { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem; }
+        .bible-verse-box {
+            background: #fff; border: 1px solid var(--border-color); border-left: 4px solid var(--accent-gold);
+            padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; font-size: 1rem; color: var(--text-main); line-height: 1.6;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .bible-verse-box .ref { display: block; color: var(--accent-gold); font-weight: 900; margin-bottom: 5px; font-size: 0.9rem;}
+
+        /* Point Details */
+        .point-detail-group { margin-bottom: 1.2rem; background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; }
+        .point-detail-group:last-child { margin-bottom: 0; }
+        .detail-label { display: inline-flex; align-items: center; gap: 5px; background: var(--bg-main); color: var(--text-main); font-size: 0.85rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; margin-bottom: 0.8rem; border: 1px solid var(--border-color); }
+        .detail-label i { color: var(--accent-blue); }
+        .detail-text { font-size: 1.05rem; color: var(--text-main); line-height: 1.6;}
+
+        /* Cooperation Steps (Timeline Layout) */
+        .cooperation-timeline { margin-top: 1.5rem; padding-left: 10px; }
+        .cooperation-step { display: flex; gap: 20px; position: relative; padding-bottom: 1.5rem; }
+        .cooperation-step:last-child { padding-bottom: 0; }
+        
+        .step-marker { display: flex; flex-direction: column; align-items: center; width: 36px; flex-shrink: 0; }
+        .step-number { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-blue); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; z-index: 2; box-shadow: 0 0 0 4px #fff, 0 2px 8px rgba(49, 130, 206, 0.4); }
+        .step-line { flex-grow: 1; width: 2px; background: var(--accent-blue-light); margin-top: 5px; margin-bottom: 5px; }
+        
+        .step-content { flex-grow: 1; background: #fff; border: 1px solid var(--border-color); padding: 1.2rem; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; }
+        .step-content:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .step-heading { font-size: 1.15rem; color: var(--accent-blue); margin-bottom: 10px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+        .step-text { font-size: 1.05rem; color: var(--text-main); line-height: 1.6; word-break: keep-all; }
+        
+        /* Highlight Last Step */
+        .cooperation-step.highlight .step-number { background: var(--accent-gold); box-shadow: 0 0 0 4px #fff, 0 2px 10px rgba(214, 158, 46, 0.5); font-size: 1.1rem;}
+        .cooperation-step.highlight .step-content { border-color: var(--accent-gold); background: var(--accent-gold-light); }
+        .cooperation-step.highlight .step-heading { color: #975A16; }
+
+        /* Quiz Layout (Fixed 1rem font, Mobile friendly) */
+        .quiz-container { background: var(--bg-card); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .quiz-step { display: none; flex-direction: column; animation: fadeIn 0.3s ease; }
+        .quiz-step.active { display: flex; }
+        
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; }
+        .quiz-progress { font-size: 1rem; font-weight: 700; color: var(--accent-blue); }
+        
+        .quiz-question { font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem; line-height: 1.5; color: var(--text-main); word-break: keep-all;}
+        
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem; }
+        .quiz-option {
+            background: var(--bg-main); border: 2px solid var(--border-color); border-radius: 12px;
+            padding: 12px 15px; cursor: pointer; display: flex; align-items: center; transition: all 0.2s;
+            font-size: 1rem !important; /* Force 1rem */
+            color: var(--text-main); min-height: 64px; /* Wide clickable area */
+        }
+        .quiz-option:hover { border-color: var(--accent-blue); background: #F7FAFC; }
+        .quiz-option.selected { border-color: var(--accent-blue); background: var(--accent-blue-light); font-weight: 700; }
+        
+        /* Circular Badge for Options */
+        .opt-badge {
+            width: 30px; height: 30px; border-radius: 50%; background: #E2E8F0; color: #4A5568;
+            display: flex; align-items: center; justify-content: center; font-weight: 900; margin-right: 12px; flex-shrink: 0;
+            font-size: 0.9rem; transition: all 0.2s; border: 2px solid transparent;
+        }
+        .quiz-option.selected .opt-badge { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+
+        .hint-btn { background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-light); font-size: 0.85rem; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 20px; margin-bottom: 1rem; transition: all 0.2s; align-self: flex-start;}
+        .hint-btn:hover { background: #E2E8F0; }
+        .hint-text { background: var(--accent-gold-light); padding: 1rem; border-radius: 8px; font-size: 0.95rem; color: #975A16; margin-bottom: 1.5rem; display: none; border-left: 4px solid var(--accent-gold); line-height: 1.5;}
+        
+        .quiz-controls { display: flex; justify-content: flex-end; }
+        .btn-next {
+            background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 8px;
+            font-size: 1rem; font-weight: 700; cursor: pointer; display: none; transition: background 0.2s;
+        }
+        .btn-next.visible { display: inline-block; }
+        .btn-next:hover { background: #2B6CB0; }
+
+        /* Quiz Result */
+        .quiz-result-container { text-align: center; padding: 2rem 0; }
+        .score-circle {
+            width: 100px; height: 100px; border-radius: 50%; border: 6px solid var(--accent-blue);
+            display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 900;
+            color: var(--accent-blue); margin: 0 auto 1.5rem auto;
+        }
+        .feedback-text { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main); }
+        .btn-restart { background: var(--bg-main); border: 2px solid var(--border-color); color: var(--text-main); padding: 10px 20px; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 1.5rem; }
+        
+        /* Prayer */
+        .prayer-card {
+            background: var(--bg-card); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-gold);
+            border-radius: 12px; padding: 2rem; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            background-image: linear-gradient(to bottom, #FFFFFF, #F9FAFC);
+        }
+        .prayer-icon { font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 1rem; opacity: 0.8;}
+        .prayer-text { font-size: 1.1rem; font-weight: 500; color: var(--text-main); line-height: 1.8; word-break: keep-all; text-align: left; padding: 0 10px;}
+        .prayer-text p { margin-bottom: 1rem; }
+        .prayer-text p:last-child { margin-bottom: 0; }
+    </style>
+</head>
+<body>
+
+    <!-- =========================================
+         TOP FIXED BAR
+         ========================================= -->
+    <header id="top-bar">
+        <div class="topbar-left">
+            <a href="https://tk-korea.github.io/2025wintertraining/" class="home-btn" title="홈페이지 바로가기"><i class="fas fa-home"></i></a>
+            <button class="menu-btn" onclick="toggleMenu()" title="메뉴 열기"><i class="fas fa-bars"></i></button>
+        </div>
+        
+        <div class="title-container" id="title-container">
+            <span class="topbar-title">이기는 첫 열매들이 따르는 어린양</span>
+        </div>
+        
+        <div class="font-controls">
+            <button class="font-btn" onclick="changeFontSize(-1)" title="글꼴 축소">-</button>
+            <button class="font-btn" onclick="changeFontSize(0)" title="글꼴 초기화">가</button>
+            <button class="font-btn" onclick="changeFontSize(1)" title="글꼴 확대">+</button>
+        </div>
+    </header>
+
+    <!-- =========================================
+         LEFT MENU
+         ========================================= -->
+    <div id="menu-overlay" onclick="toggleMenu()"></div>
+    <nav id="left-menu">
+        <div class="menu-nav">
+            <ul>
+                <li><a href="#section-title-area" onclick="toggleMenu()"><i class="fas fa-heading fa-fw"></i> 1. 제목</a></li>
+                <li><a href="#section-dashboard" onclick="toggleMenu()"><i class="fas fa-project-diagram fa-fw"></i> 2. 대시보드</a></li>
+                <li><a href="#section-keywords" onclick="toggleMenu()"><i class="fas fa-tags fa-fw"></i> 3. 키워드</a></li>
+                <li><a href="#section-points" onclick="toggleMenu()"><i class="fas fa-layer-group fa-fw"></i> 4. 핵심요점</a></li>
+                <li class="sub-menu"><a href="#pt1" onclick="openAccordionAndScroll('pt1')">- 1. 목표</a></li>
+                <li class="sub-menu"><a href="#pt2" onclick="openAccordionAndScroll('pt2')">- 2. 조건</a></li>
+                <li class="sub-menu"><a href="#pt3" onclick="openAccordionAndScroll('pt3')">- 3. 생활 방식</a></li>
+                <li class="sub-menu"><a href="#pt4" onclick="openAccordionAndScroll('pt4')">- 4. 협력</a></li>
+                <li><a href="#section-quiz" onclick="toggleMenu()"><i class="fas fa-question-circle fa-fw"></i> 5. 퀴즈</a></li>
+                <li><a href="#section-prayer" onclick="toggleMenu()"><i class="fas fa-pray fa-fw"></i> 6. 오늘의 기도</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- =========================================
+         MAIN CONTENT
+         ========================================= -->
+    <main id="content">
+        
+        <!-- 1. Title -->
+        <section id="section-title-area">
+            <h1>이기는 첫 열매들이<br>따르는 어린양</h1>
+            <p>대환난 전에 휴거되어 하나님의 만족과 누림이 될 '첫 열매들'이 되기 위해, 오늘날 주님의 임재 안에서 순결을 지키고 생명 안에서 가장 일찍 성숙에 이르러야 합니다.</p>
+        </section>
+
+        <!-- 2. Dashboard -->
+        <section id="section-dashboard">
+            <h2 class="section-title"><i class="fas fa-project-diagram"></i> 흐름 대시보드</h2>
+            <div class="dashboard-container">
+                <p class="dashboard-intro">첫 열매로 익어가는 과정</p>
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <span class="step-num">1</span>
+                        <div class="step-label">목표</div>
+                        <div class="step-title">하나님의<br>온전한 만족</div>
+                    </div>
+                    <div class="flow-arrow"><i class="fas fa-chevron-down"></i></div>
+                    <div class="flow-step">
+                        <span class="step-num">2</span>
+                        <div class="step-label">조건</div>
+                        <div class="step-title">오늘날 주님의<br>임재를 사모함</div>
+                    </div>
+                    <div class="flow-arrow"><i class="fas fa-chevron-down"></i></div>
+                    <div class="flow-step">
+                        <span class="step-num">3</span>
+                        <div class="step-label">생활방식</div>
+                        <div class="step-title">단호한 거절과<br>생각의 통제</div>
+                    </div>
+                    <div class="flow-arrow"><i class="fas fa-chevron-down"></i></div>
+                    <div class="flow-step">
+                        <span class="step-num">4</span>
+                        <div class="step-label">협력</div>
+                        <div class="step-title">빛 비춤에 대한<br>지속적 협력</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Keywords -->
+        <section id="section-keywords">
+            <h2 class="section-title"><i class="fas fa-tags"></i> 핵심 키워드</h2>
+            <div class="keyword-grid">
+                <button class="keyword-pill active" onclick="showKeyword('k1', this)">1. 정체성과 목적</button>
+                <button class="keyword-pill" onclick="showKeyword('k2', this)">2. 휴거 필수 조건</button>
+                <button class="keyword-pill" onclick="showKeyword('k3', this)">3. 생활 방식</button>
+                <button class="keyword-pill" onclick="showKeyword('k4', this)">4. 성숙을 위한 훈련</button>
+            </div>
+            
+            <div id="kw-k1" class="keyword-desc-box active">
+                <div class="kw-group"><span class="kw-title">명사</span> 첫 열매들, 이기는 이들, 휴거, 시온산, 만족, 누림</div>
+                <div class="kw-group"><span class="kw-title">동사</span> 거두어지다, 드려지다, 이끌려 올라가다</div>
+                <p style="margin-top: 10px; color: var(--text-light);">요한계시록 14장의 14만 4천 명은 대환난 전에 하늘의 시온산으로 곧장 이끌려 올라가는 초기의 이기는 이들입니다.</p>
+            </div>
+            <div id="kw-k2" class="keyword-desc-box">
+                <div class="kw-group"><span class="kw-title">명사</span> 임재, 일상생활, 일곱 눈, 나타나심</div>
+                <div class="kw-group"><span class="kw-title">동사</span> 사모하다, 살다, 누리다, 동행하다</div>
+                <p style="margin-top: 10px; color: var(--text-light);">일상생활 가운데 주님의 감추어진 생각과 느낌을 나타내는 일곱 눈 앞에 나아가며, 끊임없이 그분의 나타나심을 누리고 사모해야 합니다.</p>
+            </div>
+            <div id="kw-k3" class="keyword-desc-box">
+                <div class="kw-group"><span class="kw-title">명사</span> 순결, 이마, 이름, 필터</div>
+                <div class="kw-group"><span class="kw-title">동사</span> 만족시켜 드리다, 거절하다, 씻다, 통제하다</div>
+                <p style="margin-top: 10px; color: var(--text-light);">이마에 어린양의 이름이 기록되어 하나 됨을 지키기 위해 세상의 더러움을 단호히 거절하고 혼 안으로 들어오는 관념을 영적 필터로 걸러내야 합니다.</p>
+            </div>
+            <div id="kw-k4" class="keyword-desc-box">
+                <div class="kw-group"><span class="kw-title">명사</span> 성숙, 생명, 훈련, 토양, 협력</div>
+                <div class="kw-group"><span class="kw-title">동사</span> 자라다, 전진하다, 빛 비추다, 채워지다</div>
+                <p style="margin-top: 10px; color: var(--text-light);">단단해진 마음을 처리하고, 훈련받은 감각 기능을 사용하여 주님의 빛 비춤에 "아멘"으로 협력함으로써 가장 일찍 성숙에 이릅니다.</p>
+            </div>
+        </section>
+
+        <!-- 4. Key Points -->
+        <section id="section-points">
+            <h2 class="section-title"><i class="fas fa-layer-group"></i> 핵심 요점 벗기기</h2>
+            
+            <!-- Point 1 -->
+            <div class="accordion-item" id="pt1">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3><span class="pt-badge">목표</span> 첫 열매의 정체성과 목적</h3>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        <div class="bible-verses">
+                            <div class="bible-verse-box">
+                                <span class="ref">[계 14:1]</span> 또 내가 보니, 어린양께서 <strong>시온산에 서 계시고</strong> 그분과 함께 십사만 사천 명이 서 있는데...
+                            </div>
+                            <div class="bible-verse-box">
+                                <span class="ref">[계 14:4]</span> 그들은 여자들로 더럽힌 적이 없는 순결한 이들입니다. ... <strong>하나님과 어린양께 첫 열매로 드려지도록</strong> 사람들 가운데서 사 온 이들입니다.
+                            </div>
+                        </div>
+                        
+                        <div class="point-detail-group">
+                            <span class="detail-label"><i class="fas fa-book-open"></i> 의미</span>
+                            <p class="detail-text">요한계시록 14장의 십사만 사천 명은 대환난 전에 <span class="highlight-text">하늘의 시온산으로 곧장 이끌려 올라가는 초기의 이기는 이들</span> 곧 '첫 열매들'입니다. 사내아이의 휴거가 원수를 패배시키기 위한 것이라면, 첫 열매들의 휴거는 하나님을 만족시켜 드리기 위한 것입니다.</p>
+                        </div>
+                        <div class="point-detail-group">
+                            <span class="detail-label"><i class="fas fa-search"></i> 구체적 사례</span>
+                            <p class="detail-text">일반적인 수확물(대다수 믿는 이들)이 대환난 끝에 거두어지는 것과 달리, 농부가 대부분의 열매를 <span class="highlight-text">수확기 전에 좋은 땅의 첫 열매들로 거두어</span> 하나님의 누림을 위해 하나님의 성전에 가져가는 것과 같습니다.</p>
+                        </div>
+                        <div class="point-detail-group">
+                            <span class="detail-label"><i class="fas fa-walking"></i> 실행 및 적용</span>
+                            <p class="detail-text">우리는 그분의 원수와 싸울 사내아이가 필요하시지만, 그분의 만족과 누림을 위해 <span class="highlight-text">첫 열매들을 더욱더 필요로 하시는 하나님의 갈망</span>을 알고, 수확기 전에 직접 그분께 드려지기를 갈망해야 합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Point 2 -->
+            <div class="accordion-item" id="pt2">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3><span class="pt-badge">조건</span> 휴거의 필수 조건</h3>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        <div class="bible-verses">
+                            <div class="bible-verse-box">
+                                <span class="ref">[고후 2:10]</span> ... 내가 어떤 일에서 용서했다면, 내가 용서한 것은 여러분을 위하여 <strong>그리스도의 인격(얼굴)으로</strong> 용서한 것인데,
+                            </div>
+                            <div class="bible-verse-box">
+                                <span class="ref">[딤후 4:8]</span> ... 나에게만 아니라 그분께서 <strong>나타나시기를 사모하는</strong> 모든 사람에게 주실 것입니다.
+                            </div>
+                        </div>
+                        
+                        <div class="point-detail-group">
+                            <span class="detail-label"><i class="fas fa-book-open"></i> 의미</span>
+                            <p class="detail-text">휴거의 진정한 의미는 주님의 임재 안으로 이끌리는 것입니다. 미래에 주님의 임재 안으로 이끌리기 위해서는 <strong>반드시 오늘날 그분의 임재 안에 있어야</strong> 합니다. 이것이 우리의 중심 부담이자 핵심 중점입니다.</p>
+                        </div>
+                        
+                        <!-- 시각적 강조: 일상생활 속 일곱 눈의 임재 체험 -->
+                        <div class="point-detail-group" style="background-color: var(--accent-blue-light); border-color: var(--accent-blue); border-left: 6px solid var(--accent-blue); padding: 1.5rem;">
+                            <h4 style="color: var(--accent-blue); font-size: 1.25rem; font-weight: 900; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                                (매우 중요) 주님의 임재 안에 사는 생활
+                            </h4>
+                            <p class="detail-text" style="font-weight: 700; color: #2B6CB0; margin-bottom: 12px; font-size: 1.1rem;">바울은 사람의 감추어진 생각과 느낌을 보여 주는 눈언저리, 곧 그리스도의 얼굴(인격)을 따라 살았습니다. 우리도 무엇을 하든 그분의 인격 전체의 표시에 따라 행해야 합니다.</p>
+                            
+                            <ul style="padding-left: 20px; color: var(--text-main); font-size: 1.05rem; line-height: 1.6; margin-bottom: 15px;">
+                                <li style="margin-bottom: 12px;"><strong>쇼핑을 할 때:</strong> 매장을 걷다가 상술에 이끌려 충동적으로 세상적인 물건을 집으려 할 때, 일곱 눈이 우리에게 <strong style="color: var(--accent-blue);">"너는 그것을 사려고 오지 않았다."</strong>라고 상기시킬 수 있습니다. 그때 주님의 임재 안에서 "주님, 아멘입니다."라고 말하며 지나가는 체험을 해야 합니다.</li>
+                                <li style="margin-bottom: 12px;"><strong>형제를 용서할 때:</strong> 나의 천연적인 감정이나 관대함이 아니라, 나를 바라보시는 주님의 눈언저리를 따라 <strong style="color: var(--accent-blue);">'그리스도의 인격으로'</strong> 용서하는 것입니다.</li>
+                                <li><strong>그분의 나타나심을 사모함:</strong> 합당하지 않은 장소에 갔을 때, 그분의 임재가 찾아와 <strong style="color: var(--accent-blue);">"여기서 무엇을 하고 있느냐?"</strong>라고 물으신다면 그 나타나심을 거절하지 마십시오. 즉시 "주님, 당신을 사랑합니다."라고 말씀드리고 그곳을 떠나야 합니다.</li>
+                            </ul>
+                            
+                            <div style="background: #fff; padding: 15px; border-radius: 8px; text-align: center; border: 2px dashed var(--accent-blue); margin-top: 20px;">
+                                <p class="detail-text" style="font-weight: 900; color: var(--accent-blue); margin: 0; font-size: 1.15rem;">불타는 일곱 눈은 주님의 임재입니다.<br>우리가 그분의 임재를 누릴 때, 우리는 그분의 눈을 갖게 됩니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Point 3 -->
+            <div class="accordion-item" id="pt3">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3><span class="pt-badge">생활 방식</span> 이마에 기록된 이름과 순결함</h3>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        <div class="bible-verses">
+                            <div class="bible-verse-box">
+                                <span class="ref">[계 14:1]</span> ... 그들의 이마에는 <strong>어린양의 이름과 그분의 아버지의 이름</strong>이 기록되어 있었습니다.
+                            </div>
+                            <div class="bible-verse-box">
+                                <span class="ref">[요 20:17]</span> 주님께서 마리아에게 <strong>"나를 만지지 마십시오. 내가 아직 아버지께로 올라가지 않았기 때문입니다."</strong>라고 말씀하셨다.
+                            </div>
+                        </div>
+                        
+                        <div class="point-detail-group">
+                            <span class="detail-label"><i class="fas fa-book-open"></i> 구속하시는 삼일 하나님과 그분의 구속받은 백성의 연결과 연합</span>
+                            <p class="detail-text">요한계시록 14장 1절은 십사만 사천 명의 이마에는 어린양의 이름과 그분의 아버지의 이름이 기록되어 있다는 것을 보여 줍니다. 이들은, 짐승에게 경배하는 사람들과 이마에 짐승의 이름이 기록되어 있는 사람들(13:16-17)과는 대조됩니다. 이기는 이들의 이마에 어린양의 이름과 아버지의 이름이 기록된 것은 그들이 어린양과 하나일 뿐만 아니라 아버지와 하나 된 것을 의미하며, 또 어린양과 아버지께 속한다는 것을 의미합니다. 이것은 또한 이기는 이들이 어린양과 똑같이 되었고 아버지와 똑같이 되었다는 것을 상징합니다.</p>
+                        </div>
+                        
+                        <!-- 시각적 강조: 나를 만지지 마라! -->
+                        <div class="point-detail-group" style="background-color: var(--accent-gold-light); border-color: var(--accent-gold); border-left: 6px solid var(--accent-gold); padding: 1.5rem;">
+                            <h4 style="color: #975A16; font-size: 1.25rem; font-weight: 900; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-hand-paper" style="font-size: 1.4rem;"></i> 단호한 선포: "나를 만지지 마라!"
+                            </h4>
+                            <p class="detail-text" style="font-weight: 700; color: #744210; margin-bottom: 12px; font-size: 1.1rem;">우리의 날들을 누가 가장 먼저 맛을 보고, 가장 먼저 만집니까? 우리의 존재(혼) 안으로 무엇이 들어오도록 허락하느냐가 이마에 어떤 이름이 기록될지를 결정합니다.</p>
+                            
+                            <ul style="padding-left: 20px; color: var(--text-main); font-size: 1.05rem; line-height: 1.6; margin-bottom: 15px;">
+                                <li style="margin-bottom: 12px;"><strong>전자 기기와 인터넷 방송:</strong> 휴대폰 알림이나 세상의 소리가 귀와 눈을 통해 들어올 때 함정에 빠지지 마십시오. 기기를 내려놓고 <strong style="color: var(--accent-blue);">"나를 만지지 마라! 나는 지금 나의 하나님 앞에 나아가고 있다!"</strong>라고 말하며 세상 관념을 영적 필터로 단호히 걸러내야 합니다.</li>
+                                <li style="margin-bottom: 12px;"><strong>세상의 광고:</strong> 운전하다 마주치는 광고나 기기의 광고들은 우리의 혼을 더럽힙니다. 그것들이 우리를 만지지 못하도록 결심하고 <strong style="color: var(--accent-blue);">"나를 만지지 마라!"</strong>라고 선포하십시오.</li>
+                                <li><strong>사람들과의 만남:</strong> 무절제한 대화가 우리를 더럽힐 수 있습니다. 우리는 씻는 피와 말씀의 물로 씻겨 생각의 영 안에서 늘 새롭게 되어야 합니다.</li>
+                            </ul>
+                            
+                            <div style="background: #fff; padding: 15px; border-radius: 8px; text-align: center; border: 2px dashed var(--accent-gold); margin-top: 20px;">
+                                <p class="detail-text" style="font-weight: 900; color: #975A16; margin: 0; font-size: 1.15rem;">이마에 새겨진 이름을 지키기 위해 우리는 일상에서 많은 것들을 향해<br>"나를 만지지 마라!"라고 말하기를 배워야 합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Point 4 -->
+            <div class="accordion-item" id="pt4">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <h3><span class="pt-badge">협력</span> 성숙되기 위한 우리의 협력</h3>
+                    <i class="fas fa-chevron-down accordion-icon"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        <div class="bible-verses">
+                            <div class="bible-verse-box">
+                                <span class="ref">[히 5:14~6:1]</span> ... 그들은 <strong>훈련받은 감각 기능을 사용하기 때문에</strong> ... 그리스도에 관한 초보적인 말씀에 머물지 말고, <strong>성숙에 이르도록 전진합시다.</strong>
+                            </div>
+                            <div class="bible-verse-box">
+                                <span class="ref">[마 13:23]</span> 그러나 <strong>좋은 땅에 씨가 뿌려진 사람은 말씀을 듣고 깨닫는 사람인데</strong>, 반드시 열매를 맺어 어떤 사람은 백 배, 어떤 사람은 육십 배, 또 어떤 사람은 삼십 배로 거둡니다.
+                            </div>
+                        </div>
+                        
+                        <!-- 시각적 강조: 성숙되기 위한 우리의 협력 (도입부) -->
+                        <div class="point-detail-group" style="background-color: var(--accent-blue-light); border-color: var(--accent-blue); border-left: 6px solid var(--accent-blue);">
+                            <span class="detail-label" style="background: var(--accent-blue); color: #fff;"><i class="fas fa-heart" style="color: #fff;"></i> 성숙되기 위한 우리의 협력: 마음의 상태를 처리함</span>
+                            <p class="detail-text" style="font-weight: 700; color: var(--accent-blue);">토양의 여러 상태는 곧 우리 사람의 마음의 상태를 대표합니다. 생명의 씨앗이 자라게 하시는 분은 하나님이시지만, 우리는 좋은 마음의 상태를 갖추기 위해 능동적으로 주님께 협력하도록 훈련해야 합니다.</p>
+                        </div>
+                        
+                        <div class="cooperation-timeline">
+                            <!-- Step 1 -->
+                            <div class="cooperation-step">
+                                <div class="step-marker">
+                                    <div class="step-number">1</div>
+                                    <div class="step-line"></div>
+                                </div>
+                                <div class="step-content">
+                                    <h4 class="step-heading"><i class="fas fa-road"></i> 세상적인 왕래로 단단해진 마음을 처리함</h4>
+                                    <p class="step-text">인터넷 방송을 먹거나 섭취할 수 있다. 이러한 인터넷 방송은 우리의 생각에 관념들을 집어넣는다. '세상적인 왕래' 때문에 길가처럼 단단해진 마음을 주의하고 처리하십시오. 듣고 보는 것에 있어서 온전히 주님을 따르도록 마음의 방향을 돌이켜야 합니다.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2 -->
+                            <div class="cooperation-step">
+                                <div class="step-marker">
+                                    <div class="step-number">2</div>
+                                    <div class="step-line"></div>
+                                </div>
+                                <div class="step-content">
+                                    <h4 class="step-heading"><i class="fas fa-cubes"></i> 마음속 깊은 곳의 바위들을 제거하십시오</h4>
+                                    <p class="step-text">겉으로는 흙이 덮여 있는 것 같지만, 내면 깊은 곳에 자리 잡은 감추어진 죄들, 자신만 관심하는 것, 자기 연민, 개인적인 욕망이나 이루지 못한 꿈들과 같은 '바위들'을 철저히 치우십시오. 이 바위들을 다루어야만 생명의 뿌리가 깊이 자라나 이기기 위해 필요한 자양분을 흡수할 수 있습니다.</p>
+                                </div>
+                            </div>
+
+                            <!-- Step 3 -->
+                            <div class="cooperation-step">
+                                <div class="step-marker">
+                                    <div class="step-number">3</div>
+                                    <div class="step-line"></div>
+                                </div>
+                                <div class="step-content">
+                                    <h4 class="step-heading"><i class="fas fa-seedling"></i> 생명이 자랄 수 있는 '좋은 땅'이 되십시오</h4>
+                                    <p class="step-text">생명의 말씀이 가시덤불에 숨 막히거나 바위 위에서 말라버리지 않도록 주의하십시오. 말씀을 듣고 깨달아 백 배, 육십 배, 삼십 배의 열매를 맺을 수 있는 <strong>좋은 땅(토양)</strong>으로 우리 자신을 온전히 내어드려야 합니다.</p>
+                                </div>
+                            </div>
+
+                            <!-- Step 4 (Highlight) -->
+                            <div class="cooperation-step highlight">
+                                <div class="step-marker">
+                                    <div class="step-number"><i class="fas fa-fire"></i></div>
+                                </div>
+                                <div class="step-content">
+                                    <h4 class="step-heading"><i class="fas fa-eye"></i> 일곱 눈의 빛 비춤에 열어드리고 불태워지십시오</h4>
+                                    <p class="step-text">주님은 우리를 전진시키실 것이지만 우리가 훈련하는 것을 필요로 하십니다. 주님의 불타는 일곱 눈 앞에 나아가 "주님, 저를 살피시고 불태우시며 생명을 옮겨 부어 주십시오."라고 온 존재를 열어드리십시오. 그분은 무언가를 즉시 하지 않으실 수 있지만 점진적으로 우리의 일상생활에서 빛 비춤이 올 것입니다. 우리는 성숙에 이를 것이지만, 우리는 또한 훈련함으로써 협력해 드려야 합니다.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+
+        <!-- 5. Quiz -->
+        <section id="section-quiz">
+            <h2 class="section-title"><i class="fas fa-question-circle"></i> 요점 확인 퀴즈</h2>
+            <div class="quiz-container">
+                
+                <!-- Q1 -->
+                <div class="quiz-step active" id="q1">
+                    <div class="quiz-header">
+                        <div class="quiz-progress">문제 1 / 5</div>
+                    </div>
+                    <div class="quiz-question">대환난 전에 휴거되는 '첫 열매들'의 휴거가 갖는 근본적인 목적은 사내아이의 휴거(원수 패배)와 어떻게 다릅니까?</div>
+                    <button class="hint-btn" onclick="toggleHint(1)"><i class="fas fa-lightbulb"></i> 힌트 보기</button>
+                    <div class="hint-text" id="hint1">수확기 전에 거두어 하나님의 성전에 가져간 첫 열매들의 목적을 기억해 보세요. (요점 1)</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(1, 'A')"><div class="opt-badge">A</div>대환난의 핍박으로부터 도망치기 위해</div>
+                        <div class="quiz-option" onclick="selectOption(1, 'B')"><div class="opt-badge">B</div>하나님을 가장 신선하게 만족시켜 드리기 위해</div>
+                        <div class="quiz-option" onclick="selectOption(1, 'C')"><div class="opt-badge">C</div>땅에 남은 사람들을 심판하기 위해</div>
+                    </div>
+                    <div class="quiz-controls"><button class="btn-next" id="btn1" onclick="nextQuestion(1, 'B')">다음 문제 <i class="fas fa-arrow-right"></i></button></div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="quiz-step" id="q2">
+                    <div class="quiz-header">
+                        <div class="quiz-progress">문제 2 / 5</div>
+                    </div>
+                    <div class="quiz-question">미래에 주님의 임재 안으로 휴거되기 위해, 오늘날 우리의 일상생활에서 반드시 갖추어야 할 필수 조건은 무엇입니까?</div>
+                    <button class="hint-btn" onclick="toggleHint(2)"><i class="fas fa-lightbulb"></i> 힌트 보기</button>
+                    <div class="hint-text" id="hint2">바울이 형제를 '그리스도의 인격(얼굴)'으로 용서한 사례가 이 조건을 잘 보여줍니다. (요점 2)</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(2, 'A')"><div class="opt-badge">A</div>모든 재산을 팔아 헌금하는 것</div>
+                        <div class="quiz-option" onclick="selectOption(2, 'B')"><div class="opt-badge">B</div>오늘날 그분의 임재 안에 머물며 나타나심을 사모하는 것</div>
+                        <div class="quiz-option" onclick="selectOption(2, 'C')"><div class="opt-badge">C</div>매일 산에 올라가 금식 기도하는 것</div>
+                    </div>
+                    <div class="quiz-controls"><button class="btn-next" id="btn2" onclick="nextQuestion(2, 'B')">다음 문제 <i class="fas fa-arrow-right"></i></button></div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="quiz-step" id="q3">
+                    <div class="quiz-header">
+                        <div class="quiz-progress">문제 3 / 5</div>
+                    </div>
+                    <div class="quiz-question">부활 아침, 주님께서 마리아에게 "나를 만지지 마십시오"라고 하신 말씀을 통해 첫 열매가 일상에서 적용해야 할 우선순위는 무엇입니까?</div>
+                    <button class="hint-btn" onclick="toggleHint(3)"><i class="fas fa-lightbulb"></i> 힌트 보기</button>
+                    <div class="hint-text" id="hint3">세상의 광고나 전자기기의 알림이 울릴 때 취해야 할 단호한 태도입니다. (요점 3)</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(3, 'A')"><div class="opt-badge">A</div>가장 신선한 첫 맛을 아버지께서 먼저 맛보시도록 세상의 더럽힘을 차단하는 것</div>
+                        <div class="quiz-option" onclick="selectOption(3, 'B')"><div class="opt-badge">B</div>영적이지 않은 모든 사람과의 물리적 접촉을 완벽히 피하는 것</div>
+                        <div class="quiz-option" onclick="selectOption(3, 'C')"><div class="opt-badge">C</div>질병에 걸리지 않도록 위생을 철저히 하는 것</div>
+                    </div>
+                    <div class="quiz-controls"><button class="btn-next" id="btn3" onclick="nextQuestion(3, 'A')">다음 문제 <i class="fas fa-arrow-right"></i></button></div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="quiz-step" id="q4">
+                    <div class="quiz-header">
+                        <div class="quiz-progress">문제 4 / 5</div>
+                    </div>
+                    <div class="quiz-question">이기는 이들의 이마에 기록된 어린양과 아버지의 이름은 혼의 어느 부분을 통제하고 보호해야 함을 상징합니까?</div>
+                    <button class="hint-btn" onclick="toggleHint(4)"><i class="fas fa-lightbulb"></i> 힌트 보기</button>
+                    <div class="hint-text" id="hint4">인터넷 방송 등 세상 관념이 들어오지 않도록 영적 필터로 걸러내야 하는 부분입니다. (요점 3)</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(4, 'A')"><div class="opt-badge">A</div>육신의 욕구</div>
+                        <div class="quiz-option" onclick="selectOption(4, 'B')"><div class="opt-badge">B</div>혼의 주도적인 부분인 '생각'</div>
+                        <div class="quiz-option" onclick="selectOption(4, 'C')"><div class="opt-badge">C</div>다른 사람을 동정하는 '감정'</div>
+                    </div>
+                    <div class="quiz-controls"><button class="btn-next" id="btn4" onclick="nextQuestion(4, 'B')">다음 문제 <i class="fas fa-arrow-right"></i></button></div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="quiz-step" id="q5">
+                    <div class="quiz-header">
+                        <div class="quiz-progress">문제 5 / 5</div>
+                    </div>
+                    <div class="quiz-question">대환난 전에 휴거되는 첫 열매와 끝에 휴거되는 대다수 수확물 사이의 가장 결정적인 차이는 무엇입니까?</div>
+                    <button class="hint-btn" onclick="toggleHint(5)"><i class="fas fa-lightbulb"></i> 힌트 보기</button>
+                    <div class="hint-text" id="hint5">씨가 뿌려진 후, 훈련받은 감각 기능을 사용하여 빛 비춤에 협력한 결과입니다. (요점 4)</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(5, 'A')"><div class="opt-badge">A</div>누가 더 많은 헌금을 했는가의 차이</div>
+                        <div class="quiz-option" onclick="selectOption(5, 'B')"><div class="opt-badge">B</div>신성한 생명을 소유했는지 여부의 차이</div>
+                        <div class="quiz-option" onclick="selectOption(5, 'C')"><div class="opt-badge">C</div>'언제 성숙하여 일찍 익었는가' 하는 시간의 차이</div>
+                    </div>
+                    <div class="quiz-controls"><button class="btn-next" id="btn5" onclick="showResult(5, 'C')">결과 확인 <i class="fas fa-check"></i></button></div>
+                </div>
+
+                <!-- Result -->
+                <div class="quiz-step" id="q-result">
+                    <div class="quiz-result-container">
+                        <div class="score-circle" id="final-score">0/5</div>
+                        <div class="feedback-text" id="feedback-msg">평가 중...</div>
+                        <p style="color: var(--text-light); max-width: 500px; margin: 0 auto;">모든 과정이 하나님의 가장 신선한 만족을 위한 첫 열매로 일찍 익어가는 자양분이 되기를 바랍니다.</p>
+                        <button class="btn-restart" onclick="restartQuiz()"><i class="fas fa-redo"></i> 퀴즈 다시 풀기</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 6. Prayer -->
+        <section id="section-prayer">
+            <h2 class="section-title"> 오늘의 기도</h2>
+            <div class="prayer-card">
+                <i class="fas fa-dove prayer-icon"></i>
+                <div class="prayer-text">
+                    <p>"주 예수님, 이기는 첫 열매들이 따르는 어린양이신 당신을 사랑합니다.</p>
+                    <p>저의 생각이 부패하여 당신을 향한 단순성과 순수성을 잃지 않도록 지켜 주십시오. 오늘 저의 일상생활 가운데 당신의 눈언저리를 바라보며, 불타는 일곱 눈의 빛 비춤과 임재 안에서 살게 하소서.</p>
+                    <p>세상의 더럽히는 많은 것들을 향해 단호히 '나를 만지지 마라, 나의 아버지께서 먼저이시다'라고 선포하기를 원합니다. 저의 존재 안으로 들어오는 것들을 영적 필터로 걸러내어, 저의 이마(생각)에 오직 어린양과 아버지의 이름만이 새겨지게 하소서.</p>
+                    <p>단단해진 마음을 처리함으로 첫 열매를 필요하시는 당신의 갈망에 협력해 드립니다. 수확 전 하늘의 시온산으로 이끌려가 당신의 가장 신선한 만족과 누림이 되는 삶을 오늘 살기 원합니다. 아멘."</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // --- Title Drag/Scroll Logic ---
+        const titleContainer = document.getElementById('title-container');
+        let isDown = false; let startX; let scrollLeft;
+
+        titleContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - titleContainer.offsetLeft;
+            scrollLeft = titleContainer.scrollLeft;
+        });
+        titleContainer.addEventListener('mouseleave', () => { isDown = false; });
+        titleContainer.addEventListener('mouseup', () => { isDown = false; });
+        titleContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - titleContainer.offsetLeft;
+            const walk = (x - startX) * 2; // scroll-fast
+            titleContainer.scrollLeft = scrollLeft - walk;
+        });
+
+        // Touch events for mobile dragging
+        titleContainer.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX - titleContainer.offsetLeft;
+            scrollLeft = titleContainer.scrollLeft;
+        }, {passive: true});
+        titleContainer.addEventListener('touchend', () => { isDown = false; });
+        titleContainer.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            const x = e.touches[0].pageX - titleContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            titleContainer.scrollLeft = scrollLeft - walk;
+        }, {passive: true});
+
+        // --- Font Size Logic ---
+        let currentRem = 16;
+        const htmlRoot = document.documentElement;
+        
+        function changeFontSize(delta) {
+            if (delta === 0) { currentRem = 16; } 
+            else { currentRem += delta * 2; }
+            
+            // Limit bounds
+            if (currentRem < 12) currentRem = 12;
+            if (currentRem > 24) currentRem = 24;
+            
+            htmlRoot.style.setProperty('--fs-base', currentRem + 'px');
+        }
+
+        // --- Menu Logic ---
+        function toggleMenu() {
+            const menu = document.getElementById('left-menu');
+            const overlay = document.getElementById('menu-overlay');
+            menu.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+
+        // --- Keyword Logic ---
+        function showKeyword(id, btnElement) {
+            document.querySelectorAll('.keyword-pill').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            document.querySelectorAll('.keyword-desc-box').forEach(box => {
+                box.classList.remove('active');
+            });
+            document.getElementById('kw-' + id).classList.add('active');
+        }
+
+        // --- Accordion Logic ---
+        function toggleAccordion(btn) {
+            const item = btn.parentElement;
+            const content = btn.nextElementSibling;
+            
+            item.classList.toggle('active');
+            
+            if (item.classList.contains('active')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = "0px";
+            }
+        }
+
+        function openAccordionAndScroll(id) {
+            toggleMenu(); // close side menu
+            const item = document.getElementById(id);
+            if (!item.classList.contains('active')) {
+                const btn = item.querySelector('.accordion-header');
+                toggleAccordion(btn);
+            }
+        }
+
+        // Open first accordion by default
+        window.onload = function() {
+            const firstAccBtn = document.querySelector('#pt1 .accordion-header');
+            if(firstAccBtn) toggleAccordion(firstAccBtn);
+        };
+
+        // --- Quiz Logic ---
+        let currentScore = 0;
+        let selectedAnswer = '';
+
+        function selectOption(qNum, answer) {
+            selectedAnswer = answer;
+            const options = document.querySelectorAll(`#q${qNum} .quiz-option`);
+            options.forEach(opt => opt.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            document.getElementById(`btn${qNum}`).classList.add('visible');
+        }
+
+        function toggleHint(qNum) {
+            const hint = document.getElementById(`hint${qNum}`);
+            hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function nextQuestion(qNum, correctAnswer) {
+            if(selectedAnswer === correctAnswer) currentScore++;
+            document.getElementById(`q${qNum}`).classList.remove('active');
+            document.getElementById(`q${qNum+1}`).classList.add('active');
+            selectedAnswer = ''; // reset
+        }
+
+        function showResult(qNum, correctAnswer) {
+            if(selectedAnswer === correctAnswer) currentScore++;
+            document.getElementById(`q${qNum}`).classList.remove('active');
+            document.getElementById('q-result').classList.add('active');
+            
+            document.getElementById('final-score').innerText = `${currentScore}/5`;
+            
+            let feedback = "";
+            if(currentScore === 5) feedback = "완벽합니다! 일찍 익은 첫 열매의 진리를 명확히 파악하셨습니다.";
+            else if(currentScore >= 3) feedback = "훌륭합니다! 주님의 임재와 성숙의 길을 잘 이해하셨습니다.";
+            else feedback = "다시 한번 핵심 요점을 묵상하며 진리의 레이어를 벗겨보시길 추천합니다.";
+            
+            document.getElementById('feedback-msg').innerText = feedback;
+        }
+
+        function restartQuiz() {
+            currentScore = 0;
+            selectedAnswer = '';
+            document.getElementById('q-result').classList.remove('active');
+            document.getElementById('q1').classList.add('active');
+            
+            // Reset UI
+            document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelectorAll('.btn-next').forEach(btn => btn.classList.remove('visible'));
+            document.querySelectorAll('.hint-text').forEach(hint => hint.style.display = 'none');
+        }
+    </script>
+
+</body>
+</html>
