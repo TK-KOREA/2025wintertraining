@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>하나님의 만족을 위한 첫 열매들</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --tb-h:38px;
+  --panel-w:282px;
+  /* Light theme palette */
+  --bg:#FFFFFF;
+  --bg2:#F7F8FA;
+  --bg3:#EEF0F4;
+  --border:#DDE1E8;
+  --border-light:#EAECF0;
+  --text:#0D0F14;
+  --text-mid:#1A1D24;
+  --text-soft:#2C3040;
+  --text-muted:#3A4050;
+  /* Accent colors */
+  --gold:#B07D00;
+  --gold-bg:#FFF8E1;
+  --gold-border:#F0C940;
+  --orange:#C2530A;
+  --orange-bg:#FFF3E0;
+  --orange-border:#F5A623;
+  --green:#1A6B3A;
+  --green-bg:#E8F5ED;
+  --green-border:#4CAF72;
+  /* Highlight colors */
+  --hl-yellow:#FFF176;
+  --hl-orange:#FFD580;
+  --hl-green:#B9F0CB;
+  /* Semantic section colors */
+  --p1-accent:#C2530A; --p1-bg:#FFF3E0; --p1-border:#F5A623;
+  --p2-accent:#B07D00; --p2-bg:#FFF8E1; --p2-border:#F0C940;
+  --p3-accent:#1A6B3A; --p3-bg:#E8F5ED; --p3-border:#4CAF72;
+  --p4-accent:#A0245A; --p4-bg:#FDF0F5; --p4-border:#E87CAE;
+  --p5-accent:#C2530A; --p5-bg:#FFF3E0; --p5-border:#F5A623;
+  --p6-accent:#1565A0; --p6-bg:#E8F1FB; --p6-border:#5B9BD5;
+  --p7-accent:#5B3A9B; --p7-bg:#F3F0FB; --p7-border:#9B7ED6;
+}
+
+/* ══ TOP BAR ══ */
+#topBar{
+  position:fixed;top:0;left:0;right:0;
+  height:var(--tb-h);background:#fff;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  z-index:1000;box-shadow:0 1px 4px rgba(0,0,0,0.07);
+  padding:0;overflow:hidden;
+}
+.tb-left{display:flex;align-items:center;flex-shrink:0;}
+.tb-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:var(--tb-h);height:var(--tb-h);
+  border:none;background:none;cursor:pointer;
+  color:#555;transition:background .15s;flex-shrink:0;
+}
+.tb-btn:hover{background:#f4f4f4;}
+.tb-btn svg{width:15px;height:15px;}
+.tb-sep{width:1px;height:18px;background:var(--border);flex-shrink:0;}
+.tb-title-scroll{
+  flex:1;overflow-x:auto;white-space:nowrap;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  padding:0 6px;min-width:0;cursor:grab;user-select:none;
+}
+.tb-title-scroll::-webkit-scrollbar{display:none;}
+.tb-title-scroll:active{cursor:grabbing;}
+.tb-title-text{
+  font-size:12px;font-weight:700;color:#222;
+  font-family:'Noto Sans KR',sans-serif;
+  white-space:nowrap;line-height:var(--tb-h);display:inline-block;
+}
+.tb-right{display:flex;align-items:center;flex-shrink:0;}
+.font-grp{
+  display:flex;align-items:center;
+  border-left:1px solid var(--border);height:var(--tb-h);flex-shrink:0;
+}
+.fc-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:30px;height:var(--tb-h);
+  border:none;background:none;cursor:pointer;
+  font-size:12px;color:#444;font-family:'Noto Sans KR',sans-serif;
+  font-weight:600;transition:background .15s;flex-shrink:0;
+  padding:0;line-height:1;
+}
+.fc-btn:hover{background:#f4f4f4;}
+.fc-btn.reset-btn{font-size:13px;width:26px;}
+.fc-sep{width:1px;height:14px;background:#e0e0e0;}
+
+/* ══ OVERLAY ══ */
+#panelOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:900;}
+#panelOverlay.on{display:block;}
+
+/* ══ LEFT PANEL ══ */
+#leftPanel{
+  position:fixed;top:0;left:0;bottom:0;
+  width:var(--panel-w);background:#fff;
+  border-right:1px solid var(--border);
+  z-index:950;transform:translateX(-100%);
+  transition:transform .35s cubic-bezier(.23,1,.32,1);
+  overflow-y:auto;overflow-x:hidden;
+  display:flex;flex-direction:column;
+}
+#leftPanel.open{transform:translateX(0);}
+.panel-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:2;
+}
+.panel-head-title{font-size:13px;font-weight:700;color:#222;font-family:'Noto Sans KR',sans-serif;}
+.panel-x{
+  width:26px;height:26px;border:none;
+  background:var(--bg3);border-radius:5px;cursor:pointer;color:#555;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.nav-grp-lbl{
+  padding:8px 14px 3px;font-size:10px;
+  letter-spacing:.15em;color:var(--text-muted);
+  text-transform:uppercase;font-family:'Noto Sans KR',sans-serif;
+}
+.nav-link{
+  display:flex;align-items:center;gap:9px;
+  padding:9px 14px;font-size:13px;
+  color:var(--text);cursor:pointer;
+  transition:background .15s,color .15s;
+  font-family:'Noto Sans KR',sans-serif;
+  border:none;background:none;width:100%;text-align:left;text-decoration:none;
+}
+.nav-link:hover{background:var(--bg2);color:var(--text);}
+.nav-link.sub{padding:7px 14px 7px 36px;font-size:12px;color:var(--text);}
+.nav-link.sub:hover{color:var(--text);}
+.nav-icon{width:16px;text-align:center;flex-shrink:0;font-size:13px;}
+.nav-div{height:1px;background:var(--border-light);margin:3px 0;}
+.kw-item{border-bottom:1px solid var(--border-light);}
+.kw-toggle{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 14px;cursor:pointer;font-size:12.5px;
+  color:var(--text);font-family:'Noto Sans KR',sans-serif;
+  transition:background .15s;width:100%;background:none;border:none;text-align:left;gap:8px;
+}
+.kw-toggle:hover{background:var(--bg2);}
+.kw-label{display:flex;align-items:center;gap:7px;}
+.kw-badge{
+  font-size:9.5px;padding:1px 6px;border-radius:9px;
+  background:var(--gold-bg);color:var(--gold);
+  border:1px solid var(--gold-border);flex-shrink:0;
+}
+.kw-chevron{font-size:10px;opacity:.5;transition:transform .25s;flex-shrink:0;}
+.kw-item.open .kw-chevron{transform:rotate(90deg);}
+.kw-def{
+  max-height:0;overflow:hidden;transition:max-height .3s;
+  font-size:11.5px;color:var(--text-mid);line-height:1.75;
+  font-family:'Noto Sans KR',sans-serif;background:var(--bg2);
+}
+.kw-def.open{max-height:200px;padding:8px 14px 10px 22px;}
+
+/* ══ CONTENT WRAP ══ */
+#contentWrap{
+  font-size:15px;margin-top:var(--tb-h);
+  background:var(--bg);min-height:100vh;
+  color:var(--text);font-family:'Noto Sans KR',sans-serif;
+}
+
+/* ══ HERO ══ */
+#hero{
+  position:relative;padding:52px 18px 44px;
+  text-align:center;overflow:hidden;
+  background:linear-gradient(160deg,#F0F4FF 0%,#FAFBFF 50%,#F5F7FF 100%);
+  border-bottom:1px solid var(--border);
+}
+.hero-glow{
+  position:absolute;top:-40px;left:50%;transform:translateX(-50%);
+  width:520px;height:280px;
+  background:radial-gradient(ellipse,rgba(176,125,0,0.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-tag{
+  display:inline-block;border:1px solid var(--gold-border);
+  color:var(--gold);font-size:0.7em;letter-spacing:.2em;
+  padding:3px 13px;border-radius:20px;margin-bottom:16px;
+  text-transform:uppercase;font-weight:600;background:var(--gold-bg);
+}
+.hero-title{
+  font-family:'Noto Sans KR',sans-serif;font-size:2.2em;
+  font-weight:700;color:#1A1D23;line-height:1.2;margin-bottom:5px;
+}
+.hero-sub{
+  font-family:'Cormorant Garamond',serif;font-size:1.1em;
+  color:var(--text-mid);font-style:italic;margin-bottom:22px;
+}
+.hero-verses{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:8px;}
+.hero-vcard{
+  background:#fff;border:1px solid var(--border);
+  border-left:3px solid var(--gold-border);border-radius:8px;padding:12px 16px;text-align:left;
+}
+.hero-vtext{font-family:'Noto Sans KR',sans-serif;font-size:0.87em;color:var(--text-mid);line-height:1.9;}
+.hero-vtext strong{font-weight:700;background:var(--hl-yellow);color:#1A1D23;padding:0 2px;border-radius:2px;}
+.hero-vref{font-size:0.74em;color:var(--gold);font-weight:700;margin-top:7px;font-family:'Noto Sans KR',sans-serif;}
+
+/* ══ DASHBOARD ══ */
+#dashboard{background:var(--bg2);padding:36px 18px;border-bottom:1px solid var(--border);}
+.sec-lbl{
+  text-align:center;font-size:0.69em;letter-spacing:.2em;
+  color:var(--text-soft);text-transform:uppercase;font-weight:600;margin-bottom:5px;
+}
+.sec-title{
+  text-align:center;font-family:'Noto Sans KR',sans-serif;
+  font-size:1.3em;color:var(--text);font-weight:700;margin-bottom:24px;
+}
+.dash-inner{max-width:840px;margin:0 auto;}
+.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
+@media(max-width:560px){.dash-stats{grid-template-columns:repeat(2,1fr);}}
+.stat-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:10px;padding:14px 10px;text-align:center;
+}
+.stat-icon{font-size:1.4em;margin-bottom:5px;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:1.7em;font-weight:600;color:var(--text);line-height:1;margin-bottom:3px;}
+.stat-lbl{font-size:0.7em;color:var(--text-mid);line-height:1.45;}
+.dash-compare{display:grid;grid-template-columns:1fr 28px 1fr;gap:10px;align-items:center;margin-bottom:20px;}
+@media(max-width:500px){.dash-compare{grid-template-columns:1fr;gap:8px;}.cmp-vs{display:none;}}
+.cmp-col{border-radius:10px;padding:15px;border:1px solid;background:#fff;}
+.cmp-col.boy{border-color:var(--p1-border);border-top:3px solid var(--p1-accent);}
+.cmp-col.fruit{border-color:var(--p2-border);border-top:3px solid var(--p2-accent);}
+.cmp-title{font-family:'Noto Sans KR',sans-serif;font-size:0.93em;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.cmp-col.boy .cmp-title{color:var(--p1-accent);}
+.cmp-col.fruit .cmp-title{color:var(--p2-accent);}
+.cmp-row{font-size:0.82em;color:var(--text);margin-bottom:6px;line-height:1.65;display:flex;gap:7px;}
+.cmp-row::before{content:'▸';flex-shrink:0;opacity:.5;}
+.cmp-vs{display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.2em;color:var(--text-muted);font-style:italic;}
+.dash-flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px;}
+.fl-step{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:8px 10px;background:#fff;
+  border:1px solid var(--border);border-radius:8px;
+  min-width:76px;text-align:center;
+}
+.fl-step.fl-final{background:var(--gold-bg);border-color:var(--gold-border);border-width:2px;}
+.fl-icon{font-size:1.05em;}
+.fl-lbl{font-size:0.7em;color:var(--text);font-weight:600;white-space:nowrap;}
+.fl-final .fl-lbl{color:var(--gold);}
+.fl-arr{color:var(--border);font-size:0.95em;flex-shrink:0;}
+
+/* ══ KEYWORDS ══ */
+#keywords{background:#fff;padding:32px 18px;border-bottom:1px solid var(--border);}
+.kw-grid{max-width:800px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+.kw-chip{
+  padding:6px 15px;border-radius:20px;
+  border:1px solid var(--border);background:var(--bg2);
+  color:var(--text-mid);font-size:0.82em;cursor:pointer;
+  transition:all .2s;font-family:'Noto Sans KR',sans-serif;font-weight:500;
+}
+.kw-chip:hover{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-border);}
+.kw-chip.active{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-border);font-weight:700;}
+.kw-pop-wrap{max-width:680px;margin:14px auto 0;overflow:hidden;max-height:0;transition:max-height .4s cubic-bezier(.23,1,.32,1);}
+.kw-pop-wrap.open{max-height:200px;}
+.kw-pop{background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:10px;padding:14px 18px;}
+.kw-pop-title{font-family:'Noto Sans KR',sans-serif;font-size:0.95em;font-weight:700;color:var(--gold);margin-bottom:7px;}
+.kw-pop-def{font-size:0.86em;color:var(--text);line-height:1.85;font-family:'Noto Sans KR',sans-serif;}
+
+/* divider */
+.g-div{width:40px;height:2px;background:var(--border);margin:16px auto;}
+
+/* ══ POINTS ══ */
+#points-section{max-width:800px;margin:0 auto;padding:28px 16px 48px;}
+.points-intro{text-align:center;font-size:0.79em;color:var(--text-soft);margin-bottom:24px;}
+
+.pt-item{margin-bottom:12px;border-radius:10px;overflow:hidden;border:1px solid;background:#fff;transition:box-shadow .2s;}
+.pt-item:hover{box-shadow:0 3px 16px rgba(0,0,0,0.07);}
+.pt-header{display:flex;align-items:center;gap:11px;padding:14px 16px;cursor:pointer;user-select:none;background:var(--bg2);transition:background .15s;}
+.pt-header:hover{background:var(--bg3);}
+.pt-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75em;font-weight:700;flex-shrink:0;border:1.5px solid;background:#fff;}
+.pt-ico{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1em;flex-shrink:0;}
+.pt-tw{flex:1;min-width:0;}
+.pt-title{font-family:'Noto Sans KR',sans-serif;font-size:0.95em;font-weight:700;line-height:1.35;color:var(--text);}
+.pt-sub{font-size:0.73em;opacity:1;margin-top:2px;color:var(--text-mid);}
+.pt-chev{width:16px;height:16px;flex-shrink:0;transition:transform .4s cubic-bezier(.23,1,.32,1);opacity:.35;}
+.pt-item.open .pt-chev{transform:rotate(180deg);}
+.pt-body{max-height:0;overflow:hidden;transition:max-height .65s cubic-bezier(.23,1,.32,1);}
+.pt-item.open .pt-body{max-height:4000px;}
+.pt-inner{padding:0 16px 22px;border-top:1px solid var(--border-light);}
+
+/* Bible block */
+.bible-wrap{margin-top:16px;display:flex;flex-direction:column;gap:6px;}
+.bible-card{background:var(--bg2);border-radius:7px;padding:11px 14px;border:1px solid var(--border-light);}
+.bible-ref{display:flex;align-items:center;gap:5px;margin-bottom:6px;}
+.bible-ref-txt{font-size:0.72em;color:var(--gold);font-weight:700;letter-spacing:.04em;font-family:'Noto Sans KR',sans-serif;}
+.bv{font-family:'Noto Sans KR',sans-serif;font-size:0.86em;color:var(--text);line-height:1.95;font-weight:400;}
+.bv+.bv{margin-top:6px;padding-top:6px;border-top:1px solid var(--border-light);}
+.bv strong{font-weight:700;color:var(--text);padding:0 2px;border-radius:2px;}
+/* highlight variants on bible strong */
+.hl-y strong,.bv.hl-y strong{background:var(--hl-yellow);}
+.hl-o strong,.bv.hl-o strong{background:var(--hl-orange);}
+.hl-g strong,.bv.hl-g strong{background:var(--hl-green);}
+
+/* section labels */
+.s-lbl{
+  font-size:0.69em;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;margin-bottom:5px;margin-top:16px;
+  display:flex;align-items:center;gap:6px;
+  color:var(--text-mid);font-family:'Noto Sans KR',sans-serif;
+}
+.s-lbl::before{content:'';display:inline-block;width:12px;height:2px;border-radius:1px;flex-shrink:0;background:var(--border);}
+
+.ct{font-size:0.88em;line-height:1.92;color:var(--text);}
+.ct strong{font-weight:700;color:var(--text);padding:0 1px;}
+/* Apply highlight to strong inside ct selectively */
+.hl-block strong{background:var(--hl-yellow);border-radius:2px;padding:0 2px;}
+.hl-block-o strong{background:var(--hl-orange);border-radius:2px;padding:0 2px;}
+.hl-block-g strong{background:var(--hl-green);border-radius:2px;padding:0 2px;}
+.ct p{margin-bottom:8px;}
+.ct p:last-child{margin-bottom:0;}
+
+/* quote box */
+.q-box{
+  border-radius:8px;padding:13px 16px 13px 20px;
+  margin-top:8px;position:relative;
+  font-family:'Noto Sans KR',sans-serif;font-size:0.87em;
+  line-height:2;color:var(--text);font-style:italic;
+  background:var(--bg2);border:1px solid var(--border);
+  border-left:3px solid var(--border);
+}
+.q-box::before{
+  content:'"';position:absolute;top:-2px;left:8px;
+  font-family:'Cormorant Garamond',serif;font-size:2.8em;
+  opacity:.12;line-height:1;color:var(--text);
+}
+.q-box strong{font-weight:700;font-style:normal;color:var(--text);}
+
+/* callout */
+.clt{
+  border-radius:7px;padding:11px 14px;margin-top:10px;
+  display:flex;gap:9px;align-items:flex-start;
+  font-size:0.86em;line-height:1.82;
+  background:var(--bg2);border:1px solid var(--border);color:var(--text-mid);
+}
+.clt strong{font-weight:700;color:var(--text);}
+
+/* connector */
+.pt-conn{display:flex;align-items:center;justify-content:center;height:32px;position:relative;}
+.pt-conn::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%);background:var(--border);}
+.conn-d{width:5px;height:5px;border-radius:50%;background:var(--border);position:relative;z-index:1;}
+.conn-bridge{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  height:26px;position:relative;z-index:1;
+  background:#fff;padding:0 12px;border-radius:20px;
+  border:1px solid var(--border);
+}
+.conn-arrow{font-size:0.72em;color:var(--text-muted);}
+.conn-txt{font-size:0.69em;color:var(--text);font-family:'Noto Sans KR',sans-serif;white-space:nowrap;}
+
+/* contrast table */
+.contrast-tbl{width:100%;border-collapse:collapse;margin-top:10px;font-size:0.84em;}
+.contrast-tbl th{padding:8px 12px;font-family:'Noto Sans KR',sans-serif;font-size:0.9em;font-weight:700;text-align:center;background:var(--bg2);border-bottom:2px solid var(--border);}
+.contrast-tbl td{padding:8px 12px;color:var(--text);line-height:1.65;border-top:1px solid var(--border-light);vertical-align:top;}
+.contrast-tbl .td-key{font-weight:600;color:var(--text-mid);font-size:0.82em;white-space:nowrap;border-right:1px solid var(--border-light);width:72px;}
+.ct-boy{color:var(--p1-accent);}
+.ct-fruit{color:var(--p2-accent);}
+.contrast-tbl strong{font-weight:700;color:var(--text);}
+
+/* keyword pill */
+.kw-pill{
+  display:inline-block;padding:1px 8px;border-radius:10px;
+  font-size:0.78em;font-weight:700;margin-right:5px;
+  vertical-align:middle;font-family:'Noto Sans KR',sans-serif;
+  border:1px solid;
+}
+.kp1{background:var(--p1-bg);color:var(--p1-accent);border-color:var(--p1-border);}
+.kp2{background:var(--p2-bg);color:var(--p2-accent);border-color:var(--p2-border);}
+.kp3{background:var(--p3-bg);color:var(--p3-accent);border-color:var(--p3-border);}
+.kp4{background:var(--p4-bg);color:var(--p4-accent);border-color:var(--p4-border);}
+.kp5{background:var(--p5-bg);color:var(--p5-accent);border-color:var(--p5-border);}
+.kp6{background:var(--p6-bg);color:var(--p6-accent);border-color:var(--p6-border);}
+.kp7{background:var(--p7-bg);color:var(--p7-accent);border-color:var(--p7-border);}
+
+/* ── POINT BORDER COLORS ── */
+.p1{border-color:var(--p1-border);}
+.p1 .pt-header{border-top:3px solid var(--p1-accent);}
+.p1 .pt-num{border-color:var(--p1-accent);color:var(--p1-accent);}
+.p1 .pt-ico{background:var(--p1-bg);}
+.p1 .s-lbl::before{background:var(--p1-accent);}
+.p1 .clt{border-left:3px solid var(--p1-accent);}
+
+.p2{border-color:var(--p2-border);}
+.p2 .pt-header{border-top:3px solid var(--p2-accent);}
+.p2 .pt-num{border-color:var(--p2-accent);color:var(--p2-accent);}
+.p2 .pt-ico{background:var(--p2-bg);}
+.p2 .s-lbl::before{background:var(--p2-accent);}
+.p2 .clt{border-left:3px solid var(--p2-accent);}
+
+.p3{border-color:var(--p3-border);}
+.p3 .pt-header{border-top:3px solid var(--p3-accent);}
+.p3 .pt-num{border-color:var(--p3-accent);color:var(--p3-accent);}
+.p3 .pt-ico{background:var(--p3-bg);}
+.p3 .s-lbl::before{background:var(--p3-accent);}
+.p3 .clt{border-left:3px solid var(--p3-accent);}
+
+.p4{border-color:var(--p4-border);}
+.p4 .pt-header{border-top:3px solid var(--p4-accent);}
+.p4 .pt-num{border-color:var(--p4-accent);color:var(--p4-accent);}
+.p4 .pt-ico{background:var(--p4-bg);}
+.p4 .s-lbl::before{background:var(--p4-accent);}
+.p4 .clt{border-left:3px solid var(--p4-accent);}
+
+.p5{border-color:var(--p5-border);}
+.p5 .pt-header{border-top:3px solid var(--p5-accent);}
+.p5 .pt-num{border-color:var(--p5-accent);color:var(--p5-accent);}
+.p5 .pt-ico{background:var(--p5-bg);}
+.p5 .s-lbl::before{background:var(--p5-accent);}
+.p5 .clt{border-left:3px solid var(--p5-accent);}
+
+.p6{border-color:var(--p6-border);}
+.p6 .pt-header{border-top:3px solid var(--p6-accent);}
+.p6 .pt-num{border-color:var(--p6-accent);color:var(--p6-accent);}
+.p6 .pt-ico{background:var(--p6-bg);}
+.p6 .s-lbl::before{background:var(--p6-accent);}
+.p6 .clt{border-left:3px solid var(--p6-accent);}
+
+.p7{border-color:var(--p7-border);}
+.p7 .pt-header{border-top:3px solid var(--p7-accent);}
+.p7 .pt-num{border-color:var(--p7-accent);color:var(--p7-accent);}
+.p7 .pt-ico{background:var(--p7-bg);}
+.p7 .s-lbl::before{background:var(--p7-accent);}
+.p7 .clt{border-left:3px solid var(--p7-accent);}
+
+/* love-card */
+.love-card{border-radius:9px;padding:14px 18px;margin-top:9px;background:#fff;position:relative;}
+.love-card.love-a{border:1px solid var(--p4-border);border-left:4px solid var(--p4-accent);}
+.love-card.love-b{border:1px solid var(--p2-border);border-left:4px solid var(--p2-accent);}
+.love-tag{font-size:0.73em;font-weight:700;margin-bottom:8px;letter-spacing:.05em;font-family:'Noto Sans KR',sans-serif;}
+.love-a .love-tag{color:var(--p4-accent);font-weight:700;}
+.love-b .love-tag{color:var(--p2-accent);}
+.love-text{font-family:'Noto Sans KR',sans-serif;font-size:0.89em;line-height:2;color:var(--text);font-style:italic;}
+.love-text strong{font-weight:700;font-style:normal;color:var(--text);}
+.love-a .love-text strong{background:var(--hl-orange);border-radius:2px;padding:0 2px;}
+.love-b .love-text strong{background:var(--hl-yellow);border-radius:2px;padding:0 2px;}
+.love-arr{text-align:center;font-size:1.1em;color:var(--border);margin:4px 0;line-height:1;}
+
+/* word-contrast */
+.word-contrast{display:flex;align-items:stretch;gap:0;margin:10px 0;border-radius:9px;overflow:hidden;border:1px solid var(--border);}
+.wc-col{flex:1;padding:16px 14px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.wc-left{background:#FFF5F5;}
+.wc-right{background:var(--green-bg);}
+.wc-word{font-family:'Noto Sans KR',sans-serif;font-size:1.1em;font-weight:700;line-height:1.2;}
+.wc-left .wc-word{color:#C0392B;}
+.wc-right .wc-word{color:var(--green);}
+.wc-desc{font-size:0.77em;color:var(--text);line-height:1.7;font-family:'Noto Sans KR',sans-serif;}
+.wc-vs{display:flex;align-items:center;justify-content:center;width:36px;flex-shrink:0;background:var(--bg2);font-size:1.05em;color:var(--text-muted);font-family:'Cormorant Garamond',serif;border-left:1px solid var(--border-light);border-right:1px solid var(--border-light);}
+
+/* enoch timeline */
+.enoch-timeline{margin:10px 0;padding:16px;background:var(--p6-bg);border:1px solid var(--p6-border);border-radius:9px;display:flex;flex-direction:column;gap:0;}
+.et-row{display:flex;align-items:flex-start;gap:12px;position:relative;z-index:1;}
+.et-line{width:2px;background:linear-gradient(180deg,var(--p6-border),var(--p2-border));height:16px;margin-left:9px;}
+.et-dot{width:20px;height:20px;border-radius:50%;flex-shrink:0;border:2px solid;margin-top:2px;display:flex;align-items:center;justify-content:center;}
+.et-daily{background:#fff;border-color:var(--p6-border);}
+.et-result{background:var(--gold-bg);border-color:var(--gold-border);}
+.et-content{flex:1;}
+.et-label{font-size:0.71em;font-weight:700;letter-spacing:.08em;color:var(--p6-accent);text-transform:uppercase;font-family:'Noto Sans KR',sans-serif;margin-bottom:3px;}
+.et-label-gold{color:var(--gold);}
+.et-text{font-size:0.85em;color:var(--text);line-height:1.75;font-family:'Noto Sans KR',sans-serif;}
+.et-text strong{color:var(--text);}
+.et-text-gold{color:var(--text);}
+.et-text-gold strong{background:var(--hl-yellow);border-radius:2px;padding:0 2px;color:var(--text);}
+
+/* ══ QUIZ ══ */
+#quiz{background:var(--bg2);border-top:1px solid var(--border);padding:44px 16px;}
+.quiz-wrap{max-width:700px;margin:0 auto;}
+.qcard{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden;transition:border-color .25s;}
+.qcard.qc{border-color:var(--green-border);}
+.qcard.qw{border-color:#F87171;}
+.q-head{padding:13px 16px;display:flex;gap:11px;align-items:flex-start;background:var(--bg2);border-bottom:1px solid var(--border-light);}
+.q-badge{width:28px;height:28px;border-radius:50%;flex-shrink:0;background:#fff;border:1.5px solid var(--border);color:var(--text-mid);font-size:0.82em;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans KR',sans-serif;margin-top:1px;}
+.q-text{font-family:'Noto Sans KR',sans-serif;font-size:1rem;font-weight:700;color:var(--text);line-height:1.65;flex:1;}
+.q-body{padding:12px 16px 14px;}
+.q-opts{display:flex;flex-direction:column;gap:6px;}
+.q-opt{
+  display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:8px;
+  border:1px solid var(--border);cursor:pointer;transition:all .18s;
+  font-size:1rem;color:var(--text);background:#fff;text-align:left;width:100%;
+  font-family:'Noto Sans KR',sans-serif;line-height:1.55;min-height:46px;
+}
+.q-opt:hover:not(:disabled):not(.q-sc):not(.q-sw){border-color:var(--gold-border);background:var(--gold-bg);}
+.q-opt:disabled{cursor:default;}
+.q-opt.q-sc{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.q-opt.q-sw{border-color:#FCA5A5;background:#FFF5F5;color:#B91C1C;}
+.q-opt.q-show{border-color:var(--green-border);background:var(--green-bg);color:var(--green);}
+.opt-dot{width:22px;height:22px;border-radius:50%;flex-shrink:0;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.72em;font-weight:700;transition:all .2s;color:var(--text-mid);background:#fff;}
+.q-sc .opt-dot{background:var(--green);border-color:var(--green);color:#fff;}
+.q-sw .opt-dot{background:#EF4444;border-color:#EF4444;color:#fff;}
+.q-show .opt-dot{background:var(--green);border-color:var(--green);color:#fff;}
+.q-actions{display:flex;gap:7px;margin-top:9px;}
+.hint-btn{font-size:0.8em;padding:5px 11px;border:1px solid var(--gold-border);background:var(--gold-bg);color:var(--gold);border-radius:6px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .18s;}
+.hint-btn:hover{background:#FFF0B0;}
+.hint-txt{display:none;margin-top:8px;font-size:0.83em;color:var(--text);background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:6px;padding:8px 12px;line-height:1.72;font-family:'Noto Sans KR',sans-serif;}
+.hint-txt.on{display:block;}
+.q-fb{display:none;margin-top:8px;font-size:0.86em;padding:9px 13px;border-radius:7px;line-height:1.68;font-family:'Noto Sans KR',sans-serif;}
+.q-fb.on{display:block;}
+.q-fb.c{background:var(--green-bg);color:var(--green);border-left:3px solid var(--green-border);}
+.q-fb.w{background:#FFF5F5;color:#B91C1C;border-left:3px solid #FCA5A5;}
+.quiz-sub-btn{display:block;margin:22px auto 0;padding:11px 40px;background:#fff;border:1.5px solid var(--border);color:var(--text-mid);font-family:'Noto Sans KR',sans-serif;font-size:0.92em;font-weight:700;border-radius:8px;cursor:pointer;transition:all .25s;letter-spacing:.04em;}
+.quiz-sub-btn:hover{border-color:var(--gold-border);background:var(--gold-bg);color:var(--gold);}
+.quiz-res{display:none;text-align:center;padding:28px 22px;background:#fff;border:1px solid var(--border);border-radius:10px;margin-top:18px;}
+.quiz-res.on{display:block;}
+.res-score{font-family:'Cormorant Garamond',serif;font-size:3.2em;font-weight:600;color:var(--text);line-height:1;}
+.res-sub{font-size:0.78em;color:var(--text-soft);margin-top:3px;font-family:'Noto Sans KR',sans-serif;letter-spacing:.1em;}
+.res-msg{font-family:'Noto Sans KR',sans-serif;font-size:0.9em;color:var(--text);line-height:1.85;max-width:460px;margin:14px auto 0;}
+
+/* ══ PRAYER ══ */
+#prayer{background:var(--bg2);border-top:1px solid var(--border);padding:52px 16px 60px;text-align:center;}
+.prayer-wrap{max-width:580px;margin:0 auto;}
+.prayer-head{font-family:'Noto Sans KR',sans-serif;font-size:1.2em;color:var(--text);font-weight:700;margin-bottom:22px;display:flex;align-items:center;justify-content:center;gap:9px;}
+.prayer-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:26px 28px;position:relative;}
+.prayer-card::before{content:'"';position:absolute;top:-2px;left:12px;font-family:'Cormorant Garamond',serif;font-size:5em;color:var(--text);opacity:.06;line-height:1;}
+.prayer-txt{font-family:'Noto Sans KR',sans-serif;font-size:0.9em;line-height:2.2;color:var(--text);text-align:left;}
+.prayer-txt p{margin-bottom:13px;padding-bottom:13px;border-bottom:1px solid var(--border-light);}
+.prayer-txt p:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.prayer-src{font-size:0.72em;color:var(--text-soft);margin-top:14px;font-family:'Noto Sans KR',sans-serif;}
+
+footer{text-align:center;padding:18px;font-size:0.72em;color:var(--text-soft);border-top:1px solid var(--border);font-family:'Noto Sans KR',sans-serif;}
+
+@media(max-width:480px){
+  .pt-header{padding:12px 13px;}
+  .pt-inner{padding:0 13px 18px;}
+  .bible-card{padding:9px 11px;}
+  .prayer-card{padding:20px 18px;}
+  .fl-step{min-width:62px;padding:6px 7px;}
+  .word-contrast{flex-direction:column;}
+  .wc-vs{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ TOP BAR ══ -->
+<div id="topBar">
+  <div class="tb-left">
+    <button class="tb-btn" onclick="togglePanel()" title="메뉴">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <div class="tb-sep"></div>
+    <a href="https://tk-korea.github.io/2025wintertraining/" target="_blank" class="tb-btn" title="홈페이지">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+    </a>
+    <div class="tb-sep"></div>
+  </div>
+  <div class="tb-title-scroll" id="tbTitleScroll">
+    <span class="tb-title-text">하나님의 만족을 위한 첫 열매들</span>
+  </div>
+  <div class="tb-right">
+    <div class="font-grp">
+      <button class="fc-btn" onclick="adjFont(-1)" title="글자 작게">－</button>
+      <div class="fc-sep"></div>
+      <button class="fc-btn reset-btn" onclick="adjFont(0)" title="초기화">가</button>
+      <div class="fc-sep"></div>
+      <button class="fc-btn" onclick="adjFont(1)" title="글자 크게">＋</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PANEL OVERLAY ══ -->
+<div id="panelOverlay" onclick="closePanel()"></div>
+
+<!-- ══ LEFT PANEL ══ -->
+<div id="leftPanel">
+  <div class="panel-head">
+    <span class="panel-head-title">📚 목차</span>
+    <button class="panel-x" onclick="closePanel()">
+      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="13" y2="13"/><line x1="13" y1="1" x2="1" y2="13"/></svg>
+    </button>
+  </div>
+
+  <div style="padding-top:4px;">
+    <button class="nav-link" onclick="navTo('hero')"><span class="nav-icon">🌾</span>제목 / 도입부</button>
+    <button class="nav-link" onclick="navTo('dashboard')"><span class="nav-icon">📊</span>대시보드</button>
+    <div class="nav-div"></div>
+
+    <div class="nav-grp-lbl">키워드</div>
+    <div id="kwNavList">
+      <!-- filled by JS -->
+    </div>
+    <div class="nav-div"></div>
+
+    <div class="nav-grp-lbl">핵심 요점</div>
+    <button class="nav-link" onclick="navTo('points-section');closePanel()"><span class="nav-icon">📖</span>전체 보기</button>
+    <button class="nav-link sub" onclick="openAndNav('pt1')">1. 필요 — 사내아이 vs. 첫 열매들</button>
+    <button class="nav-link sub" onclick="openAndNav('pt2')">2. 갈망 — 시장하시고 목마르신 하나님</button>
+    <button class="nav-link sub" onclick="openAndNav('pt3')">3. 성숙 — 그리스도로 점유되고 점령됨</button>
+    <button class="nav-link sub" onclick="openAndNav('pt4')">4. 사랑 — 살아있는 이기는 이의 비결</button>
+    <button class="nav-link sub" onclick="openAndNav('pt5')">5. 일찍 — 더 일찍 익는 자의 태도</button>
+    <button class="nav-link sub" onclick="openAndNav('pt6')">6. 동행 — 에녹처럼, 휴거는 일상이다</button>
+    <button class="nav-link sub" onclick="openAndNav('pt7')">7. 협력 — 심각하게 받아들이고 기도하라</button>
+    <div class="nav-div"></div>
+
+    <button class="nav-link" onclick="navTo('quiz')"><span class="nav-icon">✏️</span>퀴즈</button>
+    <button class="nav-link" onclick="navTo('prayer')"><span class="nav-icon">🙏</span>오늘의 기도</button>
+  </div>
+</div>
+
+<!-- ══ CONTENT WRAP ══ -->
+<div id="contentWrap">
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-tag">요한계시록 14장</div>
+  <h1 class="hero-title" style="font-family:'Noto Sans KR',sans-serif;">첫 열매들</h1>
+  <p class="hero-sub">하나님의 만족을 위하여 성숙에 이르도록 전진하라</p>
+  <div class="hero-verses">
+    <div class="hero-vcard">
+      <div class="hero-vtext">그러므로 우리는 그리스도에 관한 초보적인 말씀에 머물지 말고, <strong style="background:var(--hl-yellow);border-radius:2px;padding:0 3px;">성숙에 이르도록 전진합시다.</strong></div>
+      <div class="hero-vref">히브리서 6:1</div>
+    </div>
+    <div class="hero-vcard">
+      <div class="hero-vtext">우리 모두가 … <strong style="background:var(--hl-orange);border-radius:2px;padding:0 3px;">충분히 성장한 사람에 이르게 하며, 그리스도의 충만의 신장의 분량에 이르게 하려는 것입니다.</strong></div>
+      <div class="hero-vref">에베소서 4:13</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DASHBOARD ══ -->
+<section id="dashboard">
+  <div class="sec-lbl">전체 흐름 요약</div>
+  <h2 class="sec-title">핵심 대시보드</h2>
+  <div class="dash-inner">
+
+    <div class="dash-stats">
+      <div class="stat-card">
+        <div class="stat-icon">🌾</div>
+        <div class="stat-val">144,000</div>
+        <div class="stat-lbl">시온산의<br>첫 열매들</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📖</div>
+        <div class="stat-val">계 14</div>
+        <div class="stat-lbl">첫 열매들의<br>핵심 본문</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🚶</div>
+        <div class="stat-val">300년</div>
+        <div class="stat-lbl">에녹이<br>하나님과 동행</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-val">성숙</div>
+        <div class="stat-lbl">첫 열매가 되기<br>위한 조건</div>
+      </div>
+    </div>
+
+    <div class="dash-compare">
+      <div class="cmp-col boy">
+        <div class="cmp-title">⚔️ 사내아이 (계 12장)</div>
+        <div class="cmp-row">하나님의 <strong>목적</strong>을 이루어 드림</div>
+        <div class="cmp-row">원수를 패배시켜 땅으로 내던짐</div>
+        <div class="cmp-row">쇠막대기로 민족을 다스림</div>
+        <div class="cmp-row">하나님의 보좌로 이끌려 올라감</div>
+      </div>
+      <div class="cmp-vs">vs</div>
+      <div class="cmp-col fruit">
+        <div class="cmp-title">🌾 첫 열매들 (계 14장)</div>
+        <div class="cmp-row">하나님의 <strong>만족</strong>을 채워드림</div>
+        <div class="cmp-row">시장하고 목마르신 하나님의 갈망</div>
+        <div class="cmp-row">어린양을 따르는 순결한 성도들</div>
+        <div class="cmp-row">시온산에서 새 노래를 부름</div>
+      </div>
+    </div>
+
+    <div class="g-div"></div>
+
+    <div class="sec-lbl" style="margin-bottom:10px">성숙의 여정</div>
+    <div class="dash-flow">
+      <div class="fl-step"><div class="fl-icon">🌱</div><div class="fl-lbl">그리스도<br>받아들임</div></div>
+      <div class="fl-arr">→</div>
+      <div class="fl-step"><div class="fl-icon">☀️</div><div class="fl-lbl">그리스도<br>누리고 체험</div></div>
+      <div class="fl-arr">→</div>
+      <div class="fl-step"><div class="fl-icon">❤️</div><div class="fl-lbl">주님과<br>사랑의 교통</div></div>
+      <div class="fl-arr">→</div>
+      <div class="fl-step"><div class="fl-icon">🌾</div><div class="fl-lbl">그리스도로<br>온전히 점유</div></div>
+      <div class="fl-arr">→</div>
+      <div class="fl-step fl-final">
+        <div class="fl-icon">✨</div><div class="fl-lbl" style="color:var(--gold-l)">첫 열매<br>= 하나님의 만족</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ KEYWORDS ══ -->
+<section id="keywords">
+  <div class="sec-lbl">핵심 키워드</div>
+  <h2 class="sec-title" style="margin-bottom:16px">클릭하면 정의를 볼 수 있습니다</h2>
+  <div class="kw-grid" id="kwMain"></div>
+  <div class="kw-pop-wrap" id="kwPopWrap">
+    <div class="kw-pop">
+      <div class="kw-pop-title" id="kwPopTitle"></div>
+      <div class="kw-pop-def" id="kwPopDef"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ POINTS ══ -->
+<div id="points-section">
+  <div style="max-width:800px;margin:0 auto;padding:28px 16px 0;">
+    <div class="sec-lbl">핵심 요점</div>
+    <h2 class="sec-title">7가지 핵심 메시지</h2>
+    <p class="points-intro">메시지를 관통하는 핵심 단어 중심 구성 · 제목을 클릭하면 펼쳐집니다 · 각 요점은 다음으로 논리적으로 이어집니다</p>
+  </div>
+
+  <div style="max-width:800px;margin:0 auto;padding:0 16px 48px;">
+
+    <!-- P1: 필요 -->
+    <div class="pt-item p1" id="pt1">
+      <div class="pt-header" onclick="togglePt('pt1')">
+        <div class="pt-num">1</div>
+        <div class="pt-ico">⚖️</div>
+        <div class="pt-tw">
+          <div class="pt-title"><span class="kw-pill kp1">필요</span> 하나님께는 두 가지 필요가 있으시다</div>
+          <div class="pt-sub" style="color:#A05A00">사내아이(계 12장), 첫 열매들(계 14장)</div>
+        </div>
+        <svg class="pt-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="pt-body"><div class="pt-inner">
+        <div class="bible-wrap">
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">요한계시록 12:5 — 사내아이</span></div>
+            <div class="bv">그 여자가 아들, 곧 <strong>쇠막대기로 모든 민족을 다스릴 사내아이를 낳았으며,</strong> 그 아이는 <strong>하나님과 하나님의 보좌로 이끌려 올라갔습니다.</strong></div>
+          </div>
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">요한계시록 14:4 — 첫 열매들</span></div>
+            <div class="bv">그들은 어린양께서 어디로 가시든지 <strong>그분을 따라가는 사람들이며, 하나님과 어린양께 첫 열매로 드려지도록</strong> 사람들 가운데서 사 온 이들입니다.</div>
+          </div>
+        </div>
+        <div class="s-lbl">핵심 분석 — 두 그룹은 무엇이 다른가</div>
+        <table class="contrast-tbl">
+          <tr>
+            <th></th>
+            <th class="ct-boy">⚔️ 사내아이 (계 12장)</th>
+            <th class="ct-fruit">🌾 첫 열매들 (계 14장)</th>
+          </tr>
+          <tr>
+            <td class="td-key">목적</td>
+            <td>하나님의 <strong>목적</strong>을 이루어 드림</td>
+            <td>하나님의 <strong>만족</strong>을 채워드림</td>
+          </tr>
+          <tr>
+            <td class="td-key">역할</td>
+            <td>원수를 패배시켜 땅으로 내던짐</td>
+            <td>하나님과 어린양의 누림이 됨</td>
+          </tr>
+          <tr>
+            <td class="td-key">성격</td>
+            <td>쇠막대기로 민족을 다스리는 자</td>
+            <td>흠 없고 순결하며 새 노래를 부름</td>
+          </tr>
+          <tr>
+            <td class="td-key">위치</td>
+            <td>하나님의 보좌로 이끌려 올라감</td>
+            <td>시온산에서 어린양과 함께 섬</td>
+          </tr>
+          <tr>
+            <td class="td-key">본질</td>
+            <td>전사(戰士) — 기능적 필요</td>
+            <td>연인(戀人) — 관계적 필요</td>
+          </tr>
+        </table>
+        <div class="s-lbl">핵심 의미</div>
+        <div class="ct">
+          <p><strong>요한계시록 12장에서 하나님의 원수와 맞서 싸우는 사내아이의 휴거는 하나님 앞에서의 기능을 위한 것이다.</strong> 하나님께는 그분의 목적을 이루어 드리기 위해 그분의 원수와 싸워 그를 패배시키고 땅으로 내던지도록, 하늘로 휴거될 사내아이가 필요하시다.</p>
+          <p>같은 원칙으로, <strong style="background:var(--hl-orange);border-radius:2px;padding:0 3px;">14장에 있는 첫 열매들은 단지 휴거를 누리는 것이 아니라 하나님의 필요를 채워 드린다.</strong> 하나님과 어린양께는 누림이 필요하시다. <strong style="background:var(--hl-yellow);border-radius:2px;padding:0 3px;">한 면으로 사내아이는 하나님의 원수를 패배시킴으로 그분의 목적을 이루어 드리고, 다른 면으로 첫 열매들은 하나님의 만족을 위해 있다.</strong></p>
+        </div>
+        <div class="clt">
+          <span>💡</span>
+          <span>주님은 분명 그분의 원수와 싸울 사내아이가 필요하시지만, 그보다 <strong style="background:var(--hl-yellow);border-radius:2px;padding:0 3px;">그분의 만족이 되는 그분의 연인들인 첫 열매들을 더욱더 필요로 하신다.</strong></span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="pt-conn"><div class="conn-bridge"><span class="conn-arrow">↓</span><span class="conn-txt">그렇다면 하나님은 왜 이토록 첫 열매들을 원하시는가?</span></div></div>
+
+    <!-- P2: 갈망 -->
+    <div class="pt-item p2" id="pt2">
+      <div class="pt-header" onclick="togglePt('pt2')">
+        <div class="pt-num">2</div>
+        <div class="pt-ico">🔥</div>
+        <div class="pt-tw">
+          <div class="pt-title"><span class="kw-pill kp2">갈망</span> 하나님은 시장하시고 목마르시다</div>
+          <div class="pt-sub" style="color:#8C6800">하나님과 어린양께는 누림이 필요하시다</div>
+        </div>
+        <svg class="pt-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="pt-body"><div class="pt-inner">
+        <div class="bible-wrap">
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">요한계시록 14:1</span></div>
+            <div class="bv">또 내가 보니, <strong>어린양께서 시온산에 서 계시고 그분과 함께 십사만 사천 명이 서 있는데,</strong> 그들의 이마에는 <strong>어린양의 이름과 그분의 아버지의 이름이 기록되어</strong> 있었습니다.</div>
+          </div>
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">요한계시록 14:3</span></div>
+            <div class="bv">그들이 보좌 앞과 네 생물과 장로들 앞에서 <strong>새 노래를 부르니,</strong> 땅에서 값을 치르고 사 온 <strong>십사만 사천 명 외에는 아무도 그 노래를 배울 수 없었습니다.</strong></div>
+          </div>
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">레위기 23:10–11</span></div>
+            <div class="bv">너희 수확물 중 <strong>첫 열매의 곡식 단을 제사장에게 가져와야 한다.</strong></div>
+            <div class="bv">제사장은 <strong>너희가 기쁘게 받아들여지도록 그 곡식 단을 여호와 앞에서 흔들어 바쳐야 한다.</strong></div>
+          </div>
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">출애굽기 23:19</span></div>
+            <div class="bv">너는 <strong>너의 땅에서 난 첫 열매 가운데 가장 좋은 것을 여호와 너의 하나님의 집으로 가져와야 한다.</strong></div>
+          </div>
+        </div>
+        <div class="s-lbl">핵심 의미 — 하나님의 갈망은 무엇인가</div>
+        <div class="ct">
+          <p><strong style="background:var(--hl-yellow);border-radius:2px;padding:0 3px;">하나님과 어린양께는 누림이 필요하시다. 하나님은 시장하시고 목마르시다.</strong> 그분은 그분의 만족을 위해 맛보실 얼마만큼의 첫 열매들을 <strong style="background:var(--hl-orange);border-radius:2px;padding:0 3px;">갈망하신다.</strong> 하나님의 만족을 위해 성전에서 그분께 드려지는 첫 열매들은 <strong style="background:var(--hl-green);border-radius:2px;padding:0 3px;">살아 있는 이기는 이들</strong>이며, 그들이 누리는 휴거는 하나님의 필요를 돌보기 위한 것이다.</p>
+          <p>구약에서 가장 좋은 첫 열매를 하나님 앞에 가져온 것은 신약의 첫 열매들 — <strong>그리스도로 온전히 점유되어 일찍 익은 성도들</strong>을 예표한다.</p>
+        </div>
+        <div class="s-lbl">이것이 왜 중요한가</div>
+        <div class="ct">
+          <p><strong style="background:var(--hl-orange);border-radius:2px;padding:0 3px;">우리는 하나님의 마음을 만족시켜 드리는 첫 열매들이 되도록 우리의 성숙에 주의를 기울여야 한다.</strong> 우리가 여전히 성숙하지 못했다면, 어떻게 첫 열매들이 되어 휴거될 수 있겠는가?</p>
+        </div>
+        <div class="clt">
+          <span>🌾</span>
+          <span>첫 열매들은 단지 더 일찍 익어 <strong style="background:var(--hl-yellow);border-radius:2px;padding:0 3px;">하나님의 갈망을 채워드리는 연인들</strong>이다. 휴거의 목적은 내가 누리는 것이 아니라 <strong>하나님을 만족시켜 드리는 것이다.</strong></span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="pt-conn"><div class="conn-bridge"><span class="conn-arrow">↓</span><span class="conn-txt">그렇다면 어떻게 해야 첫 열매들이 될 수 있는가?</span></div></div>
+
+    <!-- P3: 성숙 -->
+    <div class="pt-item p3" id="pt3">
+      <div class="pt-header" onclick="togglePt('pt3')">
+        <div class="pt-num">3</div>
+        <div class="pt-ico">🌱</div>
+        <div class="pt-tw">
+          <div class="pt-title"><span class="kw-pill kp3">성숙</span> 그리스도로 온전히 점유되고 점령되라</div>
+          <div class="pt-sub" style="color:#1A6B3A">초보적인 말씀에 머물지 말고, 성숙에 이르도록 전진하라</div>
+        </div>
+        <svg class="pt-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="pt-body"><div class="pt-inner">
+        <div class="bible-wrap">
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">히브리서 6:1</span></div>
+            <div class="bv">그러므로 우리는 그리스도에 관한 <strong style="background:var(--hl-yellow);border-radius:2px;padding:0 3px;">초보적인 말씀에 머물지 말고, 성숙에 이르도록 전진합시다.</strong></div>
+          </div>
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">에베소서 4:13</span></div>
+            <div class="bv">그리하여 우리 모두가 믿음에서의 하나와 하나님의 아들에 관한 온전한 지식에서의 하나에 이르게 하고, <strong style="background:var(--hl-orange);border-radius:2px;padding:0 3px;">충분히 성장한 사람에 이르게 하며, 그리스도의 충만의 신장의 분량에 이르게 하려는 것입니다.</strong></div>
+          </div>
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">히브리서 5:14</span></div>
+            <div class="bv">단단한 음식은 <strong>충분히 성장한 사람들을 위한 것입니다.</strong> 그들은 <strong>훈련받은 감각 기능을 사용하기 때문에, 좋고 나쁜 것을 분별합니다.</strong></div>
+          </div>
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">고린도전서 3:6</span></div>
+            <div class="bv">나는 심었고, 아볼로는 물을 주었습니다. 그러나 <strong>하나님께서 자라게 하셨습니다.</strong></div>
+          </div>
+        </div>
+        <div class="s-lbl">핵심 의미 — 성숙이란 무엇인가</div>
+        <div class="ct">
+          <p>첫 열매들은 <strong>주 예수님으로 적셔진 성도들이다.</strong> 그들은 <strong style="background:var(--hl-yellow);border-radius:2px;padding:0 3px;">그리스도로 온전히 점유되고 그리스도께 점령되어 결국 성숙에 이른 이들이다.</strong> 성숙은 오래 믿은 연수가 아니라, 그리스도가 나를 완전히 점유하신 상태다.</p>
+        </div>
+        <div class="s-lbl">경고 — 무지하고 부주의한 자녀들</div>
+        <div class="ct">
+          <p>우리가 여전히 성숙하지 못했다면, 어떻게 첫 열매들이 되어 휴거될 수 있겠는가? <strong>우리는 성숙되어야 할 필요성에 관하여 무지하고 부주의하며 둔감해 보이는 주님의 많은 자녀들에 대해 마음 아파해야 한다.</strong></p>
+          <p><strong style="background:var(--hl-orange);border-radius:2px;padding:0 3px;">우리는 자신이 얼마나 성숙했는지를 깊이 생각해 보아야 한다. 우리는 이 말을 심각하게 받아들이고 이 문제를 주님께 가져가야 한다.</strong></p>
+        </div>
+        <div class="s-lbl">적용 — 어떻게 성숙에 이르는가</div>
+        <div class="ct">
+          <p><strong style="background:var(--hl-green);border-radius:2px;padding:0 3px;">우리는 성숙할 때까지 그리스도를 누리고, 그분께 참여하고, 그분을 받아들여야 한다.</strong> 성숙은 하나님께서 이루시지만, 우리는 그리스도를 먹고 마심으로써 협력해야 한다.</p>
+        </div>
+        <div class="clt">
+          <span>📖</span>
+          <span>성숙에 이르도록 전진하는 것 — 이것이 <strong>첫 열매들이 되기 위한 조건</strong>이다. 그러나 성숙만으로는 아직 부족하다. 성숙한 사람에게 요구되는 핵심이 하나 더 있다.</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="pt-conn"><div class="conn-bridge"><span class="conn-arrow">↓</span><span class="conn-txt">성숙에 이르는 핵심 비결은 무엇인가?</span></div></div>
+
+    <!-- P4: 사랑 -->
+    <div class="pt-item p4" id="pt4">
+      <div class="pt-header" onclick="togglePt('pt4')">
+        <div class="pt-num">4</div>
+        <div class="pt-ico">❤️</div>
+        <div class="pt-tw">
+          <div class="pt-title"><span class="kw-pill kp4">사랑</span> 단지 선한 것이 아닌, 주님과의 사랑 안에 있어야 한다</div>
+          <div class="pt-sub" style="color:#8C1E4A">이것이 살아있는 이기는 이가 되는 길이다</div>
+        </div>
+        <svg class="pt-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="pt-body"><div class="pt-inner">
+        <div class="bible-wrap">
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">요한계시록 14:4–5</span></div>
+            <div class="bv">그들은 여자들로 더럽힌 적이 없는 <strong>순결한 이들입니다.</strong></div>
+            <div class="bv">그들은 <strong>어린양께서 어디로 가시든지 그분을 따라가는 사람들</strong>이며, 하나님과 어린양께 첫 열매로 드려지도록 사람들 가운데서 사 온 이들입니다.</div>
+            <div class="bv">그들의 입에서는 거짓말이 발견되지 않았습니다. <strong>그들은 흠이 없습니다.</strong></div>
+          </div>
+        </div>
+        <div class="s-lbl">핵심 의미 — 무엇이 충분하지 않은가</div>
+        <div class="ct">
+          <p>첫 열매들이 되려면 우리는 반드시 <strong>주 예수님을 사랑해야 한다.</strong></p>
+          <p><strong style="background:var(--hl-yellow);border-radius:2px;padding:0 3px;">단지 죄가 없는 것만으로는 충분하지 않다. 다만 선하거나 올바른 것으로도 충분하지 않다. 우리는 반드시 주님과의 사랑 안에 있어야 한다.</strong></p>
+          <p>계시록 14장이 묘사하는 첫 열매들의 순결함과 흠 없음은 율법적 노력의 결과가 아니라, <strong>어린양을 따르는 깊은 사랑의 결과</strong>다.</p>
+        </div>
+        <div class="s-lbl">구체적인 실행 — 사랑하는 데 시간을 보내라</div>
+        <div class="ct">
+          <p><strong style="background:var(--hl-orange);border-radius:2px;padding:0 3px;">친밀한 방식으로 주 예수님을 사랑하면서 시간을 보내기를 배워야 한다.</strong> 우리는 이렇게 말씀드리며 주님을 사랑하는 데 시간을 보내야 한다:</p>
+        </div>
+        <div class="love-card love-a">
+          <div class="love-tag">🕊️ 누림과 하나됨의 기도</div>
+          <div class="love-text">"주님, 저는 주님을 바라보고 주님과 이야기하는 것을 누립니다. <strong>주님, 저는 주님을 만족시켜 드리고 주님과 하나 되고 주님의 임재 안에 머물기를 원합니다.</strong>"</div>
+        </div>
+        <div class="love-arr">↓</div>
+        <div class="love-card love-b">
+          <div class="love-tag">❤️ 사랑의 고백</div>
+          <div class="love-text">"오, 주 예수님, 주님을 사랑합니다. 주님은 제가 주님을 사랑한다는 것을 아십니다. <strong>주님, 저는 주님을 사랑하기 때문에 어떤 일들은 하지 않겠습니다.</strong>"</div>
+        </div>
+        <div class="clt">
+          <span>🔥</span>
+          <span><strong style="background:var(--hl-yellow);border-radius:2px;padding:0 3px;">이것이 살아 있는 이기는 이가 되는 길이다.</strong> 주님은 그분의 원수와 싸울 사내아이도 필요하시지만, 그보다 <strong>그분의 만족이 되는 그분의 연인들인 첫 열매들을 더욱더 필요로 하신다.</strong></span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="pt-conn"><div class="conn-bridge"><span class="conn-arrow">↓</span><span class="conn-txt">주님을 사랑하는 사람의 내면 상태는 어떠한가?</span></div></div>
+
+    <!-- P5: 일찍 -->
+    <div class="pt-item p5" id="pt5">
+      <div class="pt-header" onclick="togglePt('pt5')">
+        <div class="pt-num">5</div>
+        <div class="pt-ico">🌅</div>
+        <div class="pt-tw">
+          <div class="pt-title"><span class="kw-pill kp5">일찍</span> 주님의 만족을 위해 더 일찍 익는 자가 되라</div>
+          <div class="pt-sub" style="color:#A04000">땅에 있든 하늘에 있든 차이가 없다 — 이것이 이기는 이의 태도다</div>
+        </div>
+        <svg class="pt-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="pt-body"><div class="pt-inner">
+        <div class="bible-wrap">
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">요한계시록 14:1 — '데려가졌다'가 아닌 '서 있다'</span></div>
+            <div class="bv">또 내가 보니, <strong>어린양께서 시온산에 서 계시고 그분과 함께 십사만 사천 명이 서 있는데</strong> — 이것은 분명 땅에 있는 시온이 아니라 <strong>하늘에 있는 시온이다.</strong></div>
+          </div>
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">요한계시록 14:2–3</span></div>
+            <div class="bv">내가 하늘에서 나오는 한 음성을 들었는데, <strong>많은 물소리와도 같고 큰 천둥소리와도 같았습니다.</strong></div>
+            <div class="bv">그들이 보좌 앞과 네 생물과 장로들 앞에서 <strong>새 노래를 부르니, 땅에서 값을 치르고 사 온 십사만 사천 명 외에는 아무도 그 노래를 배울 수 없었습니다.</strong></div>
+          </div>
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">누가복음 21:36</span></div>
+            <div class="bv">그러므로 여러분은 장차 일어날 이 모든 일을 능히 피할 수 있고 <strong>사람의 아들 앞에 설 수 있도록, 늘 간구하며 항상 깨어 있도록 하십시오.</strong></div>
+          </div>
+        </div>
+        <div class="s-lbl">핵심 의미 — '일찍'의 의미</div>
+        <div class="ct">
+          <p>우리는 첫 열매들, 즉 <strong style="background:var(--hl-orange);border-radius:2px;padding:0 3px;">주님의 만족을 위해 더 일찍 익는 사람들이 되어야 한다.</strong></p>
+        </div>
+        <div class="q-box">"주님, 주님의 만족을 위해 저는 일찍 익고 싶습니다. … <strong style="background:var(--hl-yellow);border-radius:2px;padding:0 3px;">주님, 제가 주님을 만족시켜 드릴 수만 있다면, 저는 땅에 있든 하늘에 있든 차이가 없습니다.</strong>"</div>
+        <div class="s-lbl">주목할 표현 — '데려가졌다' vs. '서 있다'</div>
+        <div class="word-contrast">
+          <div class="wc-col wc-left">
+            <div class="wc-word">데려가졌다</div>
+            <div class="wc-desc">뜻밖의 사건<br>수동적인 체험<br>준비되지 않은 자</div>
+          </div>
+          <div class="wc-vs">≠</div>
+          <div class="wc-col wc-right">
+            <div class="wc-word">서 있다</div>
+            <div class="wc-desc">일상적 체험<br>이미 그 자리에 있음<br>어디서든 주님과 함께</div>
+          </div>
+        </div>
+        <div class="ct" style="margin-top:10px;">
+          <p><strong>첫 열매들에게는 자신들이 어디에 있는지가 중요하지 않기 때문에,</strong> 우리는 그들이 '데려가졌다'는 말씀을 보지 못한다. 그 대신 <strong>시온산에 어린양과 함께 십사만 사천 명의 첫 열매들이 서 있는 것</strong>에 대한 말씀을 본다.</p>
+          <p>땅에 있을 때도 하늘의 분위기로 사는 사람 — 이미 하늘에 있는 것처럼 주님과 함께 서 있는 사람 — <strong style="background:var(--hl-green);border-radius:2px;padding:0 3px;">이것이 살아 있는 이기는 이들의 태도이다.</strong></p>
+        </div>
+        <div class="clt">
+          <span>🌾</span>
+          <span><strong>첫 열매들은 살아 있는 이기는 이들이다.</strong> 그들은 주님을 만족시켜 드리기 위해 자신이 어디에 있는지를 묻지 않는 사람들이다.</span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="pt-conn"><div class="conn-bridge"><span class="conn-arrow">↓</span><span class="conn-txt">이런 삶은 어떤 모습인가? 성경은 구체적인 본을 보여준다</span></div></div>
+
+    <!-- P6: 동행 -->
+    <div class="pt-item p6" id="pt6">
+      <div class="pt-header" onclick="togglePt('pt6')">
+        <div class="pt-num">6</div>
+        <div class="pt-ico">🚶</div>
+        <div class="pt-tw">
+          <div class="pt-title"><span class="kw-pill kp6">동행</span> 에녹처럼 — 휴거는 뜻밖이 아닌 일상적 체험이다</div>
+          <div class="pt-sub" style="color:#1056A0">삼백 년을 하나님과 동행하여 기쁘시게 해드린 본</div>
+        </div>
+        <svg class="pt-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="pt-body"><div class="pt-inner">
+        <div class="bible-wrap">
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">창세기 5:22–24</span></div>
+            <div class="bv">에녹은 므두셀라를 낳은 다음, <strong style="background:var(--hl-yellow);border-radius:2px;padding:0 3px;">삼백 년을 하나님과 동행하면서</strong> 아들딸을 더 낳았다.</div>
+            <div class="bv">에녹은 모두 삼백육십오 년을 살았다.</div>
+            <div class="bv"><strong style="background:var(--hl-orange);border-radius:2px;padding:0 3px;">에녹이 하나님과 동행하더니 하나님께서 그를 데려가시므로 그가 있지 않았다.</strong></div>
+          </div>
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">히브리서 11:5–6</span></div>
+            <div class="bv">에녹은 믿음으로, 죽음을 당하지 않도록 옮겨졌습니다. … <strong style="background:var(--hl-green);border-radius:2px;padding:0 3px;">에녹은 옮겨지기 전에 하나님을 기쁘시게 해드렸다는 증거를 지녔습니다.</strong></div>
+            <div class="bv">믿음이 없이는 하나님을 기쁘시게 해드릴 수 없습니다. 하나님께 나아오는 사람은 반드시 <strong>그분은 그분 자신을 부지런히 찾는 사람들에게 보상을 해 주시는 분이시라는 것을 믿어야 합니다.</strong></div>
+          </div>
+        </div>
+        <div class="s-lbl">핵심 의미 — 에녹이 우리에게 보여주는 것</div>
+        <div class="enoch-timeline">
+          <div class="et-row">
+            <div class="et-dot et-daily"></div>
+            <div class="et-content">
+              <div class="et-label">날마다</div>
+              <div class="et-text">특별한 준비가 아닌 <strong>하나님과의 동행</strong> — 이것이 에녹의 삶 전부였다</div>
+            </div>
+          </div>
+          <div class="et-line"></div>
+          <div class="et-row">
+            <div class="et-dot et-daily"></div>
+            <div class="et-content">
+              <div class="et-label">삼백 년</div>
+              <div class="et-text"><strong style="background:var(--hl-yellow);border-radius:2px;padding:0 3px;">하나님과 동행하는 삶 자체</strong>가 준비였다. 특별한 느낌이 없었다. 오랫동안 이런 분위기에서 살아왔다</div>
+            </div>
+          </div>
+          <div class="et-line"></div>
+          <div class="et-row">
+            <div class="et-dot et-result"></div>
+            <div class="et-content">
+              <div class="et-label et-label-gold">결과</div>
+              <div class="et-text et-text-gold"><strong>하나님께서 그를 데려가시므로 그가 있지 않았다</strong> — 뜻밖의 일이 아닌 일상적인 체험이었다.</div>
+            </div>
+          </div>
+        </div>
+        <div class="ct" style="margin-top:12px;">
+          <p><strong style="background:var(--hl-orange);border-radius:2px;padding:0 3px;">우리가 참으로 주님을 사랑하고 그분과의 친밀한 교통 안에 산다면, 휴거는 뜻밖의 일로 닥치지 않을 것이다. 그것은 일상적인 체험일 것이다.</strong></p>
+        </div>
+        <div class="s-lbl">첫 열매들의 고백 — 놀라지 않는 이유</div>
+        <div class="ct"><p>첫 열매들로 휴거된 이들은 <strong>놀라는 느낌이 없을 것이다.</strong> 오히려 그들은 이렇게 말할 것이다:</p></div>
+        <div class="q-box">"주 예수님, 저는 여러 해 동안 지속적으로 주님과 함께 있어 왔습니다. 주님, 제가 땅에 있든 셋째 하늘에 있든 차이가 없습니다. <strong>저는 여러 해 동안 주님의 임재 안에 있어 왔으므로, 여기에 있는 것에 대해 특별한 느낌이 없습니다. 저는 오랫동안 이런 분위기에서 살아왔습니다.</strong>"</div>
+        <div class="clt">
+          <span>🌊</span>
+          <span>에녹의 동행은 오늘 우리를 향한 말씀이다: <strong>오늘 주님의 임재 안에서 살아가라.</strong> 특별한 날을 기다리지 말고, 지금 이 순간 하나님과 동행하는 것이 곧 <strong>첫 열매로서의 준비다.</strong></span>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="pt-conn"><div class="conn-bridge"><span class="conn-arrow">↓</span><span class="conn-txt">이 모든 것을 깨달은 우리는 어떻게 응답해야 하는가?</span></div></div>
+
+    <!-- P7: 협력 -->
+    <div class="pt-item p7" id="pt7">
+      <div class="pt-header" onclick="togglePt('pt7')">
+        <div class="pt-num">7</div>
+        <div class="pt-ico">🙏</div>
+        <div class="pt-tw">
+          <div class="pt-title"><span class="kw-pill kp7">협력</span> 이 말을 심각하게 받아들이고 기도로 응답하라</div>
+          <div class="pt-sub" style="color:#4A2E88">하나님의 목적과 의도를 보고, 그분과 협력하라</div>
+        </div>
+        <svg class="pt-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="pt-body"><div class="pt-inner">
+        <div class="bible-wrap">
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">요한계시록 3:10</span></div>
+            <div class="bv"><strong>네가 나의 인내의 말을 지켰기 때문에, 나도 너를 지켜 주어,</strong> 땅에 거하는 사람들을 시험하기 위해 온 땅에 닥쳐올 <strong>시련의 때를 면하게 해 주겠다.</strong></div>
+          </div>
+          <div class="bible-card">
+            <div class="bible-ref"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><line x1="3" y1="9" x2="21" y2="9"/></svg><span class="bible-ref-txt">디모데후서 4:8</span></div>
+            <div class="bv">이제 후로는 나를 위하여 <strong>의의 면류관이 준비되어 있습니다.</strong> 의로운 재판장이신 주님께서 그날에 나에게 그것을 보상으로 주실 것인데, 나에게만 아니라 <strong>그분께서 나타나시기를 사모하는 모든 사람에게 주실 것입니다.</strong></div>
+          </div>
+        </div>
+        <div class="s-lbl">핵심 의미 — 우리의 책임</div>
+        <div class="ct">
+          <p><strong>우리는 자신이 얼마나 성숙했는지를 깊이 생각해 보아야 한다.</strong> 우리는 성숙되어야 할 필요성에 관하여 <strong>무지하고 부주의하며 둔감해 보이는</strong> 주님의 많은 자녀들에 대해 마음 아파해야 한다.</p>
+          <p><strong style="background:var(--hl-yellow);border-radius:2px;padding:0 3px;">우리는 이 말을 심각하게 받아들이고 이 문제를 주님께 가져가야 한다.</strong></p>
+        </div>
+        <div class="s-lbl">협력의 방식 — 세 가지 행동</div>
+        <div class="ct">
+          <p><strong style="background:var(--hl-orange);border-radius:2px;padding:0 3px;">우리는 하나님의 목적과 의도를 보아야 하며, 그분과 협력해야 할 우리의 책임을 보아야 한다.</strong> 협력은 세 가지로 이루어진다:</p>
+          <p><strong>① 그리스도를 누리고</strong><br><strong>② 그분께 참여하고</strong><br><strong>③ 그분을 받아들여야 한다</strong></p>
+        </div>
+        <div class="s-lbl">응답의 기도</div>
+        <div class="q-box"><strong>"주님, 저에게 긍휼을 베푸시어 제가 첫 열매들의 일부가 되게 하시고 이기는 이가 되게 해 주십시오."</strong></div>
+        <div class="clt">
+          <span>✨</span>
+          <span>이것이 우리 모두가 드려야 할 기도이다. 필요를 보고(1) → 갈망을 알고(2) → 성숙을 추구하고(3) → 주님을 사랑하고(4) → 일찍 익고(5) → 날마다 동행하며(6) → 기도로 협력하는 것(7) — <strong style="background:var(--hl-green);border-radius:2px;padding:0 3px;">이것이 이기는 이의 삶이다.</strong></span>
+        </div>
+      </div></div>
+    </div>
+
+  </div><!-- end points-section inner -->
+</div><!-- end #points-section -->
+
+<!-- ══ QUIZ ══ -->
+<section id="quiz">
+  <div class="quiz-wrap">
+    <div class="sec-lbl">이해도 점검</div>
+    <h2 class="sec-title">퀴즈 — 5문제</h2>
+    <p style="text-align:center;font-size:0.82em;color:var(--text-soft);margin-bottom:26px;font-family:'Noto Sans KR',sans-serif;">모든 문제를 풀고 최종 점수를 확인하세요 · 힌트를 활용해 보세요</p>
+
+    <!-- Q1 -->
+    <div class="qcard" id="qc1">
+      <div class="q-head">
+        <div class="q-badge">1</div>
+        <div class="q-text">요한계시록 12장의 사내아이와 14장의 첫 열매들이 하나님을 위해 수행하는 역할의 차이는 무엇입니까?</div>
+      </div>
+      <div class="q-body">
+        <div class="q-opts">
+          <button class="q-opt" onclick="pick(1,0,false)"><div class="opt-dot">①</div><span>사내아이는 하나님을 찬양하고, 첫 열매들은 하나님의 원수를 패배시킨다</span></button>
+          <button class="q-opt" onclick="pick(1,1,true)"><div class="opt-dot">②</div><span>사내아이는 하나님의 목적(원수 패배)을 이루어 드리고, 첫 열매들은 하나님의 만족을 채워드린다</span></button>
+          <button class="q-opt" onclick="pick(1,2,false)"><div class="opt-dot">③</div><span>두 그룹 모두 동일하게 하나님의 원수를 패배시키는 역할을 한다</span></button>
+          <button class="q-opt" onclick="pick(1,3,false)"><div class="opt-dot">④</div><span>사내아이는 땅에 남고, 첫 열매들만 휴거된다</span></button>
+        </div>
+        <div class="q-actions">
+          <button class="hint-btn" onclick="showHint(1)">💡 힌트 보기</button>
+        </div>
+        <div class="hint-txt" id="hint1">힌트: "한 면으로 사내아이는 하나님의 원수를 패배시킴으로 그분의 목적을 이루어 드리고, 다른 면으로 첫 열매들은 하나님의 만족을 위해 있다"는 구절을 생각해 보세요.</div>
+        <div class="q-fb" id="fb1"></div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="qcard" id="qc2">
+      <div class="q-head">
+        <div class="q-badge">2</div>
+        <div class="q-text">살아 있는 이기는 이가 되기 위한 핵심 조건으로, 지문이 강조하는 것은 무엇입니까?</div>
+      </div>
+      <div class="q-body">
+        <div class="q-opts">
+          <button class="q-opt" onclick="pick(2,0,false)"><div class="opt-dot">①</div><span>죄 없이 깨끗하고 도덕적인 생활을 유지하는 것</span></button>
+          <button class="q-opt" onclick="pick(2,1,false)"><div class="opt-dot">②</div><span>선하고 올바른 행동으로 모범을 보이는 것</span></button>
+          <button class="q-opt" onclick="pick(2,2,true)"><div class="opt-dot">③</div><span>친밀한 방식으로 주 예수님을 사랑하면서 주님과의 사랑 안에 있는 것</span></button>
+          <button class="q-opt" onclick="pick(2,3,false)"><div class="opt-dot">④</div><span>성경을 많이 읽고 암송하여 지식을 쌓는 것</span></button>
+        </div>
+        <div class="q-actions">
+          <button class="hint-btn" onclick="showHint(2)">💡 힌트 보기</button>
+        </div>
+        <div class="hint-txt" id="hint2">힌트: "단지 죄가 없는 것만으로는 충분하지 않다. 다만 선하거나 올바른 것으로도 충분하지 않다"는 강조점에 주목하세요.</div>
+        <div class="q-fb" id="fb2"></div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="qcard" id="qc3">
+      <div class="q-head">
+        <div class="q-badge">3</div>
+        <div class="q-text">에녹이 하나님께 데려가진 핵심 이유는 무엇이었으며, 이것이 첫 열매들에게 주는 교훈은 무엇입니까?</div>
+      </div>
+      <div class="q-body">
+        <div class="q-opts">
+          <button class="q-opt" onclick="pick(3,0,false)"><div class="opt-dot">①</div><span>많은 기적을 행하여 하나님께 쓰임 받았기 때문이다</span></button>
+          <button class="q-opt" onclick="pick(3,1,false)"><div class="opt-dot">②</div><span>완벽한 율법 준수로 의롭다 인정받았기 때문이다</span></button>
+          <button class="q-opt" onclick="pick(3,2,true)"><div class="opt-dot">③</div><span>삼백 년을 하나님과 동행하여 기쁘시게 해드렸기 때문이며, 이처럼 주님의 임재 안에서 사는 삶이 곧 준비임을 가르친다</span></button>
+          <button class="q-opt" onclick="pick(3,3,false)"><div class="opt-dot">④</div><span>원수들과 용감하게 싸워 승리했기 때문이다</span></button>
+        </div>
+        <div class="q-actions">
+          <button class="hint-btn" onclick="showHint(3)">💡 힌트 보기</button>
+        </div>
+        <div class="hint-txt" id="hint3">힌트: 히브리서 11장 5절에서 에녹이 "옮겨지기 전에 하나님을 기쁘시게 해드렸다는 증거를 지녔습니다"라는 구절과 창세기 5장 22절의 "삼백 년을 하나님과 동행하면서"를 연결해 보세요.</div>
+        <div class="q-fb" id="fb3"></div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="qcard" id="qc4">
+      <div class="q-head">
+        <div class="q-badge">4</div>
+        <div class="q-text">살아 있는 이기는 이들의 태도를 가장 잘 나타내는 표현은 무엇입니까?</div>
+      </div>
+      <div class="q-body">
+        <div class="q-opts">
+          <button class="q-opt" onclick="pick(4,0,false)"><div class="opt-dot">①</div><span>"빨리 휴거되어 이 세상을 떠나고 싶습니다"</span></button>
+          <button class="q-opt" onclick="pick(4,1,true)"><div class="opt-dot">②</div><span>"주님, 제가 주님을 만족시켜 드릴 수만 있다면, 저는 땅에 있든 하늘에 있든 차이가 없습니다"</span></button>
+          <button class="q-opt" onclick="pick(4,2,false)"><div class="opt-dot">③</div><span>"저는 아직 준비가 안 되었으니 조금만 기다려 주십시오"</span></button>
+          <button class="q-opt" onclick="pick(4,3,false)"><div class="opt-dot">④</div><span>"세상이 빨리 끝나 하나님의 심판이 임하기를 원합니다"</span></button>
+        </div>
+        <div class="q-actions">
+          <button class="hint-btn" onclick="showHint(4)">💡 힌트 보기</button>
+        </div>
+        <div class="hint-txt" id="hint4">힌트: "주님의 만족을 위해 저는 일찍 익고 싶습니다"와 이어지는 핵심 고백을 찾아보세요. 첫 열매들에게 자신이 어디에 있는지가 중요하지 않다는 내용에 집중하세요.</div>
+        <div class="q-fb" id="fb4"></div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="qcard" id="qc5">
+      <div class="q-head">
+        <div class="q-badge">5</div>
+        <div class="q-text">지문이 우리 모두에게 드리도록 권면하는 기도의 핵심 내용은 무엇입니까?</div>
+      </div>
+      <div class="q-body">
+        <div class="q-opts">
+          <button class="q-opt" onclick="pick(5,0,false)"><div class="opt-dot">①</div><span>속히 환난의 때에서 벗어나게 해달라는 기도</span></button>
+          <button class="q-opt" onclick="pick(5,1,false)"><div class="opt-dot">②</div><span>더 많은 죄인이 구원받게 해달라는 전도 기도</span></button>
+          <button class="q-opt" onclick="pick(5,2,false)"><div class="opt-dot">③</div><span>하나님의 원수를 패배시킬 능력을 달라는 기도</span></button>
+          <button class="q-opt" onclick="pick(5,3,true)"><div class="opt-dot">④</div><span>"주님, 저에게 긍휼을 베푸시어 제가 첫 열매들의 일부가 되게 하시고 이기는 이가 되게 해 주십시오"</span></button>
+        </div>
+        <div class="q-actions">
+          <button class="hint-btn" onclick="showHint(5)">💡 힌트 보기</button>
+        </div>
+        <div class="hint-txt" id="hint5">힌트: 지문 마지막 부분의 "우리 모두는 … 라고 기도해야 한다"는 직접적인 기도 권면을 찾아보세요.</div>
+        <div class="q-fb" id="fb5"></div>
+      </div>
+    </div>
+
+    <button class="quiz-sub-btn" id="subBtn" onclick="submitAll()">최종 점수 확인 →</button>
+
+    <div class="quiz-res" id="qRes">
+      <div class="res-score" id="resScore">—</div>
+      <div class="res-sub">5문제 중 정답</div>
+      <div class="g-div"></div>
+      <div class="res-msg" id="resMsg"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ PRAYER ══ -->
+<section id="prayer">
+  <div class="prayer-wrap">
+    <div class="prayer-head">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      오늘의 기도
+    </div>
+    <div class="prayer-card">
+      <div class="prayer-txt">
+        <p>"주님, 저는 주님을 바라보고 주님과 이야기하는 것을 누립니다. 주님, 저는 주님을 만족시켜 드리고 주님과 하나 되고 주님의 임재 안에 머물기를 원합니다."</p>
+        <p>"주님, 주님의 만족을 위해 저는 일찍 익고 싶습니다. 주님, 제가 주님을 만족시켜 드릴 수만 있다면, 저는 땅에 있든 하늘에 있든 차이가 없습니다."</p>
+        <p>"오, 주 예수님, 주님을 사랑합니다. 주님은 제가 주님을 사랑한다는 것을 아십니다. 주님, 저는 주님을 사랑하기 때문에 어떤 일들은 하지 않겠습니다."</p>
+        <p>"주님, 저에게 긍휼을 베푸시어 제가 첫 열매들의 일부가 되게 하시고 이기는 이가 되게 해 주십시오."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</div><!-- end #contentWrap -->
+
+<script>
+// ═══ FONT SIZE ═══
+const FS = [12,13,14,15,16,17,18,19];
+let fsIdx = 3; // default 15px
+function adjFont(d) {
+  if (d === 0) fsIdx = 3;
+  else fsIdx = Math.max(0, Math.min(FS.length-1, fsIdx + d));
+  document.getElementById('contentWrap').style.fontSize = FS[fsIdx] + 'px';
+}
+
+// ═══ TOP BAR TITLE DRAG SCROLL ═══
+(function(){
+  const el = document.getElementById('tbTitleScroll');
+  let isDown=false, startX=0, scrollLeft=0;
+  el.addEventListener('mousedown', e=>{isDown=true;startX=e.pageX-el.offsetLeft;scrollLeft=el.scrollLeft;});
+  el.addEventListener('mouseleave',()=>isDown=false);
+  el.addEventListener('mouseup',()=>isDown=false);
+  el.addEventListener('mousemove', e=>{if(!isDown)return;e.preventDefault();const x=e.pageX-el.offsetLeft;el.scrollLeft=scrollLeft-(x-startX);});
+})();
+
+// ═══ PANEL ═══
+function togglePanel(){
+  document.getElementById('leftPanel').classList.toggle('open');
+  document.getElementById('panelOverlay').classList.toggle('on');
+}
+function closePanel(){
+  document.getElementById('leftPanel').classList.remove('open');
+  document.getElementById('panelOverlay').classList.remove('on');
+}
+
+// ═══ NAV ═══
+function navTo(id){
+  closePanel();
+  const el = document.getElementById(id);
+  if(el){
+    const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--tb-h'))||38;
+    const top = el.getBoundingClientRect().top + window.scrollY - offset - 6;
+    window.scrollTo({top, behavior:'smooth'});
+  }
+}
+function openAndNav(id){
+  closePanel();
+  const item = document.getElementById(id);
+  if(item){
+    if(!item.classList.contains('open')) item.classList.add('open');
+    setTimeout(()=>navTo(id),60);
+  }
+}
+
+// ═══ ACCORDION ═══
+function togglePt(id){
+  const el = document.getElementById(id);
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.pt-item.open').forEach(p=>p.classList.remove('open'));
+  if(!wasOpen) el.classList.add('open');
+}
+
+// ═══ KEYWORDS DATA ═══
+const kwData = [
+  {key:'첫 열매들',def:'하나님과 어린양께 드려지는 성숙한 이기는 이들. 주님의 만족을 위해 더 일찍 익어 시온산에 어린양과 함께 서 있는 십사만 사천 명. 그들이 누리는 휴거는 하나님의 필요를 돌보기 위한 것이다.'},
+  {key:'사내아이',def:'요한계시록 12장에서 하나님의 원수와 맞서 싸우도록 하나님의 보좌로 이끌려 올라가는 이기는 이들. 쇠막대기로 모든 민족을 다스릴 자. 하나님의 목적을 이루어 드리기 위해 원수를 패배시키고 땅으로 내던진다.'},
+  {key:'이기는 이',def:'주님과의 사랑 안에서 살아 하나님을 만족시켜 드리는 살아있는 성도. 살아 있는 이기는 이는 주님을 사랑하기 때문에 어떤 일들은 하지 않겠다고 고백하는 자이다.'},
+  {key:'성숙',def:'그리스도께 온전히 점유되고 적셔진 성도들의 상태. 변화되는 것은 우리의 타고난 생명이 바뀌는 것이지만, 성숙되는 것은 우리를 바꾸어 주는 신성한 생명으로 가득 채워지는 것이다'},
+  {key:'휴거',def:'성숙한 성도들이 하나님의 필요를 채워드리기 위해 하늘로 이끌려 올라가는 것. 첫 열매들에게 휴거는 뜻밖의 일로 닥치지 않고 일상적인 체험이다. 에녹이 그 본이다.'},
+  {key:'하나님의 만족',def:'시장하시고 목마르신 하나님의 갈망이 채워지는 것. 하나님과 어린양께는 누림이 필요하시며, 첫 열매들로 그 갈망이 채워진다.'},
+  {key:'시온산',def:'어린양과 십사만 사천 명의 첫 열매들이 함께 서 있는 하늘의 처소. 분명 땅에 있는 시온이 아니라 하늘에 있는 시온이다.'},
+  {key:'에녹',def:'삼백 년을 하나님과 동행하여 기쁘시게 해드린 휴거의 본. 옮겨지기 전에 하나님을 기쁘시게 해드렸다는 증거를 지녔다. 그의 삶은 휴거가 일상적인 체험임을 보여준다.'},
+];
+let activeKw = -1;
+
+// Build keyword chips in main content
+(function(){
+  const grid = document.getElementById('kwMain');
+  kwData.forEach((kw,i)=>{
+    const chip = document.createElement('button');
+    chip.className='kw-chip';
+    chip.textContent=kw.key;
+    chip.onclick=()=>toggleKw(i,chip);
+    grid.appendChild(chip);
+  });
+})();
+function toggleKw(i, chip){
+  const wrap = document.getElementById('kwPopWrap');
+  if(activeKw===i){
+    wrap.classList.remove('open');
+    chip.classList.remove('active');
+    activeKw=-1;return;
+  }
+  document.querySelectorAll('.kw-chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  document.getElementById('kwPopTitle').textContent=kwData[i].key;
+  document.getElementById('kwPopDef').textContent=kwData[i].def;
+  wrap.classList.add('open');
+  activeKw=i;
+}
+
+// Build keyword nav items in panel
+(function(){
+  const list = document.getElementById('kwNavList');
+  kwData.forEach((kw,i)=>{
+    const item=document.createElement('div');item.className='kw-item';
+    item.innerHTML=`<button class="kw-toggle" onclick="toggleKwNav(${i},this)">
+      <span class="kw-label"><span>🔑</span><span>${kw.key}</span></span>
+      <span class="kw-chevron">▶</span>
+    </button>
+    <div class="kw-def" id="kwNav${i}">${kw.def}</div>`;
+    list.appendChild(item);
+  });
+})();
+function toggleKwNav(i,btn){
+  const def=document.getElementById('kwNav'+i);
+  const item=btn.closest('.kw-item');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.kw-item.open').forEach(el=>el.classList.remove('open'));
+  document.querySelectorAll('.kw-def.open').forEach(el=>el.classList.remove('open'));
+  if(!isOpen){item.classList.add('open');def.classList.add('open');}
+}
+
+// ═══ QUIZ ═══
+const answers = {};
+const correct = {1:1,2:2,3:2,4:1,5:3};
+const optLabels = ['①','②','③','④'];
+const feedbacks = {
+  1:{c:'✅ 정확합니다! 사내아이는 하나님의 목적(원수 패배)을 이루고, 첫 열매들은 하나님의 만족을 채워드립니다. "한 면으로 사내아이는 하나님의 원수를 패배시킴으로 그분의 목적을 이루어 드리고, 다른 면으로 첫 열매들은 하나님의 만족을 위해 있다."',
+     w:'❌ 아닙니다. 사내아이는 하나님의 목적 측면에서, 첫 열매들은 하나님의 만족 측면에서 각기 다른 역할을 합니다.'},
+  2:{c:'✅ 맞습니다! "단지 죄가 없는 것만으로는 충분하지 않다. 다만 선하거나 올바른 것으로도 충분하지 않다. 우리는 반드시 주님과의 사랑 안에 있어야 한다."',
+     w:'❌ 아닙니다. 도덕적 삶이나 성경 지식이 아니라, 친밀한 방식으로 주님을 사랑하는 것이 살아있는 이기는 이가 되는 핵심입니다.'},
+  3:{c:'✅ 정확합니다! 에녹은 삼백 년을 하나님과 동행하여 기쁘시게 해드렸습니다. 이처럼 주님의 임재 안에서 날마다 사는 삶이 첫 열매들의 준비입니다.',
+     w:'❌ 아닙니다. 에녹의 핵심은 "삼백 년을 하나님과 동행하면서" 기쁘시게 해드린 것입니다. 기적이나 율법 준수가 아니라 동행이 핵심입니다.'},
+  4:{c:'✅ 정확합니다! 이것이 살아있는 이기는 이들의 태도입니다. 첫 열매들에게는 자신들이 어디에 있는지가 중요하지 않습니다.',
+     w:'❌ 아닙니다. "주님, 제가 주님을 만족시켜 드릴 수만 있다면, 저는 땅에 있든 하늘에 있든 차이가 없습니다."가 이기는 이의 태도입니다.'},
+  5:{c:'✅ 맞습니다! "우리 모두는 \'주님, 저에게 긍휼을 베푸시어 제가 첫 열매들의 일부가 되게 하시고 이기는 이가 되게 해 주십시오.\'라고 기도해야 한다."',
+     w:'❌ 아닙니다. 지문이 권면하는 핵심 기도는 첫 열매들의 일부가 되어 이기는 이가 되게 해달라는 것입니다.'},
+};
+
+function pick(q,optIdx,isCorrect){
+  if(answers[q]) return;
+  answers[q]={optIdx,isCorrect};
+  const card=document.getElementById('qc'+q);
+  const opts=card.querySelectorAll('.q-opt');
+  opts.forEach(o=>o.disabled=true);
+  opts[optIdx].classList.add(isCorrect?'q-sc':'q-sw');
+  opts[optIdx].querySelector('.opt-dot').textContent=isCorrect?'✓':'✗';
+  if(!isCorrect){
+    opts[correct[q]].classList.add('q-show');
+    opts[correct[q]].querySelector('.opt-dot').textContent='✓';
+  }
+  card.classList.add(isCorrect?'qc':'qw');
+  const fb=document.getElementById('fb'+q);
+  fb.textContent=isCorrect?feedbacks[q].c:feedbacks[q].w;
+  fb.className='q-fb on '+(isCorrect?'c':'w');
+}
+
+function showHint(q){
+  const h=document.getElementById('hint'+q);
+  h.classList.toggle('on');
+}
+
+function submitAll(){
+  for(let i=1;i<=5;i++){
+    if(!answers[i]){alert('문제 '+i+'번에 아직 답하지 않으셨습니다!');return;}
+  }
+  const score=Object.values(answers).filter(a=>a.isCorrect).length;
+  const resEl=document.getElementById('qRes');
+  document.getElementById('resScore').textContent=score+' / 5';
+  let msg='',color=var_gold;
+  if(score===5){
+    color='#E8C96A';
+    msg='🌾 탁월합니다! 이 메시지의 핵심을 완전히 이해하셨습니다. 첫 열매들이 되어 하나님을 만족시켜 드리는 삶을 향해 전진하십시오. "주님, 저에게 긍휼을 베푸시어 제가 첫 열매들의 일부가 되게 하시고 이기는 이가 되게 해 주십시오."';
+  } else if(score>=3){
+    color='#80C8E0';
+    msg='✨ 잘 하셨습니다! 핵심 내용을 잘 파악하셨습니다. 틀린 문제를 다시 살펴보며, 그리스도와의 친밀한 교통 안에서 성숙을 향해 계속 전진하십시오.';
+  } else {
+    color='#E8A04A';
+    msg='💛 다시 한번 본문을 펼쳐 읽어보시길 권면드립니다. 하나님의 갈망과 첫 열매들의 의미를 깊이 묵상하며, 성숙을 향한 여정을 새롭게 시작하십시오.';
+  }
+  document.getElementById('resScore').style.color=color;
+  document.getElementById('resMsg').textContent=msg;
+  resEl.classList.add('on');
+  document.getElementById('subBtn').style.display='none';
+  resEl.scrollIntoView({behavior:'smooth',block:'center'});
+}
+var var_gold='#E8C96A';
+
+// ═══ INTERSECTION OBSERVER for flow steps ═══
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.fl-step').forEach((s,i)=>{
+        setTimeout(()=>{s.style.opacity='1';s.style.transform='translateY(0)';},i*100);
+      });
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:0.2});
+document.querySelectorAll('.dash-flow').forEach(f=>{
+  f.querySelectorAll('.fl-step').forEach(s=>{s.style.opacity='0';s.style.transform='translateY(14px)';s.style.transition='opacity .45s,transform .45s';});
+  obs.observe(f);
+});
+</script>
+</body>
+</html>
