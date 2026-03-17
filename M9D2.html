@@ -162,7 +162,7 @@
 
 /* ══ CONTENT WRAP ══ */
 #contentWrap{
-  font-size:15px;margin-top:var(--tb-h);
+  font-size:17px;margin-top:var(--tb-h);
   background:var(--bg);min-height:100vh;
   color:var(--text);font-family:'Noto Sans KR',sans-serif;
 }
@@ -1246,9 +1246,9 @@ footer{text-align:center;padding:18px;font-size:0.72em;color:var(--text-soft);bo
 <script>
 // ═══ FONT SIZE ═══
 const FS = [12,13,14,15,16,17,18,19];
-let fsIdx = 3; // default 15px
+let fsIdx = 5; // default 17px
 function adjFont(d) {
-  if (d === 0) fsIdx = 3;
+  if (d === 0) fsIdx = 5;
   else fsIdx = Math.max(0, Math.min(FS.length-1, fsIdx + d));
   document.getElementById('contentWrap').style.fontSize = FS[fsIdx] + 'px';
 }
