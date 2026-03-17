@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>하나님과 동행함</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--base-font:19px;--fs:1;--bg:#fff;--bg2:#F8F9FA;--tx:#1a1a1a;--tx2:#3a3a3a;--bd:#e0e0e0;--bdl:#f0f0f0;--gold:#B8860B;--goldl:#DAA520;--hly:#FFF3B0;--hlo:#FFE0B2;--hlg:#C8E6C9;--ab:#4A6FA5;--ag:#2E7D58;--ap:#6B5B95;--ar:#C0392B;--ao:#D4880F;--at:#00897B;--r:12px;--sh:0 2px 12px rgba(0,0,0,.06);--shh:0 4px 20px rgba(0,0,0,.1);--tbh:42px}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--tbh)+12px)}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--tx);line-height:1.85;font-size:calc(var(--base-font)*var(--fs))}
+.intro-overlay{position:fixed;inset:0;z-index:9999;background:linear-gradient(170deg,#1a1408 0%,#2c1f0e 30%,#3d2c14 60%,#4a3520 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 28px;cursor:pointer;transition:opacity .8s cubic-bezier(.4,0,.2,1),transform .8s cubic-bezier(.4,0,.2,1);overflow:hidden}
+.intro-overlay.hide{opacity:0;transform:scale(1.05);pointer-events:none}.intro-overlay.gone{display:none}
+.intro-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.g-particle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(218,165,32,.9) 0%,rgba(218,165,32,.3) 60%,transparent 100%);animation:gFloat linear infinite;will-change:transform,opacity}
+@keyframes gFloat{0%{transform:translateY(0) scale(1);opacity:0}8%{opacity:1}85%{opacity:.7}100%{transform:translateY(calc(-100vh - 40px)) scale(.5);opacity:0}}
+.intro-glow{position:absolute;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(218,165,32,.1) 0%,transparent 70%);pointer-events:none;animation:glowPulse 3s ease-in-out infinite alternate}
+@keyframes glowPulse{0%{transform:scale(.9);opacity:.5}100%{transform:scale(1.2);opacity:.9}}
+.intro-content{position:relative;z-index:2;max-width:600px}
+.intro-badge{display:inline-block;padding:5px 16px;border:1px solid rgba(218,165,32,.25);border-radius:100px;background:rgba(218,165,32,.08);font-size:12px;font-weight:600;color:rgba(218,165,32,.7);letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;animation:iFadeIn 1s ease .3s both}
+.intro-title{font-size:clamp(1.4rem,5vw,2.2rem);font-weight:800;color:#F5E6C8;line-height:1.5;margin-bottom:28px;animation:iFadeIn 1s ease .6s both}
+.intro-title em{font-style:normal;background:linear-gradient(90deg,#DAA520,#F5D76E,#DAA520);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.intro-question{font-size:clamp(1rem,3vw,1.2rem);font-weight:500;color:rgba(245,230,200,.7);line-height:1.8;margin-bottom:36px;animation:iFadeIn 1s ease .9s both}
+.intro-cta{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border:1px solid rgba(218,165,32,.4);border-radius:100px;background:rgba(218,165,32,.1);color:var(--goldl);font-size:15px;font-weight:600;animation:iFadeIn 1s ease 1.2s both,ctaPulse 2s ease-in-out 2s infinite;pointer-events:none}
+.intro-cta svg{width:16px;height:16px;animation:bounce 1.5s ease-in-out infinite}
+@keyframes iFadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ctaPulse{0%,100%{box-shadow:0 0 0 0 rgba(218,165,32,.2)}50%{box-shadow:0 0 20px 4px rgba(218,165,32,.15)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+.tb{position:fixed;top:0;left:0;right:0;height:var(--tbh);background:#fff;border-bottom:1px solid var(--bd);display:flex;align-items:center;z-index:1000;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.tb-btn{display:flex;align-items:center;justify-content:center;width:42px;min-width:42px;height:42px;background:none;border:none;cursor:pointer;color:var(--tx);flex-shrink:0;border-right:1px solid var(--bdl);text-decoration:none}
+.tb-btn svg{width:18px;height:18px}
+.tb-title{flex:1;min-width:0;overflow-x:auto;white-space:nowrap;padding:0 12px;font-size:14px;font-weight:600;color:var(--tx);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tb-title::-webkit-scrollbar{display:none}
+.tb-fs{display:flex;align-items:center;flex-shrink:0;border-left:1px solid var(--bdl);height:42px}
+.tb-fs button{width:36px;height:42px;background:none;border:none;cursor:pointer;font-size:14px;font-weight:700;color:var(--tx2);font-family:'Noto Sans KR',sans-serif;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.tb-fs button:hover{background:var(--bg2)}
+.pov{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:900;opacity:0;visibility:hidden;transition:all .3s}.pov.on{opacity:1;visibility:visible}
+.lpn{position:fixed;top:0;left:-300px;width:280px;max-width:85vw;height:100vh;background:#fff;z-index:950;transition:left .3s cubic-bezier(.4,0,.2,1);overflow-y:auto;box-shadow:2px 0 16px rgba(0,0,0,.08);padding-top:12px}.lpn.on{left:0}
+.lpn-cl{position:absolute;top:8px;right:8px;width:32px;height:32px;border:none;background:none;cursor:pointer;color:var(--tx2);display:flex;align-items:center;justify-content:center;border-radius:50%}.lpn-cl:hover{background:var(--bg2)}.lpn-cl svg{width:18px;height:18px}
+.ps{padding:8px 16px}.pst{font-size:11px;font-weight:700;color:#888;letter-spacing:1px;text-transform:uppercase;padding:8px 0 4px;border-bottom:1px solid var(--bdl);margin-bottom:4px}
+.pl{display:block;padding:8px 10px;color:var(--tx);text-decoration:none;font-size:14px;font-weight:500;border-radius:8px;transition:background .15s;line-height:1.5}.pl:hover{background:var(--bg2)}
+.psl{display:block;padding:6px 10px 6px 24px;color:var(--tx2);text-decoration:none;font-size:13px;border-radius:8px;transition:background .15s;line-height:1.5}.psl:hover{background:var(--bg2)}
+.kw-wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.kwi{display:inline-block;padding:5px 12px;background:var(--bg2);border:1px solid var(--bd);border-radius:20px;font-size:calc(.8rem*var(--fs));font-weight:500;color:var(--tx);cursor:pointer;transition:all .2s}
+.kwi:hover,.kwi.active{background:var(--hly);border-color:var(--gold)}
+.kw-display{margin-top:14px}.kw-display-inner{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:16px 20px;box-shadow:0 2px 12px rgba(0,0,0,.06);font-size:calc(.85rem*var(--fs));line-height:1.75;color:var(--tx);display:none}.kw-display-inner.show{display:block;animation:fi .25s ease}.kw-display-inner strong{color:var(--gold);font-size:calc(.9rem*var(--fs))}
+.mw{padding-top:var(--tbh)}
+.hero{padding:48px 20px 40px;text-align:center;background:#fff;border-bottom:1px solid var(--bdl)}
+.hbdg{display:inline-block;padding:4px 14px;background:var(--bg2);border:1px solid var(--bd);border-radius:100px;font-size:12px;font-weight:600;color:var(--tx2);letter-spacing:1px;margin-bottom:16px}
+.hero h1{font-size:calc(1.5rem*var(--fs));font-weight:800;color:var(--tx);line-height:1.4;margin-bottom:12px}.hero h1 em{font-style:normal;color:var(--gold)}
+.hsub{font-size:calc(.93rem*var(--fs));color:var(--tx2);max-width:640px;margin:0 auto 24px;line-height:1.8}
+.hvb{display:inline-block;background:var(--bg2);border:1px solid var(--bd);border-left:3px solid var(--gold);border-radius:8px;padding:16px 24px;max-width:600px;text-align:left;font-size:calc(.9rem*var(--fs));line-height:1.9}.hvb .ref{display:block;margin-top:6px;font-size:calc(.78rem*var(--fs));font-weight:600;color:var(--gold)}
+.db{padding:32px 20px;background:var(--bg2);border-bottom:1px solid var(--bdl)}.dbi{max-width:900px;margin:0 auto}.dbt{text-align:center;font-size:calc(.78rem*var(--fs));font-weight:700;color:var(--tx2);letter-spacing:1px;margin-bottom:20px}
+.dg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.dc{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:16px;text-align:center;transition:box-shadow .2s}.dc:hover{box-shadow:var(--shh)}.dci{font-size:24px;margin-bottom:6px}.dcl{font-size:calc(.73rem*var(--fs));font-weight:600;color:var(--tx2);margin-bottom:4px}.dcv{font-size:calc(.85rem*var(--fs));font-weight:700;color:var(--tx);line-height:1.5}
+.kws{padding:28px 20px;background:#fff;border-bottom:1px solid var(--bdl);text-align:center}.kww{max-width:800px;margin:0 auto}.stag{display:inline-block;font-size:calc(.7rem*var(--fs));font-weight:700;color:var(--tx2);letter-spacing:1px;margin-bottom:14px}
+.ca{max-width:800px;margin:0 auto;padding:0 20px}
+.theme-hdr{padding:40px 20px 8px;text-align:center;max-width:800px;margin:0 auto}.theme-num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;font-size:calc(.8rem*var(--fs));font-weight:800;color:#fff;margin-bottom:10px}.theme-title{font-size:calc(1.15rem*var(--fs));font-weight:800;color:var(--tx);margin-bottom:6px;line-height:1.5}.theme-desc{font-size:calc(.85rem*var(--fs));color:var(--tx2);max-width:600px;margin:0 auto 16px;line-height:1.7}
+.ai{margin-bottom:12px;border:1px solid var(--bd);border-radius:var(--r);background:#fff;overflow:hidden;transition:box-shadow .2s}.ai:hover{box-shadow:var(--sh)}
+.ah{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;transition:background .15s}.ah:hover{background:var(--bg2)}
+.abg{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}.aht{flex:1;min-width:0}.anl{font-size:calc(.65rem*var(--fs));font-weight:700;letter-spacing:1px;margin-bottom:1px}.atl{font-size:calc(.93rem*var(--fs));font-weight:700;color:var(--tx);line-height:1.5}
+.ach{width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s;color:#999}.ai.op .ach{transform:rotate(180deg)}.ach svg{width:16px;height:16px}
+.ab{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.4,0,.2,1)}.ai.op .ab{grid-template-rows:1fr}.ab-wrap{overflow:hidden}.abi{padding:4px 16px 20px}
+.vb{margin-bottom:16px}.vs{background:var(--bg2);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:8px;position:relative}.vbm{position:absolute;top:-6px;left:8px;width:22px;height:22px;background:var(--gold);border-radius:4px 4px 4px 0;display:flex;align-items:center;justify-content:center}.vbm svg{width:12px;height:12px;color:#fff}.vrf{font-size:calc(.72rem*var(--fs));font-weight:700;color:var(--gold);margin-top:2px;margin-bottom:3px}.vtx{font-size:calc(.88rem*var(--fs));color:var(--tx);line-height:1.85}.vhl{background:var(--hly);font-weight:700;padding:0 3px;border-radius:2px}
+.dbl{margin-top:8px}.dsb{font-size:calc(.72rem*var(--fs));font-weight:700;color:var(--ab);margin-bottom:4px;margin-top:14px}.dp{font-size:calc(.92rem*var(--fs));color:var(--tx);line-height:1.9;margin-bottom:10px}
+.hy{background:var(--hly);padding:0 2px;border-radius:2px;font-weight:600}.ho{background:var(--hlo);padding:0 2px;border-radius:2px;font-weight:600}.hg{background:var(--hlg);padding:0 2px;border-radius:2px;font-weight:600}
+.cn{display:flex;justify-content:center;height:20px}.cn::before{content:'';width:2px;height:100%;background:linear-gradient(to bottom,var(--bd),transparent)}
+.flow-arrow{display:flex;justify-content:center;padding:20px 0}.flow-arrow-inner{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--gold);font-size:calc(.7rem*var(--fs));font-weight:600;letter-spacing:.5px}.flow-arrow-inner svg{width:20px;height:20px}
+.comp-tbl { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: calc(.85rem*var(--fs)); border-radius: 8px; overflow: hidden; border: 1px solid var(--bd); box-shadow: var(--sh); }
+.comp-tbl th, .comp-tbl td { border: 1px solid var(--bd); padding: 12px 14px; text-align: left; vertical-align: top; line-height: 1.6; }
+.comp-tbl th { background: var(--bg2); font-weight: 700; color: var(--tx); }
+.comp-tbl tr:nth-child(even) td { background: #fafafa; }
+.comp-th { width: 22%; text-align: center !important; background: var(--bg2); font-weight: 700; color: var(--tx2); }
+.hl-box { background: var(--hly); padding: 16px 20px; border-left: 4px solid var(--gold); border-radius: 6px; margin: 16px 0; font-size: calc(.88rem*var(--fs)); font-weight: 600; color: var(--tx); line-height: 1.7; display: flex; gap: 10px; align-items: flex-start;}
+.qs{padding:40px 20px;background:var(--bg2)}.qc{max-width:700px;margin:0 auto}.qhd{text-align:center;margin-bottom:24px}.qhd h2{font-size:calc(1.15rem*var(--fs));font-weight:800;color:var(--tx);margin-bottom:4px}.qhd p{font-size:calc(.85rem*var(--fs));color:var(--tx2)}
+.qpg{display:flex;gap:6px;justify-content:center;margin-bottom:20px}.qd{width:28px;height:28px;border-radius:50%;background:#fff;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--tx2);transition:all .3s}.qd.ac{border-color:var(--gold);color:var(--gold);background:#FFF8E1}.qd.ok{border-color:#27AE60;color:#fff;background:#27AE60}.qd.no{border-color:#E74C3C;color:#fff;background:#E74C3C}
+.qk{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:24px;display:none}.qk.ac{display:block;animation:fi .3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.qn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--gold);color:#fff;font-size:1rem;font-weight:700;margin-bottom:12px}.qq{font-size:1rem;font-weight:600;color:var(--tx);line-height:1.7;margin-bottom:16px}
+.qos{display:flex;flex-direction:column;gap:8px}.qo{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid var(--bd);border-radius:10px;cursor:pointer;transition:all .2s;font-size:1rem;line-height:1.6;color:var(--tx);min-height:48px}.qo:hover:not(.dis){background:var(--bg2);border-color:var(--gold)}
+.oc{width:26px;height:26px;border-radius:50%;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:1px;color:var(--tx2)}.qo.ca2{background:#E8F5E9;border-color:#27AE60}.qo.ca2 .oc{border-color:#27AE60;color:#27AE60}.qo.wa{background:#FFEBEE;border-color:#E74C3C}.qo.wa .oc{border-color:#E74C3C;color:#E74C3C}.qo.dis{cursor:default;opacity:.65}
+.qhb{display:inline-flex;align-items:center;gap:4px;margin-top:12px;padding:6px 14px;border:1px solid var(--bd);border-radius:20px;background:#fff;cursor:pointer;font-size:.85rem;font-weight:500;color:var(--ab);transition:all .2s;font-family:'Noto Sans KR',sans-serif}.qhb:hover{background:#E3F2FD}
+.qht{display:none;margin-top:8px;padding:10px 14px;background:#E3F2FD;border-radius:8px;font-size:.9rem;color:var(--tx);line-height:1.6;border:1px solid #BBDEFB}.qht.sh{display:block;animation:fi .2s ease}
+.qfb{display:none;margin-top:12px;padding:12px 14px;border-radius:8px;font-size:.9rem;line-height:1.65}.qfb.sh{display:block;animation:fi .2s ease}.qfb.fok{background:#E8F5E9;color:#2E7D32;border:1px solid #C8E6C9}.qfb.fno{background:#FFEBEE;color:#C62828;border:1px solid #FFCDD2}
+.qnx{display:none;margin-top:14px;padding:10px 24px;border-radius:8px;background:var(--gold);color:#fff;border:none;font-size:.95rem;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:background .2s}.qnx:hover{background:var(--goldl)}.qnx.sh{display:inline-block}
+.qr{display:none;text-align:center;padding:36px 24px;background:#fff;border:1px solid var(--bd);border-radius:var(--r)}.qr.ac{display:block;animation:fi .4s ease}.qrs{font-size:3rem;font-weight:900;color:var(--gold);margin-bottom:4px}.qrl{font-size:.9rem;color:var(--tx2);margin-bottom:16px}.qrm{font-size:1rem;color:var(--tx);line-height:1.7;max-width:440px;margin:0 auto 20px}
+.qrt{padding:10px 24px;border:1px solid var(--gold);border-radius:8px;background:transparent;color:var(--gold);font-size:.9rem;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s}.qrt:hover{background:var(--gold);color:#fff}
+.prs{padding:40px 20px;background:#fff}.prc{max-width:700px;margin:0 auto}.prcd{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:32px 28px}.prt{text-align:center;margin-bottom:20px}.prt .pi{font-size:28px;margin-bottom:8px}.prt h3{font-size:calc(1.05rem*var(--fs));font-weight:800;color:var(--tx)}.prb{font-size:calc(.92rem*var(--fs));color:var(--tx);line-height:2.1}.prb p{margin-bottom:14px}.phl{color:var(--gold);font-weight:700}.pam{text-align:center;font-size:calc(1.1rem*var(--fs));font-weight:800;color:var(--gold);margin-top:8px}
+.ft{padding:20px;text-align:center;background:var(--bg2);border-top:1px solid var(--bdl);font-size:calc(.72rem*var(--fs));color:#999}
+.sa{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}.sa.vi{opacity:1;transform:translateY(0)}
+.callout{background:#FFFDE7;border:1px solid #FFF176;border-radius:10px;padding:14px 18px;margin:12px 0;font-size:calc(.88rem*var(--fs));line-height:1.85;color:var(--tx)}
+.callout-title{font-weight:700;color:var(--ao);margin-bottom:4px;font-size:calc(.78rem*var(--fs))}
+@media(max-width:600px){.dg{grid-template-columns:repeat(2,1fr)}.qk{padding:18px 16px}.prcd{padding:24px 18px}.comp-tbl th, .comp-tbl td{padding:10px; font-size: calc(.8rem*var(--fs));}}
+</style>
+</head>
+<body>
+
+<div class="intro-overlay" id="introOverlay">
+  <div class="intro-particles" id="introParticles"></div>
+  <div class="intro-glow"></div>
+  <div class="intro-content">
+    <div class="intro-badge">2025 겨울훈련 9주 3일</div>
+    <h1 class="intro-title">에녹은 삼백 년 동안 하나님과 동행하며<br><em>죽음을 맛보지 않고</em> 데려감을 받았다</h1>
+    <p class="intro-question">당신은 하나님과 동행하고 있습니까,<br>아니면 하나님께서 당신과 동행하고 계십니까?<br>그 차이가 당신의 운명을 바꿉니다.</p>
+    <div class="intro-cta">화면을 터치하여 진리를 확인하세요 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+  </div>
+</div>
+
+<div class="tb">
+  <button class="tb-btn" onclick="tP()" aria-label="메뉴"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+  <a href="https://tk-korea.github.io/2025wintertraining/" class="tb-btn" aria-label="홈"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></a>
+  <div class="tb-title">하나님과 동행함</div>
+  <div class="tb-fs"><button onclick="cFS(-1)">−</button><button onclick="cFS(0)">가</button><button onclick="cFS(1)">+</button></div>
+</div>
+
+<div class="pov" id="pov" onclick="tP()"></div>
+<nav class="lpn" id="lpn">
+  <button class="lpn-cl" onclick="tP()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  <div class="ps"><div class="pst">목차</div><a class="pl" href="#hero" onclick="tP()">📖 제목</a><a class="pl" href="#db" onclick="tP()">📊 대시보드</a><a class="pl" href="#kw" onclick="tP()">🔑 키워드</a></div>
+  <div class="ps"><div class="pst">핵심 메시지</div><a class="psl" href="#t1" onclick="tP()">① 휴거의 원칙</a><a class="psl" href="#t2" onclick="tP()">② 동행의 실재</a><a class="psl" href="#t3" onclick="tP()">③ 동행의 본질</a><a class="psl" href="#t4" onclick="tP()">④ 동행의 본</a></div>
+  <div class="ps"><div class="pst">마무리</div><a class="pl" href="#qz" onclick="tP()">✏️ 퀴즈</a><a class="pl" href="#pr" onclick="tP()">🙏 오늘의 기도</a></div>
+</nav>
+
+<div class="mw">
+
+<section class="hero" id="hero">
+  <div class="hbdg">2025 겨울훈련 9주 3일</div>
+  <h1>어린양을 따라가며 <em>성숙에 이르러</em> 첫 열매들이 되는 길</h1>
+  <p class="hsub">사람의 타락의 최종 결과에서 벗어나는 길은 제칠 대인 에녹에 의해 발견되었다. 에녹은 실지로 그리고 완전히, 죽음에서 벗어나는 방식으로 살았다. 주님께서 에녹을 데려가시기 전, 그가 이 땅에서 살며 행하는 동안 죽음은 그에게 더 이상 영향을 미치지 못했다.</p>
+  <div class="hvb">"에녹이 <b>하나님과 동행</b>하더니 하나님께서 그를 <b>데려가시므로</b> 그가 있지 않았다."<span class="ref">— 창세기 5:24</span></div>
+</section>
+
+<section class="db" id="db"><div class="dbi"><div class="dbt sa">◆ 메시지 핵심 흐름 ◆</div><div class="dg"><div class="dc sa"><div class="dci">🔑</div><div class="dcl">① 원칙</div><div class="dcv">동행 → 생명 성숙 → 휴거</div></div><div class="dc sa"><div class="dci">🚶</div><div class="dcl">② 실재</div><div class="dcv">동행하는 6가지 길</div></div><div class="dc sa"><div class="dci">📋</div><div class="dcl">③ 본질</div><div class="dcv">'-이다' · '아니다'</div></div><div class="dc sa"><div class="dci">👑</div><div class="dcl">④ 에녹의 본</div><div class="dcv">지속적으로 동행하며<br>위로 올라감</div></div></div></div></section>
+
+<section class="kws" id="kw"><div class="kww"><div class="stag sa">◆ 핵심 키워드 ◆</div><br><div class="kw-wrap sa"><span class="kwi" data-def="하나님을 넘어서지 않고, 주제넘지 않으며, 하나님 없이는 아무것도 하지 않고, 하나님을 따라 하나님과 함께 살고 행하는 것이다.">동행</span><span class="kwi" data-def="에녹은 최초로 휴거된 사람이었다. 휴거의 원칙은 하나님과 동행함으로써 생명이 성숙되는 것이다.">휴거</span><span class="kwi" data-def="하나님께서 '-이다'이시고 우리가 '아니다'임을 믿는 것이다. 믿음이 없이는 하나님을 기쁘시게 해 드릴 수 없다.">믿음</span><span class="kwi" data-def="에녹은 옮겨지기 전에 하나님을 기쁘시게 해 드렸다는 증거를 지녔다.">하나님을 기쁘시게</span><span class="kwi" data-def="자신의 어떠함이나 타고난 능력에 의해 살지 않고, 그리스도 자신인 죽지 않는 생명에 의해 사는 것이다.">죽지 않는 생명</span><span class="kwi" data-def="자아를 부인하고 하나님께 항복하며 그분의 인도를 받아들이는 것이다.">자아 부인 · 항복</span><span class="kwi" data-def="습관처럼 하나님과 교통하고, 지속적으로 주님을 접촉하며, 끊임없이 그분을 주입받는 것이다.">교통 · 접촉</span><span class="kwi" data-def="'저희는 심지어 저희의 휴거도 관심하지 않습니다. 다만 주님만 관심합니다!' 에녹은 이기는 이들을 대표한다.">첫 열매들</span><span class="kwi" data-def="하나님께서 우리에게 모든 것이시고 우리는 아무것도 아님을 믿는 것이다. 더 이상 내가 아니라 그리스도께서 사신다.">'-이다' · '아니다'</span></div><div class="kw-display"><div class="kw-display-inner" id="kwDisplay"></div></div></div></section>
+
+<!-- ════════ THEME 1: 재구성된 휴거의 원칙 ════════ -->
+<div class="theme-hdr sa" id="t1"><div class="theme-num" style="background:var(--ao)">1</div><div class="theme-title">휴거의 원칙 — 갑작스러운 사건이 아닌, 점진적인 성숙</div><div class="theme-desc">에녹은 최초로 휴거된 사람이었다. 성경에서 어떤 것에 대한 첫 번째 언급은 그것에 대한 원칙을 세운다.</div></div>
+<div class="ca">
+  <div class="ai sa"><div class="ah" onclick="tA(this)"><div class="abg" style="background:#FFF3E0">🔑</div><div class="aht"><div class="anl" style="color:var(--ao)">원칙</div><div class="atl">휴거의 원칙: "갑작스러운 사건이 아닌, 점진적인 성숙"</div></div><div class="ach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div></div>
+  <div class="ab"><div class="ab-wrap"><div class="abi">
+    
+    <div class="vb">
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">창 5:24</div><div class="vtx">에녹이 <span class="vhl">하나님과 동행하더니</span> 하나님께서 그를 데려가시므로 그가 있지 않았다.</div></div>
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">히 11:5</div><div class="vtx">에녹은 믿음으로, <span class="vhl">죽음을 당하지 않도록 옮겨졌습니다</span>.</div></div>
+    </div>
+    
+    <div class="dbl">
+      <div class="dsb">▸ 생명의 성숙과 꾸준한 상승</div>
+      <div class="dp"><span class="hy">생명의 성숙:</span> 휴거는 어느 날 갑자기 일어나는 사건이 아니라, 매일 하나님과 동행하며 영적 생명이 성숙해진 결과입니다.</div>
+      <div class="dp"><span class="ho">꾸준한 상승:</span> 에녹은 하나님과 동행할 때 오르락내리락하며 걷지 않았고, 갈지자(之) 모양으로 걷지도 않았습니다. 그는 하늘에 닿을 때까지 계속 걸어 올라갔습니다. 에녹이 삼백육십오 세가 되어 거의 하늘에 닿았을 때, 하나님은 그에게 “나의 자녀야, 내가 여기에 있다. 나와 함께 가자.”라고 말씀하셨습니다. 그리하여 에녹은 데려가졌습니다.</div>
+    </div>
+  </div></div></div></div>
+</div>
+
+<div class="flow-arrow"><div class="flow-arrow-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>원칙을 알았으니, 실재를 보자</div></div>
+
+<!-- ════════ THEME 2: 동행의 실재 - 여섯 가지 중점 (Updated Section) ════════ -->
+<div class="theme-hdr sa" id="t2"><div class="theme-num" style="background:var(--ag)">2</div><div class="theme-title">동행의 실재 — 여섯 가지 중점</div><div class="theme-desc">하나님과 동행하는 것이 무엇을 의미하는지, 여섯 가지 놀라운 중점을 보아야 한다.</div></div>
+<div class="ca">
+
+  <!-- 01 기준점 설정 -->
+  <div class="ai sa"><div class="ah" onclick="tA(this)"><div class="abg" style="background:#FFF3E0">🛑</div><div class="aht"><div class="anl" style="color:var(--ao)">① 기준점 설정</div>
+  <div class="atl">하나님을 넘어서지 않는 것</div></div><div class="ach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div></div>
+  <div class="ab"><div class="ab-wrap"><div class="abi">
+    <div class="vb">
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">시 19:12-13</div><div class="vtx">누가 자기 과실을 다 깨달을 수 있겠습니까? 숨겨진 잘못들에서 저를 깨끗하게 해 주십시오. 또한 이 종을 <span class="vhl">주제넘은 죄들</span>에서 지켜 주시어 그 죄들이 저를 지배하지 못하게 해 주십시오.</div></div>
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">마 7:22-23</div><div class="vtx">그날에 많은 사람이 나에게 ‘주님, 주님! 우리가 주님의 이름으로 예언하였으며...’라고 할 것이지만... <span class="vhl">나는 여러분을 도무지 알지 못합니다.</span> 불법을 행하는 사람들이여, 나에게서 떠나가십시오.</div></div>
+    </div>
+    <div class="dbl">
+      <div class="dsb">▸ 동행의 진정한 의미</div>
+      <div class="dp">하나님과 동행하는 것은 <span class="hy">하나님을 넘어서지 않고, 주제넘지 않으며</span>, 자신의 관념을 따라 행하지 않고, 하나님 없이는 아무것도 하지 않는 것입니다.</div>
+      <div class="dsb">▸ 일 vs 접촉의 대조</div>
+      <div class="dp">우리는 평생 주님을 섬기면서도 주님으로부터 "나는 도대체 여러분이 누구인지 알지 못합니다"라는 말을 들을 수 있습니다. 그 이유는 우리가 그분께 와서 <span class="ho">얼굴과 얼굴을 마주하지 않았기</span> 때문입니다. 그 대신 우리는 그분을 위해 '일하느라' 너무 바빴던 것입니다.</div>
+      <div class="dsb">▸ 우리의 실행</div>
+      <div class="dp">우리는 마르다처럼 분주하게 일하는 대신, <span class="hg">"나는 네가 그것을 하는 것을 원하지 않는다. 다만 나를 바라보아라. 다만 나와 함께 머물러라"</span> 하시는 주님의 음성에 귀 기울여야 합니다. 이것이 동행의 첫걸음입니다.</div>
+	  
+	  <div class="dsb">▸ 올바른 동행 vs 잘못된 동행</div>
+      <div class="dp">진정한 동행은 <strong>'내가 하나님의 보폭과 방향에 맞추는 것'</strong>입니다.</div>
+      
+      <!-- 비교 테이블 -->
+      <table class="comp-tbl">
+        <thead>
+          <tr>
+            <th class="comp-th">구분</th>
+            <th>진정한 동행 (얼굴과 얼굴을 마주대함)</th>
+            <th>잘못된 동행 (논쟁)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="comp-th">주체</td>
+            <td>내가 하나님과 동행함</td>
+            <td>하나님이 나와 동행하기를 바람</td>
+          </tr>
+          <tr>
+            <td class="comp-th">태도</td>
+            <td>하나님의 기준에 내 속도와 방향을 맞춤</td>
+            <td>내 목적지를 정해놓고 하나님을 끌어들임</td>
+          </tr>
+          <tr>
+            <td class="comp-th">특징</td>
+            <td>내 생각과 고집을 버리고 온전히 하나 됨</td>
+            <td>뒷좌석 운전자처럼 하나님의 인도에 간섭하고 논쟁함<br><span style="color:#888;font-size:0.9em;">("이 길이 지름길입니다")</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 핵심 포인트 하이라이트 박스 -->
+      <div class="hl-box">
+        <div>💡</div>
+        <div><strong>핵심 포인트:</strong> 입으로는 주님을 따른다고 하면서 내 뜻대로 이끌려고 한다면, 그것은 동행이 아니라 논쟁입니다.</div>
+      </div>
+
+      <!-- 기존 Callout 유지/다듬기 -->
+      <div class="callout">
+        <div class="callout-title">⚠️ 뒷자석 운전자가 되지 말라</div>
+        우리가 하나님과 동행하기는 하지만, "주님, 대신 이 길로 가시는 것이 어떻습니까? 이 길이 지름길입니다."라고 말할 수도 있다. 우리는 주제넘게 그분보다 더 많이 안다고 생각할 수 있다. 그렇다면 <span class="hy">우리는 하나님과 동행하는 것이 아니라 차 뒷자리에 앉아 운전에 간섭하는 사람처럼 그분과 논쟁하고 있는 것</span>이다. 우리는 그분을 넘어서는 것이 아니라 그분과 동행하는 것을 배울 필요가 있다.
+      </div>
+
+      <div class="grace-wrap" style="background:#F4F8FE; border:1px solid #BBDEFB; border-radius:10px; padding:20px; margin-top:24px; box-shadow:0 2px 8px rgba(33,150,243,0.06);">
+        <div style="font-size:calc(.9rem*var(--fs)); font-weight:700; color:#1976D2; margin-bottom:16px; display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.3em;">🕊️</span> 예외: 하나님께서 먼저 다가오신 사례 (회복의 은혜)
+        </div>
+        
+        <div style="display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:20px;">
+          <div style="background:#fff; border-left:4px solid #64B5F6; padding:16px; border-radius:6px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+            <div style="font-weight:700; color:#1565C0; font-size:calc(.85rem*var(--fs)); margin-bottom:6px;">엠마오로 향하던 두 제자 <span style="font-weight:500; font-size:0.9em; color:#888;">(눅 24:15)</span></div>
+            <div style="font-size:calc(.85rem*var(--fs)); color:var(--tx); line-height:1.65;">낙심하여 예루살렘을 떠나 걸어갈 때, 주님께서 가까이 가셔서 동행하셨습니다. 목적은 그들을 <strong>다시 예루살렘으로 돌아오게 하시려는 것</strong>이었습니다.</div>
+          </div>
+          <div style="background:#fff; border-left:4px solid #64B5F6; padding:16px; border-radius:6px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+            <div style="font-weight:700; color:#1565C0; font-size:calc(.85rem*var(--fs)); margin-bottom:6px;">스올에 잠자리를 펼 때 <span style="font-weight:500; font-size:0.9em; color:#888;">(시 139:8)</span></div>
+            <div style="font-size:calc(.85rem*var(--fs)); color:var(--tx); line-height:1.65;">우리가 주님에게서 벗어나려 스올 깊은 곳에 숨을지라도, 하나님은 우리를 집으로 데려오시기 위해 <strong>우리가 있는 바로 그곳까지</strong> 찾아오십니다. 우리가 여전히 교회 안에 있는 것은 이 은혜 덕분입니다.</div>
+          </div>
+        </div>
+        
+        <div style="background:#FFF8E1; border:1px solid #FFE0B2; border-radius:8px; padding:18px; display:flex; gap:12px; align-items:flex-start;">
+          <div style="font-size:1.4rem; line-height:1;">🎯</div>
+          <div>
+            <div style="font-weight:800; color:#E65100; margin-bottom:6px; font-size:calc(.88rem*var(--fs));">핵심 요점: 회복 이후의 과제</div>
+            <div style="font-size:calc(.88rem*var(--fs)); color:var(--tx); line-height:1.7;">
+              하나님께서 먼저 우리와 동행하시는 이유는 방황하는 우리를 살리고 회복하시기 위함입니다. 그러나 신앙의 궁극적인 목표는 수동적으로 위로만 받는 것이 아닙니다.<br>
+              회복을 경험했다면, <strong>이제는 <span class="ho">우리가 주도권을 내어드리고 그분과 동행하는 법</span>을 적극적으로 배워야 합니다.</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></div></div></div><div class="cn"></div>
+
+  <!-- 02 주도권 이양 -->
+  <div class="ai sa"><div class="ah" onclick="tA(this)"><div class="abg" style="background:#E8F5E9">🧭</div><div class="aht"><div class="anl" style="color:var(--ag)">② 주도권 이양</div>
+  <div class="atl">계시와 인도를 따라 행함</div></div><div class="ach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div></div>
+  <div class="ab"><div class="ab-wrap"><div class="abi">
+    <div class="vb">
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">갈 2:2상</div><div class="vtx">내가 올라간 것은 <span class="vhl">계시에 따른 것</span>이었습니다.</div></div>
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">롬 8:4</div><div class="vtx">육신을 따라 행하지 않고 <span class="vhl">그 영을 따라 행하는</span> 우리 안에서...</div></div>
+    </div>
+    <div class="dbl">
+      <div class="dsb">▸ 중심의 이동</div>
+      <div class="dp">동행은 <span class="hy">하나님을 우리의 중심과 모든 것으로 취하는 것</span>입니다. 바울은 예루살렘에 교통하러 갈 때, 그것이 그저 '옳은 일이어서'가 아니라 하나님과 동행했기 때문에 "계시에 따른 것"이라고 선포했습니다.</div>
+    </div>
+  </div></div></div></div><div class="cn"></div>
+
+  <!-- 03 동력의 전환 -->
+  <div class="ai sa"><div class="ah" onclick="tA(this)"><div class="abg" style="background:#E3F2FD">⚔️</div><div class="aht"><div class="anl" style="color:var(--ab)">③ 동력의 전환</div>
+  <div class="atl">타고난 능력을 부인함</div></div><div class="ach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div></div>
+  <div class="ab"><div class="ab-wrap"><div class="abi">
+    <div class="vb">
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">고후 5:4</div><div class="vtx">이 장막에 있는 우리가 짐을 지고 탄식하는 것은 벗어 버리기를 원해서가 아니라, 도리어 덧입기를 원해서입니다. 그것은 죽을 것이 <span class="vhl">생명에게 삼켜지게</span> 하려는 것입니다.</div></div>
+    </div>
+    <div class="dbl">
+      <div class="dsb">▸ 타고난 능력의 위험성</div>
+      <div class="dp">우리의 <span class="ho">타고난 능력은 신성한 생명이 직면하는 가장 큰 장애물 중 하나</span>입니다. 심각한 문제는 우리의 타고난 능력이 '어느 정도 성공을 거둘 때' 발생합니다. 이 성공은 오히려 그리스도의 몸을 파괴하고 주님의 일을 방해하는 <span class="ho">막대한 손상</span>이 될 수 있습니다.</div>
+    </div>
+  </div></div></div></div><div class="cn"></div>
+
+  <!-- 04 소통의 방식 -->
+  <div class="ai sa"><div class="ah" onclick="tA(this)"><div class="abg" style="background:#F3E5F5">💬</div><div class="aht"><div class="anl" style="color:var(--ap)">④ 소통의 방식</div>
+  <div class="atl">아침부터 시작되는 끊임없는 대화</div></div><div class="ach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div></div>
+  <div class="ab"><div class="ab-wrap"><div class="abi">
+    <div class="vb">
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">빌 4:6</div><div class="vtx">아무것도 염려하지 말고, 다만 모든 일에서 기도와 간구를 통하여 감사한 마음으로 여러분의 구할 것을 <span class="vhl">하나님께 말씀드리십시오</span>.</div></div>
+    </div>
+    <div class="dbl">
+      
+      <!-- 1. 아침에 시작되는 첫 열매들의 태도 -->
+      <div style="background:#FFFDE7; border-left:4px solid #FBC02D; padding:16px; border-radius:8px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.03);">
+        <div style="font-weight:800; color:#F57F17; margin-bottom:8px; font-size:calc(.9rem*var(--fs)); display:flex; align-items:center; gap:6px;">
+          <span>🌅</span> 아침에 시작되는 첫 열매들의 태도
+        </div>
+        <div style="font-size:calc(.85rem*var(--fs)); color:var(--tx); line-height:1.7;">
+          "주님, 저는 하루를 위한 공급도 구하지 않습니다. 다만 여기서 주님과 함께 있기를 원합니다."
+        </div>
+        <div style="margin-top:12px; padding:12px; background:#fff; border-radius:6px; font-weight:700; color:#D84315; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,0.06); font-size:calc(.88rem*var(--fs));">
+          "저희는 심지어 휴거도 관심하지 않습니다.<br><span style="background:#FFF9C4; padding:2px 6px; border-radius:4px; display:inline-block; margin-top:4px;">다만 주님만 관심합니다!</span>"
+        </div>
+      </div>
+
+      <!-- 2. 우리의 초점 -->
+      <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:140px; background:#FFEBEE; padding:14px; border-radius:8px; border:1px solid #FFCDD2;">
+          <div style="font-weight:800; color:#C62828; font-size:calc(.82rem*var(--fs)); margin-bottom:6px; display:flex; align-items:center; gap:4px;"><span>❌</span> 잘못된 초점</div>
+          <div style="font-size:calc(.8rem*var(--fs)); color:var(--tx2); line-height:1.6;">휴거에 대해 염려하거나, 무언가(고난 등)를 <strong>피하기 위한 동기</strong></div>
+        </div>
+        <div style="flex:1; min-width:140px; background:#E8F5E9; padding:14px; border-radius:8px; border:1px solid #C8E6C9;">
+          <div style="font-weight:800; color:#2E7D32; font-size:calc(.82rem*var(--fs)); margin-bottom:6px; display:flex; align-items:center; gap:4px;"><span>🎯</span> 올바른 초점</div>
+          <div style="font-size:calc(.8rem*var(--fs)); color:var(--tx2); line-height:1.6;"><strong>오직 하나님의 만족을 위해</strong> 존재함<br>(하루 종일 지속적인 대화 유지)</div>
+        </div>
+      </div>
+
+      <!-- 3. 빌 4:6 '하나님께'의 참된 의미 -->
+      <div style="background:#F3E5F5; border:1px solid #E1BEE7; border-radius:8px; padding:18px;">
+        <div style="font-weight:800; color:#6A1B9A; margin-bottom:10px; font-size:calc(.9rem*var(--fs)); display:flex; align-items:center; gap:6px;">
+          <span>💬</span> 빌 4:6 '하나님께'의 참된 의미
+        </div>
+        <div style="font-size:calc(.85rem*var(--fs)); color:var(--tx); line-height:1.65; margin-bottom:16px;">
+          단순히 메시지를 보내는 것이 아니라, 생생한 연결과 교제 안에서 <strong>그분의 인격을 향해 더 가까이 움직이는 것</strong>입니다.
+        </div>
+        <div style="display:flex; align-items:center; justify-content:center; gap:12px; background:#fff; padding:16px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="font-weight:800; color:#4A148C; text-align:center; font-size:calc(.85rem*var(--fs)); line-height:1.3;">우리의<br>'구할 것'</div>
+          <div style="color:#BA68C8; font-size:1.5rem; font-weight:bold;">=</div>
+          <div style="font-weight:800; color:#E91E63; background:#FCE4EC; padding:8px 16px; border-radius:30px; font-size:calc(.85rem*var(--fs)); border:1px solid #F8BBD0; text-align:center;">
+            더 많은 접촉을 위한<br>일종의 구실
+          </div>
+        </div>
+        <div style="font-size:calc(.75rem*var(--fs)); color:#888; margin-top:12px; text-align:center; font-weight:500;">
+          (그분께서 예상과 다른 방식으로 응답하실 때 실망할 필요가 없는 이유)
+        </div>
+      </div>
+
+    </div>
+  </div></div></div></div><div class="cn"></div>
+
+  <!-- 05 내적 태도 -->
+  <div class="ai sa"><div class="ah" onclick="tA(this)"><div class="abg" style="background:#FFEBEE">🔥</div><div class="aht"><div class="anl" style="color:var(--ar)">⑤ 내적 태도</div>
+  <div class="atl">영을 사용하여 삼일성을 누림</div></div><div class="ach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div></div>
+  <div class="ab"><div class="ab-wrap"><div class="abi">
+    <div class="vb">
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">유 1:20-21</div><div class="vtx">그러나 사랑하는 여러분, 여러분의 가장 거룩한 믿음 위에 자신을 건축하고, <span class="vhl">성령 안에서 기도하며</span>, 하나님의 사랑 안에서 자신을 지키고...</div></div>
+    </div>
+    <div class="dbl">
+      <div class="dsb">▸ 지속적인 누림</div>
+      <div class="dp">동행의 실제는 <span class="hy">지속적으로 우리의 영을 사용하여 복되신 삼일성을 누리는 것</span>입니다. 만일 우리가 휴거에 대해 염려하거나 어떤 상황을 피하려는 동기로 나아간다면 초점이 잘못된 것입니다.</div>
+      <div class="dsb">▸ 솔직한 소통</div>
+      <div class="dp">우리는 하루 종일 지속적인 대화를 통해 어떤 것이든지 주님께 말씀드려야 합니다. 심지어 <span class="ho">"오 주님, 저는 당신께서 이 작은 종이 이런 일을 하도록 하시는 것에 동의하지 않지만, 당신을 따릅니다."</span>라고 영 안의 진실한 상태를 말씀드릴 때, 그분은 이를 기뻐하십니다.</div>
+    </div>
+  </div></div></div></div><div class="cn"></div>
+
+  <!-- 06 완전한 굴복 -->
+  <div class="ai sa"><div class="ah" onclick="tA(this)"><div class="abg" style="background:#FFF8E1">🏳️</div><div class="aht"><div class="anl" style="color:var(--gold)">⑥ 완전한 굴복</div>
+  <div class="atl">의견을 버리고 항복함</div></div><div class="ach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div></div>
+  <div class="ab"><div class="ab-wrap"><div class="abi">
+    <div class="vb">
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">마 16:24-25</div><div class="vtx">그때에 예수님께서 제자들에게 말씀하셨다. "누구든지 나를 따라오려거든, <span class="vhl">자기를 부인하고 자기 십자가를 지고</span> 나를 따라오십시오."</div></div>
+    </div>
+    
+    <div class="dbl">
+      
+      <!-- 1. 동행의 본질: 항복 -->
+      <div style="background:#FFFDE7; border-left:4px solid #FBC02D; padding:16px; border-radius:8px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.03);">
+        <div style="font-weight:800; color:#F57F17; margin-bottom:8px; font-size:calc(.9rem*var(--fs)); display:flex; align-items:center; gap:6px;">
+          <span>🚩</span> 동행의 본질: 하나님께 항복함
+        </div>
+        <div style="font-size:calc(.85rem*var(--fs)); color:var(--tx); line-height:1.7;">
+          동행은 우리 자아와 자아에서 나온 모든 것을 부인함으로 하나님과 하나 되는 것입니다. 상황이 <span class="hy">우리가 원하고 생각하고 기대한 것과 다를 때</span>, 우리의 의견을 버리고 그분께 항복하는 것을 배워야 합니다.
+        </div>
+      </div>
+
+      <!-- 2. 항복 vs 의견 (바울과 베드로의 대조) -->
+      <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:140px; background:#E8F5E9; padding:14px; border-radius:8px; border:1px solid #C8E6C9;">
+          <div style="font-weight:800; color:#2E7D32; font-size:calc(.82rem*var(--fs)); margin-bottom:6px; display:flex; align-items:center; gap:4px;"><span>⭕</span> 바울의 본 (항복)</div>
+          <div style="font-size:calc(.8rem*var(--fs)); color:var(--tx2); line-height:1.6;">
+            아시아로 가려 했으나 성령께서 막으실 때 <strong style="color:#2E7D32">선한 의도마저 버리고 즉시 항복함.</strong><br>
+            → <em>그 영의 움직임을 깨닫고 유럽으로 향함.</em>
+          </div>
+        </div>
+        <div style="flex:1; min-width:140px; background:#FFEBEE; padding:14px; border-radius:8px; border:1px solid #FFCDD2;">
+          <div style="font-weight:800; color:#C62828; font-size:calc(.82rem*var(--fs)); margin-bottom:6px; display:flex; align-items:center; gap:4px;"><span>❌</span> 베드로의 실패 (의견)</div>
+          <div style="font-size:calc(.8rem*var(--fs)); color:var(--tx2); line-height:1.6;">
+            주님의 십자가를 만류하며 <strong style="color:#C62828">자신의 정서와 생각</strong>을 표현함.<br>
+            → <em>"베드로여, 그대의 생각은 엉뚱한 곳에 있습니다. 그대는 진실로 따르고 있는 것이 아닙니다. 그대는 그대의 의견을 나타내고 있습니다."</em>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 우리의 실행: 내적 기름바름에 협력하기 -->
+      <div style="background:#FFF8E1; border:1px solid #FFE0B2; border-radius:8px; padding:18px;">
+        <div style="font-weight:800; color:#E65100; margin-bottom:10px; font-size:calc(.9rem*var(--fs)); display:flex; align-items:center; gap:6px;">
+          <span>💡</span> 우리의 실행: 내적 기름바름에 협력하기
+        </div>
+        <div style="font-size:calc(.85rem*var(--fs)); color:var(--tx); line-height:1.65; margin-bottom:14px;">
+          우리는 너무나 쉽게 자신의 의견을 나타냅니다. 따라서 우리 영 안에 있는 기름바름에 대한 <strong>더 분명한 느낌</strong>이 필요합니다.
+        </div>
+        
+        <!-- 도식화 -->
+        <div style="display:flex; align-items:center; justify-content:center; gap:12px; background:#fff; padding:16px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <div style="font-weight:800; color:#4A148C; font-size:calc(.85rem*var(--fs)); line-height:1.5; text-align:center; flex:1;">
+            <span style="font-size:0.8em; color:#888;">그 영의 느낌</span><br>
+            <span style="color:#E91E63;">"그런 식으로<br>생각하지 마라."</span>
+          </div>
+          <div style="color:#BA68C8; font-size:1.5rem; font-weight:bold;">→</div>
+          <div style="font-weight:800; color:#2E7D32; background:#E8F5E9; padding:8px 16px; border-radius:8px; font-size:calc(.85rem*var(--fs)); border:1px solid #C8E6C9; text-align:center; flex:1;">
+            <span style="font-size:0.8em; color:#1B5E20; opacity:0.8;">우리의 항복</span><br>
+            <span style="color:#1B5E20;">"주님,<br>아멘입니다."</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div></div></div></div>
+</div>
+
+<div class="flow-arrow"><div class="flow-arrow-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>동행의 실재 위에, 본질이 있다</div></div>
+
+<!-- ════════ THEME 3: 동행의 본질 ════════ -->
+<div class="theme-hdr sa" id="t3"><div class="theme-num" style="background:var(--ab)">3</div><div class="theme-title">동행의 본질 — 참된 믿음으로 행함</div><div class="theme-desc">하나님과 동행하는 것은 믿음으로 행하는 것이다. 믿음이 없이는 하나님을 기쁘시게 해 드릴 수 없다.</div></div>
+<div class="ca">
+  
+  <!-- ① 참된 믿음의 정의 -->
+  <div class="ai sa"><div class="ah" onclick="tA(this)"><div class="abg" style="background:#E3F2FD">🌟</div><div class="aht"><div class="anl" style="color:var(--ab)">① 참된 믿음의 정의</div><div class="atl">"하나님은 '-이다', 나는 '아니다'"</div></div><div class="ach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div></div>
+  <div class="ab"><div class="ab-wrap"><div class="abi">
+    <div class="vb">
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">히 11:6상 / 갈 2:20</div><div class="vtx">하나님께 나아오는 사람은 반드시 <span class="vhl">‘그분께서 -이시다’</span>라는 것을 믿어야 합니다... 이제는 <span class="vhl">더 이상 내가 사는 것이 아니라</span>, 그리스도께서 내 안에 사십니다.</div></div>
+    </div>
+    <div class="dbl">
+      <div class="dsb">▸ 진정한 믿음이란</div>
+      <div class="dp">믿음은 하나님께서 <span class="hy">‘-이다’이시고 우리가 ‘아니다’임을 믿는 것</span>입니다. 온 우주에서 그분만이 유일하게 스스로 존재하시는 분이시고, 우리 모두는 아무것도 아닙니다.</div>
+      <div class="dsb">▸ 자아의 부인</div>
+      <div class="dp">이것은 철저한 자아의 부인을 함축합니다. 나는 그 어떤 것도 되어서는 안 되며 존재하지 말아야 하고, <span class="ho">오직 그분만이 존재하셔야 함</span>을 인정하는 것입니다.</div>
+      
+      <!-- 다비 인용구 -->
+      <div style="background:#F8F9FA; border-left:4px solid #4A6FA5; padding:18px 20px; border-radius:0 8px 8px 0; margin-top:20px; font-style:italic; font-weight:600; color:#333; font-size:calc(.9rem*var(--fs)); line-height:1.75; position:relative; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <span style="position:absolute; top:-12px; left:8px; font-size:2.5rem; color:#CFD8DC; font-family:serif;">"</span>
+        아무것도 갖지 않고, 아무것도 되지 않으며, 아무것도 보지 않고, 오직 영광 안에 계신 살아 계신 그리스도만 바라보고, 여기에서 그분의 권익 외에는 아무것도 관심하지 않는 이 기쁨이여!
+        <div style="text-align:right; font-size:0.85em; color:#888; margin-top:10px; font-style:normal;">— 존 넬슨 다비</div>
+      </div>
+    </div>
+  </div></div></div></div><div class="cn"></div>
+
+  <!-- ② 믿음의 일상적 적용 -->
+  <div class="ai sa"><div class="ah" onclick="tA(this)"><div class="abg" style="background:#F3E5F5">🏡</div><div class="aht"><div class="anl" style="color:var(--ap)">② 믿음의 일상적 적용</div><div class="atl">일상을 지배하는 자아 내려놓기</div></div><div class="ach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div></div>
+  <div class="ab"><div class="ab-wrap"><div class="abi">
+    <div class="vb">
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">행 9:5 / 행 13:9</div><div class="vtx">대답하셨다. <span class="vhl">"나는 네가 박해하는 예수다."</span> ... 사울이라고도 하는 바울이 성령으로 충만하여...</div></div>
+    </div>
+    <div class="dbl">
+      <!-- 사울 vs 바울 대조 -->
+      <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:140px; background:#FFEBEE; padding:16px; border-radius:8px; border:1px solid #FFCDD2;">
+          <div style="font-weight:800; color:#C62828; font-size:calc(.85rem*var(--fs)); margin-bottom:8px; display:flex; align-items:center; gap:6px;"><span>👤</span> 회심 전 사울 (강함)</div>
+          <div style="font-size:calc(.8rem*var(--fs)); color:var(--tx2); line-height:1.65;">
+            '나를 위하여', '나의 것', '나 자신'에 전념함. <strong>자신이 중심인 삶.</strong>
+          </div>
+        </div>
+        <div style="flex:1; min-width:140px; background:#E8F5E9; padding:16px; border-radius:8px; border:1px solid #C8E6C9;">
+          <div style="font-weight:800; color:#2E7D32; font-size:calc(.85rem*var(--fs)); margin-bottom:8px; display:flex; align-items:center; gap:6px;"><span>✝️</span> 회심 후 바울 (작음)</div>
+          <div style="font-size:calc(.8rem*var(--fs)); color:var(--tx2); line-height:1.65;">
+            주님의 위대한 선언("나는...이다")을 만난 후, 자신의 이름을 '작다'는 뜻으로 바꿈. 더 이상 '나'는 없고 오직 <strong>'그분', '그분을 위하여'</strong>만 존재.
+          </div>
+        </div>
+      </div>
+
+      <div class="dsb">▸ 사소한 일상에서의 어린양 따르기</div>
+      <div class="dp">이 원리는 <span class="hy">머리를 빗는 것, 쇼핑, 운전, 말하는 것</span> 등 일상생활의 모든 방면에서 적용되어야 합니다. "누가 머리를 빗고 있는가?", "집에서 말하는 이는 우리인가 아니면 그리스도이신가?"</div>
+
+      <!-- Callout 경고 -->
+      <div class="callout" style="border-color:#F48FB1; background:#FCE4EC; margin-top:20px;">
+        <div class="callout-title" style="color:#C2185B; font-size:calc(.85rem*var(--fs));"><span style="font-size:1.1em;">⚠️</span> 집 안의 '왕'이 되지 말라</div>
+        우리는 집에 있을 때 '머리를 풀어도 좋다(제한 없이 제멋대로 행동함)'고 생각하며, 자신만의 성 안에 있기 때문에 아무렇게나 말해도 괜찮다고 여깁니다. <span class="ho">그렇다면 우리는 자신을 왕으로 삼고 있는 것입니다.</span> 보좌에 앉으신 분은 오직 그리스도이십니다. 심지어 배우자와 말할 때의 어조에서도 '내가 아니라 그리스도'를 철저히 적용해야 합니다.
+      </div>
+    </div>
+  </div></div></div></div><div class="cn"></div>
+
+  <!-- ③ 믿음의 결과 -->
+  <div class="ai sa"><div class="ah" onclick="tA(this)"><div class="abg" style="background:#FFF8E1">🏆</div><div class="aht"><div class="anl" style="color:var(--ao)">③ 믿음의 결과와 태도</div><div class="atl">최고의 보상과 첫 열매들의 갈망</div></div><div class="ach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div></div>
+  <div class="ab"><div class="ab-wrap"><div class="abi">
+    <div class="vb">
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">시 27:4 / 42:1-2</div><div class="vtx">여호와의 집에 거주하며 <span class="vhl">여호와의 아름다움을 바라보고 그분의 성전에서 여쭙는 것</span>이라네... <span class="vhl">사슴이 시냇물을 찾아 헐떡이듯이</span> 오, 하나님! 제 혼이 주님을 간절히 찾습니다.</div></div>
+    </div>
+    <div class="dbl">
+      <div class="dsb">▸ 보상해 주시는 분</div>
+      <div class="dp">믿음은 하나님께서 그분을 부지런히 찾는 사람들에게 보상해 주시는 분이심을 믿는 것입니다. <span class="hy">에녹이 받은 보상은 생명의 가장 높은 단계, 곧 죽음에서 벗어나는 것(휴거)이었습니다.</span></div>
+      
+      <div class="dsb">▸ 첫 열매들의 태도 (그분을 찾는 것)</div>
+      <div class="dp">우리는 시편 기자들처럼 다른 어떤 것보다 '주님 자신'을 구하는 태도를 가져야 합니다.</div>
+      
+      <!-- 첫 열매들의 기도문 시각화 -->
+      <div style="background:#FFF8E1; border:1px solid #FFE0B2; border-radius:10px; padding:20px; margin-top:16px; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+        <div style="font-weight:800; color:#E65100; margin-bottom:12px; font-size:calc(.95rem*var(--fs)); display:flex; align-items:center; gap:8px;">
+          <span style="font-size:1.2em;">🙏</span> 첫 열매들의 간절한 고백
+        </div>
+        <div style="font-size:calc(.88rem*var(--fs)); color:var(--tx); line-height:1.75; font-weight:500;">
+          "주님, 저는 다만 <span class="ho">당신 자신, 당신의 얼굴, 당신의 아름다움</span>을 원합니다.<br>
+          저는 모든 것에 대하여 당신께 여쭙기 원합니다. <span class="hg">제가 앞장서지 않겠습니다.</span><br>
+          제가 가야 할 길에 대해서, 해야 할 일에 대해서, 얼마나 오랫동안 해야 하는지에 대해서 오직 당신께 여쭙겠습니다."
+        </div>
+      </div>
+    </div>
+  </div></div></div></div>
+</div>
+
+<div class="flow-arrow"><div class="flow-arrow-inner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>이 모든 것의 목표는</div></div>
+
+<!-- ════════ THEME 4: 동행의 본 ════════ -->
+<div class="theme-hdr sa" id="t4"><div class="theme-num" style="background:var(--gold)">4</div><div class="theme-title">동행의 본 — 이기는 이들의 모델, 에녹</div><div class="theme-desc">첫 번째로 휴거된 사람인 에녹은 살아 있는 동안 휴거될 모든 이기는 이들을 대표한다.</div></div>
+<div class="ca">
+  
+  <!-- ① 이기는 이들의 모델 (지속성) -->
+  <div class="ai sa"><div class="ah" onclick="tA(this)"><div class="abg" style="background:#E8F5E9">📈</div><div class="aht"><div class="anl" style="color:var(--ag)">① 이기는 이들의 모델</div><div class="atl">10만 일의 '지속적인' 상승</div></div><div class="ach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div></div>
+  <div class="ab"><div class="ab-wrap"><div class="abi">
+    <div class="vb">
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">히 6:1상 / 창 5:24</div><div class="vtx">우리가 휴거되는 것은 하나님과 <span class="vhl">동행함으로 신성한 생명 안에서 성숙</span>되는 것에 달려 있다. 에녹이 하나님과 동행하더니...</div></div>
+    </div>
+    <div class="dbl">
+      <div class="dsb">▸ 10만 일 이상의 끊어짐 없는 동행</div>
+      <div class="dp">에녹은 삼백 년 동안 밤낮으로 하나님과 동행하며 위로 올라갔습니다. 무려 <span class="hy">10만 일이 넘는 기간</span> 동안 날마다 전날보다 조금씩 더 그분께 가까워졌습니다.</div>
+      
+      <!-- 시각적 대조 (가다 서기 vs 지속적 상승) -->
+      <div style="display:flex; gap:12px; margin:16px 0; flex-wrap:wrap;">
+        <div style="flex:1; min-width:140px; background:#FFEBEE; padding:16px; border-radius:8px; border:1px solid #FFCDD2; box-shadow:0 1px 3px rgba(0,0,0,0.03);">
+          <div style="font-weight:800; color:#C62828; font-size:calc(.85rem*var(--fs)); margin-bottom:6px; display:flex; align-items:center; gap:6px;"><span>❌</span> 가다 서기를 반복함</div>
+          <div style="font-size:calc(.8rem*var(--fs)); color:var(--tx2); line-height:1.6;">
+            동행하다가 동행하지 않기를 반복하며 제자리에 머무는 변덕스러운 신앙.
+          </div>
+        </div>
+        <div style="flex:1; min-width:140px; background:#E8F5E9; padding:16px; border-radius:8px; border:1px solid #C8E6C9; box-shadow:0 1px 3px rgba(0,0,0,0.03);">
+          <div style="font-weight:800; color:#2E7D32; font-size:calc(.85rem*var(--fs)); margin-bottom:6px; display:flex; align-items:center; gap:6px;"><span>✅</span> 지속적으로 위로 올라감</div>
+          <div style="font-size:calc(.8rem*var(--fs)); color:var(--tx2); line-height:1.6;">
+            매일 더 하나 되며 <strong style="color:#2E7D32">지속적으로 동행</strong>했고, 결국 마지막 발걸음을 떼어 더 이상 있지 않게 됨.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></div></div></div><div class="cn"></div>
+
+  <!-- ② 환경을 이기는 평안 -->
+  <div class="ai sa"><div class="ah" onclick="tA(this)"><div class="abg" style="background:#FFF3E0">🛡️</div><div class="aht"><div class="anl" style="color:var(--ao)">② 환경을 이기는 동행</div><div class="atl">경건하지 않은 시대 속 내적 평안</div></div><div class="ach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div></div>
+  <div class="ab"><div class="ab-wrap"><div class="abi">
+    <div class="vb">
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">유 1:14-15</div><div class="vtx">... <span class="vhl">경건하지 않은</span> 모든 이들이 <span class="vhl">경건하지 않게</span> 행한 모든 <span class="vhl">경건하지 않은</span> 행위에 대하여, 그리고 <span class="vhl">경건하지 않은</span> 죄인들이 주님을 대적하여 말한 모든 거친 말에 대하여...</div></div>
+    </div>
+    <div class="dbl">
+      <div class="dsb">▸ 불법이 가득한 세상에서의 동행</div>
+      <div class="dp">유다서 15절은 에녹의 시대를 묘사하며 <span class="ho">'경건하지 않은'이라는 단어를 네 번이나 사용</span>했습니다. 에녹은 자신 주위의 모든 것이 경건하지 않다는 인식을 가지고 생활했습니다.</div>
+      <div class="dp">그러나 경건하지 않은 것들이 그가 하나님과 동행하는 것을 가로막지 못했습니다. <span class="hy">그는 괴로워하거나 절망하거나 소망을 잃지 않았습니다.</span></div>
+      
+      <!-- 현대적 적용 Callout -->
+      <div class="callout" style="border-color:#90CAF9; background:#E3F2FD; margin-top:16px;">
+        <div class="callout-title" style="color:#1565C0; font-size:calc(.85rem*var(--fs)); display:flex; align-items:center; gap:6px;"><span>💡</span> 우리의 일상 적용: 뉴스와 내적 평안</div>
+        우리가 뉴스를 읽거나 보게 되면, 우리 주위의 불의와 불법이 우리를 너무나 괴롭게 하여 <strong>우리의 내적인 평안이 깨질 수도 있습니다.</strong> 그러나 에녹처럼 어두운 세상의 소식들이 우리가 하나님과 동행하는 발걸음을 멈추게 하거나 평안을 빼앗지 못하도록 지켜야 합니다.
+      </div>
+    </div>
+  </div></div></div></div><div class="cn"></div>
+
+  <!-- ③ 일상의 연장선으로서의 휴거 -->
+  <div class="ai sa"><div class="ah" onclick="tA(this)"><div class="abg" style="background:#FFF8E1">✨</div><div class="aht"><div class="anl" style="color:var(--gold)">③ 일상의 자연스러운 연장선</div><div class="atl">놀라운 기적이 아닌 '동행의 마침표'</div></div><div class="ach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div></div>
+  <div class="ab"><div class="ab-wrap"><div class="abi">
+    <div class="vb">
+      <div class="vs"><div class="vbm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="vrf">아 8:5상</div><div class="vtx">"<span class="vhl">사랑하는 이에게 몸을 기댄 채 광야에서 올라오는</span> 이 사람이 누구인가?"</div></div>
+    </div>
+    <div class="dbl">
+      <div class="dsb">▸ 매일의 삶이 곧 휴거의 준비</div>
+      <div class="dp">우리는 어느 날 우리가 오직 그분과 함께 있을 때까지 <span class="hy">다만 매일 하나님과 동행해야</span> 합니다.</div>
+      
+      <div style="background:#FAFAFA; border-left:4px solid var(--gold); padding:20px; margin-top:16px; border-radius:0 8px 8px 0; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+        <div style="font-weight:800; color:var(--tx); font-size:calc(1rem*var(--fs)); line-height:1.6;">
+          "우리가 그분과 함께 그곳(하늘)에 있는 것이 우리에게 <span class="ho">놀라운 일이어서는 안 됩니다.</span>"
+        </div>
+        <div style="font-size:calc(.85rem*var(--fs)); font-weight:500; color:#666; margin-top:10px; line-height:1.6;">
+          — 매일 주님께 몸을 기대고 걸어 올라가던 자에게, 휴거는 갑작스러운 충격이 아니라 가장 자연스러운 <strong>'동행의 마지막 발걸음'</strong>일 뿐입니다.
+        </div>
+      </div>
+    </div>
+  </div></div></div></div>
+</div>
+
+<!-- QUIZ -->
+<section class="qs" id="qz" style="margin-top:32px"><div class="qc"><div class="qhd"><h2>✏️ 이해도 확인 퀴즈</h2><p>5개의 문제를 풀어보세요</p></div><div class="qpg" id="qP"><div class="qd ac">1</div><div class="qd">2</div><div class="qd">3</div><div class="qd">4</div><div class="qd">5</div></div><div id="qA">
+<div class="qk ac" data-q="0"><div class="qn">1</div><div class="qq">에녹의 사례가 세우는 '휴거의 원칙'은 무엇인가?</div><div class="qos"><div class="qo" onclick="aQ(0,0)"><span class="oc">A</span><span>선행을 많이 쌓는 것</span></div><div class="qo" onclick="aQ(0,1)"><span class="oc">B</span><span>하나님과 동행함으로써 생명이 성숙되는 것</span></div><div class="qo" onclick="aQ(0,2)"><span class="oc">C</span><span>율법을 완전히 지키는 것</span></div><div class="qo" onclick="aQ(0,3)"><span class="oc">D</span><span>기도를 많이 하는 것</span></div></div><button class="qhb" onclick="sH(0)">💡 힌트</button><div class="qht" id="h0">에녹은 삼백 년 동안 하나님과 동행했으며 하나님은 그를 데려가셨다.</div><div class="qfb"></div><button class="qnx" onclick="nQ(0)">다음 →</button></div>
+<div class="qk" data-q="1"><div class="qn">2</div><div class="qq">성경은 누가 누구와 동행했다고 말하는가?</div><div class="qos"><div class="qo" onclick="aQ(1,0)"><span class="oc">A</span><span>하나님께서 에녹과 동행하셨다</span></div><div class="qo" onclick="aQ(1,1)"><span class="oc">B</span><span>에녹이 하나님과 동행했다</span></div><div class="qo" onclick="aQ(1,2)"><span class="oc">C</span><span>둘 다 동시에</span></div><div class="qo" onclick="aQ(1,3)"><span class="oc">D</span><span>명시되어 있지 않다</span></div></div><button class="qhb" onclick="sH(1)">💡 힌트</button><div class="qht" id="h1">우리가 그분의 기준에 맞추어야 한다.</div><div class="qfb"></div><button class="qnx" onclick="nQ(1)">다음 →</button></div>
+<div class="qk" data-q="2"><div class="qn">3</div><div class="qq">히 11:6에서 반드시 믿어야 하는 두 가지는?</div><div class="qos"><div class="qo" onclick="aQ(2,0)"><span class="oc">A</span><span>하나님의 존재와 천국의 실재</span></div><div class="qo" onclick="aQ(2,1)"><span class="oc">B</span><span>'그분께서 -이시다'와 부지런히 찾는 이들에게 보상하심</span></div><div class="qo" onclick="aQ(2,2)"><span class="oc">C</span><span>율법의 정당함과 은혜의 무한함</span></div><div class="qo" onclick="aQ(2,3)"><span class="oc">D</span><span>창조와 심판의 확실성</span></div></div><button class="qhb" onclick="sH(2)">💡 힌트</button><div class="qht" id="h2">'-이다'와 '보상' 키워드.</div><div class="qfb"></div><button class="qnx" onclick="nQ(2)">다음 →</button></div>
+<div class="qk" data-q="3"><div class="qn">4</div><div class="qq">바울이 성령에 의해 길이 막힌 것은 동행의 어떤 측면인가?</div><div class="qos"><div class="qo" onclick="aQ(3,0)"><span class="oc">A</span><span>타고난 능력의 위험</span></div><div class="qo" onclick="aQ(3,1)"><span class="oc">B</span><span>습관적 기도의 중요성</span></div><div class="qo" onclick="aQ(3,2)"><span class="oc">C</span><span>하나님께 항복하고 인도를 받아들이는 것</span></div><div class="qo" onclick="aQ(3,3)"><span class="oc">D</span><span>영으로 삼일성을 누리는 것</span></div></div><button class="qhb" onclick="sH(3)">💡 힌트</button><div class="qht" id="h3">'항복'이라는 단어를 떠올려 보세요.</div><div class="qfb"></div><button class="qnx" onclick="nQ(3)">다음 →</button></div>
+<div class="qk" data-q="4"><div class="qn">5</div><div class="qq">첫 열매들의 태도는?</div><div class="qos"><div class="qo" onclick="aQ(4,0)"><span class="oc">A</span><span>"빨리 휴거해 주십시오!"</span></div><div class="qo" onclick="aQ(4,1)"><span class="oc">B</span><span>"휴거도 관심하지 않습니다. 다만 주님만!"</span></div><div class="qo" onclick="aQ(4,2)"><span class="oc">C</span><span>"능력을 주십시오!"</span></div><div class="qo" onclick="aQ(4,3)"><span class="oc">D</span><span>"고통에서 구해 주십시오!"</span></div></div><button class="qhb" onclick="sH(4)">💡 힌트</button><div class="qht" id="h4">초점은 '휴거'가 아닙니다.</div><div class="qfb"></div><button class="qnx" onclick="sR()">결과 확인 →</button></div>
+</div><div class="qr" id="qR"><div class="qrs" id="rS">0/5</div><div class="qrl">정답 수</div><div class="qrm" id="rM"></div><button class="qrt" onclick="rQ()">다시 풀기</button></div></div></section>
+
+<!-- PRAYER -->
+<section class="prs" id="pr"><div class="prc sa"><div class="prcd"><div class="prt"><div class="pi"></div><h3>오늘의 기도</h3></div><div class="prb">
+<p>"주님, 당신은 이것이 필요하시지만 저는 아무것도 아닙니다. <span class="phl">주님, 제가 일상생활에서 이러한 체험을 갖도록 저를 목양해 주시고, 제가 당신과 협력할 수 있는 자원함이 되어 주십시오.</span> 주님, 제가 일곱 배로 강화되신 영을 체험함으로써 더 빠른 협력을 당신께 드리게 해 주십시오."</p>
+<p>"주님, 제가 여기에 있습니다. 저는 당신께 아무것도 구하지 않습니다. <span class="phl">다만 당신을 위해 여기에 있습니다.</span> 바로 지금 이 순간에 관심합니다. 다만 여기서 주님과 함께 있기를 원합니다. <span class="phl">주님을 사랑합니다!</span>"</p>
+<p>"<span class="phl">주님, 저희는 심지어 저희의 휴거도 관심하지 않습니다. 저희는 다만 주님만 관심합니다!</span>"</p>
+<p>"주님, 저는 다만 당신 자신, 당신의 얼굴, 당신의 아름다움을 원합니다. <span class="phl">제가 앞장서지 않겠습니다.</span>"</p>
+<div class="pam">아멘!</div></div></div></div></section>
+
+</div>
+
+<script>
+(function(){const c=document.getElementById('introParticles');for(let i=0;i<50;i++){const p=document.createElement('div');p.className='g-particle';const s=2+Math.random()*4;p.style.width=s+'px';p.style.height=s+'px';p.style.left=Math.random()*100+'%';p.style.bottom=(-10-Math.random()*20)+'%';p.style.animationDuration=(4+Math.random()*7)+'s';p.style.animationDelay=(Math.random()*5)+'s';c.appendChild(p)}})();
+document.getElementById('introOverlay').addEventListener('click',function(){this.classList.add('hide');setTimeout(()=>this.classList.add('gone'),900)});
+document.getElementById('introOverlay').addEventListener('touchend',function(e){e.preventDefault();this.classList.add('hide');setTimeout(()=>this.classList.add('gone'),900)});
+function tP(){document.getElementById('lpn').classList.toggle('on');document.getElementById('pov').classList.toggle('on')}
+let fs=1;function cFS(d){if(d===0)fs=1;else if(d===1)fs=Math.min(fs+.05,1.4);else fs=Math.max(fs-.05,.7);document.documentElement.style.setProperty('--fs',fs)}
+function tA(el){el.parentElement.classList.toggle('op')}
+(function(){const kwItems=document.querySelectorAll('.kwi'),display=document.getElementById('kwDisplay');let activeKw=null;kwItems.forEach(function(kw){kw.addEventListener('click',function(){if(activeKw===kw){kw.classList.remove('active');display.classList.remove('show');activeKw=null;return}if(activeKw)activeKw.classList.remove('active');activeKw=kw;kw.classList.add('active');display.innerHTML='<strong>'+kw.textContent+'</strong><br>'+kw.getAttribute('data-def');display.classList.add('show')})});document.addEventListener('click',function(e){if(!e.target.closest('.kwi')&&!e.target.closest('.kw-display')){if(activeKw){activeKw.classList.remove('active');activeKw=null}display.classList.remove('show')}})})();
+const ob=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vi')})},{threshold:.08});document.querySelectorAll('.sa').forEach(el=>ob.observe(el));
+const AN=[1,1,1,2,1],FB=[{ok:'정답! 동행으로 생명이 성숙되는 것이다.',no:'정답은 B.'},{ok:'정답! 에녹이 하나님과 동행했다.',no:'정답은 B.'},{ok:'정답! "-이시다"와 "보상하시는 분".',no:'정답은 B.'},{ok:'정답! 바울은 항복했다.',no:'정답은 C.'},{ok:'정답! "다만 주님만!"',no:'정답은 B.'}];
+let sc=0,aw=new Set();
+function aQ(q,o){if(aw.has(q))return;aw.add(q);const c=document.querySelector('.qk[data-q="'+q+'"]'),os=c.querySelectorAll('.qo'),fb=c.querySelector('.qfb'),nx=c.querySelector('.qnx'),ds=document.querySelectorAll('.qd');os.forEach(x=>x.classList.add('dis'));const ok=o===AN[q];if(ok){sc++;os[o].classList.add('ca2');fb.className='qfb sh fok';fb.textContent=FB[q].ok;ds[q].classList.add('ok')}else{os[o].classList.add('wa');os[AN[q]].classList.add('ca2');fb.className='qfb sh fno';fb.textContent=FB[q].no;ds[q].classList.add('no')}nx.classList.add('sh')}
+function nQ(c){const cs=document.querySelectorAll('.qk'),ds=document.querySelectorAll('.qd');cs[c].classList.remove('ac');if(c+1<cs.length){cs[c+1].classList.add('ac');ds[c+1].classList.add('ac')}}
+function sR(){document.querySelectorAll('.qk').forEach(c=>c.classList.remove('ac'));const r=document.getElementById('qR');r.classList.add('ac');document.getElementById('rS').textContent=sc+'/5';let m='';if(sc===5)m='완벽합니다!';else if(sc>=3)m='잘 하셨습니다!';else m='다시 살펴보세요!';document.getElementById('rM').textContent=m}
+function rQ(){sc=0;aw.clear();document.getElementById('qR').classList.remove('ac');document.querySelectorAll('.qk').forEach((c,i)=>{c.classList.remove('ac');if(i===0)c.classList.add('ac');c.querySelectorAll('.qo').forEach(o=>o.classList.remove('dis','ca2','wa'));c.querySelector('.qfb').className='qfb';c.querySelector('.qnx').classList.remove('sh');const h=c.querySelector('.qht');if(h)h.classList.remove('sh')});document.querySelectorAll('.qd').forEach((d,i)=>{d.classList.remove('ok','no','ac');if(i===0)d.classList.add('ac')})}
+function sH(q){document.getElementById('h'+q).classList.toggle('sh')}
+</script>
+</body>
+</html>
