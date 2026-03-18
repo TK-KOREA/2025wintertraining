@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>하나님과 동행함: 믿음으로 행하는 것</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base-font-size: 17px;
+  --font-scale: 1;
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-light: #3a3a3a;
+  --accent: #2563eb;
+  --accent-light: #dbeafe;
+  --highlight: #fef08a;
+  --highlight-strong: #facc15;
+  --border: #e5e7eb;
+  --card-bg: #f9fafb;
+  --section1: #2563eb;
+  --section2: #7c3aed;
+  --section3: #059669;
+  --section4: #dc2626;
+  --section5: #d97706;
+  --section6: #0891b2;
+  --section7: #be185d;
+  --quiz-bg: #f0fdf4;
+  --prayer-bg: #fefce8;
+  --nav-bg: #ffffff;
+  --topbar-bg: #ffffff;
+  --topbar-border: #e5e7eb;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html {
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  scroll-behavior: smooth;
+  scroll-padding-top: 48px;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Top Bar ── */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 42px;
+  background: var(--topbar-bg);
+  border-bottom: 1px solid var(--topbar-border);
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.topbar-home {
+  flex-shrink: 0;
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent);
+  text-decoration: none;
+  border-right: 1px solid var(--topbar-border);
+  transition: background .2s;
+}
+.topbar-home:hover { background: var(--accent-light); }
+.topbar-home svg { width: 18px; height: 18px; }
+
+.topbar-title {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.topbar-title::-webkit-scrollbar { display: none; }
+
+.topbar-font {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-left: 1px solid var(--topbar-border);
+  height: 42px;
+}
+.topbar-font button {
+  width: 36px; height: 42px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.topbar-font button:hover { background: var(--accent-light); }
+.topbar-font .divider {
+  width: 1px; height: 20px; background: var(--topbar-border);
+}
+
+/* ── Side Nav ── */
+.nav-toggle {
+  position: fixed;
+  top: 50px;
+  left: 8px;
+  z-index: 999;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all .2s;
+}
+.nav-toggle:hover { background: var(--accent-light); }
+.nav-toggle svg { width: 18px; height: 18px; color: var(--text); }
+
+.side-nav {
+  position: fixed;
+  top: 42px;
+  left: -300px;
+  width: 280px;
+  height: calc(100vh - 42px);
+  background: var(--nav-bg);
+  border-right: 1px solid var(--border);
+  z-index: 998;
+  overflow-y: auto;
+  transition: left .3s ease;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+  padding: 16px 0;
+}
+.side-nav.open { left: 0; }
+
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 997;
+  display: none;
+}
+.nav-overlay.show { display: block; }
+
+.nav-section {
+  padding: 6px 16px;
+}
+.nav-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  padding: 0 4px;
+}
+.nav-item {
+  display: block;
+  padding: 7px 12px;
+  font-size: 13.5px;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .15s;
+  line-height: 1.4;
+}
+.nav-item:hover { background: var(--accent-light); color: var(--accent); }
+.nav-sub { padding-left: 24px; }
+.nav-sub .nav-item { font-size: 12.5px; color: var(--text-light); }
+.nav-divider { height: 1px; background: var(--border); margin: 8px 16px; }
+
+/* keyword tooltip */
+.keyword-tooltip {
+  display: none;
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 4px 0 4px 24px;
+  max-width: 240px;
+}
+.keyword-tooltip.show { display: block; }
+
+/* ── Main Container ── */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 58px 20px 40px;
+}
+
+/* ── Hero / Title ── */
+.hero {
+  text-align: center;
+  padding: 36px 0 28px;
+}
+.hero-badge {
+  display: inline-block;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+  letter-spacing: .5px;
+}
+.hero h1 {
+  font-size: 1.65rem;
+  font-weight: 900;
+  line-height: 1.35;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.hero h1 .hl { background: var(--highlight); padding: 0 4px; border-radius: 3px; }
+.hero-sub {
+  font-size: .88rem;
+  color: var(--text-light);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+.hero-verse {
+  margin-top: 18px;
+  background: var(--card-bg);
+  border-left: 3px solid var(--accent);
+  padding: 14px 18px;
+  border-radius: 0 8px 8px 0;
+  font-size: .82rem;
+  color: var(--text-light);
+  text-align: left;
+  line-height: 1.75;
+}
+.hero-verse .ref { font-weight: 700; color: var(--accent); }
+
+/* ── Layer Peeling Intro ── */
+.layer-section {
+  margin: 24px 0 32px;
+}
+.layer-title {
+  text-align: center;
+  font-size: .95rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: var(--text);
+}
+.layers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+.layer {
+  width: 92%;
+  max-width: 520px;
+  padding: 14px 20px;
+  border-radius: 14px;
+  text-align: center;
+  font-weight: 500;
+  font-size: .82rem;
+  position: relative;
+  transition: all .3s;
+  cursor: pointer;
+  line-height: 1.5;
+}
+.layer:hover { transform: scale(1.02); }
+.layer-arrow {
+  text-align: center;
+  font-size: 18px;
+  color: #94a3b8;
+  padding: 4px 0;
+}
+.layer-1 { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; z-index:1; }
+.layer-2 { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; z-index:2; width:84%; }
+.layer-3 { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; z-index:3; width:76%; }
+.layer-4 { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; z-index:4; width:68%; font-weight:700; }
+.layer-core {
+  width: 60%;
+  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  color: white;
+  padding: 18px 20px;
+  border-radius: 14px;
+  font-weight: 900;
+  font-size: .92rem;
+  z-index: 5;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.25);
+}
+
+/* ── Dashboard ── */
+.dashboard {
+  margin: 28px 0;
+  padding: 20px;
+  background: var(--card-bg);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+.dashboard-title {
+  font-size: .85rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.dash-card {
+  text-align: center;
+  padding: 14px 8px;
+  border-radius: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.dash-icon { font-size: 22px; margin-bottom: 4px; }
+.dash-label { font-size: 11px; font-weight: 700; color: var(--text-light); line-height: 1.4; }
+.dash-value { font-size: .78rem; font-weight: 500; color: var(--text); margin-top: 2px; line-height: 1.35; }
+
+/* ── Keywords ── */
+.keywords-section {
+  margin: 24px 0;
+  text-align: center;
+}
+.keywords-section h3 {
+  font-size: .85rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.keyword-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.keyword-tag {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: .75rem;
+  font-weight: 600;
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid transparent;
+  cursor: default;
+  transition: all .2s;
+}
+.keyword-tag:nth-child(2) { background: #f3e8ff; color: #7c3aed; }
+.keyword-tag:nth-child(3) { background: #d1fae5; color: #059669; }
+.keyword-tag:nth-child(4) { background: #fee2e2; color: #dc2626; }
+.keyword-tag:nth-child(5) { background: #fef3c7; color: #d97706; }
+.keyword-tag:nth-child(6) { background: #cffafe; color: #0891b2; }
+.keyword-tag:nth-child(7) { background: #fce7f3; color: #be185d; }
+
+/* ── Flow connector ── */
+.flow-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 0;
+}
+.flow-line {
+  width: 2px;
+  height: 28px;
+  background: linear-gradient(to bottom, var(--border), var(--accent));
+  border-radius: 2px;
+}
+.flow-dot {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  margin-top: -1px;
+}
+.flow-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-align: center;
+  margin: 2px 0 4px;
+  letter-spacing: .5px;
+}
+
+/* ── Accordion Points ── */
+.point-card {
+  margin: 14px 0;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--bg);
+  transition: box-shadow .2s;
+}
+.point-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+
+.point-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background .15s;
+}
+.point-header:hover { background: var(--card-bg); }
+
+.point-num {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 900;
+  color: #fff;
+}
+.point-icon {
+  flex-shrink: 0;
+  font-size: 18px;
+}
+.point-title-text {
+  flex: 1;
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+.point-arrow {
+  flex-shrink: 0;
+  width: 20px; height: 20px;
+  transition: transform .3s;
+  color: #94a3b8;
+}
+.point-card.open .point-arrow { transform: rotate(180deg); }
+
+.point-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease;
+}
+.point-body-inner {
+  padding: 0 16px 18px 60px;
+}
+
+/* Bible verse block */
+.bible-block {
+  background: var(--card-bg);
+  border-left: 3px solid var(--accent);
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 12px;
+  font-size: .8rem;
+  line-height: 1.75;
+  color: var(--text-light);
+}
+.bible-block .bible-ref {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 3px;
+  font-size: .76rem;
+}
+.bible-block .bible-ref svg { width: 14px; height: 14px; flex-shrink: 0; }
+.bible-block .verse-text { color: var(--text); }
+.bible-block .verse-text .hl {
+  background: var(--highlight);
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+.point-desc {
+  font-size: .84rem;
+  color: var(--text);
+  line-height: 1.8;
+  margin-top: 6px;
+}
+.point-desc .hl {
+  background: var(--highlight);
+  padding: 0 3px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+.point-desc p { margin-bottom: 10px; }
+
+.point-example {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: #fefce8;
+  border-radius: 8px;
+  border: 1px solid #fef08a;
+  font-size: .8rem;
+  line-height: 1.7;
+}
+.point-example-label {
+  font-weight: 700;
+  color: #92400e;
+  font-size: .73rem;
+  margin-bottom: 3px;
+}
+
+.point-apply {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: #f0fdf4;
+  border-radius: 8px;
+  border: 1px solid #bbf7d0;
+  font-size: .8rem;
+  line-height: 1.7;
+}
+.point-apply-label {
+  font-weight: 700;
+  color: #065f46;
+  font-size: .73rem;
+  margin-bottom: 3px;
+}
+
+/* ── Point 1 Faith Visual ── */
+.faith-visual {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+}
+@media (min-width: 500px) {
+  .faith-visual { flex-direction: row; }
+}
+.faith-visual-left {
+  background: #252525;
+  color: #ffffff;
+  padding: 24px;
+  flex: 1.1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.faith-visual-left .title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 18px;
+  color: #ffffff;
+  line-height: 1.4;
+}
+.faith-visual-left .quote {
+  border-left: 3px solid #cca35e;
+  padding-left: 14px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  font-weight: 400;
+  margin-bottom: 18px;
+}
+.faith-visual-left .quote .hl-gold {
+  color: #cca35e;
+  font-weight: 700;
+}
+.faith-visual-left .sub {
+  font-size: 0.8rem;
+  color: #a0a0a0;
+  line-height: 1.5;
+}
+.faith-visual-right {
+  background: #ffffff;
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.faith-visual-right .big-text {
+  font-size: 3.2rem;
+  font-weight: 900;
+  color: #b89855;
+  font-family: 'Noto Serif KR', 'Batang', serif;
+  line-height: 1;
+  margin-bottom: 4px;
+  letter-spacing: 2px;
+}
+.faith-visual-right svg {
+  width: 140px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+.faith-visual-right .small-text {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+}
+
+/* ── Point 2 Eternity Visual ── */
+.eternity-visual {
+  background: #222222;
+  color: #ffffff;
+  padding: 36px 20px 24px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.eternity-visual .title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 50px;
+  letter-spacing: -0.3px;
+}
+.eternity-timeline {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  max-width: 340px;
+  margin: 0 auto 40px;
+}
+.eternity-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #cca35e;
+  z-index: 1;
+  transform: translateY(-50%);
+}
+.eternity-node {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.eternity-text {
+  position: absolute;
+  top: -42px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #e5e5e5;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.eternity-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fcecae 0%, #d4af37 40%, #8a6a1c 100%);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+}
+.eternity-visual .quote {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #cca35e;
+  margin-bottom: 20px;
+  font-family: 'Noto Serif KR', 'Batang', serif;
+}
+.eternity-visual .quote span {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #a0a0a0;
+  margin-left: 4px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.eternity-visual .desc-box {
+  border: 1px solid #4a4a4a;
+  padding: 16px;
+  font-size: 0.85rem;
+  color: #d4d4d4;
+  line-height: 1.6;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.02);
+}
+.eternity-visual .hl-gold {
+  color: #cca35e;
+  font-weight: 700;
+}
+
+/* ── Point 3 Solomon Box ── */
+.solomon-box {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-left: 4px solid var(--section3);
+  padding: 16px;
+  border-radius: 8px;
+  margin: 14px 0;
+}
+.solomon-box .title {
+  font-weight: 800;
+  color: var(--section3);
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.solomon-box .text {
+  font-size: 0.82rem;
+  color: #334155;
+  line-height: 1.7;
+}
+.solomon-box .text .hl-green {
+  color: #047857;
+  font-weight: 700;
+  background: #d1fae5;
+  padding: 0 4px;
+  border-radius: 3px;
+}
+
+/* ── I AM Categories for Point 4 ── */
+.iam-container {
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.iam-group {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+.iam-group-header {
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.iam-group-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.iam-pill {
+  display: inline-flex;
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+  transition: all 0.2s;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.iam-pill:hover {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+.iam-pill.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  transform: translateY(0);
+}
+.iam-pill .icon {
+  font-size: 1.1rem;
+  margin-right: 6px;
+}
+.iam-pill .ref {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  margin-left: 6px;
+  font-weight: 500;
+}
+.iam-pill.active .ref {
+  color: rgba(255, 255, 255, 0.8);
+}
+.group-reality .iam-group-header { border-left: 4px solid #8b5cf6; background: #f5f3ff; color: #5b21b6; }
+.group-supply .iam-group-header { border-left: 4px solid #10b981; background: #ecfdf5; color: #065f46; }
+.group-guide .iam-group-header { border-left: 4px solid #3b82f6; background: #eff6ff; color: #1e40af; }
+.group-trinity .iam-group-header { border-left: 4px solid #f59e0b; background: #fffbeb; color: #92400e; }
+
+/* 말씀 표시 영역 */
+.iam-verse-box {
+  display: none;
+  padding: 12px 16px;
+  background: var(--card-bg);
+  border-top: 1px dashed var(--border);
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--text);
+  animation: fadeInDown 0.3s ease;
+}
+.iam-verse-box .ref-title {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.75rem;
+  margin-bottom: 4px;
+}
+.iam-verse-box .hl {
+  background: var(--highlight);
+  padding: 0 3px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.iam-summary {
+  background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+  border: 1px solid #5eead4;
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  font-weight: 900;
+  color: #0f766e;
+  margin-top: 14px;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 8px rgba(20, 184, 166, 0.15);
+}
+
+/* ── Point 7 Visuals (Darby & Confession) ── */
+.darby-quote {
+  position: relative;
+  background: linear-gradient(135deg, #fffbeb, #fefce8);
+  border: 1px solid #fde68a;
+  border-left: 4px solid #f59e0b;
+  border-radius: 10px;
+  padding: 20px 20px 16px 44px;
+  margin: 18px 0;
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.08);
+}
+.darby-quote::before {
+  content: '❝';
+  position: absolute;
+  top: 14px;
+  left: 12px;
+  font-size: 3rem;
+  color: #fcd34d;
+  line-height: 1;
+  font-family: serif;
+  opacity: 0.6;
+}
+.darby-quote-text {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #92400e;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+.darby-quote-label {
+  margin-top: 12px;
+  font-size: 0.75rem;
+  color: #b45309;
+  text-align: right;
+  font-weight: 700;
+}
+
+.our-confession {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border-radius: 12px;
+  padding: 24px 20px;
+  margin: 20px 0;
+  color: #f8fafc;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
+  border: 1px solid #334155;
+}
+.our-confession-title {
+  font-size: 0.85rem;
+  color: #e2e8f0;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.1);
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+.our-confession-text {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  font-weight: 800;
+}
+.our-confession-text .strike {
+  color: #64748b;
+  text-decoration: line-through;
+  font-weight: 500;
+  font-size: 0.95rem;
+  display: block;
+  margin-bottom: 8px;
+}
+.our-confession-text .hl-blue {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.our-confession-footer {
+  margin-top: 18px;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  border-top: 1px dashed #475569;
+  padding-top: 16px;
+  font-weight: 600;
+}
+
+/* ── Quiz ── */
+.quiz-section {
+  margin: 36px 0;
+  padding: 24px 20px;
+  background: var(--quiz-bg);
+  border-radius: 14px;
+  border: 1px solid #bbf7d0;
+}
+.quiz-section h2 {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 900;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.quiz-item {
+  margin-bottom: 20px;
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid var(--border);
+}
+.quiz-q {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.quiz-badge {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: .75rem;
+  font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+}
+.quiz-q-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+  padding-top: 2px;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-left: 38px;
+}
+.quiz-opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all .15s;
+  user-select: none;
+  line-height: 1.5;
+  min-height: 44px;
+}
+.quiz-opt:hover { background: var(--accent-light); border-color: var(--accent); }
+.quiz-opt.selected { background: var(--accent-light); border-color: var(--accent); }
+.quiz-opt.correct { background: #d1fae5; border-color: #059669; color: #065f46; }
+.quiz-opt.wrong { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+.quiz-opt .radio {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.quiz-opt.selected .radio { border-color: var(--accent); }
+.quiz-opt.selected .radio::after {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.quiz-opt.correct .radio { border-color: #059669; }
+.quiz-opt.correct .radio::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #059669; }
+.quiz-opt.wrong .radio { border-color: #dc2626; }
+
+.quiz-hint-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 8px 0 0 38px;
+  padding: 4px 10px;
+  font-size: .73rem;
+  font-weight: 600;
+  color: var(--text-light);
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.quiz-hint-btn:hover { background: var(--accent-light); color: var(--accent); }
+.quiz-hint-text {
+  display: none;
+  margin: 6px 0 0 38px;
+  padding: 8px 12px;
+  background: #fefce8;
+  border-radius: 6px;
+  font-size: .78rem;
+  color: #92400e;
+  border: 1px solid #fef08a;
+  line-height: 1.6;
+}
+.quiz-hint-text.show { display: block; }
+
+.quiz-feedback {
+  display: none;
+  margin: 6px 0 0 38px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: .78rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+.quiz-feedback.wrong-fb { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+
+.quiz-submit {
+  display: block;
+  margin: 20px auto 0;
+  padding: 12px 32px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: .88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.quiz-submit:hover { background: #1d4ed8; transform: translateY(-1px); }
+
+.quiz-result {
+  display: none;
+  text-align: center;
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.quiz-result.show { display: block; }
+.quiz-score {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--accent);
+}
+.quiz-score-label {
+  font-size: .82rem;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+.quiz-score-msg {
+  font-size: .85rem;
+  margin-top: 10px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ── Prayer ── */
+.prayer-section {
+  margin: 36px 0;
+  padding: 28px 24px;
+  background: var(--prayer-bg);
+  border-radius: 14px;
+  border: 1px solid #fef08a;
+  text-align: center;
+}
+.prayer-section h2 {
+  font-size: 1rem;
+  font-weight: 900;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.prayer-icon { font-size: 28px; margin-bottom: 10px; }
+.prayer-text {
+  font-size: .86rem;
+  line-height: 2;
+  color: var(--text);
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.prayer-text p { margin-bottom: 10px; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  font-size: .7rem;
+  color: #94a3b8;
+  border-top: 1px solid var(--border);
+  margin-top: 20px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .container { padding: 52px 14px 30px; }
+  .hero h1 { font-size: 1.35rem; }
+  .dash-grid { grid-template-columns: repeat(2, 1fr); }
+  .point-body-inner { padding-left: 16px; }
+  .quiz-options { margin-left: 0; }
+  .quiz-hint-btn, .quiz-hint-text, .quiz-feedback { margin-left: 0; }
+  .topbar-title { font-size: 12px; }
+  .layer { font-size: .76rem; padding: 10px 14px; }
+  .layer-core { font-size: .82rem; padding: 14px 16px; }
+}
+
+/* animation */
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(16px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.animate-in { animation: fadeInUp .5s ease both; }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <a href="#" class="topbar-home" title="홈으로">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+  </a>
+  <div class="topbar-title">하나님과 동행함: 믿음으로 행하는 것</div>
+  <div class="topbar-font">
+    <button onclick="adjustFont(-1)" title="축소">−</button>
+    <div class="divider"></div>
+    <button onclick="adjustFont(0)" title="초기화">가</button>
+    <div class="divider"></div>
+    <button onclick="adjustFont(1)" title="확대">+</button>
+  </div>
+</div>
+
+<!-- Nav Toggle -->
+<button class="nav-toggle" onclick="toggleNav()" aria-label="메뉴">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+
+<!-- Side Nav -->
+<div class="nav-overlay" id="navOverlay" onclick="toggleNav()"></div>
+<div class="side-nav" id="sideNav">
+  <div class="nav-section">
+    <div class="nav-section-title">탐색</div>
+    <a class="nav-item" onclick="navTo('hero')">📖 제목</a>
+    <a class="nav-item" onclick="navTo('dashboard')">📊 대시보드</a>
+  </div>
+  <div class="nav-divider"></div>
+  <div class="nav-section">
+    <div class="nav-section-title">키워드</div>
+    <a class="nav-item" onclick="toggleKeyword(this, '하나님의 이름. 그분만이 이전에 존재하셨고, 지금도 존재하시며, 앞으로도 존재하실 유일한 분이시다.')">🔑 '-이다' (I AM)</a>
+    <div class="keyword-tooltip" id="kw0"></div>
+    <a class="nav-item" onclick="toggleKeyword(this, '해와 달과 땅 등, 하나님 외에 창조된 모든 것은 참된 것이 아니며 허무이다.')">🔑 허무 (vanity)</a>
+    <div class="keyword-tooltip" id="kw1"></div>
+    <a class="nav-item" onclick="toggleKeyword(this, '예수님은 생명, 부활, 문, 선한 목자, 생명의 떡, 숨, 생수, 생명나무이시다.')">🔑 위대한 '나는 -이다'</a>
+    <div class="keyword-tooltip" id="kw2"></div>
+    <a class="nav-item" onclick="toggleKeyword(this, '어떤 남편도 참남편이 아니다. 오직 그리스도만이 유일하고 참된 남편이시다.')">🔑 참남편과 신부</a>
+    <div class="keyword-tooltip" id="kw3"></div>
+    <a class="nav-item" onclick="toggleKeyword(this, '온 우주 안에서 우리는 아무것도 아니며, 결국 사라질 거짓된 생명이다.')">🔑 거짓된 생명</a>
+    <div class="keyword-tooltip" id="kw4"></div>
+    <a class="nav-item" onclick="toggleKeyword(this, '자아를 부인하는 것은 하나님께서 -이다이심을 믿는 것과 동등하다.')">🔑 자아 부인 = 믿음</a>
+    <div class="keyword-tooltip" id="kw5"></div>
+    <a class="nav-item" onclick="toggleKeyword(this, '아무것도 갖지 않고, 아무것도 되지 않으며, 오직 살아 계신 그리스도만 바라보는 기쁨.')">🔑 다비의 기쁨</a>
+    <div class="keyword-tooltip" id="kw6"></div>
+  </div>
+  <div class="nav-divider"></div>
+  <div class="nav-section">
+    <div class="nav-section-title">핵심 요점</div>
+    <a class="nav-item" onclick="navTo('point1')">① 믿음의 단순한 요구</a>
+    <a class="nav-item" onclick="navTo('point2')">② 하나님의 이름, '-이다'</a>
+    <a class="nav-item" onclick="navTo('point3')">③ 모든 피조물은 허무이다</a>
+    <a class="nav-item" onclick="navTo('point4')">④ 위대한 '나는 -이다' 예수님</a>
+    <a class="nav-item" onclick="navTo('point5')">⑤ 거짓된 우리의 생명</a>
+    <a class="nav-item" onclick="navTo('point6')">⑥ 결혼 생활 속 자아 부인</a>
+    <a class="nav-item" onclick="navTo('point7')">⑦ 이제는 내가 아니라 그리스도</a>
+  </div>
+  <div class="nav-divider"></div>
+  <div class="nav-section">
+    <a class="nav-item" onclick="navTo('quiz')">✏️ 퀴즈</a>
+    <a class="nav-item" onclick="navTo('prayer')">🙏 오늘의 기도</a>
+  </div>
+</div>
+
+<!-- Container -->
+<div class="container">
+
+  <!-- Hero -->
+  <section class="hero animate-in" id="hero">
+    <div class="hero-badge">2025 겨울훈련 9주 4일</div>
+    <h1>'<span class="hl">하나님과 동행함: 믿음으로 행하는 것</span></h1>
+    <div class="hero-verse">
+      <span class="ref">히 11:6</span> 믿음이 없이는 하나님을 기쁘시게 해 드릴 수 없습니다. 하나님께 나아오는 사람은 반드시 <b>'그분께서 -이시다'</b>라는 것과 그분은 그분 자신을 <b>부지런히 찾는 사람들에게 보상</b>을 해 주시는 분이시라는 것을 믿어야 합니다.<br><br>
+      <span class="ref">눅 9:23</span> … 누구든지 나를 따라오려거든, <b>자기를 부인하고</b>, 날마다 자기 십자가를 지고, 나를 따라오십시오.
+    </div>
+  </section>
+
+  <!-- Layer Peeling -->
+  <section class="layer-section animate-in" id="layers">
+    <div class="layer-title">🔍 믿음의 핵심으로 안으로 들어가기</div>
+    <div class="layers">
+      <div class="layer layer-1">겉 — "하나님을 기쁘시게 해 드리고 싶다"</div>
+      <div class="layer-arrow">↓</div>
+      <div class="layer layer-2">중간 — "믿음이 필요하다"</div>
+      <div class="layer-arrow">↓</div>
+      <div class="layer layer-3">깊은 — "'그분께서 -이시다'를 믿어야 한다"</div>
+      <div class="layer-arrow">↓</div>
+      <div class="layer layer-4">더 깊은 — "나는 아무것도 아니다 (자기 부인)"</div>
+      <div class="layer-arrow">↓</div>
+      <div class="layer layer-core">핵심 — "이제는 더 이상 내가 아니라, 그리스도"</div>
+    </div>
+  </section>
+
+  <!-- Dashboard -->
+  <section class="dashboard animate-in" id="dashboard">
+    <div class="dashboard-title">📊 전체 흐름 대시보드</div>
+    <div class="dash-grid">
+      <div class="dash-card">
+        <div class="dash-icon">📖</div>
+        <div class="dash-label">핵심 구절</div>
+        <div class="dash-value">히 11:6 · 눅 9:23</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-icon">🔑</div>
+        <div class="dash-label">핵심 주제</div>
+        <div class="dash-value">하나님께서 '-이다'</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-icon">🎯</div>
+        <div class="dash-label">핵심 공식</div>
+        <div class="dash-value">그분은 -이다 = 나는 아니다</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-icon">👑</div>
+        <div class="dash-label">그리스도</div>
+        <div class="dash-value">위대한 '나는 -이다'</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-icon">❌</div>
+        <div class="dash-label">피조물</div>
+        <div class="dash-value">모두 거짓 · 허무</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-icon">💎</div>
+        <div class="dash-label">결론</div>
+        <div class="dash-value">다비의 체험 (자아 부인)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Keywords -->
+  <section class="keywords-section animate-in" id="keywords">
+    <h3>🔑 핵심 키워드</h3>
+    <div class="keyword-tags">
+      <span class="keyword-tag">'-이다' (I AM)</span>
+      <span class="keyword-tag">허무</span>
+      <span class="keyword-tag">자아 부인</span>
+      <span class="keyword-tag">위대한 '나는 -이다'</span>
+      <span class="keyword-tag">오직 한 남편</span>
+      <span class="keyword-tag">거짓된 생명</span>
+      <span class="keyword-tag">다비의 믿음</span>
+    </div>
+  </section>
+
+  <!-- ═══ 7 Key Points ═══ -->
+
+  <!-- Point 1 -->
+  <div class="flow-connector"><div style="display:flex;flex-direction:column;align-items:center"><div class="flow-line"></div><div class="flow-dot"></div></div></div>
+  <div class="flow-label">출발점</div>
+
+  <div class="point-card" id="point1">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-num" style="background:var(--section1)">1</div>
+      <div class="point-icon">🚪</div>
+      <div class="point-title-text">믿음의 가장 단순하고도 절대적인 요구</div>
+      <svg class="point-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="faith-visual">
+          <div class="faith-visual-left">
+            <div class="title">믿음의 가장 단순하고도<br>절대적인 요구</div>
+            <div class="quote">
+              하나님께 나아오는 사람은<br>
+              반드시 <span class="hl-gold">'그분께서 -이시다'</span>라는 것을<br>
+              믿어야 합니다. (히 11:6)
+            </div>
+            <div class="sub">
+              하나님은 단지 우리에게 이 동사(Verb)를 믿으라고 요구하십니다.
+            </div>
+          </div>
+          <div class="faith-visual-right">
+            <div class="big-text">믿음</div>
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+              <path d="M 0,4 C 0,16 40,16 50,24 C 60,16 100,16 100,4" fill="none" stroke="#252525" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div class="small-text">[그분께서 -이시다]</div>
+          </div>
+        </div>
+        
+        <div class="point-desc">
+          <p><span class="hl">하나님의 이름은 명사(Noun)가 아니라 '동사(Verb)'입니다.</span> 우리가 아는 일반적인 이름은 대상을 지칭하는 데 그치지만, 하나님의 이름인 <strong>'-이다(I AM)'</strong>는 영원부터 영원까지 스스로 존재하시는 그분의 실재 자체를 나타냅니다.</p>
+          <p>온 우주 가운데 스스로 참되게 존재하시는 분은 오직 하나님 한 분뿐이십니다.</p>
+          <p>그러므로 하나님께 나아오는 사람에게 요구되는 가장 단순하고도 절대적인 믿음은, 복잡한 교리나 우리의 행위가 아니라 <span class="hl">오직 '그분만이 유일하게 존재하시는 분(동사)'</span>이심을 굳게 믿고 인정하는 것입니다.</p>
+        </div>
+        <div class="point-apply">
+          <div class="point-apply-label">💡 적용</div>
+          우리가 하나님께 나아갈 때 첫 번째로 해야 할 일은 내 노력이 아니라, "나는 아무것도 아니며 오직 하나님만이 유일하게 존재하심"을 인정하는 것입니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Point 2 -->
+  <div class="flow-connector"><div style="display:flex;flex-direction:column;align-items:center"><div class="flow-line"></div><div class="flow-dot"></div></div></div>
+  <div class="flow-label">근거</div>
+
+  <div class="point-card" id="point2">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-num" style="background:var(--section2)">2</div>
+      <div class="point-icon">🔥</div>
+      <div class="point-title-text">하나님의 신성한 이름, '-이다'</div>
+      <svg class="point-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="eternity-visual">
+          <div class="title">영원한 동사: 삼일 하나님의 신성한 칭호</div>
+          <div class="eternity-timeline">
+            <div class="eternity-line"></div>
+            <div class="eternity-node">
+              <div class="eternity-text">이전에<br>존재하셨고</div>
+              <div class="eternity-circle"></div>
+            </div>
+            <div class="eternity-node">
+              <div class="eternity-text">지금도<br>존재하시며</div>
+              <div class="eternity-circle"></div>
+            </div>
+            <div class="eternity-node">
+              <div class="eternity-text">앞으로도<br>존재하실 분</div>
+              <div class="eternity-circle"></div>
+            </div>
+          </div>
+          <div class="quote">나는 '나는 -이다'이다 <span>(출 3:13-14)</span></div>
+          <div class="desc-box">
+            온 우주 가운데 오직 한 분만 <span class="hl-gold">'-이다'</span>이십니다. 우리 하나님의 이름은<br>
+            바로 동사 <span class="hl-gold">'-이다'</span>입니다. 그분은 존재함을 함축하십니다.
+          </div>
+        </div>
+        
+        <div class="point-apply">
+          <div class="point-apply-label">💡 의미</div>
+          하나님의 이름은 영원 과거부터 영원 미래까지 스스로 존재하시는 유일한 분의 영원한 실재를 증명합니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Point 3 -->
+  <div class="flow-connector"><div style="display:flex;flex-direction:column;align-items:center"><div class="flow-line"></div><div class="flow-dot"></div></div></div>
+  <div class="flow-label">대비</div>
+
+  <div class="point-card" id="point3">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-num" style="background:var(--section3)">3</div>
+      <div class="point-icon">💨</div>
+      <div class="point-title-text">모든 피조물은 참된 것이 아니며 허무이다</div>
+      <svg class="point-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="bible-block">
+          <div class="bible-ref"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5zM8 12h8v1.5H8V12zm0 3h8v1.5H8V15z"/></svg> 전 1:2</div>
+          <div class="verse-text">전도자가 말한다. <span class="hl">"허무 중의 허무, 허무 중의 허무라. 모든 것이 허무여라."</span></div>
+        </div>
+        
+        <div class="solomon-box">
+          <div class="title">👑 모든 것을 다 가져본 왕의 결론</div>
+          <div class="text">
+            지혜로운 왕 솔로몬은 역사상 가장 큰 부와 명예, 그리고 세상의 모든 쾌락을 끝까지 누려본 사람이었습니다. 그러나 그가 도달한 최종 결론은 <b>"모든 것이 허무"</b>라는 것이었습니다.<br><br>
+            왜 그런 말을 했을까요? 해와 달, 땅과 생물, 심지어 인간의 찬란한 영광과 성취조차도 <span class="hl-green">스스로 영원히 존재할 수 없는 피조물</span>이기 때문입니다. 언젠가 결국 사라질 유한한 것은 결코 '참된 실재'가 될 수 없습니다.
+          </div>
+        </div>
+
+        <div class="point-desc">
+          <p>하나님은 영원히 존재하시기 때문에 '-이다'이십니다. 그러나 그분에 의해 창조된 <span class="hl">다른 모든 것은 참된 것이 아닙니다.</span></p>
+          <p><span class="hl">오직 한 분만이 참되게 '-이다'이시며</span>, 그분 외의 모든 만물은 결국 사라질 그림자요 허무일 뿐입니다.</p>
+        </div>
+
+        <div class="point-apply" style="border-color:#6ee7b7; background:#ecfdf5;">
+          <div class="point-apply-label" style="color:#047857;">💡 깨달음</div>
+          우리가 세상에서 추구하는 모든 소유와 성취는 영원하지 않습니다. 오직 영원히 존재하시는 '-이다'이신 하나님만이 참된 실재임을 기억해야 합니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Point 4 -->
+  <div class="flow-connector"><div style="display:flex;flex-direction:column;align-items:center"><div class="flow-line"></div><div class="flow-dot"></div></div></div>
+  <div class="flow-label">실재</div>
+
+  <div class="point-card" id="point4">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-num" style="background:var(--section4)">4</div>
+      <div class="point-icon">👑</div>
+      <div class="point-title-text">위대한 '나는 -이다'이신 예수님</div>
+      <svg class="point-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="point-desc">
+          <p><span class="hl">예수님은 위대한 '나는 -이다'이시다.</span> 그분은 성경 여러 곳에서 우리에게 모든 것이 되심을 선포하셨다.</p>
+          <p style="font-size:0.75rem; color:var(--text-light);">※ 아래 태그를 클릭하시면 관련 성경 구절을 확인할 수 있습니다.</p>
+        </div>
+        
+        <div class="iam-container">
+          <!-- 1. 영적 실재 -->
+          <div class="iam-group group-reality">
+            <div class="iam-group-header">✨ 영적 실재</div>
+            <div class="iam-group-body">
+              <button class="iam-pill" onclick="showVerse(this)" data-ref="요 14:6" data-verse="내가 곧 길이요 실재요 <span class='hl'>생명</span>이니, 나를 통하지 않고서는 아무도 아버지께로 가지 못합니다."><span class="icon">🌱</span> 생명 <span class="ref">요 14:6</span></button>
+              <button class="iam-pill" onclick="showVerse(this)" data-ref="요 11:25" data-verse="나는 <span class='hl'>부활</span>이요 생명이니, 나를 믿는 사람은 죽어도 살 것이고,"><span class="icon">☀️</span> 부활 <span class="ref">요 11:25</span></button>
+            </div>
+            <div class="iam-verse-box">
+              <div class="ref-title"></div>
+              <div class="text"></div>
+            </div>
+          </div>
+
+          <!-- 2. 생명의 공급 -->
+          <div class="iam-group group-supply">
+            <div class="iam-group-header">🍞 풍성한 공급</div>
+            <div class="iam-group-body">
+              <button class="iam-pill" onclick="showVerse(this)" data-ref="요 6:35" data-verse="내가 <span class='hl'>생명의 떡</span>이니, 나에게 오는 사람은 결코 배고프지 않을 것이고, 나를 믿는 사람은 결코 목마르지 않을 것입니다."><span class="icon">🍞</span> 생명의 떡 <span class="ref">요 6:35</span></button>
+              <button class="iam-pill" onclick="showVerse(this)" data-ref="요 4:14" data-verse="내가 주는 물은 그 사람 안에서 원천이 되어 <span class='hl'>샘솟아 올라</span> 영원한 생명에 이를 것입니다."><span class="icon">💧</span> 생수 <span class="ref">요 4:14</span></button>
+              <button class="iam-pill" onclick="showVerse(this)" data-ref="요 20:22" data-verse="그들 안으로 <span class='hl'>숨을 불어 넣으시며</span> 말씀하셨다. '성령을 받으십시오.'"><span class="icon">🌬️</span> 숨 <span class="ref">요 20:22</span></button>
+              <button class="iam-pill" onclick="showVerse(this)" data-ref="계 2:7" data-verse="이기는 이에게는 내가 하나님의 낙원에 있는 <span class='hl'>생명나무</span>를 주어서 먹게 할 것이다."><span class="icon">🌳</span> 생명나무 <span class="ref">계 2:7</span></button>
+            </div>
+            <div class="iam-verse-box">
+              <div class="ref-title"></div>
+              <div class="text"></div>
+            </div>
+          </div>
+
+          <!-- 3. 인도와 보호 -->
+          <div class="iam-group group-guide">
+            <div class="iam-group-header">🛡️ 인도와 보호</div>
+            <div class="iam-group-body">
+              <button class="iam-pill" onclick="showVerse(this)" data-ref="요 10:7, 9" data-verse="나는 양들의 <span class='hl'>문</span>입니다... 누구든지 나를 통하여 들어가면 구원을 얻을 것이고..."><span class="icon">🚪</span> 문 <span class="ref">요 10:7</span></button>
+              <button class="iam-pill" onclick="showVerse(this)" data-ref="요 10:11" data-verse="나는 <span class='hl'>선한 목자</span>입니다. 선한 목자는 양들을 위하여 자기 목숨을 버리지만,"><span class="icon">🐑</span> 선한 목자 <span class="ref">요 10:11</span></button>
+            </div>
+            <div class="iam-verse-box">
+              <div class="ref-title"></div>
+              <div class="text"></div>
+            </div>
+          </div>
+
+          <!-- 4. 삼일 하나님 -->
+          <div class="iam-group group-trinity">
+            <div class="iam-group-header">👑 삼일 하나님</div>
+            <div class="iam-group-body">
+              <button class="iam-pill" onclick="showVerse(this)" data-ref="요 1:1" data-verse="태초에 말씀께서 계셨다. 말씀은 하나님과 함께 계셨으며, 말씀은 곧 <span class='hl'>하나님</span>이셨다.">하나님 <span class="ref">요 1:1</span></button>
+              <button class="iam-pill" onclick="showVerse(this)" data-ref="사 9:6" data-verse="한 아기가 우리에게 태어났고... 그분의 이름은 전능하신 하나님 / 영원하신 <span class='hl'>아버지</span> / 화평의 왕이라 불리리라.">아버지 <span class="ref">사 9:6</span></button>
+              <button class="iam-pill" onclick="showVerse(this)" data-ref="요 20:31" data-verse="예수님께서 그리스도이시요 하나님의 <span class='hl'>아들</span>이시라는 것을 여러분이 믿도록 하려는 것이고...">아들 <span class="ref">요 20:31</span></button>
+              <button class="iam-pill" onclick="showVerse(this)" data-ref="고후 3:17" data-verse="주님은 <span class='hl'>그 영</span>이십니다. 주님의 영께서 계신 곳에는 자유가 있습니다."><span class="icon">🕊️</span> 그 영 <span class="ref">고후 3:17</span></button>
+            </div>
+            <div class="iam-verse-box">
+              <div class="ref-title"></div>
+              <div class="text"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="iam-summary">
+          ✨ 결론: 그분은 우리에게 모든 것이시다!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Point 5 -->
+  <div class="flow-connector"><div style="display:flex;flex-direction:column;align-items:center"><div class="flow-line"></div><div class="flow-dot"></div></div></div>
+  <div class="flow-label">자기 인식</div>
+
+  <div class="point-card" id="point5">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-num" style="background:var(--section5)">5</div>
+      <div class="point-icon">🪞</div>
+      <div class="point-title-text">우리의 생명은 거짓되며 아무것도 아니다</div>
+      <svg class="point-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="bible-block">
+          <div class="bible-ref"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5zM8 12h8v1.5H8V12zm0 3h8v1.5H8V15z"/></svg> 눅 9:23</div>
+          <div class="verse-text">"누구든지 나를 따라오려거든, <span class="hl">자기를 부인하고</span>, 날마다 자기 십자가를 지고, 나를 따라오십시오."</div>
+        </div>
+        <div class="point-desc">
+          <p><span class="hl">우리의 생명은 거짓된 것이다.</span> 우리는 오늘 있지만, 앞으로 다가올 어느 날 결국 사라질 것이다.</p>
+          <p>그러므로 온 우주 안에서 <span class="hl">우리는 아무것도 아니다.</span></p>
+          <p>여러분이 하나님께 나아간다고 말한다면 '하나님께서 -이다'이심을 믿어야 하며, 이것은 여러분이 아무것도 아님을 함축한다. 여러분은 끝났다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Point 6 -->
+  <div class="flow-connector"><div style="display:flex;flex-direction:column;align-items:center"><div class="flow-line"></div><div class="flow-dot"></div></div></div>
+  <div class="flow-label">생활 적용</div>
+
+  <div class="point-card" id="point6">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-num" style="background:var(--section6)">6</div>
+      <div class="point-icon">💍</div>
+      <div class="point-title-text">결혼 생활에서의 인식 — 참남편은 그리스도뿐</div>
+      <svg class="point-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="point-desc">
+          <p>어떤 남편이 오직 하나님만 '-이다'이시고 자신은 아님을 깨닫는다면, <span class="hl">아내를 자신의 힘으로 자신 안에서 사랑하려고 하지 않을 것이다.</span></p>
+          <p>형제들은 자문해야 한다. "내 아내에게 남편은 나인가 그리스도인가?" 오직 그리스도만이 '그 남편'이시다. 어떤 남편도 참남편이 아니다. 그들은 모두 허무이다.</p>
+        </div>
+        <div class="point-example" style="margin-top:8px;background:#f0f9ff;border-color:#bae6fd;">
+          <div class="point-example-label" style="color:#0369a1;">📌 결혼식에서의 올바른 대답</div>
+          <b>신랑:</b> "아닙니다. 저는 아닙니다. 그리스도께서 '-이십니다'."<br>
+          <b>신부:</b> "저는 아닙니다. 저는 아름답지 않습니다. 아름다우신 분은 그리스도이십니다. 제가 신부가 아니라 그분께서 '-이십니다'."<br>
+          <b>이것이 바로 믿는 이이다.</b>
+        </div>
+        <div class="point-apply">
+          <div class="point-apply-label">💡 기도 적용</div>
+          "주님, 저는 이 남자와 결혼합니다. 주님, 당신은 제가 아무것도 아님을 아십니다. 저는 합당한 아내가 될 수 없습니다. 주님, 저는 아무것도 아닙니다." 이렇게 말하는 것은 모든 일에서 자기를 부인하는 축복이다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Point 7 -->
+  <div class="flow-connector"><div style="display:flex;flex-direction:column;align-items:center"><div class="flow-line"></div><div class="flow-dot"></div></div></div>
+  <div class="flow-label">결론</div>
+
+  <div class="point-card" id="point7">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-num" style="background:var(--section7)">7</div>
+      <div class="point-icon">🌟</div>
+      <div class="point-title-text">자아 부인 =  ‘하나님께서 -이다’이심을 믿는 것</div>
+      <svg class="point-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="point-desc">
+          <p><span class="hl">자아를 부인하는 것은 '하나님께서 -이다'이심을 믿는 것과 동등하다.</span></p>
+          <p>온 우주에서 그분만이 '-이다'이시고, 우리 모두는 아무것도 아니다. 오직 그분만이 모든 것이셔야 한다. 그러므로 바울은 <span class="hl">"이제는 더 이상 내가 아니라 그리스도"</span>라고 말한다.</p>
+          
+          <p style="margin-top:20px;">다비(Darby)는 이 믿음을 이렇게 표현했다:</p>
+          
+          <div class="darby-quote">
+            <div class="darby-quote-text">
+              "아무것도 갖지 않고, 아무것도 되지 않으며, 아무것도 보지 않고, 오직 영광 안에 계신 살아 계신 그리스도만 바라보고, 여기에서 그분의 권익 외에는 아무것도 관심하지 않는 이 기쁨이여!"
+            </div>
+            <div class="darby-quote-label">— 존 넬슨 다비(J.N. Darby)</div>
+          </div>
+
+          <p style="margin-top:20px;">우리는 언제나 이렇게 선포해야 합니다:</p>
+          
+          <div class="our-confession">
+            <div class="our-confession-title">🗣️ 우리의 참된 고백</div>
+            <div class="our-confession-text">
+              <span class="strike">'나'이고, '나를'이며, '나의'이고, '나의 것'이다.</span>
+              "<span class="hl-blue">'그분'</span>이고, <span class="hl-blue">'그분을'</span>이며, <span class="hl-blue">'그분의'</span>이고, <span class="hl-blue">'그분의 것'</span>이다."
+            </div>
+            <div class="our-confession-footer">
+              그분께서 처음이시고 마지막이시며 그 사이에 있는 모든 것이시다.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Quiz ═══ -->
+  <section class="quiz-section" id="quiz">
+    <h2>✏️ 이해도 퀴즈</h2>
+
+    <div class="quiz-item" data-correct="2">
+      <div class="quiz-q">
+        <div class="quiz-badge">1</div>
+        <div class="quiz-q-text">히브리서 11:6에 따르면, 하나님께 나아오는 사람이 반드시 믿어야 하는 것은 무엇입니까?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>하나님께서 세상을 창조하셨다는 것</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>'그분께서 -이시다'라는 것</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>자신이 의롭다는 것</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>모든 일이 잘 풀릴 것이라는 것</div>
+      </div>
+      <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+      <div class="quiz-hint-text">"하나님께 나아오는 사람은 반드시 '그분께서 __'라는 것을 믿어야 합니다." — 히 11:6</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz-item" data-correct="1">
+      <div class="quiz-q">
+        <div class="quiz-badge">2</div>
+        <div class="quiz-q-text">출애굽기 3:13-14에서 하나님이 모세에게 대답하신 그분의 이름은 무엇입니까?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>"나는 '나는 -이다'이다"</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>"나는 심판자이다"</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>"나는 사랑이다"</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>"나는 구원자이다"</div>
+      </div>
+      <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+      <div class="quiz-hint-text">하나님의 이름은 동사 '-이다'와 관련이 있습니다.</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz-item" data-correct="3">
+      <div class="quiz-q">
+        <div class="quiz-badge">3</div>
+        <div class="quiz-q-text">솔로몬이 전도서 1:2에서 하나님 외에 창조된 모든 해와 달과 땅 등을 가리켜 무엇이라고 말했습니까?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>아름다움</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>영원함</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>허무</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>축복</div>
+      </div>
+      <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+      <div class="quiz-hint-text">하나님만이 참되시기 때문에 다른 모든 것은 참된 것이 아니며 "___"라고 말했습니다.</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz-item" data-correct="2">
+      <div class="quiz-q">
+        <div class="quiz-badge">4</div>
+        <div class="quiz-q-text">지문에 따르면, 성경이 자기를 부인하라고 말할 때(눅 9:23) 의미하는 것은 무엇입니까?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>세상적인 즐거움을 모두 포기하는 것</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>우리는 아니며 '하나님께서 -이다'이심을 믿는 것</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>자신의 능력을 과소평가하는 것</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>고난을 스스로 찾아 나서는 것</div>
+      </div>
+      <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+      <div class="quiz-hint-text">자아를 부인하는 것은 '하나님께서 -이다'이심을 믿는 것과 동등합니다.</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz-item" data-correct="3">
+      <div class="quiz-q">
+        <div class="quiz-badge">5</div>
+        <div class="quiz-q-text">다비(Darby)가 고백한 "이 기쁨이여!"에서 그가 바라보고 관심한 것은 무엇입니까?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>자신의 영적인 성장</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>교회의 양적 부흥</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>오직 살아 계신 그리스도와 그분의 권익</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><div class="radio"></div>사람들로부터 받는 인정</div>
+      </div>
+      <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+      <div class="quiz-hint-text">"아무것도 갖지 않고... 오직 영광 안에 계신 살아 계신 ___만 바라보고, 여기에서 ___ 외에는 아무것도 관심하지 않는..."</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <button class="quiz-submit" onclick="submitQuiz()">제출하기</button>
+
+    <div class="quiz-result" id="quizResult">
+      <div class="quiz-score" id="quizScore"></div>
+      <div class="quiz-score-label">정답률</div>
+      <div class="quiz-score-msg" id="quizMsg"></div>
+    </div>
+  </section>
+
+  <!-- Prayer -->
+  <section class="prayer-section" id="prayer">
+    <div class="prayer-icon">🙏</div>
+    <h2>오늘의 기도</h2>
+    <div class="prayer-text">
+      <p>주님, 당신만이 참되신 '나는 -이다'이십니다. 하나님 외의 모든 것은 허무이며, 저의 생명 또한 거짓되고 아무것도 아님을 고백합니다.</p>
+      <p>주님, 저는 제 힘으로 합당한 사람, 합당한 배우자가 될 수 없음을 아십니다. 저는 십자가에 못 박혔고, 이제는 더 이상 제가 아니라 그리스도이십니다.</p>
+      <p>오 주님, '나'도 아니고, '나를'도 아니며, '나의'도 아닙니다. 오직 '그분'이고, '그분을'이며, '그분의'입니다!</p>
+      <p>아무것도 갖지 않고, 아무것도 되지 않으며, 오직 살아 계신 그리스도만 바라보고 그분의 권익만을 관심하는 참된 믿음의 길을 가기 원합니다!</p>
+    </div>
+  </section>
+
+  <div class="footer">
+    위트니스 리 고봉 메시지, 11권 · 로마서에 있는 하나님의 복음의 결정(상), 7장
+  </div>
+</div>
+
+<script>
+// Font size adjustment
+let fontScale = 1;
+function adjustFont(dir) {
+  if (dir === 0) fontScale = 1;
+  else if (dir === 1) fontScale = Math.min(fontScale + 0.06, 1.5);
+  else fontScale = Math.max(fontScale - 0.06, 0.7);
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+
+  // 폰트 크기 변경 후, 열려있는 요점 박스의 높이를 재계산하여 잘림 현상 방지
+  setTimeout(() => {
+    document.querySelectorAll('.point-card.open .point-body').forEach(body => {
+      body.style.maxHeight = body.scrollHeight + 'px';
+    });
+  }, 50);
+}
+
+// Side nav
+function toggleNav() {
+  document.getElementById('sideNav').classList.toggle('open');
+  document.getElementById('navOverlay').classList.toggle('show');
+}
+function navTo(id) {
+  toggleNav();
+  setTimeout(() => {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  }, 200);
+}
+
+// Keyword tooltip in nav
+function toggleKeyword(el, text) {
+  const tooltip = el.nextElementSibling;
+  if (tooltip && tooltip.classList.contains('keyword-tooltip')) {
+    if (tooltip.classList.contains('show')) {
+      tooltip.classList.remove('show');
+    } else {
+      document.querySelectorAll('.keyword-tooltip').forEach(t => t.classList.remove('show'));
+      tooltip.textContent = text;
+      tooltip.classList.add('show');
+    }
+  }
+}
+
+// Accordion — independent open/close
+function togglePoint(header) {
+  const card = header.closest('.point-card');
+  const body = card.querySelector('.point-body');
+  if (card.classList.contains('open')) {
+    card.classList.remove('open');
+    body.style.maxHeight = '0';
+  } else {
+    card.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+}
+
+// 위대한 나는 -이다 섹션 알약 토글 스크립트
+function showVerse(btn) {
+  const group = btn.closest('.iam-group');
+  const box = group.querySelector('.iam-verse-box');
+  const refTitle = box.querySelector('.ref-title');
+  const text = box.querySelector('.text');
+  const cardBody = btn.closest('.point-body');
+
+  const isActive = btn.classList.contains('active');
+
+  // 같은 그룹 안의 모든 알약의 active 상태 해제
+  group.querySelectorAll('.iam-pill').forEach(p => p.classList.remove('active'));
+
+  if (isActive) {
+    // 이미 켜진 것을 눌렀다면 닫기
+    box.style.display = 'none';
+  } else {
+    // 켜기
+    btn.classList.add('active');
+    refTitle.innerHTML = '📖 ' + btn.dataset.ref;
+    text.innerHTML = btn.dataset.verse;
+    box.style.display = 'block';
+  }
+
+  // 아코디언 상자 높이 재계산 (내용물이 튀어나오지 않게 함)
+  if (cardBody) {
+    // 변경된 스크롤 높이를 반영 (애니메이션이 자연스럽도록)
+    cardBody.style.maxHeight = cardBody.scrollHeight + 'px';
+  }
+}
+
+// 창 크기가 바뀔 때도 열려있는 박스 높이 재계산 (반응형 대응)
+window.addEventListener('resize', () => {
+  document.querySelectorAll('.point-card.open .point-body').forEach(body => {
+    body.style.maxHeight = body.scrollHeight + 'px';
+  });
+});
+
+// Quiz
+function selectOpt(el) {
+  const item = el.closest('.quiz-item');
+  if (item.dataset.answered) return;
+  item.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function toggleHint(btn) {
+  const hint = btn.nextElementSibling;
+  hint.classList.toggle('show');
+  btn.textContent = hint.classList.contains('show') ? '💡 힌트 닫기' : '💡 힌트 보기';
+}
+
+function submitQuiz() {
+  let score = 0;
+  const items = document.querySelectorAll('.quiz-item');
+  items.forEach(item => {
+    const correct = parseInt(item.dataset.correct);
+    const opts = item.querySelectorAll('.quiz-opt');
+    const feedback = item.querySelector('.quiz-feedback');
+    let selectedIdx = -1;
+    opts.forEach((o, i) => { if (o.classList.contains('selected')) selectedIdx = i + 1; });
+    item.dataset.answered = 'true';
+    opts.forEach(o => o.classList.remove('selected'));
+    if (selectedIdx === correct) {
+      opts[correct - 1].classList.add('correct');
+      feedback.textContent = '✅ 정답입니다!';
+      feedback.className = 'quiz-feedback show correct-fb';
+      score++;
+    } else {
+      if (selectedIdx > 0) opts[selectedIdx - 1].classList.add('wrong');
+      opts[correct - 1].classList.add('correct');
+      feedback.textContent = '❌ 오답입니다. 정답을 확인해 보세요.';
+      feedback.className = 'quiz-feedback show wrong-fb';
+    }
+  });
+  const pct = Math.round((score / items.length) * 100);
+  document.getElementById('quizScore').textContent = score + ' / ' + items.length;
+  const msgs = [
+    '다시 한번 메시지를 살펴보세요! 💪',
+    '좋은 시작입니다! 핵심 요점을 다시 읽어보세요. 📖',
+    '잘하셨습니다! 거의 다 이해하셨네요. 👏',
+    '훌륭합니다! 메시지의 핵심을 잘 이해하고 계십니다. 🎉',
+    '완벽합니다! 🌟 "이제는 더 이상 내가 아니라 그리스도"의 삶을 살아가세요!'
+  ];
+  document.getElementById('quizMsg').textContent = msgs[score];
+  document.getElementById('quizResult').classList.add('show');
+  document.querySelector('.quiz-submit').style.display = 'none';
+}
+
+// Scroll animation
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('animate-in'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.point-card, .quiz-section, .prayer-section').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
