@@ -1034,6 +1034,71 @@ body {
   line-height: 1.6;
 }
 
+/* ── Body Exam Box (Point 3) ── */
+.body-exam-container {
+  background: #ffffff;
+  border: 1px solid #fcd34d;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08);
+}
+.body-exam-title {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #92400e;
+  margin-bottom: 16px;
+}
+.body-exam-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+.body-exam-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fffbeb;
+  padding: 12px 14px;
+  border-radius: 6px;
+  border-left: 3px solid #f59e0b;
+  transition: transform 0.2s;
+}
+.body-exam-item:hover {
+  transform: translateY(-2px);
+}
+.be-icon {
+  font-size: 20px;
+  background: #fef3c7;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.be-text {
+  font-size: 0.82rem;
+  color: #78350f;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+.be-text strong {
+  color: #b45309;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 2px;
+}
+.body-exam-footer {
+  text-align: center;
+  font-weight: 800;
+  color: #b45309;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px dashed #fcd34d;
+  font-size: 0.95rem;
+}
+
 /* ── Yoke Box (Point 4) ── */
 .yoke-section {
   margin: 24px 0 16px;
@@ -1242,6 +1307,8 @@ body {
   .timeline-track { display: none; }
   .timeline-item { padding-top: 12px; border-top: 4px solid #3b4b59; text-align: left; }
   .timeline-item::before { display: none; }
+  
+  .body-exam-grid { grid-template-columns: 1fr; }
   
   .yoke-section { padding: 20px 14px; }
   .venn-wrapper { transform: scale(0.95); margin-bottom: 24px; }
@@ -1602,7 +1669,38 @@ body {
             <div class="warning-title">⚖️ 엄중한 경고: 그리스도의 심판대</div>
             <div class="warning-text">
               <p style="margin-bottom: 8px;">하나님은 선천적으로 다른 이들을 비난하기를 좋아하는 사람들에게는 <strong>결코 권위를 맡기지 않으실 것입니다.</strong></p>
-              <p>우리 모두는 반드시 그리스도의 심판대 앞에 나타나, 우리의 몸(눈, 귀, 입술, 손, 발)으로 무엇을 보았고, 들었으며, 말했는지 낱낱이 진술해야 합니다. 우리는 지체들에게 하는 말, <strong>심지어 우리의 어조에 있어서도 반드시 주의해야 합니다.</strong> (고후 5:10, 롬 14:10)</p>
+              
+              <!-- 새롭게 추가된 우리 몸으로 행한 것 인포그래픽 -->
+              <div class="body-exam-container">
+                <div class="body-exam-title">우리 몸으로 행한 것</div>
+                <div class="body-exam-grid">
+                  <div class="body-exam-item">
+                    <div class="be-icon">👁️</div>
+                    <div class="be-text"><strong>눈</strong>우리는 매일 무엇을 보았는가?</div>
+                  </div>
+                  <div class="body-exam-item">
+                    <div class="be-icon">👂</div>
+                    <div class="be-text"><strong>귀</strong>우리는 누구의 헐뜯는 말을 들었는가?</div>
+                  </div>
+                  <div class="body-exam-item">
+                    <div class="be-icon">👄</div>
+                    <div class="be-text"><strong>입술</strong>형제를 비난했는가, 생명을 공급했는가?</div>
+                  </div>
+                  <div class="body-exam-item">
+                    <div class="be-icon">✋</div>
+                    <div class="be-text"><strong>손</strong>우리의 힘을 주님의 권익을 위해 사용했는가?</div>
+                  </div>
+                  <div class="body-exam-item">
+                    <div class="be-icon">👣</div>
+                    <div class="be-text"><strong>발</strong>세상을 향해 갔는가, 몸의 건축을 위해 갔는가?</div>
+                  </div>
+                </div>
+                <div class="body-exam-footer">
+                  어느 날 우리는 이 모든 것에 대해 낱낱이 진술해야만 합니다.
+                </div>
+              </div>
+
+              <p>우리 모두는 반드시 그리스도의 심판대 앞에 나타나야 합니다. 우리는 지체들에게 하는 말, <strong>심지어 우리의 어조에 있어서도 반드시 주의해야 합니다.</strong> (고후 5:10, 롬 14:10)</p>
             </div>
           </div>
         </div>
