@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>왕국을 세우시는 그리스도 — 요한계시록 20장</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base-font-size: 17px;
+  --font-scale: 1;
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #333333;
+  --border: #e0e0e0;
+  --accent-yellow: #ffe066;
+  --highlight-bg: #fff9db;
+  --card-bg: #fafafa;
+  --shadow: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,0.08);
+  --c1: #4a90d9; --c1b: #eaf2fb;
+  --c2: #5cb85c; --c2b: #eef7ee;
+  --c3: #e67e22; --c3b: #fdf2e6;
+  --c4: #e74c3c; --c4b: #fdecea;
+  --c5: #9b59b6; --c5b: #f4ecf7;
+  --c6: #17a2b8; --c6b: #e8f6f8;
+  --c7: #d35400; --c7b: #fbeee6;
+  --radius: 12px;
+  --transition: 0.3s ease;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 52px; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Top Bar ── */
+.top-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 44px; background: #fff; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 8px;
+  font-size: 14px !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.top-bar * { font-size: 14px !important; }
+.top-bar-left { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.top-bar-title {
+  flex: 1; overflow-x: auto; white-space: nowrap; padding: 0 8px;
+  font-weight: 600; color: var(--text); scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.top-bar-title::-webkit-scrollbar { display: none; }
+.top-bar-right { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
+.tb-btn {
+  width: 32px; height: 32px; border: none; background: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; color: var(--text-secondary); transition: background var(--transition);
+}
+.tb-btn:hover { background: #f0f0f0; }
+.tb-btn svg { width: 18px; height: 18px; }
+.font-ctrl {
+  display: flex; align-items: center; border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden; height: 28px;
+}
+.font-ctrl button {
+  width: 28px; height: 28px; border: none; background: none;
+  cursor: pointer; font-size: 13px !important; font-weight: 600;
+  color: var(--text-secondary); display: flex; align-items: center;
+  justify-content: center; transition: background var(--transition);
+}
+.font-ctrl button:hover { background: #f0f0f0; }
+.font-ctrl .fc-mid { border-left: 1px solid var(--border); border-right: 1px solid var(--border); font-size: 12px !important; }
+
+/* ── Side Panel ── */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 1100; opacity: 0; pointer-events: none; transition: opacity var(--transition); }
+.overlay.open { opacity: 1; pointer-events: auto; }
+.side-panel {
+  position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
+  background: #fff; z-index: 1200; transition: left var(--transition);
+  overflow-y: auto; box-shadow: var(--shadow-lg);
+  font-size: 15px !important;
+}
+.side-panel.open { left: 0; }
+.side-panel * { font-size: 15px !important; }
+.sp-header {
+  padding: 16px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  font-weight: 700; font-size: 16px !important;
+}
+.sp-close { background: none; border: none; cursor: pointer; font-size: 20px !important; color: #999; }
+.sp-menu { list-style: none; padding: 8px 0; }
+.sp-menu li a {
+  display: block; padding: 10px 20px; color: var(--text); text-decoration: none;
+  transition: background var(--transition); font-weight: 500;
+}
+.sp-menu li a:hover { background: #f5f5f5; }
+.sp-menu li.sub a { padding-left: 40px; font-weight: 400; color: var(--text-secondary); font-size: 14px !important; }
+.sp-section-label { padding: 12px 20px 4px; font-size: 12px !important; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Keyword tooltip in side panel */
+.kw-item { padding: 10px 20px; cursor: pointer; transition: background var(--transition); }
+.kw-item:hover { background: #f5f5f5; }
+.kw-label { font-weight: 600; color: var(--c1); }
+.kw-def { display: none; margin-top: 6px; padding: 8px 12px; background: var(--highlight-bg); border-radius: 8px; font-size: 13px !important; line-height: 1.6; color: var(--text-secondary); }
+.kw-item.active .kw-def { display: block; }
+
+/* ── Main Content ── */
+.main { max-width: 720px; margin: 0 auto; padding: 60px 16px 40px; }
+
+/* Hero */
+.hero {
+  text-align: center; padding: 40px 0 20px;
+}
+.hero-badge {
+  display: inline-block; padding: 4px 14px; border-radius: 20px;
+  background: var(--c1b); color: var(--c1); font-size: 13px; font-weight: 600;
+  margin-bottom: 12px;
+}
+.hero h1 {
+  font-size: calc(26px * var(--font-scale)); font-weight: 800; line-height: 1.4;
+  margin-bottom: 8px; color: var(--text);
+}
+.hero .sub {
+  font-size: calc(15px * var(--font-scale)); color: var(--text-secondary); font-weight: 400;
+}
+
+/* Dashboard */
+.dashboard {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  margin: 28px 0 32px;
+}
+.dash-card {
+  text-align: center; padding: 16px 8px; border-radius: var(--radius);
+  background: var(--card-bg); border: 1px solid var(--border);
+}
+.dash-icon { font-size: 24px; margin-bottom: 6px; }
+.dash-num { font-size: calc(22px * var(--font-scale)); font-weight: 800; color: var(--c1); }
+.dash-label { font-size: calc(12px * var(--font-scale)); color: var(--text-secondary); margin-top: 2px; font-weight: 500; }
+
+/* Flow connector */
+.flow-line {
+  display: flex; align-items: center; justify-content: center;
+  padding: 8px 0;
+}
+.flow-line svg { width: 24px; height: 24px; color: #ccc; }
+
+/* Accordion */
+.accordion { margin-bottom: 14px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: #fff; }
+.acc-header {
+  display: flex; align-items: center; padding: 14px 16px; cursor: pointer;
+  gap: 12px; transition: background var(--transition); user-select: none;
+}
+.acc-header:hover { background: #f9f9f9; }
+.acc-num {
+  width: 32px; height: 32px; border-radius: 50%; display: flex; flex-shrink: 0;
+  align-items: center; justify-content: center; font-weight: 700;
+  font-size: calc(14px * var(--font-scale)); color: #fff;
+}
+.acc-title-wrap { flex: 1; }
+.acc-title {
+  font-weight: 700; font-size: calc(16px * var(--font-scale)); color: var(--text);
+  line-height: 1.4;
+}
+.acc-subtitle {
+  font-size: calc(13px * var(--font-scale)); color: var(--text-secondary);
+  margin-top: 2px;
+}
+.acc-arrow {
+  width: 20px; height: 20px; flex-shrink: 0; transition: transform var(--transition);
+  color: #aaa;
+}
+.accordion.open .acc-arrow { transform: rotate(180deg); }
+.acc-body {
+  max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+}
+.acc-inner { padding: 0 16px 18px; }
+
+/* Bible verse */
+.bible-block {
+  background: #f8f9fa; border-left: 3px solid; padding: 12px 14px;
+  border-radius: 0 8px 8px 0; margin-bottom: 14px;
+}
+.bible-ref {
+  display: flex; align-items: center; gap: 6px; font-weight: 700;
+  font-size: calc(13px * var(--font-scale)); margin-bottom: 6px;
+}
+.bible-ref svg { width: 14px; height: 14px; flex-shrink: 0; }
+.bible-text {
+  font-size: calc(14px * var(--font-scale)); line-height: 1.7; color: var(--text-secondary);
+}
+.bible-text b { font-weight: 700; color: var(--text); }
+
+/* Content blocks */
+.point-content { margin-top: 4px; }
+.point-content p {
+  margin-bottom: 10px; font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height: 1.8; color: var(--text-secondary);
+}
+.hl { background: var(--accent-yellow); padding: 1px 4px; border-radius: 3px; font-weight: 600; color: var(--text); }
+
+/* Section titles */
+.section-heading {
+  font-size: calc(20px * var(--font-scale)); font-weight: 800;
+  margin: 40px 0 20px; padding-bottom: 10px;
+  border-bottom: 2px solid var(--border); color: var(--text);
+  display: flex; align-items: center; gap: 10px;
+}
+.section-heading svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+/* Quiz */
+.quiz-card {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px; margin-bottom: 16px;
+}
+.quiz-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%; background: var(--c1);
+  color: #fff; font-weight: 700; font-size: 14px; margin-right: 8px;
+}
+.quiz-q { font-weight: 600; font-size: 1rem; margin-bottom: 12px; display: inline; line-height: 1.7; }
+.quiz-opts { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt {
+  display: flex; align-items: center; padding: 10px 14px; border: 1px solid var(--border);
+  border-radius: 8px; cursor: pointer; transition: all var(--transition);
+  font-size: 1rem; line-height: 1.6;
+}
+.quiz-opt:hover { border-color: var(--c1); background: var(--c1b); }
+.quiz-opt.selected { border-color: var(--c1); background: var(--c1b); font-weight: 600; }
+.quiz-opt.correct { border-color: var(--c2); background: var(--c2b); }
+.quiz-opt.wrong { border-color: var(--c4); background: var(--c4b); }
+.quiz-opt input { display: none; }
+.quiz-opt .circle {
+  width: 18px; height: 18px; border: 2px solid #ccc; border-radius: 50%;
+  margin-right: 10px; flex-shrink: 0; display: flex; align-items: center;
+  justify-content: center; transition: all var(--transition);
+}
+.quiz-opt.selected .circle { border-color: var(--c1); background: var(--c1); }
+.quiz-opt.selected .circle::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #fff; }
+.quiz-hint-btn {
+  margin-top: 8px; background: none; border: 1px dashed var(--border);
+  padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px;
+  color: var(--text-secondary); transition: all var(--transition);
+}
+.quiz-hint-btn:hover { border-color: var(--c3); color: var(--c3); }
+.quiz-hint {
+  display: none; margin-top: 8px; padding: 10px 14px; background: var(--c3b);
+  border-radius: 8px; font-size: 14px; color: var(--text-secondary); line-height: 1.6;
+}
+.quiz-hint.show { display: block; }
+.quiz-result {
+  display: none; text-align: center; padding: 24px; background: var(--card-bg);
+  border-radius: var(--radius); border: 1px solid var(--border); margin-top: 16px;
+}
+.quiz-result.show { display: block; }
+.quiz-score { font-size: calc(36px * var(--font-scale)); font-weight: 800; color: var(--c1); }
+.quiz-feedback { font-size: calc(15px * var(--font-scale)); margin-top: 8px; color: var(--text-secondary); }
+.quiz-submit {
+  display: block; width: 100%; padding: 14px; border: none; border-radius: var(--radius);
+  background: var(--c1); color: #fff; font-weight: 700; font-size: 1rem;
+  cursor: pointer; margin-top: 16px; transition: background var(--transition);
+}
+.quiz-submit:hover { background: #3a7bc8; }
+
+/* Prayer */
+.prayer-box {
+  background: linear-gradient(135deg, #f8f9fa, #fff); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px 20px; margin-top: 20px;
+  line-height: 2;
+}
+.prayer-box p { font-size: calc(var(--base-font-size) * var(--font-scale)); color: var(--text-secondary); margin-bottom: 12px; }
+
+/* Footer */
+.footer { text-align: center; padding: 30px 16px; font-size: 13px; color: #999; }
+
+/* Flow arrow between accordions */
+.flow-arrow { text-align: center; padding: 4px 0; color: #d0d0d0; }
+.flow-arrow svg { width: 20px; height: 20px; }
+
+/* ── Diagram & Timeline (Added for Point 1) ── */
+.diagram-box {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 24px 16px; margin: 24px 0 10px; box-shadow: var(--shadow);
+}
+.diagram-title {
+  font-size: calc(18px * var(--font-scale)); font-weight: 800; color: var(--c1);
+  text-align: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px dashed var(--c1b);
+}
+.reasons-grid { display: flex; flex-direction: column; gap: 12px; }
+.reason-card {
+  background: var(--card-bg); border-left: 4px solid var(--c1); padding: 14px; border-radius: 6px;
+}
+.reason-title { font-weight: 800; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 8px;}
+.reason-title::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--c1); border-radius: 50%; }
+.reason-desc { font-size: calc(14px * var(--font-scale)); color: var(--text-secondary); line-height: 1.6; word-break: keep-all; }
+.reason-footer {
+  margin-top: 16px; padding: 14px; background: var(--c1b); border-radius: 6px;
+  font-size: calc(14px * var(--font-scale)); font-weight: 700; color: var(--c1); text-align: center; word-break: keep-all;
+}
+
+.timeline { position: relative; padding-left: 24px; margin-top: 20px; }
+.timeline::before {
+  content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--c1b);
+}
+.tl-item { position: relative; margin-bottom: 24px; }
+.tl-item:last-child { margin-bottom: 0; }
+.tl-dot {
+  position: absolute; left: -23px; top: 4px; width: 14px; height: 14px;
+  background: var(--c1); border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 1px var(--c1b);
+}
+.tl-content { background: var(--card-bg); padding: 14px; border-radius: 8px; border: 1px solid var(--border); }
+.tl-period { font-size: calc(16px * var(--font-scale)); font-weight: 800; color: var(--c1); margin-bottom: 6px; }
+.tl-desc { font-size: calc(14px * var(--font-scale)); color: var(--text-secondary); line-height: 1.6; margin-bottom: 10px; word-break: keep-all; }
+.tl-result {
+  display: inline-block; font-size: calc(13px * var(--font-scale)); font-weight: 700;
+  background: #f1f3f5; color: #495057; padding: 4px 10px; border-radius: 6px; letter-spacing: -0.5px;
+}
+.tl-result.fail { background: #ffe3e3; color: #c92a2a; }
+.tl-result.success { background: #e3fafc; color: #0b7285; }
+
+/* ── Purification (Added for Point 3) ── */
+.purify-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; position: relative; }
+.purify-card { background: #fff; border: 2px solid #e8e4d9; border-radius: 8px; padding: 16px 10px; text-align: center; display: flex; flex-direction: column; position: relative; z-index: 1; box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: transform 0.2s; }
+.purify-card:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
+.purify-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: #d4c4a8; border-radius: 4px 4px 0 0; }
+.purify-icon { font-size: 32px; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+.purify-title { font-weight: 800; color: var(--text); font-size: calc(13.5px * var(--font-scale)); margin-bottom: 8px; word-break: keep-all; line-height: 1.4; }
+.purify-desc { font-size: calc(12.5px * var(--font-scale)); color: var(--text-secondary); line-height: 1.5; word-break: keep-all; margin-top: auto; background: #fdfbf7; padding: 8px 6px; border-radius: 6px; border: 1px dashed #e8e4d9;}
+.purify-cloud { background: #2c3e50; color: #fff; text-align: center; padding: 10px 28px; border-radius: 30px; font-weight: 700; font-size: calc(15px * var(--font-scale)); margin: 0 auto; width: fit-content; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border: 2px solid #d4c4a8; letter-spacing: 1px;}
+.purify-arrow-down { text-align: center; color: #d4c4a8; margin: 12px 0; display: flex; justify-content: center;}
+.purify-arrow-down svg { width: 24px; height: 24px; }
+.purify-conclusion { background: linear-gradient(to right, #fdfbf7, #f4ecd8); border: 2px solid #d4c4a8; padding: 20px; border-radius: 12px; text-align: center; margin-top: 16px; color: #5c4b37; box-shadow: 0 4px 12px rgba(212, 196, 168, 0.3); position: relative; }
+.purify-conclusion-top { font-weight: 700; color: #7a6b58; font-size: calc(14px * var(--font-scale)); margin-bottom: 8px; display: block; }
+.purify-conclusion-bottom { font-weight: 800; font-size: calc(16px * var(--font-scale)); display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.purify-conclusion-bottom span { background: #5c4b37; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.9em; letter-spacing: 1px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);}
+
+/* ── Satan Judgment Process (Added for Point 4) ── */
+.satan-process {
+  background: #faf8f5; border: 1px solid #e8e4d9; border-radius: var(--radius);
+  padding: 24px 16px; margin: 24px 0 10px; box-shadow: var(--shadow);
+}
+.sp-title {
+  font-size: calc(18px * var(--font-scale)); font-weight: 800; color: #5c4b37;
+  text-align: center; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px dashed #d4c4a8;
+}
+.sp-steps { position: relative; display: flex; flex-direction: column; gap: 16px; padding-left: 18px;}
+.sp-steps::before {
+  content: ''; position: absolute; left: 28px; top: 10px; bottom: 20px; width: 2px; background: #d4c4a8; z-index: 0;
+}
+.sp-step { position: relative; z-index: 1; display: flex; align-items: flex-start; gap: 14px; }
+.sp-num {
+  width: 24px; height: 24px; background: var(--c4); color: #fff; font-weight: 800;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 13px; margin-top: 4px; border: 3px solid #faf8f5; box-shadow: 0 0 0 1px var(--c4);
+}
+.sp-content {
+  background: #fff; border: 1px solid #e8e4d9; padding: 14px; border-radius: 8px; flex: 1;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+.sp-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;}
+.sp-name { font-weight: 800; font-size: calc(15.5px * var(--font-scale)); color: var(--text); }
+.sp-time { font-size: calc(12.5px * var(--font-scale)); font-weight: 700; color: #7a6b58; background: #fdfbf7; padding: 2px 8px; border-radius: 4px; border: 1px solid #e8e4d9;}
+.sp-desc { font-size: calc(13.5px * var(--font-scale)); color: var(--text-secondary); line-height: 1.5; word-break: keep-all; margin-bottom: 8px;}
+.sp-note { display: inline-block; font-size: calc(12px * var(--font-scale)); color: #fff; background: var(--c4); padding: 3px 8px; border-radius: 4px; font-weight: 700; letter-spacing: 0.5px;}
+
+/* ── Two Parts of Millennium (Added for Point 5) ── */
+.mk-structure { margin: 20px 0; display: flex; flex-direction: column; gap: 8px; }
+.mk-part { border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: relative; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+.mk-part.upper { background: #fdfafb; border-top: 4px solid var(--c5); border-color: var(--c5b); }
+.mk-part.lower { background: #fcfbf8; border-bottom: 4px solid #b89f71; border-color: #e8e4d9; }
+.mk-badge { display: inline-block; padding: 5px 14px; border-radius: 20px; font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+.mk-upper-badge { background: var(--c5); }
+.mk-lower-badge { background: #a89063; }
+.mk-title { font-size: calc(16.5px * var(--font-scale)); font-weight: 800; color: var(--text); margin-bottom: 8px; }
+.mk-desc { font-size: calc(14px * var(--font-scale)); color: var(--text-secondary); line-height: 1.6; word-break: keep-all; }
+.mk-desc ul { padding-left: 20px; margin-top: 8px; }
+.mk-desc li { margin-bottom: 6px; }
+.mk-desc b { color: var(--text); }
+.mk-divider { display: flex; justify-content: center; color: var(--c5); opacity: 0.4; margin: -4px 0; z-index: 1; position: relative; }
+
+/* ── Three Groups (Added for Point 6) ── */
+.groups-container { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+@media (min-width: 600px) { .groups-container { flex-direction: row; } }
+.group-card { flex: 1; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px 16px; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; flex-direction: column; align-items: center; text-align: center; border-top: 4px solid var(--c6); transition: transform 0.2s; }
+.group-card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.06); }
+.group-icon { font-size: 36px; margin-bottom: 12px; }
+.group-title { font-weight: 800; color: var(--text); font-size: calc(15px * var(--font-scale)); margin-bottom: 6px; word-break: keep-all; }
+.group-role { background: var(--c6b); color: var(--c6); font-size: calc(12.5px * var(--font-scale)); font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; }
+.group-desc { font-size: calc(13.5px * var(--font-scale)); color: var(--text-secondary); line-height: 1.6; word-break: keep-all; }
+
+.hope-highlight { background: linear-gradient(135deg, var(--c6), #0e7a8c); color: #fff; padding: 24px 20px; border-radius: 12px; text-align: center; margin-top: 24px; box-shadow: 0 6px 16px rgba(23, 162, 184, 0.3); position: relative; overflow: hidden; }
+.hope-highlight::before { content: '✨'; position: absolute; top: -10px; right: -10px; font-size: 80px; opacity: 0.1; }
+.hope-title { font-size: calc(14px * var(--font-scale)); font-weight: 700; opacity: 0.9; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.hope-text { font-size: calc(17px * var(--font-scale)); font-weight: 800; line-height: 1.6; word-break: keep-all; position: relative; z-index: 1;}
+.hope-text span { color: #ffe066; border-bottom: 2px solid #ffe066; padding-bottom: 2px;}
+
+/* ── Satan's Doom (Added for Point 7) ── */
+.doom-container { margin: 28px 0; display: flex; flex-direction: column; gap: 12px; }
+.doom-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px 16px; display: flex; align-items: center; gap: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border-left: 4px solid var(--c7); transition: transform 0.2s; }
+.doom-card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+.doom-card.final { background: linear-gradient(135deg, var(--c7), #b83b00); color: #fff; border: none; box-shadow: 0 6px 12px rgba(211, 84, 0, 0.25); border-left: none; }
+.doom-icon { font-size: 28px; flex-shrink: 0; width: 48px; height: 48px; background: var(--c7b); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.doom-card.final .doom-icon { background: rgba(255,255,255,0.15); text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+.doom-text { flex: 1; }
+.doom-num { font-size: calc(12.5px * var(--font-scale)); font-weight: 800; color: var(--c7); margin-bottom: 4px; letter-spacing: 0.5px; }
+.doom-card.final .doom-num { color: rgba(255,255,255,0.85); }
+.doom-desc { font-size: calc(14.5px * var(--font-scale)); font-weight: 700; line-height: 1.5; word-break: keep-all; color: var(--text); }
+.doom-card.final .doom-desc { color: #fff; font-size: calc(15px * var(--font-scale)); }
+.doom-quote { display: block; margin-top: 8px; font-size: calc(18px * var(--font-scale)); font-weight: 900; color: #ffe066; letter-spacing: -0.5px; }
+
+@media (max-width: 480px) {
+  .dashboard { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .dash-card { padding: 12px 4px; }
+  .hero h1 { font-size: calc(22px * var(--font-scale)); }
+  .acc-header { padding: 12px 14px; }
+  .main { padding: 52px 12px 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar" id="topBar">
+  <div class="top-bar-left">
+    <button class="tb-btn" onclick="togglePanel()" aria-label="목차">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+    <a href="https://tk-korea.github.io/2025wintertraining/" class="tb-btn" aria-label="홈">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </a>
+  </div>
+  <div class="top-bar-title">왕국을 세우시는 그리스도 — 요한계시록 20장</div>
+  <div class="top-bar-right">
+    <div class="font-ctrl">
+      <button onclick="adjustFont(-1)">−</button>
+      <button class="fc-mid" onclick="resetFont()">가</button>
+      <button onclick="adjustFont(1)">+</button>
+    </div>
+  </div>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="togglePanel()"></div>
+
+<!-- Side Panel -->
+<div class="side-panel" id="sidePanel">
+  <div class="sp-header">
+    <span>목차</span>
+    <button class="sp-close" onclick="togglePanel()">✕</button>
+  </div>
+  <ul class="sp-menu">
+    <li><a href="#hero" onclick="togglePanel()">📖 제목</a></li>
+    <li><a href="#dashboard" onclick="togglePanel()">📊 대시보드</a></li>
+  </ul>
+  <div class="sp-section-label">핵심 키워드</div>
+  <div id="kwList">
+    <div class="kw-item" onclick="this.classList.toggle('active')">
+      <div class="kw-label">왕국</div>
+      <div class="kw-def">하나님께서 자유롭게 그분의 통치권을 행사하시어 다스리고 통치하시는 영역. 영원 과거에서 영원 미래에까지 이른다.</div>
+    </div>
+    <div class="kw-item" onclick="this.classList.toggle('active')">
+      <div class="kw-label">천년왕국</div>
+      <div class="kw-def">그리스도께서 원수들과 싸우신 후 이 땅에 세우시는 하나님의 왕국. 천 년 동안 지속되며 하늘의 윗부분과 땅의 아랫부분으로 나뉜다.</div>
+    </div>
+    <div class="kw-item" onclick="this.classList.toggle('active')">
+      <div class="kw-label">사탄의 결박</div>
+      <div class="kw-def">모든 문제의 근원인 사탄을 큰 사슬로 결박하여 무저갱에 천 년 동안 가두는 것. 왕국을 세우기 위한 핵심 단계이다.</div>
+    </div>
+    <div class="kw-item" onclick="this.classList.toggle('active')">
+      <div class="kw-label">씨 뿌림</div>
+      <div class="kw-def">그리스도께서 왕국의 씨를 하나님께 선택받은 사람들의 마음 안으로 뿌리신 것. 왕국이 외적인 것에서 주관적이고 생명적인 것으로 변화됨.</div>
+    </div>
+    <div class="kw-item" onclick="this.classList.toggle('active')">
+      <div class="kw-label">이기는 이들</div>
+      <div class="kw-def">구약과 신약의 이기는 성도들로서 그리스도의 공동 왕이 되어 천년왕국의 하늘 부분인 아버지의 왕국에 참여하는 자들.</div>
+    </div>
+    <div class="kw-item" onclick="this.classList.toggle('active')">
+      <div class="kw-label">정화</div>
+      <div class="kw-def">하나님의 왕국이 임할 준비가 되기 위해 모든 부정적인 것을 깨끗이 청소하는 과정. 바빌론의 파멸, 아마겟돈 전쟁 등을 포함한다.</div>
+    </div>
+  </div>
+  <div class="sp-section-label">핵심 요점</div>
+  <ul class="sp-menu">
+    <li class="sub"><a href="#pt1" onclick="togglePanel()">1. 왕국 — 하나님의 필요</a></li>
+    <li class="sub"><a href="#pt2" onclick="togglePanel()">2. 씨 뿌림 — 주관적 왕국</a></li>
+    <li class="sub"><a href="#pt3" onclick="togglePanel()">3. 정화 — 땅의 준비</a></li>
+    <li class="sub"><a href="#pt4" onclick="togglePanel()">4. 결박 — 사탄의 처리</a></li>
+    <li class="sub"><a href="#pt5" onclick="togglePanel()">5. 두 부분 — 천년왕국의 구조</a></li>
+    <li class="sub"><a href="#pt6" onclick="togglePanel()">6. 세 무리 — 왕국의 백성</a></li>
+    <li class="sub"><a href="#pt7" onclick="togglePanel()">7. 최후 — 사탄의 종말과 영원</a></li>
+  </ul>
+  <ul class="sp-menu">
+    <li><a href="#quiz" onclick="togglePanel()">✏️ 퀴즈</a></li>
+    <li><a href="#prayer" onclick="togglePanel()">🙏 오늘의 기도</a></li>
+  </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main">
+
+<!-- Hero -->
+<div class="hero" id="hero">
+  <div class="hero-badge">2025 겨울훈련 10주 1일</div>
+  <h1>왕국을 세우시는 그리스도</h1>
+  <div class="sub">그리스도에 대한 체험과 누림과 표현 — 요한계시록</div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboard" style="margin-top:8px;">
+  <div style="text-align:center;margin-bottom:14px;">
+    <span style="font-size:calc(13px * var(--font-scale));font-weight:600;color:var(--text-secondary);letter-spacing:1px;">전체 흐름 한눈에 보기</span>
+  </div>
+  <div class="dashboard">
+    <div class="dash-card">
+      <div class="dash-icon">👑</div>
+      <div class="dash-num">3</div>
+      <div class="dash-label">왕국이 필요한 이유</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">🌱</div>
+      <div class="dash-num">씨</div>
+      <div class="dash-label">왕국의 형태</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">🔗</div>
+      <div class="dash-num">1000</div>
+      <div class="dash-label">사탄 결박 기간(년)</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">⬆️</div>
+      <div class="dash-num">2</div>
+      <div class="dash-label">천년왕국의 부분</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">👥</div>
+      <div class="dash-num">3</div>
+      <div class="dash-label">왕국의 세 무리</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">🔥</div>
+      <div class="dash-num">불 못</div>
+      <div class="dash-label">사탄의 최후</div>
+    </div>
+  </div>
+</div>
+
+<!-- Accordions -->
+<!-- Point 1 -->
+<div id="pt1"></div>
+<div class="accordion" data-color="var(--c1)">
+  <div class="acc-header" onclick="toggleAcc(this)">
+    <div class="acc-num" style="background:var(--c1);">1</div>
+    <div class="acc-title-wrap">
+      <div class="acc-title">왕국 — 하나님이 왕국을 필요로 하시는 이유</div>
+      <div class="acc-subtitle">하나님의 마음의 갈망과 의도</div>
+    </div>
+    <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+  <div class="acc-body">
+    <div class="acc-inner">
+      <div class="bible-block" style="border-color:var(--c1);">
+        <div class="bible-ref" style="color:var(--c1);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          창세기 1:26
+        </div>
+        <div class="bible-text">하나님께서 말씀하셨다. "우리가 우리의 형상대로 우리의 모양에 따라 사람을 만듭시다. 그리고 그들이 바다의 물고기와, 하늘의 새와, 가축과, <b>온 땅</b>과, 땅 위를 기어 다니는 온갖 기는 것을 <b>통치하게</b> 합시다."</div>
+      </div>
+      <div class="bible-block" style="border-color:var(--c1);">
+        <div class="bible-ref" style="color:var(--c1);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          다니엘 7:14
+        </div>
+        <div class="bible-text">그분께 <b>통치권과 영광과 왕국</b>이 주어져 모든 백성들과 민족들 그리고 서로 다른 언어를 사용하는 이들이 그분을 섬기게 되었다. 그분의 통치권은 사라지지 않을 <b>영원한 통치권</b>이요 그분의 왕국은 멸망하지 않을 왕국이다.</div>
+      </div>
+      <div class="point-content">
+        <p>하나님의 왕국은 하나의 <span class="hl">영역</span>으로서 영원 과거에서 영원 미래에까지 이르며, 그 안에서 하나님은 자유롭게 그분의 통치권을 행사하시어 다스리고 통치하신다.</p>
+        
+        <div style="background: var(--c1b); border-left: 4px solid var(--c1); padding: 18px 16px; border-radius: 0 8px 8px 0; margin: 20px 0 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+          <div style="font-weight: 800; color: var(--c1); font-size: calc(17px * var(--font-scale)); margin-bottom: 8px; line-height: 1.5;">
+            하나님의 왕국이 없다면 하나님께서 그분의 마음의 갈망을 수행하실 길이 없다.
+          </div>
+          <div style="font-weight: 500; color: var(--text-secondary); line-height: 1.7; font-size: calc(15px * var(--font-scale));">
+            하나님은 그분과 하나이고 그분께서 원하시는 것은 무엇이든 하실 수 있도록 <span class="hl">자유로운 길을 허락해 드리는 백성이 있는 왕국 곧 영역</span>이 필요하시다.
+          </div>
+        </div>
+        
+        <!-- 이유 다이어그램 -->
+        <div class="diagram-box">
+          <div class="diagram-title">하나님은 왜 왕국을 필요로 하시는가?</div>
+          <div style="text-align:center; font-weight: 800; margin-bottom: 16px; font-size: calc(15px * var(--font-scale)); color: var(--text-secondary);">
+            <span style="background:var(--highlight-bg); padding:4px 10px; border-radius:20px; border:1px solid #ffe066;">창 1:26 하나님의 갈망</span>
+          </div>
+          <div class="reasons-grid">
+            <div class="reason-card">
+              <div class="reason-title">원수 정복</div>
+              <div class="reason-desc">하나님의 원수인 마귀를 패배시키고 온전히 정복하기 위함.</div>
+            </div>
+            <div class="reason-card">
+              <div class="reason-title">땅의 회복</div>
+              <div class="reason-desc">사탄이 탈취하고 심각하게 손상한 이 땅을 되찾기 위함.</div>
+            </div>
+            <div class="reason-card">
+              <div class="reason-title">권위 행사</div>
+              <div class="reason-desc">영원 과거부터 영원 미래까지 자유롭게 통치권과 권위를 행사하실 영역 확보.</div>
+            </div>
+          </div>
+          <div class="reason-footer">
+            하나님은 그분의 형상대로 창조된 사람에게 땅의 통치권을 위임하심으로써 이 왕국을 얻고자 하셨습니다.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+<!-- Point 2 -->
+<div id="pt2"></div>
+<div class="accordion">
+  <div class="acc-header" onclick="toggleAcc(this)">
+    <div class="acc-num" style="background:var(--c2);">2</div>
+    <div class="acc-title-wrap">
+      <div class="acc-title">씨 뿌림 — 외적 왕국에서 주관적 왕국으로</div>
+      <div class="acc-subtitle">왕국을 씨로 뿌리시는 그리스도</div>
+    </div>
+    <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+  <div class="acc-body">
+    <div class="acc-inner">
+      <div class="bible-block" style="border-color:var(--c2);">
+        <div class="bible-ref" style="color:var(--c2);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          마태복음 13:3, 37
+        </div>
+        <div class="bible-text">"보십시오, <b>씨를 뿌리는 사람</b>이 뿌리러 나가서" … "<b>좋은 씨를 뿌리는 이</b>는 사람의 아들이고,"</div>
+      </div>
+      <div class="bible-block" style="border-color:var(--c2);">
+        <div class="bible-ref" style="color:var(--c2);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          로마서 14:17
+        </div>
+        <div class="bible-text">왜냐하면 <b>하나님의 왕국</b>은 먹는 것과 마시는 것이 아니라 <b>의와 화평, 그리고 성령 안에 있는 기쁨</b>이기 때문입니다.</div>
+      </div>
+      <div class="point-content">
+        <p>안타깝게도 아담 족속은 하나님의 왕국을 이끌어 오는 데 실패했다. 하나님은 아브라함을 부름받은 족속의 조상으로 선택하셨고, 이스라엘 자손과 함께 이 땅에 왕국을 얻으셨다. 그러나 이스라엘 자손은 하나님께서 그들을 통해 왕으로서 다스리실 완전한 자유를 드리지 못했다.</p>
+        <p>사람을 창조하신 후 사천 년 뒤에 하나님은 <span class="hl">예수 그리스도라는 사람 안에 오셔서 왕국을 씨로 뿌리는 분</span>이 되셨다. 그분은 왕국의 실재이셨다. 예수 그리스도 안에서 하나님은 완전한 권한을 얻으셨다. 하나님의 통치권 곧 그분의 권위가 사람이신 예수님을 통해 완전히 표현되고 대표되었다.</p>
+        <p>예수님은 씨를 뿌리는 사람으로 오셔서 왕국의 씨를 하나님께 선택받은 사람들 안으로 뿌리셨다. 그때 이후로 하나님의 왕국은 더 이상 단지 외적이고 객관적으로 존재하는 왕국이 아니었다. 그보다 하나님의 왕국은 <span class="hl">사람들의 마음 안으로 뿌려지고</span> 있었다. 하나님의 왕국은 주관적이며 생명의 문제에 속한 왕국이 되었다.</p>
+        <p>씨의 형태로 뿌려진 왕국은 지금 모든 믿는 이들 안에서 자라고 있고, 이러한 믿는 이들은 단체적으로 <span class="hl">교회</span>이다. 바울은 로마서 14장 17절에서 오늘날 교회가 실지적인 하나님의 왕국임을 시사한다. 그러므로 하나님의 왕국은 누군가의 말처럼 잠시 보류된 것이 아니라 오늘날에도 이곳에 있다.</p>
+      </div>
+
+        <!-- 역사적 흐름 타임라인 -->
+        <div class="diagram-box">
+          <div class="diagram-title">왕국의 역사적 흐름</div>
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <div class="tl-period">창조된 족속</div>
+                <div class="tl-desc">아담 족속에게 통치권 위임</div>
+                <div class="tl-result fail">[실패]</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <div class="tl-period">부름받은 족속</div>
+                <div class="tl-desc">아브라함과 이스라엘 민족의 선택</div>
+                <div class="tl-result fail">[완전한 통치권 제공 실패]</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <div class="tl-period">육체되신 하나님</div>
+                <div class="tl-desc">사람이신 예수 그리스도 안에서 완전한 권한 획득</div>
+                <div class="tl-result success">[왕국의 실재]</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <div class="tl-period">신약</div>
+                <div class="tl-desc">생명의 씨로 뿌려지고 자라는 왕국</div>
+                <div class="tl-result success">[현재의 교회]</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <div class="tl-period">천년왕국</div>
+                <div class="tl-desc">사탄이 결박된 천년왕국</div>
+                <div class="tl-result success">[영원한 새 예루살렘으로 연결]</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+<!-- Point 3 -->
+<div id="pt3"></div>
+<div class="accordion">
+  <div class="acc-header" onclick="toggleAcc(this)">
+    <div class="acc-num" style="background:var(--c3);">3</div>
+    <div class="acc-title-wrap">
+      <div class="acc-title">정화 — 왕국이 임하기 위한 땅의 준비</div>
+      <div class="acc-subtitle">모든 부정적인 것의 청소</div>
+    </div>
+    <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+  <div class="acc-body">
+    <div class="acc-inner">
+      <div class="bible-block" style="border-color:var(--c3);">
+        <div class="bible-ref" style="color:var(--c3);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          요한계시록 19:19-20
+        </div>
+        <div class="bible-text">그 <b>짐승</b>과 땅의 왕들과 그들의 군대들이 함께 모여, 말을 타신 분과 그분의 군대와 전쟁을 하였습니다. 짐승이 붙잡혔고, 또 그 짐승 앞에서 기적들을 행하던 <b>거짓 신언자</b>도 함께 붙잡혔습니다. … 이 둘은 유황으로 불타는 <b>불 못에 산 채로 던져졌고</b>,</div>
+      </div>
+      <div class="point-content">
+        <p>왕국을 세우는 것은 간단한 일이 아니다. 그것에는 <span class="hl">과정</span>이 수반된다. 하나님의 왕국이 임할 준비가 되기 위해 모든 부정적인 것은 깨끗이 청소되어야 한다.</p>
+        
+        <!-- 정화 과정 다이어그램 -->
+        <div class="diagram-box" style="background: #faf8f5; border-color: #e8e4d9;">
+          <div class="diagram-title" style="color: #5c4b37; border-bottom-color: #d4c4a8;">천년왕국을 위한 땅의 정화</div>
+          
+          <div class="purify-cloud">삼 년 반의 대환난</div>
+          <div class="purify-arrow-down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+          
+          <div class="purify-grid">
+            <div class="purify-card">
+              <div class="purify-icon">⛪</div>
+              <div class="purify-title">종교적 바빌론의 파멸</div>
+              <div class="purify-desc">가톨릭교의 멸절.</div>
+            </div>
+            <div class="purify-card">
+              <div class="purify-icon">🕍</div>
+              <div class="purify-title">유대교의 파멸</div>
+              <div class="purify-desc">종교적 잔재의 청소.</div>
+            </div>
+            <div class="purify-card">
+              <div class="purify-icon">🏙️</div>
+              <div class="purify-title">물질적 바빌론의 멸망</div>
+              <div class="purify-desc">타락한 세상 시스템의 붕괴.</div>
+            </div>
+            <div class="purify-card">
+              <div class="purify-icon">⚔️</div>
+              <div class="purify-title">아마겟돈 전쟁 <br><span style="font-size: 0.8em; color: #888; font-weight: 500;">(계 19장)</span></div>
+              <div class="purify-desc">적그리스도와 거짓 신언자를 산 채로 불 못에 던짐.</div>
+            </div>
+          </div>
+          
+          <div class="purify-arrow-down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+          
+          <div class="purify-conclusion">
+            <span class="purify-conclusion-top">거의 모든 것이 청소되었습니다.</span>
+            <div class="purify-conclusion-bottom">이제 유일하게 남은 단 하나의 문제 근원 ➔ <span>사탄</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+<!-- Point 4 -->
+<div id="pt4"></div>
+<div class="accordion">
+  <div class="acc-header" onclick="toggleAcc(this)">
+    <div class="acc-num" style="background:var(--c4);">4</div>
+    <div class="acc-title-wrap">
+      <div class="acc-title">결박 — 사탄의 처리와 십자가의 심판</div>
+      <div class="acc-subtitle">선고에서 집행까지의 과정</div>
+    </div>
+    <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+  <div class="acc-body">
+    <div class="acc-inner">
+      <div class="bible-block" style="border-color:var(--c4);">
+        <div class="bible-ref" style="color:var(--c4);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          요한계시록 20:1-3
+        </div>
+        <div class="bible-text">한 천사가 하늘에서 내려오는데, 그의 손에는 <b>무저갱의 열쇠와 큰 사슬</b>이 있었습니다. 그 천사는 그 용, 곧 <b>마귀요 사탄인 옛 뱀</b>을 잡아 결박하여서, <b>천 년 동안</b> 무저갱에 던져 넣고 가둔 다음에 그 위에 봉인을 하여, 천 년이 차기까지는 더 이상 <b>민족들을 미혹시키지 못하도록</b> 하였습니다.</div>
+      </div>
+      <div class="bible-block" style="border-color:var(--c4);">
+        <div class="bible-ref" style="color:var(--c4);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          히브리서 2:14
+        </div>
+        <div class="bible-text">자녀들이 피와 살을 가졌으므로, 그분 자신도 같은 모양으로 피와 살에 참여하셨습니다. 그것은 그분께서 <b>죽으심으로써 죽음의 세력을 가진 자 곧 마귀를 멸망</b>시키시고,</div>
+      </div>
+      <div class="bible-block" style="border-color:var(--c4);">
+        <div class="bible-ref" style="color:var(--c4);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          창세기 3:15
+        </div>
+        <div class="bible-text">"또한 내가 너를 여자와 원수가 되게 하고 너의 씨도 여자의 씨와 원수가 되게 하리니 <b>여자의 씨는 너의 머리를 상하게 하고</b> 너는 그의 발꿈치를 상하게 하리라."</div>
+      </div>
+      <div class="point-content">
+        
+        <div style="background: var(--c4b); border-left: 4px solid var(--c4); padding: 18px 16px; border-radius: 0 8px 8px 0; margin: 10px 0 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+          <div style="font-weight: 800; color: var(--c4); font-size: calc(16px * var(--font-scale)); margin-bottom: 6px;">
+            계시록 20장의 첫 번째 사건
+          </div>
+          <div style="font-weight: 500; color: var(--text-secondary); line-height: 1.6; font-size: calc(15px * var(--font-scale));">
+            천년왕국에 관한 장인 요한계시록 20장에 <span class="hl">처음 언급된 내용은 사탄을 결박하는 것</span>이다. 사탄은 모든 문제의 근원이기 때문이다.
+          </div>
+        </div>
+
+        <p>하나님께서 에덴동산에서 사탄을 저주하셨고, 사천 년 후에 그리스도께서 사람으로 오셨다. 그리스도께서 십자가에 달리셨을 때, 그분은 죄인인 우리를 구속하기 위해서뿐만 아니라 또한 뱀인 사탄을 끝내기 위해 죽으셨다.</p>
+        
+        <div style="background: var(--c4b); border-left: 4px solid var(--c4); padding: 18px 16px; border-radius: 0 8px 8px 0; margin: 20px 0 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+          <div style="font-weight: 800; color: var(--c4); font-size: calc(16px * var(--font-scale)); margin-bottom: 6px;">
+            심판과 집행의 차이
+          </div>
+          <div style="font-weight: 500; color: var(--text-secondary); line-height: 1.6; font-size: calc(15px * var(--font-scale));">
+            주님께서 <span class="hl">십자가에서 사탄을 심판하셨지만, 그 심판은 아직 완전히 집행되지 않았다.</span> 그리스도께서 십자가에서 성취하신 것은 그를 심판하시고 그에게 선고를 내리신 것이다.
+          </div>
+        </div>
+
+        <p>그 선고의 집행은 단계적으로 이루어진다. 주님께서 돌아오실 때, 그분은 십자가에서 성취하신 심판을 사탄에게 완전히 집행하실 것이다. 사탄은 결박되어 무저갱에 던져져서, 활동하거나 그 누구도 해할 힘이 전혀 없을 것이다. 이때 <span class="hl">이 땅은 그리스도의 왕국</span>이 될 것이다.</p>
+
+        <!-- 사탄 심판 4단계 프로세스 다이어그램 -->
+        <div class="satan-process">
+          <div class="sp-title">사탄에 대한 4단계 심판 프로세스</div>
+          <div class="sp-steps">
+            <div class="sp-step">
+              <div class="sp-num">1</div>
+              <div class="sp-content">
+                <div class="sp-head">
+                  <span class="sp-name">선고</span>
+                  <span class="sp-time">에덴동산 (창 3:15)</span>
+                </div>
+                <div class="sp-desc">"여자의 씨가 네 머리를 상하게 할 것이다."</div>
+                <div class="sp-note">심판의 예언</div>
+              </div>
+            </div>
+            <div class="sp-step">
+              <div class="sp-num">2</div>
+              <div class="sp-content">
+                <div class="sp-head">
+                  <span class="sp-name">판결 집행 시작</span>
+                  <span class="sp-time">십자가 (요 12:31, 히 2:14)</span>
+                </div>
+                <div class="sp-desc">죽음의 세력을 가진 마귀를 멸망시키시고, 세상의 통치자를 쫓아내심.</div>
+                <div class="sp-note">심판과 선고</div>
+              </div>
+            </div>
+            <div class="sp-step">
+              <div class="sp-num">3</div>
+              <div class="sp-content">
+                <div class="sp-head">
+                  <span class="sp-name">결박</span>
+                  <span class="sp-time">그리스도의 재림 (계 20:1-3)</span>
+                </div>
+                <div class="sp-desc">무저갱에 천 년 동안 던져 봉인함.</div>
+                <div class="sp-note">활동 정지</div>
+              </div>
+            </div>
+            <div class="sp-step">
+              <div class="sp-num">4</div>
+              <div class="sp-content">
+                <div class="sp-head">
+                  <span class="sp-name">최종 심판</span>
+                  <span class="sp-time">천 년 후 (계 20:10)</span>
+                </div>
+                <div class="sp-desc">영원한 불과 유황의 못에 던져짐.</div>
+                <div class="sp-note">완전한 소멸</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+<!-- Point 5 -->
+<div id="pt5"></div>
+<div class="accordion">
+  <div class="acc-header" onclick="toggleAcc(this)">
+    <div class="acc-num" style="background:var(--c5);">5</div>
+    <div class="acc-title-wrap">
+      <div class="acc-title">두 부분 — 천년왕국의 하늘과 땅</div>
+      <div class="acc-subtitle">아버지의 왕국과 사람의 아들의 왕국</div>
+    </div>
+    <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+  <div class="acc-body">
+    <div class="acc-inner">
+      <div class="bible-block" style="border-color:var(--c5);">
+        <div class="bible-ref" style="color:var(--c5);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          마태복음 13:43
+        </div>
+        <div class="bible-text">그때에 <b>의인들은 그들의 아버지의 왕국에서 해처럼 빛날 것</b>입니다. 들을 귀가 있는 사람은 들으십시오.</div>
+      </div>
+      <div class="bible-block" style="border-color:var(--c5);">
+        <div class="bible-ref" style="color:var(--c5);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          요한계시록 20:4, 6
+        </div>
+        <div class="bible-text">그들은 살아나서 <b>그리스도와 함께 천 년 동안 왕으로서</b> 다스렸습니다. … 그들은 하나님과 그리스도의 <b>제사장들</b>이 되어, 천 년 동안 그리스도와 함께 왕으로서 다스릴 것입니다.</div>
+      </div>
+      <div class="point-content">
+        <p>성경의 예언에 따르면 천년왕국에는 <span class="hl">두 부분</span>이 있는데, 바로 하늘에 속한 윗부분과 땅에 속한 아랫부분이다.</p>
+        
+        <div class="mk-structure">
+          <!-- 윗부분 -->
+          <div class="mk-part upper">
+            <div class="mk-badge mk-upper-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;margin-top:-2px;"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg> 하늘에 속한 윗부분
+            </div>
+            <div class="mk-title">아버지의 왕국</div>
+            <div class="mk-desc">
+              천년왕국 중 <b>왕가에 속한 부분</b>입니다.
+              <ul>
+                <li><b>통치:</b> 최고의 왕이신 그리스도께서 다스리심</li>
+                <li><b>참여자:</b> 이기는 믿는 이들 (그리스도를 보조하는 공동 왕들이 되어 하늘에 속한 부분에 참여)</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="mk-divider">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          </div>
+          
+          <!-- 아랫부분 -->
+          <div class="mk-part lower">
+            <div class="mk-badge mk-lower-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;margin-top:-2px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> 땅에 속한 아랫부분
+            </div>
+            <div class="mk-title">사람의 아들의 왕국 <span style="font-size:0.85em;color:#888;font-weight:600;">(메시아의 왕국)</span></div>
+            <div class="mk-desc">
+              복원될 <b>다윗의 장막</b>이라고도 불립니다.
+              <ul>
+                <li><b>통치:</b> 다윗의 씨이신 예수님께서 유대인들을 다스리시고, 유대인들을 통해 모든 민족들을 다스리시는 왕이 되심</li>
+                <li><b>참여자:</b> 보존된 합당한 유대인들과 대환난을 통과한 민족들(양들)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+<!-- Point 6 -->
+<div id="pt6"></div>
+<div class="accordion">
+  <div class="acc-header" onclick="toggleAcc(this)">
+    <div class="acc-num" style="background:var(--c6);">6</div>
+    <div class="acc-title-wrap">
+      <div class="acc-title">세 무리 — 천년왕국의 백성</div>
+      <div class="acc-subtitle">이기는 성도들, 구원받은 유대인들, 양들</div>
+    </div>
+    <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+  <div class="acc-body">
+    <div class="acc-inner">
+      <div class="bible-block" style="border-color:var(--c6);">
+        <div class="bible-ref" style="color:var(--c6);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          스가랴 8:23
+        </div>
+        <div class="bible-text">그날들에는 각기 다른 언어를 말하는 민족들 가운데 <b>열 사람이 붙잡게 되리니</b>, 참으로 그들이 유다 사람 하나의 옷자락을 붙잡고서 말하기를 '<b>우리도 여러분과 함께 가게 해 주십시오</b>. 우리는 하나님께서 여러분과 함께 계신다는 말을 들었습니다.'라고 할 것이다."</div>
+      </div>
+      <div class="bible-block" style="border-color:var(--c6);">
+        <div class="bible-ref" style="color:var(--c6);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          마태복음 25:31-33
+        </div>
+        <div class="bible-text">사람의 아들이 자기의 <b>영광 안에서</b> 모든 천사와 함께 올 때에 자기 영광의 보좌에 앉을 것입니다. 모든 민족이 사람의 아들 앞에 모이게 될 것이고, 목자가 <b>양들을 염소들에게서 갈라놓듯</b> 그가 그들을 서로 갈라놓아, 양들은 자기 오른편에, 염소들은 왼편에 둘 것입니다.</div>
+      </div>
+      <div class="point-content">
+        <p>천년왕국에는 <span class="hl">세 부류</span>의 사람들이 있다. 이들은 각기 다른 역할을 맡아 왕국을 구성하게 된다.</p>
+        
+        <div class="groups-container">
+          <div class="group-card">
+            <div class="group-icon">👑</div>
+            <div class="group-title">첫 번째 무리<br>이기는 성도들</div>
+            <div class="group-role">공동 왕들 (하늘 부분)</div>
+            <div class="group-desc">구약과 신약 모두의 <b>이기는 성도들</b>을 포함한다. 그리스도는 최고의 왕이시고, 우리는 그분을 보조하는 왕들이 될 것이다.</div>
+          </div>
+          <div class="group-card">
+            <div class="group-icon">🕍</div>
+            <div class="group-title">두 번째 무리<br>보존된 유대인들</div>
+            <div class="group-role">제사장들 (땅의 부분)</div>
+            <div class="group-desc">주님께서 돌아오실 때 <b>구원받고 정련된 유대인들</b>. 제사장들로서 민족들을 가르쳐 하나님을 추구하며 깨닫게 할 것이다.</div>
+          </div>
+          <div class="group-card">
+            <div class="group-icon">🐑</div>
+            <div class="group-title">세 번째 무리<br>양들 (민족들)</div>
+            <div class="group-role">백성들 (땅의 부분)</div>
+            <div class="group-desc">대환난 동안 유대인들과 그리스도인들을 돌보아 <b>'양'으로 판정된 자들</b>. 천년왕국의 아랫부분에 거하는 백성이 될 것이다.</div>
+          </div>
+        </div>
+        
+        <div class="hope-highlight">
+          <div class="hope-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> 우리의 참된 소망</div>
+          <div class="hope-text">
+            우리가 소망하는 것은 천년왕국의 하늘에 속한 부분, 곧 <span>아버지의 왕국에 속한 이기는 믿는 이들</span>이 되는 것이다.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+<!-- Point 7 -->
+<div id="pt7"></div>
+<div class="accordion">
+  <div class="acc-header" onclick="toggleAcc(this)">
+    <div class="acc-num" style="background:var(--c7);">7</div>
+    <div class="acc-title-wrap">
+      <div class="acc-title">최후 — 사탄의 종말과 영원한 왕국</div>
+      <div class="acc-subtitle">불 못에서 영원한 새 예루살렘으로</div>
+    </div>
+    <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+  <div class="acc-body">
+    <div class="acc-inner">
+      <div class="bible-block" style="border-color:var(--c7);">
+        <div class="bible-ref" style="color:var(--c7);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          요한계시록 20:10
+        </div>
+        <div class="bible-text">그들을 미혹시키던 <b>마귀는 불과 유황의 못에 던져졌는데</b>, 거기에는 짐승과 거짓 신언자도 있습니다. 그들은 <b>영원히 밤낮으로 고통을 받을 것</b>입니다.</div>
+      </div>
+      <div class="bible-block" style="border-color:var(--c7);">
+        <div class="bible-ref" style="color:var(--c7);">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7l-5-5H6zm7 1.5L18.5 9H13V3.5zM6 4h5v7h7v9H6V4z"/></svg>
+          요한계시록 12:11
+        </div>
+        <div class="bible-text">그들은 <b>어린양의 피</b>와 자기들이 <b>증언하는 말</b>로 그를 이겼으며, 또한 죽기까지 자기들의 혼생명을 사랑하지 않았다.</div>
+      </div>
+      <div class="point-content">
+        <p>사탄은 전시간으로 비난하는 자이다(계 12:10). 우리는 사탄이 날마다 얼마나 수없이 우리를 비난하는지 셀 수조차 없다. 사탄은 언제나 우리를 비난한다.</p>
+        <p>천 년이 찼을 때에 사탄이 자기 감옥에서 풀려나 땅의 사방에 있는 민족들 곧 곡과 마곡을 미혹시키고, 그들을 모아 전쟁을 할 것이다. 그러나 하늘에서 불이 내려와 그들을 삼킬 것이다.</p>
+        <p>마지막 심판은 천 년 후에 이 땅에서의 마지막 전쟁으로 말미암아 이루어질 것이고, 사탄은 마침내 <span class="hl">영원히 불 못</span>으로 던져질 것이다(계 20:8-10). 사탄은 더 이상 우리를 비난하거나 괴롭히지 못할 것이다.</p>
+        <p>우리는 사탄의 최후가 불 못이라는 것을 알아야 한다. 사탄이 우리를 괴롭히러 올 때마다, 우리는 그에게 이렇게 상기시켜 주어야 한다. <span class="hl">"사탄아, 너의 최후는 불 못이다!"</span> 우리는 우리의 증언하는 말을 선포하여 사탄을 자신이 속한 자리로 보내야 한다(계 12:11).</p>
+        
+        <div class="doom-container">
+          <div class="doom-card">
+            <div class="doom-icon">🗣️</div>
+            <div class="doom-text">
+              <div class="doom-num">01. 사탄의 정체</div>
+              <div class="doom-desc">사탄의 전시간 직업은 <b>우리를 비난하는 것</b>입니다.</div>
+            </div>
+          </div>
+          <div class="doom-card">
+            <div class="doom-icon">🔥</div>
+            <div class="doom-text">
+              <div class="doom-num">02. 확정된 심판</div>
+              <div class="doom-desc">사탄에게 내려질 심판은 확정되었습니다 ➔ <b>영원한 불 못</b></div>
+            </div>
+          </div>
+          <div class="doom-card final">
+            <div class="doom-icon">⚔️</div>
+            <div class="doom-text">
+              <div class="doom-num">03. 우리의 선포</div>
+              <div class="doom-desc">
+                그러므로 우리는 사탄에게 선포하여 상기시켜 줍니다.
+                <span class="doom-quote">"사탄아, 너의 최후는 불 못이다!"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p>하나님의 왕국은 영원에서 영원으로 이어진다. 주님께서 이 시대의 끝에 돌아오실 때 천 년 동안 천년왕국이 존재할 것이고, 이 왕국은 새 하늘과 새 땅과 더불어 하나님의 영원한 왕국인 <span class="hl">새 예루살렘</span>이 있을 영원 안으로 이어질 것이다.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Quiz -->
+<div id="quiz"></div>
+<div class="section-heading">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+  퀴즈
+</div>
+
+<div class="quiz-card">
+  <span class="quiz-num">1</span>
+  <span class="quiz-q">하나님께서 왕국을 필요로 하시는 세 가지 이유에 해당하지 않는 것은?</span>
+  <div class="quiz-opts" data-correct="2">
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>마귀를 패배시키고 정복하기 위해</label>
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>사람에게 지식과 지혜를 주시기 위해</label>
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>사탄이 탈취한 땅을 회복하시기 위해</label>
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>그분의 권위와 통치권을 행사하시기 위해</label>
+  </div>
+  <button class="quiz-hint-btn" onclick="showHint(this)">💡 힌트 보기</button>
+  <div class="quiz-hint">창세기 1장 26절에서 하나님의 마음의 갈망과 의도를 생각해 보세요. 하나님이 사람에게 위임하신 것이 무엇인지가 단서입니다.</div>
+</div>
+
+<div class="quiz-card">
+  <span class="quiz-num">2</span>
+  <span class="quiz-q">그리스도께서 왕국을 '씨로 뿌리신' 결과, 하나님의 왕국은 어떻게 변화되었는가?</span>
+  <div class="quiz-opts" data-correct="1">
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>외적이고 객관적인 왕국에서 주관적이며 생명적인 왕국으로</label>
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>이스라엘의 왕국에서 로마의 왕국으로</label>
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>하늘의 왕국에서 땅의 왕국으로</label>
+  </div>
+  <button class="quiz-hint-btn" onclick="showHint(this)">💡 힌트 보기</button>
+  <div class="quiz-hint">마태복음 13장과 로마서 14장 17절을 참고하세요. 왕국이 사람들의 어디 안으로 뿌려졌는지 생각해 보세요.</div>
+</div>
+
+<div class="quiz-card">
+  <span class="quiz-num">3</span>
+  <span class="quiz-q">요한계시록 20장에서 처음 언급된 내용은 무엇인가?</span>
+  <div class="quiz-opts" data-correct="3">
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>이기는 성도들의 상급</label>
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>새 예루살렘의 출현</label>
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>사탄을 결박하는 것</label>
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>아마겟돈에서의 전쟁</label>
+  </div>
+  <button class="quiz-hint-btn" onclick="showHint(this)">💡 힌트 보기</button>
+  <div class="quiz-hint">요한계시록 20장 1-3절을 먼저 읽어 보세요. 천년왕국에 관한 장에서 가장 먼저 기록된 사건이 무엇인지 찾아보세요.</div>
+</div>
+
+<div class="quiz-card">
+  <span class="quiz-num">4</span>
+  <span class="quiz-q">천년왕국의 윗부분(하늘 부분)은 무엇이라 불리는가?</span>
+  <div class="quiz-opts" data-correct="2">
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>메시아의 왕국</label>
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>아버지의 왕국</label>
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>사람의 아들의 왕국</label>
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>다윗의 왕국</label>
+  </div>
+  <button class="quiz-hint-btn" onclick="showHint(this)">💡 힌트 보기</button>
+  <div class="quiz-hint">마태복음 13장 43절을 참고하세요. 의인들이 '해처럼 빛나는' 곳이 어디인지 살펴보세요.</div>
+</div>
+
+<div class="quiz-card">
+  <span class="quiz-num">5</span>
+  <span class="quiz-q">천년왕국에서 구원받은 유대인들의 역할은 무엇인가?</span>
+  <div class="quiz-opts" data-correct="2">
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>왕으로서 다스리는 것</label>
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>제사장으로서 민족들을 가르치는 것</label>
+    <label class="quiz-opt" onclick="selectOpt(this)"><span class="circle"></span>군인으로서 전쟁하는 것</label>
+  </div>
+  <button class="quiz-hint-btn" onclick="showHint(this)">💡 힌트 보기</button>
+  <div class="quiz-hint">이사야서 61장 6절과 스가랴서 8장 23절을 참고하세요. 민족들이 유대인들에게 무엇을 요청하는지 살펴보세요.</div>
+</div>
+
+<button class="quiz-submit" onclick="submitQuiz()">결과 확인하기</button>
+
+<div class="quiz-result" id="quizResult">
+  <div class="quiz-score" id="quizScore"></div>
+  <div class="quiz-feedback" id="quizFeedback"></div>
+</div>
+
+<!-- Prayer -->
+<div id="prayer"></div>
+<div class="section-heading">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  오늘의 기도
+</div>
+
+<div class="prayer-box">
+  <p>주 예수님, 당신은 왕국을 세우시는 분이십니다. 당신께서 십자가에서 구속의 일을 성취하시고 승천하셔서 아버지께 통치권과 영광과 왕권을 받으셨음을 찬양합니다.</p>
+  <p>주님, 당신께서 왕국의 씨를 우리 마음 안에 뿌려 주셨음을 감사드립니다. 이 씨가 우리 안에서 날마다 자라게 하여 주시고, 오늘날 교회 안에서 하나님의 왕국이 실지적으로 표현되게 하여 주십시오.</p>
+  <p>주님, 사탄이 비난할 때마다 우리가 어린양의 피와 증언하는 말로 그를 이기게 하여 주십시오. "사탄아, 너의 최후는 불 못이다!"라고 선포할 수 있게 하여 주십시오.</p>
+  <p>당신의 왕국이 이 땅에 완전히 세워질 수 있도록 당신과 하나되고, 당신께서 원하시는 것은 무엇이든 하실 수 있도록 자유로운 길을 허락해 드립니다.</p>
+</div>
+
+<div class="footer">
+  왕국을 세우시는 그리스도 — 요한계시록 20장<br>
+  신약의 결론, 개정 증보판, 26권, 메시지 427
+</div>
+
+</div><!-- /main -->
+
+<script>
+// Panel
+function togglePanel() {
+  document.getElementById('sidePanel').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+
+// Font size
+let fontStep = 0;
+function adjustFont(dir) {
+  fontStep += dir;
+  if (fontStep < -4) fontStep = -4;
+  if (fontStep > 6) fontStep = 6;
+  document.documentElement.style.setProperty('--font-scale', 1 + fontStep * 0.06);
+}
+function resetFont() {
+  fontStep = 0;
+  document.documentElement.style.setProperty('--font-scale', 1);
+}
+
+// Accordion
+function toggleAcc(header) {
+  const acc = header.parentElement;
+  const body = acc.querySelector('.acc-body');
+  if (acc.classList.contains('open')) {
+    body.style.maxHeight = null;
+    acc.classList.remove('open');
+  } else {
+    acc.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+}
+
+// Quiz
+function selectOpt(el) {
+  const card = el.closest('.quiz-card');
+  if (card.classList.contains('answered')) return;
+  card.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function showHint(btn) {
+  const hint = btn.nextElementSibling;
+  hint.classList.toggle('show');
+  btn.textContent = hint.classList.contains('show') ? '💡 힌트 숨기기' : '💡 힌트 보기';
+}
+
+function submitQuiz() {
+  const cards = document.querySelectorAll('.quiz-card');
+  let correct = 0;
+  cards.forEach(card => {
+    card.classList.add('answered');
+    const opts = card.querySelector('.quiz-opts');
+    const correctIdx = parseInt(opts.dataset.correct) - 1;
+    const allOpts = opts.querySelectorAll('.quiz-opt');
+    const selected = opts.querySelector('.quiz-opt.selected');
+    if (selected) {
+      const selIdx = Array.from(allOpts).indexOf(selected);
+      if (selIdx === correctIdx) {
+        selected.classList.add('correct');
+        correct++;
+      } else {
+        selected.classList.add('wrong');
+        allOpts[correctIdx].classList.add('correct');
+      }
+    } else {
+      allOpts[correctIdx].classList.add('correct');
+    }
+  });
+  const result = document.getElementById('quizResult');
+  result.classList.add('show');
+  document.getElementById('quizScore').textContent = correct + ' / ' + cards.length;
+  const pct = (correct / cards.length) * 100;
+  let fb = '';
+  if (pct === 100) fb = '🎉 완벽합니다! 메시지의 핵심을 정확히 이해하셨습니다!';
+  else if (pct >= 80) fb = '👏 훌륭합니다! 대부분의 핵심을 잘 파악하셨습니다.';
+  else if (pct >= 60) fb = '👍 좋습니다! 틀린 부분을 다시 확인해 보세요.';
+  else fb = '📖 핵심 요점을 다시 한번 읽어 보시길 권합니다.';
+  document.getElementById('quizFeedback').textContent = fb;
+  result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+</body>
+</html>
