@@ -1199,18 +1199,41 @@ function togglePanel() {
   document.getElementById('overlay').classList.toggle('open');
 }
 
-// Font size
+// Font size & Accordion layout update
 let fontStep = 0;
+
+function updateOpenAccordions() {
+  // 폰트 크기 변경 시 내용이 잘리지 않도록 열려있는 아코디언의 높이를 즉시 재계산
+  setTimeout(() => {
+    document.querySelectorAll('.accordion.open .acc-body').forEach(body => {
+      body.style.transition = 'none'; // 애니메이션 깜빡임 방지
+      body.style.maxHeight = 'none';  // 고정 높이 해제
+      const realHeight = body.scrollHeight; // 실제 내용물 높이 측정
+      body.style.maxHeight = realHeight + 'px'; // 새로운 높이 적용
+      
+      requestAnimationFrame(() => {
+        body.style.transition = ''; // 기존 CSS 트랜지션으로 원상복구
+      });
+    });
+  }, 50);
+}
+
 function adjustFont(dir) {
   fontStep += dir;
   if (fontStep < -4) fontStep = -4;
   if (fontStep > 6) fontStep = 6;
   document.documentElement.style.setProperty('--font-scale', 1 + fontStep * 0.06);
+  updateOpenAccordions();
 }
+
 function resetFont() {
   fontStep = 0;
   document.documentElement.style.setProperty('--font-scale', 1);
+  updateOpenAccordions();
 }
+
+// 모바일 기기 회전이나 화면 사이즈 조정 시에도 텍스트 잘림 현상 방지
+window.addEventListener('resize', updateOpenAccordions);
 
 // Accordion
 function toggleAcc(header) {
