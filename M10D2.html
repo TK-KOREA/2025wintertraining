@@ -1,0 +1,2218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>그리스도와 함께 왕으로서 다스림</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --base-font-size: 17px;
+  --font-scale: 1;
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #333333;
+  --accent: #2563eb;
+  --highlight: #fde68a;
+  --highlight-strong: #fbbf24;
+  --border: #e5e7eb;
+  --card-bg: #ffffff;
+  --card-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  --section-bg: #f8f9fa;
+  --badge-bg: #eef2ff;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 52px; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── TOP BAR ── */
+.top-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center;
+  height: 44px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.top-bar-left {
+  display: flex; align-items: center; gap: 0;
+  flex-shrink: 0;
+}
+
+.top-btn {
+  width: 40px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer;
+  color: #444; font-size: 18px;
+  flex-shrink: 0;
+}
+.top-btn:hover { background: #f3f4f6; }
+.top-btn svg { width: 20px; height: 20px; }
+
+.top-title-wrap {
+  flex: 1; min-width: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0 6px;
+}
+.top-title-wrap::-webkit-scrollbar { display: none; }
+
+.top-title {
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.font-controls {
+  display: flex; align-items: center; gap: 0;
+  flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  height: 44px;
+}
+
+.font-btn {
+  width: 36px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer;
+  font-size: 15px; font-weight: 700;
+  color: #555;
+}
+.font-btn:hover { background: #f3f4f6; }
+.font-btn:active { background: #e5e7eb; }
+
+/* ── SIDE PANEL ── */
+.overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1100;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.overlay.active { opacity: 1; pointer-events: auto; }
+
+.side-panel {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: 280px; max-width: 80vw;
+  background: #fff;
+  z-index: 1200;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+}
+.side-panel.active { transform: translateX(0); }
+
+.side-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.side-close {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer;
+  font-size: 20px; color: #888;
+  border-radius: 6px;
+}
+.side-close:hover { background: #f3f4f6; }
+
+.side-nav { padding: 12px 0; }
+.side-nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+.side-nav a:hover { background: #f3f4f6; }
+.side-nav a .nav-icon { width: 20px; text-align: center; font-size: 15px; flex-shrink: 0; }
+.side-nav .sub-item {
+  padding-left: 50px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.keyword-popup {
+  display: none;
+  margin: 4px 20px 8px 50px;
+  padding: 10px 14px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  border-left: 3px solid var(--accent);
+}
+.keyword-popup.show { display: block; }
+
+/* ── MAIN CONTENT ── */
+.main-content {
+  padding-top: 44px;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  padding: 40px 16px 32px;
+  background: linear-gradient(180deg, #f0f4ff 0%, #ffffff 100%);
+}
+.hero-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: var(--badge-bg);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+}
+.hero h1 {
+  font-size: calc(24px * var(--font-scale));
+  font-weight: 900;
+  line-height: 1.4;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.hero-sub {
+  font-size: calc(14px * var(--font-scale));
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.hero-verse {
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.8;
+  color: var(--text-secondary);
+  text-align: left;
+  max-width: 600px;
+  margin-left: auto; margin-right: auto;
+}
+.hero-verse .verse-ref {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: calc(12px * var(--font-scale));
+  margin-bottom: 6px;
+}
+
+/* ── DASHBOARD ── */
+.dashboard {
+  padding: 28px 0;
+}
+.dashboard-title {
+  text-align: center;
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+.dash-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 14px;
+  text-align: center;
+}
+.dash-icon { font-size: 24px; margin-bottom: 6px; }
+.dash-label {
+  font-size: calc(11px * var(--font-scale));
+  color: #888;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.dash-value {
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+/* ── FLOW CONNECTOR ── */
+.flow-section {
+  padding: 20px 0;
+}
+.flow-title {
+  text-align: center;
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.flow-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.flow-item {
+  display: flex; align-items: center; gap: 10px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 16px;
+  width: 100%;
+  max-width: 400px;
+}
+.flow-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.flow-text {
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.4;
+}
+.flow-arrow {
+  font-size: 18px;
+  color: #bbb;
+  padding: 3px 0;
+}
+
+/* ── TIMELINE (NEW) ── */
+.timeline-section {
+  padding: 24px 0 32px;
+}
+.timeline-title {
+  text-align: center;
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+.timeline-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.tl-item {
+  display: flex;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+.tl-item.highlight {
+  border: 2px solid #fbbf24;
+  background: linear-gradient(to right, #fffbeb, #ffffff);
+  transform: scale(1.02);
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
+}
+.tl-circle {
+  width: 68px; height: 68px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  color: #fff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  font-size: 14px; font-weight: 700;
+  line-height: 1.25;
+  flex-shrink: 0;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  border: 2px solid #e0e7ff;
+}
+.tl-item.highlight .tl-circle {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  border-color: #fef3c7;
+  width: 78px; height: 78px;
+  font-size: 15px;
+}
+.tl-content {
+  flex: 1;
+}
+.tl-desc {
+  font-size: calc(13px * var(--font-scale));
+  color: var(--text-secondary);
+  line-height: 1.5;
+  word-break: keep-all;
+}
+.tl-item.highlight .tl-desc {
+  font-size: calc(14px * var(--font-scale));
+  font-weight: 500;
+  color: #92400e;
+}
+.tl-arrow-down {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 24px;
+  line-height: 1;
+  margin: 2px 0;
+}
+
+/* ── KEYWORDS ── */
+.keywords-section {
+  padding: 24px 0;
+}
+.kw-title {
+  text-align: center;
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.kw-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.kw-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: #f3f4f6;
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+.kw-chip:hover, .kw-chip.active {
+  background: var(--badge-bg);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.kw-detail {
+  display: none;
+  margin-top: 12px;
+  padding: 14px 18px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.7;
+  color: var(--text-secondary);
+  border-left: 3px solid var(--accent);
+}
+.kw-detail.show { display: block; }
+
+/* ── ACCORDION POINTS ── */
+.points-section {
+  padding: 28px 0 16px;
+}
+.points-title {
+  text-align: center;
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.point-card {
+  margin-bottom: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: #fff;
+  transition: box-shadow 0.2s;
+}
+.point-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+.point-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  background: #fff;
+  transition: background 0.2s;
+}
+.point-header:hover { background: #fafbfc; }
+
+.point-icon-wrap {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.point-header-text {
+  flex: 1; min-width: 0;
+}
+.point-num {
+  font-size: calc(11px * var(--font-scale));
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.point-title {
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.point-chevron {
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+  color: #aaa;
+}
+.point-card.open .point-chevron { transform: rotate(180deg); }
+
+.point-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.point-body-inner {
+  padding: 0 16px 18px;
+}
+
+/* Bible verse in point */
+.point-verse-box {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border-left: 3px solid;
+}
+.point-verse-header {
+  display: flex; align-items: center; gap: 6px;
+  font-size: calc(12px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.bookmark-icon { font-size: 15px; }
+.point-verse-text {
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+.point-verse-text .verse-item {
+  margin-bottom: 6px;
+}
+.point-verse-text .verse-item:last-child { margin-bottom: 0; }
+.verse-ref-tag {
+  font-weight: 700;
+  font-size: calc(12px * var(--font-scale));
+}
+
+/* Point content */
+.point-content {
+  font-size: calc(15px * var(--font-scale));
+  line-height: 1.85;
+  color: var(--text-secondary);
+}
+.point-content p { margin-bottom: 12px; }
+.point-content p:last-child { margin-bottom: 0; }
+
+/* ── COMPARISON TABLE (POINT 1) - MOBILE OPTIMIZED ── */
+.comparison-title {
+  text-align: center; font-weight: 700; padding: 12px;
+  background: #f8f9fa; border: 1px solid var(--border); border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  font-size: calc(15px * var(--font-scale)); color: var(--text);
+  margin-top: 20px;
+}
+.comp-table-v2 {
+  border: 1px solid var(--border); border-radius: 0 0 12px 12px;
+  overflow: hidden; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-bottom: 20px;
+}
+.comp-header-v2 {
+  display: flex; text-align: center; background: #f3f4f6;
+  border-bottom: 2px solid #d1d5db;
+}
+.comp-th-v2 {
+  flex: 1; padding: 12px 10px; font-size: calc(14px * var(--font-scale)); font-weight: 700;
+  color: #374151; display: flex; flex-direction: column; justify-content: center;
+}
+.comp-th-v2.organic { color: #6d28d9; background: #f5f3ff; border-left: 1px solid var(--border); }
+.comp-th-v2 span { font-size: 0.85em; font-weight: 400; margin-top: 4px; color: #6b7280; }
+
+.comp-row-v2 { border-bottom: 1px solid var(--border); }
+.comp-row-v2:last-child { border-bottom: none; }
+
+.comp-row-label {
+  background: #e0e7ff; color: #3730a3; text-align: center;
+  padding: 6px 10px; font-size: calc(12px * var(--font-scale));
+  font-weight: 700; letter-spacing: 0.5px;
+}
+
+.comp-row-content { display: flex; flex-direction: column; }
+@media (min-width: 600px) {
+  .comp-row-content { flex-direction: row; }
+}
+
+.comp-td-v2 {
+  flex: 1; padding: 12px 14px; text-align: center;
+  font-size: calc(14px * var(--font-scale)); line-height: 1.5;
+}
+.comp-td-v2.judicial { border-bottom: 1px dashed var(--border); }
+@media (min-width: 600px) {
+  .comp-td-v2.judicial { border-bottom: none; border-right: 1px solid var(--border); }
+}
+.comp-td-v2.organic { font-weight: 500; color: #5b21b6; background: #fcfaff; }
+.comp-td-v2 span.sub-text {
+  display: block; font-size: 0.85em; font-weight: 400;
+  color: #6b7280; margin-top: 6px;
+}
+.comp-footer-v2 {
+  padding: 14px; text-align: center; font-weight: 700;
+  color: #fff; background: #374151; font-size: calc(14px * var(--font-scale));
+  line-height: 1.6;
+}
+
+/* ── CONCEPT COMPARISON (POINT 4) ── */
+.concept-wrap {
+  display: flex; flex-direction: column; gap: 24px; position: relative; margin: 16px 0;
+}
+@media (min-width: 600px) {
+  .concept-wrap { flex-direction: row; gap: 20px; align-items: stretch; }
+}
+.vs-circle {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 42px; height: 42px; background: #fff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; color: #9ca3af; font-size: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 10; border: 2px solid #f3f4f6;
+}
+.concept-card {
+  flex: 1; border-radius: 12px; padding: 22px 18px; border: 1px solid var(--border);
+  position: relative; overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  display: flex; flex-direction: column;
+}
+.concept-card.natural { background: linear-gradient(to bottom, #f9fafb, #e5e7eb); border-color: #d1d5db; }
+.concept-card.organic { background: linear-gradient(to bottom, #fef3c7, #fde68a); border-color: #fbbf24; }
+
+.concept-icon { text-align: center; font-size: 46px; margin-bottom: 16px; line-height: 1; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+.concept-header {
+  text-align: center; font-weight: 800; font-size: calc(17px * var(--font-scale));
+  margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px dashed rgba(0,0,0,0.15);
+}
+.concept-card.natural .concept-header { color: #374151; }
+.concept-card.organic .concept-header { color: #701a75; }
+
+.concept-list { display: flex; flex-direction: column; gap: 14px; flex-grow: 1; }
+.concept-item { display: flex; flex-direction: column; font-size: calc(14px * var(--font-scale)); line-height: 1.5; color: var(--text-secondary); }
+.concept-item-title { 
+  display: inline-block; align-self: flex-start; padding: 4px 10px; border-radius: 6px; 
+  font-size: 0.85em; font-weight: 700; margin-bottom: 6px; 
+}
+.concept-card.natural .concept-item-title { background: #6b7280; color: #fff; }
+.concept-card.organic .concept-item-title { background: #86198f; color: #fff; }
+
+.concept-card.organic .concept-item { color: #4c1d95; font-weight: 500;}
+.concept-card.natural .concept-item { color: #4b5563; }
+
+.concept-banner {
+  background: #fff; color: #1f2937; text-align: center; padding: 18px 20px;
+  border-radius: 10px; font-weight: 700; font-size: calc(15.5px * var(--font-scale));
+  line-height: 1.6; margin-top: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+  border: 1px solid #e5e7eb;
+  border-bottom: 5px solid #d97706;
+  word-break: keep-all;
+}
+
+.point-sub-section {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: #fafbfc;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+.point-sub-title {
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 6px;
+}
+.point-sub-content {
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+/* ── PREP STEPS (POINT 5) ── */
+.prep-steps-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+.prep-step-card {
+  display: flex;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+}
+.prep-step-num-box {
+  width: 54px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+.prep-num {
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1;
+}
+.prep-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+.prep-step-content {
+  padding: 16px;
+  flex: 1;
+}
+.prep-step-title {
+  font-size: calc(15.5px * var(--font-scale));
+  font-weight: 800;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.prep-step-desc {
+  font-size: calc(14px * var(--font-scale));
+  color: var(--text-secondary);
+  line-height: 1.65;
+  word-break: keep-all;
+}
+.prep-step-desc p { margin-bottom: 8px; }
+.prep-step-desc p:last-child { margin-bottom: 0; }
+
+.step-bg-1 .prep-step-num-box { background: linear-gradient(135deg, #10b981, #047857); }
+.step-bg-1 .prep-step-title { color: #065f46; border-bottom: 1px dashed #a7f3d0; padding-bottom: 6px; }
+
+.step-bg-2 .prep-step-num-box { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.step-bg-2 .prep-step-title { color: #1e40af; border-bottom: 1px dashed #bfdbfe; padding-bottom: 6px; }
+
+.step-bg-3 .prep-step-num-box { background: linear-gradient(135deg, #f59e0b, #b45309); }
+.step-bg-3 .prep-step-title { color: #92400e; border-bottom: 1px dashed #fde68a; padding-bottom: 6px; }
+
+/* ── PREP STEP 1 GROWTH VISUAL (NEW) ── */
+.growth-visual {
+  background: linear-gradient(to right bottom, #ecfdf5, #f0fdf4);
+  border: 1px solid #a7f3d0;
+  border-radius: 8px;
+  padding: 14px 12px;
+  margin: 12px 0;
+  display: flex; align-items: center; justify-content: space-between;
+  text-align: center;
+}
+.growth-stage {
+  font-size: calc(12px * var(--font-scale)); font-weight: 700; color: #065f46;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  flex: 0 0 auto; width: 80px;
+}
+.growth-stage.end { color: #047857; width: 100px; }
+.growth-icon { 
+  font-size: 28px; background: #fff; border-radius: 50%; 
+  width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; 
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06); line-height: 1;
+}
+.growth-arrow-box {
+  flex: 1; padding: 0 10px; position: relative;
+}
+.growth-arrow-line {
+  height: 4px; background: linear-gradient(to right, #6ee7b7, #10b981);
+  position: relative; border-radius: 2px;
+}
+.growth-arrow-line::after {
+  content: '▶'; position: absolute; right: -4px; top: -6.5px; color: #10b981; font-size: 14px;
+}
+.growth-arrow-text {
+  font-size: calc(11px * var(--font-scale)); color: #047857; margin-top: 6px; font-weight: 600; word-break: keep-all; line-height: 1.3;
+}
+.gp-grid { display: flex; flex-direction: column; gap: 8px; }
+.gp-item {
+  background: #fff; border: 1px solid #e5e7eb; border-left: 3px solid #10b981;
+  border-radius: 6px; padding: 12px 14px; font-size: calc(13.5px * var(--font-scale));
+  color: var(--text-secondary); line-height: 1.5; word-break: keep-all;
+}
+.gp-item strong { color: #065f46; display: block; font-size: 0.9em; margin-bottom: 4px; }
+.gp-item.step2-item { border-left-color: #3b82f6; }
+.gp-item.step2-item strong { color: #1e40af; }
+
+/* ── PREP STEP 2 ANCHOR VISUAL (NEW) ── */
+.anchor-visual {
+  background: #f8fafc; border: 1px solid #bfdbfe; border-radius: 8px;
+  padding: 16px; margin: 12px 0; display: flex; flex-direction: column; 
+  align-items: center; position: relative; text-align: center;
+}
+.anchor-top {
+  background: linear-gradient(135deg, #4c1d95, #312e81); border-radius: 8px; 
+  padding: 12px 20px; color: white; box-shadow: 0 4px 10px rgba(76,29,149,0.3);
+  z-index: 2; margin-bottom: 40px; width: 100%; max-width: 220px;
+  border: 1px solid #5b21b6;
+}
+.anchor-top-title { font-weight: 800; font-size: calc(13px * var(--font-scale)); color: #fde047; }
+.anchor-top-sub { font-size: calc(11px * var(--font-scale)); opacity: 0.8; }
+
+.anchor-bottom {
+  background: linear-gradient(135deg, #64748b, #475569); border-radius: 8px; 
+  padding: 12px 20px; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 2; width: 100%; max-width: 220px; border: 1px solid #cbd5e1;
+}
+.anchor-bottom-title { font-weight: 800; font-size: calc(13px * var(--font-scale)); }
+.anchor-bottom-sub { font-size: calc(11px * var(--font-scale)); opacity: 0.8; }
+
+.anchor-line-wrap {
+  position: absolute; top: 60px; bottom: 60px; left: 50%; transform: translateX(-50%);
+  width: 4px; background: linear-gradient(to bottom, #fbbf24, #d97706);
+  z-index: 1; display: flex; align-items: center; justify-content: center;
+}
+.anchor-badge {
+  background: #fffbeb; color: #b45309; font-size: calc(11px * var(--font-scale)); 
+  font-weight: 700; padding: 4px 12px; border-radius: 12px; border: 1px solid #fcd34d;
+  white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.anchor-icon-img { font-size: 24px; margin-bottom: 6px; line-height: 1; }
+
+/* ── PREP STEP 3 WOOD VISUAL (NEW) ── */
+.wood-visual {
+  background: #fdfaf4; border: 1px solid #fde68a; border-radius: 8px;
+  overflow: hidden; margin: 12px 0; display: flex; flex-direction: column;
+}
+.wood-sky {
+  padding: 40px 10px 0; display: flex; justify-content: center; align-items: flex-end;
+  height: 140px; position: relative; background: linear-gradient(to bottom, #fffbeb, #fef3c7);
+}
+.wood-label-top {
+  position: absolute; top: 12px; left: 12px; background: #fff;
+  color: #92400e; font-size: calc(11px * var(--font-scale)); padding: 6px 10px;
+  border-radius: 6px; border: 1px solid #fcd34d; font-weight: 700; z-index: 3;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); line-height: 1.3;
+}
+.wood-board {
+  width: 22px; height: 110px; /* 동일한 높이 적용 */
+  background: linear-gradient(90deg, #d97706 0%, #fbbf24 50%, #b45309 100%);
+  border-radius: 2px 2px 0 0; margin: 0 6px; position: relative; z-index: 2;
+  box-shadow: 2px -1px 4px rgba(0,0,0,0.15);
+}
+.wood-board::before {
+  content: ''; position: absolute; top: -4px; left: 0; width: 100%; height: 4px;
+  background: #fcd34d; transform: skewX(-40deg); transform-origin: bottom left;
+}
+.wood-ground {
+  background: linear-gradient(to bottom, #6b7280, #4b5563); padding: 18px 10px 14px;
+  text-align: center; position: relative; z-index: 3; border-top: 2px solid #374151;
+  box-shadow: inset 0 6px 12px rgba(0,0,0,0.25);
+}
+.wood-ground-badge {
+  background: #7e22ce; color: white; font-size: calc(10px * var(--font-scale));
+  padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 6px;
+  font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.wood-ground-text {
+  color: #f3f4f6; font-size: calc(13px * var(--font-scale)); font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.wood-ground-text span {
+  display: block; font-size: 0.85em; font-weight: 500; opacity: 0.8; margin-top: 2px;
+}
+.gp-item.step3-item { border-left-color: #f59e0b; }
+.gp-item.step3-item strong { color: #b45309; }
+
+.prep-intro {
+  background: #fef2f2;
+  border-left: 4px solid #ef4444;
+  padding: 14px 16px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 16px;
+  font-size: calc(14.5px * var(--font-scale));
+  color: #991b1b;
+  line-height: 1.6;
+}
+
+mark {
+  background: var(--highlight);
+  color: inherit;
+  padding: 1px 3px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+.bold-hl {
+  font-weight: 700;
+}
+
+/* ── POINT CONNECTOR ── */
+.point-connector {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+}
+.connector-line {
+  width: 2px;
+  height: 20px;
+  background: linear-gradient(to bottom, #ddd, #ccc);
+  position: relative;
+}
+.connector-line::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #ccc;
+}
+
+/* ── QUIZ ── */
+.quiz-section {
+  padding: 32px 0;
+}
+.quiz-title {
+  text-align: center;
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.quiz-subtitle {
+  text-align: center;
+  font-size: calc(13px * var(--font-scale));
+  color: #888;
+  margin-bottom: 24px;
+}
+
+.quiz-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.quiz-q-header {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 14px;
+}
+.quiz-badge {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.quiz-q-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+  padding-top: 3px;
+}
+
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fff;
+}
+.quiz-opt:hover { border-color: var(--accent); background: #f8f9ff; }
+.quiz-opt.selected { border-color: var(--accent); background: #eef2ff; }
+.quiz-opt.correct { border-color: #22c55e; background: #f0fdf4; }
+.quiz-opt.wrong { border-color: #ef4444; background: #fef2f2; }
+.quiz-opt-radio {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.quiz-opt.selected .quiz-opt-radio { border-color: var(--accent); }
+.quiz-opt.selected .quiz-opt-radio::after {
+  content: '';
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.quiz-opt.correct .quiz-opt-radio { border-color: #22c55e; }
+.quiz-opt.correct .quiz-opt-radio::after {
+  content: '✓';
+  font-size: 12px;
+  color: #22c55e;
+  font-weight: 700;
+}
+.quiz-opt.wrong .quiz-opt-radio { border-color: #ef4444; }
+.quiz-opt.wrong .quiz-opt-radio::after {
+  content: '✗';
+  font-size: 12px;
+  color: #ef4444;
+  font-weight: 700;
+}
+.quiz-opt-text {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.quiz-hint-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 10px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  font-size: 1rem;
+  color: #92400e;
+  cursor: pointer;
+  font-weight: 500;
+}
+.quiz-hint-btn:hover { background: #fef3c7; }
+.quiz-hint-text {
+  display: none;
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: #fffbeb;
+  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #78350f;
+}
+.quiz-hint-text.show { display: block; }
+
+.quiz-feedback {
+  display: none;
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb { background: #f0fdf4; color: #166534; }
+.quiz-feedback.wrong-fb { background: #fef2f2; color: #991b1b; }
+
+.quiz-result {
+  display: none;
+  margin-top: 20px;
+  padding: 24px;
+  background: linear-gradient(135deg, #eef2ff, #f0f4ff);
+  border-radius: 14px;
+  text-align: center;
+  border: 1px solid #c7d2fe;
+}
+.quiz-result.show { display: block; }
+.quiz-score {
+  font-size: calc(36px * var(--font-scale));
+  font-weight: 900;
+  color: var(--accent);
+}
+.quiz-score-text {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+.quiz-result-msg {
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.quiz-submit-btn {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 20px auto 0;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.quiz-submit-btn:hover { background: #1d4ed8; }
+.quiz-submit-btn:disabled { background: #93c5fd; cursor: not-allowed; }
+
+/* ── PRAYER ── */
+.prayer-section {
+  padding: 32px 0 48px;
+}
+.prayer-card {
+  background: linear-gradient(135deg, #fefce8, #fff);
+  border: 1px solid #fde68a;
+  border-radius: 16px;
+  padding: 28px 22px;
+}
+.prayer-title {
+  text-align: center;
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 18px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.prayer-text {
+  font-size: calc(15px * var(--font-scale));
+  line-height: 2;
+  color: var(--text-secondary);
+  text-align: left;
+}
+.prayer-text p {
+  margin-bottom: 14px;
+  text-indent: 0;
+}
+.prayer-text p:last-child { margin-bottom: 0; }
+
+/* ── FOOTER ── */
+.footer {
+  padding: 20px 0;
+  text-align: center;
+  font-size: 12px;
+  color: #aaa;
+  border-top: 1px solid var(--border);
+}
+
+/* ── INTRO LAYER (NEW) ── */
+body.no-scroll { overflow: hidden; }
+
+.intro-layer {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at center, #fdfbf7 0%, #e8e2d2 100%);
+  z-index: 9999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 20px;
+  transition: opacity 0.8s ease, transform 0.8s ease, visibility 0.8s;
+  overflow: hidden;
+}
+.intro-layer.hidden {
+  opacity: 0; transform: translateY(-40px); visibility: hidden; pointer-events: none;
+}
+
+.intro-beam {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 60px; height: 100%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,247,220,0.6) 50%, rgba(255,255,255,0) 100%);
+  filter: blur(15px);
+  z-index: 1;
+  animation: beam-pulse 3s infinite alternate;
+}
+
+@keyframes beam-pulse {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; filter: blur(20px); width: 80px; }
+}
+
+.intro-content {
+  position: relative; z-index: 2;
+  text-align: center; max-width: 600px; width: 100%;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.intro-top-text {
+  font-size: 13px; font-weight: 500; color: #5c4d3c;
+  letter-spacing: 1px; margin-bottom: 30px;
+  align-self: flex-start;
+}
+
+.intro-quote {
+  font-size: clamp(24px, 6vw, 36px);
+  font-weight: 900; color: #2d2418;
+  line-height: 1.4; margin-bottom: 15px;
+  text-shadow: 0 0 20px rgba(255,255,255,0.8);
+  word-break: keep-all;
+}
+
+.intro-ref {
+  font-size: clamp(14px, 4vw, 18px); font-weight: 700; color: #5c4d3c;
+  text-align: right; width: 100%; margin-bottom: 40px;
+  padding-right: 10%;
+}
+
+.intro-blue-box {
+  background: #1e3a8a; color: #ffffff;
+  padding: 16px 20px; border-radius: 8px;
+  font-size: clamp(13px, 3.5vw, 15px);
+  line-height: 1.6; text-align: left;
+  box-shadow: 0 10px 25px rgba(30,58,138,0.3);
+  margin-bottom: 40px; border-left: 4px solid #60a5fa;
+  word-break: keep-all;
+}
+
+.intro-btn {
+  background: #d97706; color: #fff;
+  border: none; padding: 14px 32px; border-radius: 30px;
+  font-size: 16px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 15px rgba(217,119,6,0.3);
+  transition: all 0.3s;
+  animation: bounce-slight 2s infinite;
+  display: flex; align-items: center; gap: 8px;
+}
+.intro-btn:hover { background: #b45309; transform: scale(1.05); }
+
+@keyframes bounce-slight {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .hero h1 { font-size: calc(20px * var(--font-scale)); }
+  .dash-grid { grid-template-columns: repeat(2, 1fr); }
+  .point-header { padding: 12px 14px; }
+  .point-body-inner { padding: 0 14px 16px; }
+  .quiz-card { padding: 14px; }
+  .intro-top-text { align-self: center; margin-bottom: 20px; }
+  .intro-ref { padding-right: 0; text-align: center; }
+}
+</style>
+</head>
+<body class="no-scroll">
+
+<!-- INTRO LAYER -->
+<div class="intro-layer" id="introLayer">
+  <div class="intro-beam"></div>
+  <div class="intro-content">
+    <div class="intro-top-text">사도 바울의 단 하나의 열망</div>
+    
+    <div class="intro-quote">
+      "어떻게 해서든지<br>죽은 사람들 가운데서<br><span style="color: #92400e;">뛰어난 부활</span>에 이르고자 합니다."
+    </div>
+    
+    <div class="intro-ref">— 빌립보서 3:11</div>
+    
+    <div class="intro-blue-box">
+      우리는 단지 생명의 부활(기본적인 구원)로 만족해서는 안 됩니다. 간신히 이르는 것이 아니라, 탁월한 부활에 이르러 천년왕국에 참여하는 것을 최고의 상급으로 추구해야 합니다.
+    </div>
+    
+    <button class="intro-btn" onclick="closeIntroLayer()">
+      메시지 속으로 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- TOP BAR -->
+<div class="top-bar" id="topBar">
+  <div class="top-bar-left">
+    <button class="top-btn" onclick="togglePanel()" aria-label="목차">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="https://tk-korea.github.io/2025wintertraining/" class="top-btn" aria-label="홈">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    </a>
+  </div>
+  <div class="top-title-wrap">
+    <div class="top-title">그리스도와 함께 왕으로서 다스림</div>
+  </div>
+  <div class="font-controls">
+    <button class="font-btn" onclick="adjustFont(-1)">−</button>
+    <button class="font-btn" onclick="adjustFont(0)" style="font-size:13px;">가</button>
+    <button class="font-btn" onclick="adjustFont(1)">+</button>
+  </div>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="togglePanel()"></div>
+
+<!-- SIDE PANEL -->
+<nav class="side-panel" id="sidePanel">
+  <div class="side-header">
+    <span>📑 목차</span>
+    <button class="side-close" onclick="togglePanel()">✕</button>
+  </div>
+  <div class="side-nav">
+    <a href="#hero" onclick="closePanel()"><span class="nav-icon">📖</span>제목</a>
+    <a href="#dashboard" onclick="closePanel()"><span class="nav-icon">📊</span>대시보드</a>
+    <a href="#timeline" onclick="closePanel()"><span class="nav-icon">⏳</span>영원의 시간선</a>
+    <a href="#keywords" onclick="closePanel()"><span class="nav-icon">🔑</span>키워드</a>
+    <div id="kwSubMenu">
+      <a href="#keywords" class="sub-item" data-kw="0" onclick="closePanel(); setTimeout(()=>showKwDetail(0),300)">왕국</a>
+      <div class="keyword-popup" id="kwPopup0">하나님의 통치가 지상에 나타나는 영역. 그리스도께서 이기는 이들과 함께 천 년 동안 왕으로서 다스리실 것이다.</div>
+      <a href="#keywords" class="sub-item" data-kw="1" onclick="closePanel(); setTimeout(()=>showKwDetail(1),300)">이기는 이들</a>
+      <div class="keyword-popup" id="kwPopup1">그리스도와 함께 왕으로서 다스릴 자격을 갖춘 믿는 이들. 생명 안에서 성숙에 이르고 충성된 삶을 산 성도들이다.</div>
+      <a href="#keywords" class="sub-item" data-kw="2" onclick="closePanel(); setTimeout(()=>showKwDetail(2),300)">보좌</a>
+      <div class="keyword-popup" id="kwPopup2">하나님 구원의 가장 높은 목표. 우리가 그리스도와 함께 통치하고 왕으로서 다스리는 지점이다.</div>
+      <a href="#keywords" class="sub-item" data-kw="3" onclick="closePanel(); setTimeout(()=>showKwDetail(3),300)">첫째 부활</a>
+      <div class="keyword-popup" id="kwPopup3">'뛰어난 부활' 곧 탁월한 부활. 이기는 이들이 천년왕국에서 그리스도와 함께 왕으로서 다스릴 수 있도록 보상으로 주어지는 부활이다.</div>
+      <a href="#keywords" class="sub-item" data-kw="4" onclick="closePanel(); setTimeout(()=>showKwDetail(4),300)">왕으로서 다스림</a>
+      <div class="keyword-popup" id="kwPopup4">높은 자리에서 명령하는 것이 아니라, 그리스도의 생명에 복종하여 모든 미덕과 풍성을 살아 내고 표현하는 것이다.</div>
+      <a href="#keywords" class="sub-item" data-kw="5" onclick="closePanel(); setTimeout(()=>showKwDetail(5),300)">제사장과 왕</a>
+      <div class="keyword-popup" id="kwPopup5">이기는 이들에게 주어지는 이중 직분. 제사장으로서 하나님을 사람에게 공급하고, 왕으로서 하나님을 대표해서 사람을 목양한다.</div>
+      <a href="#keywords" class="sub-item" data-kw="6" onclick="closePanel(); setTimeout(()=>showKwDetail(6),300)">예수님의 인성</a>
+      <div class="keyword-popup" id="kwPopup6">그리스도와 함께 왕으로서 다스릴 자격의 근거. 예수님의 인성이 우리 안으로 일해 넣어져 우리의 인성이 되신다.</div>
+    </div>
+    <a href="#points" onclick="closePanel()"><span class="nav-icon">📌</span>핵심 요점</a>
+    <a href="#point1" class="sub-item" onclick="closePanel()">1. 왕국 — 하나님의 시선</a>
+    <a href="#point2" class="sub-item" onclick="closePanel()">2. 공동 왕 — 함께 다스림</a>
+    <a href="#point3" class="sub-item" onclick="closePanel()">3. 보좌 — 구원의 최고 목표</a>
+    <a href="#point4" class="sub-item" onclick="closePanel()">4. 생명 안에서 왕으로서 다스림</a>
+    <a href="#point5" class="sub-item" onclick="closePanel()">5. 왕의 자격 — 세 가지 준비</a>
+    <a href="#point6" class="sub-item" onclick="closePanel()">6. 첫째 부활 — 뛰어난 부활</a>
+    <a href="#point7" class="sub-item" onclick="closePanel()">7. 제사장과 왕 — 보상</a>
+    <a href="#quiz" onclick="closePanel()"><span class="nav-icon">❓</span>퀴즈</a>
+    <a href="#prayer" onclick="closePanel()"><span class="nav-icon">🙏</span>오늘의 기도</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main-content">
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <span class="hero-badge">2025 겨울 훈련 10주 2일</span>
+  <h1>그리스도와 함께<br>왕으로서 다스림</h1>
+  <p class="hero-sub">요한계시록 20:4-6 — 왕국을 세우시는 그리스도께서 이기는 성도들과 함께 왕으로서 다스리실 것을 계시한다</p>
+  <div class="hero-verse">
+    <div class="verse-ref">📖 계 20:4-6</div>
+    <span>또 내가 보니, <mark>보좌들</mark>이 있고 그 위에 사람들이 앉아 있었으며, 그들에게는 <mark>심판하는 권위</mark>가 주어졌습니다. … 이것이 <mark>첫째 부활</mark>입니다. … 첫째 부활에 참여하는 사람은 <mark>복이 있고 거룩</mark>합니다. 둘째 죽음은 그들을 다스리는 권세가 없습니다. 그들은 하나님과 그리스도의 <mark>제사장들</mark>이 되어, 천 년 동안 그리스도와 함께 <mark>왕으로서 다스릴</mark> 것입니다.</span>
+  </div>
+</section>
+
+<div class="container">
+
+<!-- DASHBOARD -->
+<section class="dashboard" id="dashboard">
+  <div class="dashboard-title">📊 메시지 핵심 대시보드</div>
+  <div class="dash-grid">
+    <div class="dash-card">
+      <div class="dash-icon">👑</div>
+      <div class="dash-label">핵심 주제</div>
+      <div class="dash-value">왕으로서 다스림</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">🎯</div>
+      <div class="dash-label">하나님의 목표</div>
+      <div class="dash-value">보좌에 이르게 함</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">🌱</div>
+      <div class="dash-label">핵심 조건</div>
+      <div class="dash-value">생명의 성숙</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">⭐</div>
+      <div class="dash-label">최고의 복</div>
+      <div class="dash-value">왕국 상속</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">🔄</div>
+      <div class="dash-label">뛰어난 부활</div>
+      <div class="dash-value">첫째 부활</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">⛪</div>
+      <div class="dash-label">이중 직분</div>
+      <div class="dash-value">제사장 + 왕</div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section class="flow-section">
+  <div class="flow-title">🔗 메시지 흐름</div>
+  <div class="flow-line">
+    <div class="flow-item"><div class="flow-num" style="background:#2563eb;">1</div><div class="flow-text">하나님의 시선은 왕국에 있다</div></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-item"><div class="flow-num" style="background:#7c3aed;">2</div><div class="flow-text">그리스도는 홀로가 아닌 함께 다스리신다</div></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-item"><div class="flow-num" style="background:#059669;">3</div><div class="flow-text">구원의 최고 목표는 보좌이다</div></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-item"><div class="flow-num" style="background:#d97706;">4</div><div class="flow-text">생명 안에서 왕으로서 다스림의 실제</div></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-item"><div class="flow-num" style="background:#dc2626;">5</div><div class="flow-text">왕의 자격을 위한 세 가지 준비</div></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-item"><div class="flow-num" style="background:#0891b2;">6</div><div class="flow-text">뛰어난 부활 — 첫째 부활의 축복</div></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-item"><div class="flow-num" style="background:#be185d;">7</div><div class="flow-text">제사장과 왕 — 최상의 보상</div></div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="timeline">
+  <div class="timeline-title">⏳ 영원의 시간선과 천년왕국의 위치</div>
+  <div class="timeline-wrap">
+    <div class="tl-item">
+      <div class="tl-circle">교회<br>시대</div>
+      <div class="tl-content">
+        <div class="tl-desc">생명의 성장과 온전하게 됨을 위한 훈련의 시간.</div>
+      </div>
+    </div>
+    <div class="tl-arrow-down">↓</div>
+    <div class="tl-item">
+      <div class="tl-circle">첫째<br>부활</div>
+      <div class="tl-content">
+        <div class="tl-desc">휴거 및 역대 순교자들의 부활<br>(가장 높은 성적을 얻은 이들은 우등생으로 탁월하게 졸업하는 것의 비유).</div>
+      </div>
+    </div>
+    <div class="tl-arrow-down">↓</div>
+    <div class="tl-item highlight">
+      <div class="tl-circle">천년왕국<br><span style="font-size:11px; font-weight:400; opacity:0.9; margin-top:2px;">(1,000년)</span></div>
+      <div class="tl-content">
+        <div class="tl-desc"><b>이기는 이들이 그리스도와 함께 왕으로서 다스리는 보상의 기간.</b></div>
+      </div>
+    </div>
+    <div class="tl-arrow-down">↓</div>
+    <div class="tl-item">
+      <div class="tl-circle" style="font-size:11.5px; line-height:1.15;">크고 흰<br>보좌의 심판</div>
+      <div class="tl-content">
+        <div class="tl-desc">천년왕국 이후.<br>믿지 않는 이들의 일반 부활 및 심판.</div>
+      </div>
+    </div>
+    <div class="tl-arrow-down">↓</div>
+    <div class="tl-item">
+      <div class="tl-circle">영원한<br>왕국</div>
+      <div class="tl-content">
+        <div class="tl-desc">새 하늘과 새 땅.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEYWORDS -->
+<section class="keywords-section" id="keywords">
+  <div class="kw-title">🔑 핵심 키워드</div>
+  <div class="kw-grid">
+    <span class="kw-chip" onclick="toggleKw(0)">👑 왕국</span>
+    <span class="kw-chip" onclick="toggleKw(1)">🏆 이기는 이들</span>
+    <span class="kw-chip" onclick="toggleKw(2)">🪑 보좌</span>
+    <span class="kw-chip" onclick="toggleKw(3)">✨ 첫째 부활</span>
+    <span class="kw-chip" onclick="toggleKw(4)">⚔️ 왕으로서 다스림</span>
+    <span class="kw-chip" onclick="toggleKw(5)">⛪ 제사장과 왕</span>
+    <span class="kw-chip" onclick="toggleKw(6)">🤲 예수님의 인성</span>
+  </div>
+  <div class="kw-detail" id="kwDetail0">하나님의 통치가 지상에 나타나는 영역. 그리스도께서 이기는 이들과 함께 <mark>천 년 동안 왕으로서 다스리실</mark> 것이다. 아버지는 왕국을 우리에게 주시기를 기뻐하신다. <b>왕국은 우리의 몫이며 우리의 것이다.</b></div>
+  <div class="kw-detail" id="kwDetail1"><mark>이기는 이들</mark>이 예수 그리스도의 왕국을 이끌어 오기 때문에, 주님은 천 년 동안 왕으로서 다스리실 것이다. 이기는 이들은 생명 안에서 성숙에 이르러 그리스도와 함께 공동 왕으로서 다스릴 자격을 갖춘 성도들이다.</div>
+  <div class="kw-detail" id="kwDetail2">하나님의 완전한 구원의 <mark>가장 높은 목표</mark>는 우리를 보좌, 곧 우리가 그리스도와 함께 통치하고 왕으로서 다스리는 지점으로 이끄는 것이다. 우리는 <b>보좌의 사람들</b>이다.</div>
+  <div class="kw-detail" id="kwDetail3">'뛰어난 부활' 곧 사도 바울이 추구했던 <mark>탁월한 부활</mark>이다. 이기는 이들이 천년왕국에서 그리스도와 함께 공동 왕으로서 다스릴 수 있도록 그들에게 보상으로 주는 왕권을 수반하는 부활이다.</div>
+  <div class="kw-detail" id="kwDetail4">높은 자리에 앉아 명령하는 것이 아니다. <mark>그리스도의 생명에 온전히 복종</mark>함으로써 이 생명의 모든 미덕과 풍성을 개인적으로뿐만 아니라 단체적으로 살아 내고 표현하는 것이다.</div>
+  <div class="kw-detail" id="kwDetail5"><mark>제사장</mark>으로서 하나님을 접촉하여 사람에게 공급하고, <mark>왕</mark>으로서 권위를 가지신 하나님을 대표해서 사람을 목양한다. 이 이중 직분을 통해 하나님과 사람 모두가 완전히 만족한다.</div>
+  <div class="kw-detail" id="kwDetail6">유일하게 합당한 사람이신 그리스도께서 예수님의 영으로서 우리의 영 안에 거하신다. <mark>모든 합당한 인간 미덕들을 지니신 그러한 분</mark>께서 우리 안에 계시면서 우리의 인성이 되신다.</div>
+</section>
+
+<!-- POINTS -->
+<section class="points-section" id="points">
+  <div class="points-title">📌 7가지 핵심 요점</div>
+
+  <!-- POINT 1 -->
+  <div class="point-card" id="point1">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-icon-wrap" style="background:#eef2ff; color:#2563eb;">👑</div>
+      <div class="point-header-text">
+        <div class="point-num" style="color:#2563eb;">POINT 01</div>
+        <div class="point-title">왕국 — 하나님의 시선과 우리의 시선</div>
+      </div>
+      <div class="point-chevron"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="point-verse-box" style="border-color:#2563eb;">
+          <div class="point-verse-header" style="color:#2563eb;">
+            <span class="bookmark-icon">🔖</span> 관련 성경구절
+          </div>
+          <div class="point-verse-text">
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#2563eb;">누가복음 12:32</span> 적은 양 떼여, 두려워하지 마십시오. 왜냐하면 여러분의 아버지께서 <mark>왕국을 여러분에게 주시기를 기뻐하셨기</mark> 때문입니다.</div>
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#2563eb;">계 20:4</span> 또 내가 보니, <mark>보좌들</mark>이 있고 그 위에 사람들이 앉아 있었으며, 그들에게는 <mark>심판하는 권위</mark>가 주어졌습니다.</div>
+          </div>
+        </div>
+        <div class="point-content">
+          <p><b>우리의 시선은 반드시 왕국에 있어야 합니다.</b> 그 이유는 무엇입니까? 바로 <mark>하나님의 시선이 거기에 있기 때문</mark>입니다. 우리가 마땅히 보아야 할 것은 단지 외부적인 환경이나 심지어 당장의 교회생활이 아닙니다.</p>
+
+          <div class="comparison-title">하나님의 완전한 구원의 두 방면</div>
+          <div class="comp-table-v2">
+            <div class="comp-header-v2">
+              <div class="comp-th-v2 judicial">하나님의 법리적인 구속<br><span>(절차와 기반)</span></div>
+              <div class="comp-th-v2 organic">하나님의 유기적인 구원<br><span>(목적과 궁극적 목표)</span></div>
+            </div>
+
+            <!-- 성격 -->
+            <div class="comp-row-v2">
+              <div class="comp-row-label">구원의 성격</div>
+              <div class="comp-row-content">
+                <div class="comp-td-v2 judicial">객관적인 구원<span class="sub-text">(그리스도께서 십자가에서 이루신 일)</span></div>
+                <div class="comp-td-v2 organic">주관적인 구원<span class="sub-text">(생명이신 그리스도께서 우리 안에서 하시는 일)</span></div>
+              </div>
+            </div>
+
+            <!-- 상태의 변화 -->
+            <div class="comp-row-v2">
+              <div class="comp-row-label">상태의 변화</div>
+              <div class="comp-row-content">
+                <div class="comp-td-v2 judicial">하나님의 의로운 요구를 만족시킴<span class="sub-text">(죄들의 용서, 씻음, 칭의, 하나님과 화목하게 됨)</span></div>
+                <div class="comp-td-v2 organic">신성한 생명의 분배를 통한 변화<span class="sub-text">(거듭남, 거룩하게 됨, 새롭게 됨, 변화, 같은 형상으로 됨, 영광스럽게 됨)</span></div>
+              </div>
+            </div>
+
+            <!-- 최종 위치 -->
+            <div class="comp-row-v2">
+              <div class="comp-row-label">최종 위치</div>
+              <div class="comp-row-content">
+                <div class="comp-td-v2 judicial">영원한 멸망에서 구출됨<span class="sub-text">(하나님의 심판을 면함)</span></div>
+                <div class="comp-td-v2 organic">이기는 자로서 보좌에 앉음<span class="sub-text">(승천의 위치에서 생명 안에서 왕 노릇 함)</span></div>
+              </div>
+            </div>
+
+            <!-- 핵심 구절 -->
+            <div class="comp-row-v2">
+              <div class="comp-row-label">핵심 구절 (회복역 성경)</div>
+              <div class="comp-row-content">
+                <div class="comp-td-v2 judicial">"허물로 죽어 있던 우리를 그리스도와 함께 살리셨고..."<span class="sub-text">(엡 2:5)</span></div>
+                <div class="comp-td-v2 organic">"...그분과 함께 일으키시고, 하늘들의 영역 안에 그분과 함께 앉히셨습니다."<span class="sub-text">(엡 2:6)</span></div>
+              </div>
+            </div>
+
+            <!-- 핵심 근거 -->
+            <div class="comp-row-v2">
+              <div class="comp-row-label">핵심 근거</div>
+              <div class="comp-row-content">
+                <div class="comp-td-v2 judicial">그리스도의 피를 통한 구속<span class="sub-text">(롬 3:24)</span></div>
+                <div class="comp-td-v2 organic">그리스도의 생명 안에서 구원받음<span class="sub-text">(롬 5:10, 5:17)</span></div>
+              </div>
+            </div>
+
+            <div class="comp-footer-v2">
+              "하나님의 완전한 구원의 가장 높은 목표는 우리를 보좌, 곧 우리가 그리스도와 함께 통치하고 왕으로서 다스리는 지점으로 이끄는 것입니다."
+            </div>
+          </div>
+
+          <p>하나님께서 우리를 구원하신 최고의 목표는 단순히 우리를 죄와 멸망에서 건져내는 것이 아니라, <mark>우리가 보좌에 이르러 그리스도와 함께 다스리게 하시는 것</mark>입니다.</p>
+          <p>하나님 아버지는 이 왕국을 우리의 몫이자 <b>최고의 보상으로 주시기를 매우 기뻐하십니다.</b> 이기는 이들이 예수 그리스도의 왕국을 이끌어 오기 때문에, 주님은 천 년 동안 왕으로서 다스리실 것이고 이기는 이들 또한 천 년 동안 그리스도와 함께 왕으로서 다스릴 것입니다.</p>
+          
+          <div class="point-sub-section">
+            <div class="point-sub-title">💡 요한계시록 20장 4절은 “내가 보니, 보좌들이 있고 그 위에 사람들이 앉아 있었으며, 그들에게는 심판하는 권위가 주어졌습니다.”라고 말한다.</div>
+            <div class="point-sub-content">심판하는 권위를 갖는 것은 <mark>왕국을 얻는 것</mark>을 의미한다(비교 단 7:10, 18, 22). 요한계시록 20장 4절은 이기는 이들이 왕국을 받았고 또한 그것을 누리고 있다는 것을 가리킨다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="point-connector"><div class="connector-line"></div></div>
+
+  <!-- POINT 2 -->
+  <div class="point-card" id="point2">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-icon-wrap" style="background:#f3e8ff; color:#7c3aed;">🤝</div>
+      <div class="point-header-text">
+        <div class="point-num" style="color:#7c3aed;">POINT 02</div>
+        <div class="point-title">공동 왕 — 그리스도 홀로가 아닌 '함께'</div>
+      </div>
+      <div class="point-chevron"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="point-verse-box" style="border-color:#7c3aed;">
+          <div class="point-verse-header" style="color:#7c3aed;">
+            <span class="bookmark-icon">🔖</span> 관련 성경구절
+          </div>
+          <div class="point-verse-text">
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#7c3aed;">창 1:26</span> 하나님께서 말씀하셨다. "우리가 우리의 형상대로 우리의 모양에 따라 사람을 만듭시다. 그리고 그들이 … <mark>통치하게 합시다.</mark>"</div>
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#7c3aed;">엡 2:5-6</span> 허물로 죽었던 우리를 <mark>그리스도와 함께 살리셨고</mark> … 그분과 함께 일으키셨으며 그리스도 예수님 안에서 <mark>그분과 함께 하늘들의 영역 안에 앉히셨습니다.</mark></div>
+          </div>
+        </div>
+        <div class="point-content">
+          <p><b>그리스도는 그분 홀로 왕으로서 다스리지 않으실 것이다.</b> 모든 이기는 성도들도 그리스도와 함께 왕으로서 다스릴 것이다.</p>
+          <p>이기는 믿는 이들이 그리스도와 함께 왕으로서 다스리는 것은 모든 믿는 이들이 반드시 보아야 할 <mark>소중하고 중요한 요점</mark>이다. 하나님의 의도는 그리스도께서 왕으로서 다스리실 뿐 아니라 모든 믿는 이들이 그분과 함께 왕으로서 다스리는 것이다.</p>
+          <p>창세기 1장에서 하나님께서 사람을 창조하실 때 사람이 통치하도록 의도하셨다. 하나님께서 사람을 특별하게 창조하신 것은 그리스도께서 통치권을 얻으실 것이라는 사실뿐 아니라, <mark>하나님의 갈망이 사람도 그리스도와 함께 왕으로서 다스리며 하나님의 통치권을 행사하는 것</mark>임을 가리킨다.</p>
+          <div class="point-sub-section">
+            <div class="point-sub-title">🔗 유기적 연결</div>
+            <div class="point-sub-content">주님 안으로 믿어 들어갔을 때, 우리는 그분과의 유기적인 연결 안으로 이끌렸다. 하나님께서 그리스도를 일으키셨을 때, 그분과 함께 우리도 일으키셨다. <mark>그리스도께서 승천하셔서 보좌에 앉으셨을 때, 우리도 그분과 함께 그곳에 앉혀졌다.</mark> 이것은 중대한 문제이다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="point-connector"><div class="connector-line"></div></div>
+
+  <!-- POINT 3 -->
+  <div class="point-card" id="point3">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-icon-wrap" style="background:#ecfdf5; color:#059669;">🎯</div>
+      <div class="point-header-text">
+        <div class="point-num" style="color:#059669;">POINT 03</div>
+        <div class="point-title">보좌 — 하나님 구원의 가장 높은 목표</div>
+      </div>
+      <div class="point-chevron"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="point-verse-box" style="border-color:#059669;">
+          <div class="point-verse-header" style="color:#059669;">
+            <span class="bookmark-icon">🔖</span> 관련 성경구절
+          </div>
+          <div class="point-verse-text">
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#059669;">롬 5:17</span> 은혜를 넘치게 받고 의의 선물을 넘치게 받는 사람들은 더욱 한 분 예수 그리스도를 통하여 <mark>생명 안에서 왕으로서 다스릴</mark> 것입니다.</div>
+          </div>
+        </div>
+        <div class="point-content">
+          <p>그리스도는 우리 모두가 그분과 함께 왕으로서 다스리기를 원하신다. <b>하나님의 구원의 목표는 우리 모두를 이러한 가장 높은 정점까지 이끄는 것이다.</b></p>
+          <p>하나님의 구원은 단지 우리를 영원한 멸망과 죄와 여러 문제에서 구원하는 것이 아니다. <mark>하나님의 완전한 구원의 가장 높은 목표는 우리를 보좌, 곧 우리가 그리스도와 함께 통치하고 왕으로서 다스리는 지점으로 이끄는 것이다.</mark></p>
+          <p><b>우리는 보좌의 사람들이다.</b> 하나님은 우리가 왕으로서 다스리기를 원하신다. 우리는 낮은 수준의 구원 즉 단지 죄와 세상과 영원한 멸망에서 구원받는 것에 만족해서는 안 된다. 그 이유는 하나님의 목표는 우리를 구원하여 보좌에 이르게 하는 것이기 때문이다.</p>
+          <div class="point-sub-section">
+            <div class="point-sub-title">⚠️ 주의할 점</div>
+            <div class="point-sub-content">우리는 이 말씀에 대해 인상을 받아야 한다. <mark>낮은 수준의 구원에 만족해서는 안 된다.</mark> 하나님의 목표는 우리를 구원하여 보좌에 이르게 하는 것이다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="point-connector"><div class="connector-line"></div></div>
+
+  <!-- POINT 4 -->
+  <div class="point-card" id="point4">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-icon-wrap" style="background:#fffbeb; color:#d97706;">🌿</div>
+      <div class="point-header-text">
+        <div class="point-num" style="color:#d97706;">POINT 04</div>
+        <div class="point-title">생명 안에서 왕으로서 다스림 — 천연적 관념과의 차이</div>
+      </div>
+      <div class="point-chevron"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="point-verse-box" style="border-color:#d97706;">
+          <div class="point-verse-header" style="color:#d97706;">
+            <span class="bookmark-icon">🔖</span> 관련 성경구절
+          </div>
+          <div class="point-verse-text">
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#d97706;">롬 5:17</span> … 은혜를 넘치게 받고 의의 선물을 넘치게 받는 사람들은 더욱 한 분 예수 그리스도를 통하여 <mark>생명 안에서 왕으로서 다스릴</mark> 것입니다.</div>
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#d97706;">계 2:26</span> <mark>이기는 이</mark>와 나의 일을 끝까지 지키는 이에게는 내가 민족들을 다스리는 권위를 줄 것이다.</div>
+          </div>
+        </div>
+        <div class="point-content">
+          <p>왕으로서 다스리는 것은 <mark>높은 자리에 앉아 막대기와 지휘봉을 들고 명령하며 다른 사람들에게 무엇을 해야 할지 말해 주는 것이 아닙니다.</mark> 천연적인 관념은 다른 사람들을 지배하는 것이지만, <b>생명 안에서 왕으로서 다스리는 것은 이것과 정반대</b>입니다.</p>
+          <p>그것은 우리가 <mark>우리 안에 있는 그리스도의 생명에 온전히 복종</mark>함으로써 이 생명의 모든 미덕과 풍성을 <b>개인적으로뿐만 아니라 단체적으로 살아 내고 표현하는 것</b>을 의미합니다. 그리스도의 모든 미덕과 풍성은 그리스도와 함께 왕으로서 다스리는 생활을 통해 표현됩니다.</p>
+
+          <div class="comparison-title" style="margin-top:30px; border-radius:12px 12px 0 0; background:#f8f9fa; border:1px solid var(--border); padding:14px; font-size: calc(17px * var(--font-scale));">'생명 안에서 왕으로서 다스림'의 재정의</div>
+          
+          <div style="padding: 20px 16px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 12px 12px; background: #fff;">
+            <div class="concept-wrap">
+              <div class="vs-circle" style="width: auto; padding: 2px 14px; border-radius: 20px; color: #ef4444; border-color: #fca5a5; background: #fef2f2; font-size: 13px; white-space: nowrap; letter-spacing: 0.5px;">정반대 ↔</div>
+              
+              <!-- 천연적 관념 -->
+              <div class="concept-card natural" style="background: #f3f4f6; border-color: #d1d5db; justify-content: center;">
+                <div class="concept-icon" style="font-size: 42px; margin-bottom: 12px; opacity: 0.8;">🪑 🦯</div>
+                <div class="concept-header" style="color: #4b5563; border-bottom-color: #d1d5db; margin-bottom: 16px; padding-bottom: 12px;">천연적 관념</span></div>
+                <div class="concept-list" style="justify-content: flex-start;">
+                  <div class="concept-item" style="text-align: center; color: #374151; font-weight: 500; word-break: keep-all;">
+                    높은 자리에 앉아<br>
+                    막대기와 지휘봉을 들고 명령하며<br>
+                    다른 사람들에게 무엇을 해야 할지<br>
+                    말해 주고 <b>지배하는 것</b>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 생명 안에서 다스림 -->
+              <div class="concept-card organic" style="background: linear-gradient(135deg, #fdf4ff, #f3e8ff); border-color: #d8b4fe; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.15); transform: scale(1.02); z-index: 5; justify-content: center;">
+                <div class="concept-icon" style="font-size: 46px; margin-bottom: 12px;">🌳 👑</div>
+                <div class="concept-header" style="color: #7e22ce; border-bottom-color: #e9d5ff; margin-bottom: 16px; padding-bottom: 12px;">신성한 관념</span></div>
+                <div class="concept-list" style="justify-content: flex-start;">
+                  <div class="concept-item" style="text-align: center; color: #581c87; font-weight: 700; word-break: keep-all; font-size: calc(15px * var(--font-scale)); line-height: 1.6;">
+                    우리 안에 있는<br>그리스도의 생명에 <b>온전히 복종</b>함으로써<br>
+                    이 생명의 모든 미덕과 풍성을<br>
+                    개인적으로뿐만 아니라 단체적으로<br>
+                    <b>살아 내고 표현하는 것</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="concept-banner" style="border-color: #d8b4fe; border-bottom: 5px solid #9333ea; background: #faf5ff; color: #4c1d95; padding: 18px 20px;">
+              <span style="font-size: 1.15em; font-weight: 800; display: block; margin-bottom: 6px;">그리스도의 모든 미덕과 풍성은</span>
+              그리스도와 함께 왕으로서 다스리는 생활을 통해 표현됩니다.
+            </div>
+          </div>
+
+          <div class="point-sub-section" style="margin-top: 24px;">
+            <div class="point-sub-title">✅ 적용</div>
+            <div class="point-sub-content">모든 이기는 이들은 천년왕국에서 그리스도와 함께 왕으로서 다스리는 상태 안으로 이끌릴 것이다. 서로를 받아들이고 서로 사랑하며 서로 용서하는 생활은 모두 <mark>그리스도와 함께 왕으로서 다스리는 생활의 방면들</mark>이다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="point-connector"><div class="connector-line"></div></div>
+
+  <!-- POINT 5 -->
+  <div class="point-card" id="point5">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-icon-wrap" style="background:#fef2f2; color:#dc2626;">🔥</div>
+      <div class="point-header-text">
+        <div class="point-num" style="color:#dc2626;">POINT 05</div>
+        <div class="point-title">왕의 자격 — 세 가지 준비</div>
+      </div>
+      <div class="point-chevron"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="point-verse-box" style="border-color:#dc2626;">
+          <div class="point-verse-header" style="color:#dc2626;">
+            <span class="bookmark-icon">🔖</span> 관련 성경구절
+          </div>
+          <div class="point-verse-text">
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#dc2626;">골 3:1-2</span> 위에 있는 것들을 추구하십시오. 거기에서 <mark>그리스도는 하나님의 오른편에 앉아 계십니다.</mark> 여러분은 위에 있는 것들을 생각하고, 땅에 있는 것들을 생각하지 마십시오.</div>
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#dc2626;">겔 1:26</span> 보좌의 모양 위에는 <mark>사람 같은 모습을 지니신 분</mark>께서 계셨다.</div>
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#dc2626;">계 2:26</span> 이기는 이와 나의 일을 끝까지 지키는 이에게는 내가 <mark>민족들을 다스리는 권위</mark>를 줄 것이다.</div>
+          </div>
+        </div>
+        <div class="point-content">
+          <div class="prep-intro">
+            그리스도와 함께 왕으로서 다스리는 단계는 갑자기 일어나지 않습니다. <br>
+            마치 어린 소년이 보좌를 물려받기 전에 훈련을 받듯, <b>성장과 성숙과 온전하게 됨이라는 준비 과정</b>이 수반되어야 합니다.
+          </div>
+
+          <div class="prep-steps-wrap">
+            <!-- 준비 1 -->
+            <div class="prep-step-card step-bg-1">
+              <div class="prep-step-num-box">
+                <div class="prep-num">1</div>
+                <div class="prep-text">준비</div>
+              </div>
+              <div class="prep-step-content">
+                <div class="prep-step-title">🌱 생명 안에서 성숙에 이름</div>
+                <div class="prep-step-desc">
+                  <div class="growth-visual">
+                    <div class="growth-stage">
+                      <div class="growth-icon">👦</div>
+                      <span>6살 소년</span>
+                    </div>
+                    <div class="growth-arrow-box">
+                      <div class="growth-arrow-line"></div>
+                      <div class="growth-arrow-text">시간 및 환경<br>(직장, 훈련, 압박, 요구)</div>
+                    </div>
+                    <div class="growth-stage end">
+                      <div class="growth-icon">👑</div>
+                      <span style="line-height:1.2;">영적인 무게를 지닌<br>공동 왕</span>
+                    </div>
+                  </div>
+                  
+                  <div class="gp-grid">
+                    <div class="gp-item">
+                      <strong>왕위 계승의 조건</strong>
+                      6살 소년이 왕가의 후계자라도, 자라서 판단력을 갖추기 전까지는 다스릴 수 없습니다.
+                    </div>
+                    <div class="gp-item">
+                      <strong>환경의 안배</strong>
+                      전시간 훈련이든 일반 직장이든, 주님이 안배하신 모든 환경(요구, 조건, 압박)은 우리를 성숙하게 하는 도구입니다.
+                    </div>
+                    <div class="gp-item">
+                      <strong>영적인 무게 (Spiritual Weight)</strong>
+                      깊이 뿌리를 내리고 장애물을 처리할 때, 시간이 지날수록 우리 안에 <mark>'영적인 무게'</mark>가 더해집니다.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 준비 2 -->
+            <div class="prep-step-card step-bg-2">
+              <div class="prep-step-num-box">
+                <div class="prep-num">2</div>
+                <div class="prep-text">준비</div>
+              </div>
+              <div class="prep-step-content">
+                <div class="prep-step-title">🪑 그리스도와 동일한 위치 고수</div>
+                <div class="prep-step-desc">
+                  <div class="anchor-visual">
+                    <div class="anchor-line-wrap">
+                      <div class="anchor-badge">유기적 연결 (엡 2:6)</div>
+                    </div>
+                    
+                    <div class="anchor-top">
+                      <div class="anchor-icon-img">🪑✨</div>
+                      <div class="anchor-top-title">하늘 보좌</div>
+                      <div class="anchor-top-sub">(Heavenly Throne)</div>
+                    </div>
+                    
+                    <div class="anchor-bottom">
+                      <div class="anchor-bottom-title">땅의 환경</div>
+                      <div class="anchor-bottom-sub">(Earthly Environment)</div>
+                      <div class="anchor-icon-img">⚓🌊</div>
+                    </div>
+                  </div>
+                  
+                  <div class="gp-grid">
+                    <div class="gp-item step2-item">
+                      <strong>위치의 유기적 연결</strong>
+                      우리는 그리스도께서 승천하셨을 때 이미 그분과 함께 <mark>하늘들의 영역 안</mark>에 앉혀졌습니다. (엡 2:6)
+                    </div>
+                    <div class="gp-item step2-item">
+                      <strong>감정을 초월한 견고함</strong>
+                      특별 집회 때 흥분했다가 환경이 어려워지면 사라지는 것은 <mark>보좌의 위치를 떠난 것</mark>입니다.
+                    </div>
+                    <div class="gp-item step2-item">
+                      <strong>실천적 적용</strong>
+                      땅의 일이 순조롭든 그렇지 않든, 감정과 환경에 휘둘리지 않고 <mark>그리스도께서 계신 그 견고한 위치</mark>에 머물러야 합니다. (골 3:1-2)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 준비 3 -->
+            <div class="prep-step-card step-bg-3">
+              <div class="prep-step-num-box">
+                <div class="prep-num">3</div>
+                <div class="prep-text">준비</div>
+              </div>
+              <div class="prep-step-content">
+                <div class="prep-step-title">⚖️ 제3기둥: 시팀 나무의 균형 잡힌 인성</div>
+                <div class="prep-step-desc">
+                  <div class="wood-visual">
+                    <div class="wood-sky">
+                      <div class="wood-label-top">시팀 나무 널빤지<br><span style="font-weight:500; font-size:0.9em;">(예수님의 높아진 인성)</span></div>
+                      <div class="wood-board"></div>
+                      <div class="wood-board"></div>
+                      <div class="wood-board"></div>
+                      <div class="wood-board"></div>
+                    </div>
+                    <div class="wood-ground">
+                      <div class="wood-ground-badge">부패한 땅</div>
+                      <div class="wood-ground-text">시기, 분노, 다툼, 분열 <span>(갈 5:19-21)</span></div>
+                    </div>
+                  </div>
+                  
+                  <div class="gp-grid">
+                    <div class="gp-item step3-item">
+                      <strong>육체의 일들 (탈락의 요인):</strong>
+                      시샘, 다툼, 분열, 분노 등을 습관적으로 일삼는 사람은 <mark>하나님의 왕국을 상속받지 못합니다.</mark> (갈 5:19-21)
+                    </div>
+                    <div class="gp-item step3-item">
+                      <strong>시팀 나무의 예표:</strong>
+                      어둡고 부패한 시대 속에서, 하나님은 성막의 널빤지처럼 단단하고 똑바로 선 <mark>'높아진 인성'</mark>을 필요로 하십니다.
+                    </div>
+                    <div class="gp-item step3-item">
+                      <strong>부활한 사람:</strong>
+                      천사나 일반적인 도덕주의자가 되는 것이 아닙니다. 예수님의 부활한 인성이 우리 안으로 <mark>일해 넣어질 때</mark> 합당한 왕의 자격을 갖추게 됩니다.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="point-connector"><div class="connector-line"></div></div>
+
+  <!-- POINT 6 -->
+  <div class="point-card" id="point6">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-icon-wrap" style="background:#ecfeff; color:#0891b2;">✨</div>
+      <div class="point-header-text">
+        <div class="point-num" style="color:#0891b2;">POINT 06</div>
+        <div class="point-title">첫째 부활 — 뛰어난 부활, 탁월한 부활</div>
+      </div>
+      <div class="point-chevron"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="point-verse-box" style="border-color:#0891b2;">
+          <div class="point-verse-header" style="color:#0891b2;">
+            <span class="bookmark-icon">🔖</span> 관련 성경구절
+          </div>
+          <div class="point-verse-text">
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#0891b2;">계 20:5-6</span> 이것이 <mark>첫째 부활</mark>입니다. … 첫째 부활에 참여하는 사람은 <mark>복이 있고 거룩</mark>합니다. 둘째 죽음은 그들을 다스리는 권세가 없습니다.</div>
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#0891b2;">빌 3:11</span> 어떻게 해서든지 죽은 사람들 가운데서 <mark>뛰어난 부활</mark>에 이르고자 합니다.</div>
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#0891b2;">요 5:29</span> 선을 행한 사람들은 <mark>생명의 부활</mark>에, 악을 일삼은 사람들은 심판의 부활에 이를 것입니다.</div>
+          </div>
+        </div>
+        <div class="point-content">
+          <p>'첫째'로 번역된 헬라어 단어는 누가복음 15장 22절에서 <mark>'제일 좋은'</mark>으로 번역된 것과 같은 단어이다. 아버지는 돌아온 탕자에 관련해서 "어서 그 제일 좋은 겉옷을 내어다 입히고"라고 말한다.</p>
+          <p>첫째 부활은 또한 <mark>'뛰어난 부활', 곧 사도 바울이 추구했던 탁월한 부활</mark>이다. 이것은 우등 졸업에 비할 수 있는 존귀한 부활이다.</p>
+          <p>학교에 출석하는 모든 학생이 졸업하겠지만, 가장 높은 성적을 얻은 이들은 <mark>우등생으로 탁월하게 졸업</mark>할 것이다.</p>
+          <div class="point-sub-section">
+            <div class="point-sub-title">📋 세 가지 부활 비교</div>
+            <div class="point-sub-content">
+              <p><b>① 첫째 부활 (뛰어난 부활)</b> — 이기는 이들이 천년왕국에서 그리스도와 함께 공동 왕으로서 다스릴 수 있도록 보상으로 주는 왕권을 수반하는 부활</p>
+              <p><b>② 생명의 부활</b> — 죽은 믿는 이들이 마지막 나팔 소리에 살아남 (고전 15:52)</p>
+              <p><b>③ 심판의 부활</b> — 죽은 믿지 않는 이들이 천년왕국 이후에 부활하여 크고 흰 보좌에서 심판을 받음 (계 20:11-12)</p>
+            </div>
+          </div>
+          <div class="point-sub-section">
+            <div class="point-sub-title">✅ 우리의 추구</div>
+            <div class="point-sub-content">우리는 단지 생명의 부활로 만족해서는 안 된다. 그보다 <mark>천년왕국에 참여하는 것을 보상으로 받기를 추구</mark>해야 한다. 이것이 뛰어난 부활이다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="point-connector"><div class="connector-line"></div></div>
+
+  <!-- POINT 7 -->
+  <div class="point-card" id="point7">
+    <div class="point-header" onclick="togglePoint(this)">
+      <div class="point-icon-wrap" style="background:#fdf2f8; color:#be185d;">⛪</div>
+      <div class="point-header-text">
+        <div class="point-num" style="color:#be185d;">POINT 07</div>
+        <div class="point-title">제사장과 왕 — 이기는 이들에게 주어지는 보상</div>
+      </div>
+      <div class="point-chevron"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+    <div class="point-body">
+      <div class="point-body-inner">
+        <div class="point-verse-box" style="border-color:#be185d;">
+          <div class="point-verse-header" style="color:#be185d;">
+            <span class="bookmark-icon">🔖</span> 관련 성경구절
+          </div>
+          <div class="point-verse-text">
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#be185d;">계 20:6</span> 그들은 하나님과 그리스도의 <mark>제사장들</mark>이 되어, 천 년 동안 그리스도와 함께 <mark>왕으로서 다스릴</mark> 것입니다.</div>
+            <div class="verse-item"><span class="verse-ref-tag" style="color:#be185d;">계 2:26-27</span> 이기는 이와 나의 일을 끝까지 지키는 이에게는 내가 <mark>민족들을 다스리는 권위</mark>를 줄 것이다. 그는 질그릇들을 부수듯이, 쇠막대기로 그들을 다스릴 것이다.</div>
+          </div>
+        </div>
+        <div class="point-content">
+          <p>이기는 이들은 하나님을 접촉하는 <mark>제사장들</mark>이 될 것이며, 또한 천년왕국에서 그리스도와 함께 민족들을 왕으로서 다스리는 <mark>공동 왕들</mark>이 될 것이다.</p>
+          <div class="point-sub-section">
+            <div class="point-sub-title">⛪ 제사장 직분</div>
+            <div class="point-sub-content">필요가 있는 사람을 하나님께로 이끌고 <mark>하나님을 사람에게 공급</mark>할 것이다.</div>
+          </div>
+          <div class="point-sub-section">
+            <div class="point-sub-title">👑 왕의 직분</div>
+            <div class="point-sub-content"><mark>권위를 가지신 하나님을 사람에게 모셔 오고</mark> 하나님을 대표해서 사람을 목양할 것이다.</div>
+          </div>
+          <p style="margin-top:14px;">우리의 제사장 직분과 왕의 직분을 통해 <mark>하나님과 사람 모두가 완전히 만족</mark>할 것이다. 이 영역에는 약함이나 질병이나 괴로움이나 고난이 없을 것이다. 그리스도의 왕국은 그분께서 그분의 이기는 이들과 함께 왕으로서 다스리시기 위해 있을 것이다. <b>이것은 얼마나 놀라울 것인가!</b></p>
+          <p>이 복은 틀림없이 <mark>최고의 복</mark>, 곧 땅에 나타난 왕국을 상속받고 더 나아가 그 왕국 안에서 왕들이 되는 복이다. 이것이 이기는 이들에게 주어지는 보상이다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz-section" id="quiz">
+  <div class="quiz-title">❓ 이해도 퀴즈</div>
+  <div class="quiz-subtitle">5문제를 풀고 최종 점수를 확인하세요</div>
+
+  <!-- Q1 -->
+  <div class="quiz-card" data-correct="2" data-hint="하나님의 목표는 단지 죄와 세상에서 구원하는 '낮은 수준'의 구원이 아닙니다.">
+    <div class="quiz-q-header">
+      <div class="quiz-badge">1</div>
+      <div class="quiz-q-text">하나님의 완전한 구원의 가장 높은 목표는 무엇인가?</div>
+    </div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="selectOpt(this,0)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">죄와 세상에서 구원받는 것</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,1)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">영원한 멸망에서 벗어나는 것</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,2)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">우리를 보좌에 이르게 하여 그리스도와 함께 왕으로서 다스리는 것</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,3)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">교회 생활에 참여하는 것</div></div>
+    </div>
+    <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+    <div class="quiz-hint-text"></div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="quiz-card" data-correct="1" data-hint="천연적인 관념에 따르면 다른 사람들을 지배하고 명령하는 것이지만, 참된 의미는 정반대입니다.">
+    <div class="quiz-q-header">
+      <div class="quiz-badge">2</div>
+      <div class="quiz-q-text">생명 안에서 왕으로서 다스리는 것의 참된 의미는 무엇인가?</div>
+    </div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="selectOpt(this,0)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">높은 자리에서 다른 사람들에게 명령하는 것</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,1)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">그리스도의 생명에 온전히 복종하여 그 미덕과 풍성을 살아 내는 것</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,2)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">교회에서 지도자 위치에 오르는 것</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,3)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">세상의 권력을 얻는 것</div></div>
+    </div>
+    <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+    <div class="quiz-hint-text"></div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="quiz-card" data-correct="3" data-hint="이 세 항목은 성숙, 위치, 인성과 관련되어 있습니다.">
+    <div class="quiz-q-header">
+      <div class="quiz-badge">3</div>
+      <div class="quiz-q-text">그리스도와 함께 공동 왕으로서 다스리기 위한 세 가지 준비 항목에 해당하지 않는 것은?</div>
+    </div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="selectOpt(this,0)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">생명 안에서 성숙에 이르는 것</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,1)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">그리스도와 동일한 위치를 나누는 것</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,2)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">높아지고 균형 잡힌 인성</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,3)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">많은 성경 지식을 암기하는 것</div></div>
+    </div>
+    <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+    <div class="quiz-hint-text"></div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="quiz-card" data-correct="0" data-hint="'첫째'로 번역된 헬라어 단어는 누가복음 15장 22절에서 특별한 의미로 번역된 것과 같은 단어입니다.">
+    <div class="quiz-q-header">
+      <div class="quiz-badge">4</div>
+      <div class="quiz-q-text">요한계시록 20장 6절의 '첫째 부활'은 어떤 성격의 부활인가?</div>
+    </div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="selectOpt(this,0)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">뛰어난 부활 곧 탁월한 부활로, 왕권을 수반하는 보상의 부활</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,1)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">모든 믿는 이들이 참여하는 일반적인 부활</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,2)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">심판을 위한 부활</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,3)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">시간 순서상 가장 먼저 일어나는 부활</div></div>
+    </div>
+    <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+    <div class="quiz-hint-text"></div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="quiz-card" data-correct="2" data-hint="이기는 이들은 두 가지 직분을 받습니다. 하나는 하나님을 접촉하고, 다른 하나는 권위를 행사하는 것입니다.">
+    <div class="quiz-q-header">
+      <div class="quiz-badge">5</div>
+      <div class="quiz-q-text">천년왕국에서 이기는 이들의 이중 직분으로 올바른 것은?</div>
+    </div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="selectOpt(this,0)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">교사와 선지자</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,1)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">사도와 목자</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,2)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">제사장과 왕</div></div>
+      <div class="quiz-opt" onclick="selectOpt(this,3)"><div class="quiz-opt-radio"></div><div class="quiz-opt-text">전도자와 집사</div></div>
+    </div>
+    <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+    <div class="quiz-hint-text"></div>
+    <div class="quiz-feedback"></div>
+  </div>
+
+  <button class="quiz-submit-btn" id="quizSubmit" onclick="submitQuiz()">채점하기</button>
+
+  <div class="quiz-result" id="quizResult">
+    <div class="quiz-score" id="quizScore"></div>
+    <div class="quiz-score-text">5문제 중</div>
+    <div class="quiz-result-msg" id="quizMsg"></div>
+  </div>
+</section>
+
+<!-- PRAYER -->
+<section class="prayer-section" id="prayer">
+  <div class="prayer-card">
+    <div class="prayer-title">오늘의 기도</div>
+    <div class="prayer-text">
+      <p>주님, 저는 당신과 함께 왕으로서 다스리고 싶습니다. 훈련받기 위해, 온전하게 되기 위해, 이 왕의 생명을 살아 내기 위해, 당신과 함께 왕으로서 다스릴 수 있는 자격을 얻기 위해 제 자신을 내드리겠습니다.</p>
+      <p>주님, 우리가 뛰어난 부활에 이르기를 원합니다. 우리에게 긍휼과 특별한 은혜를 베푸시어 당신과 협력하여 간신히 이르는 것이 아니라 뛰어난 부활 곧 탁월한 부활에 이르러 천년왕국에서 당신과 함께 공동 왕들로서 다스리게 해 주십시오.</p>
+      <p>주님, 저의 시선이 왕국에 있기 원합니다. 저를 속사람에 이르도록 강하게 해 주시고 제 마음에 거처를 정하여 주십시오. 제게 깊은 뿌리가 있게 하시고, 얄팍하고 피상적인 상태에서 구출하여 주님을 추구하고 주님 안에 깊이 뿌리를 내리게 하여 주십시오. 제 안에 있는 모든 좌절시키는 요인과 위선과 장애물을 처리하시어, 주님의 생명이 제 안에서 자라고 저를 성숙에 이르도록 이끌 수 있는 막힘없는 길을 얻게 하여 주십시오. 아멘.</p>
+    </div>
+  </div>
+</section>
+
+<div class="footer">
+  요한계시록 20:4-6 · 신약의 결론 메시지 427
+</div>
+
+</div><!-- container -->
+</div><!-- main-content -->
+
+<script>
+// Font size adjustment
+let fontScale = 1;
+function adjustFont(dir) {
+  if (dir === 0) fontScale = 1;
+  else if (dir === 1) fontScale = Math.min(fontScale + 0.08, 1.5);
+  else fontScale = Math.max(fontScale - 0.08, 0.7);
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+}
+
+// Side panel
+function togglePanel() {
+  document.getElementById('sidePanel').classList.toggle('active');
+  document.getElementById('overlay').classList.toggle('active');
+}
+function closePanel() {
+  document.getElementById('sidePanel').classList.remove('active');
+  document.getElementById('overlay').classList.remove('active');
+}
+
+// Keyword chips
+let activeKw = -1;
+function toggleKw(i) {
+  const chips = document.querySelectorAll('.kw-chip');
+  const details = document.querySelectorAll('.kw-detail');
+  if (activeKw === i) {
+    chips[i].classList.remove('active');
+    details[i].classList.remove('show');
+    activeKw = -1;
+  } else {
+    chips.forEach(c => c.classList.remove('active'));
+    details.forEach(d => d.classList.remove('show'));
+    chips[i].classList.add('active');
+    details[i].classList.add('show');
+    activeKw = i;
+  }
+}
+function showKwDetail(i) {
+  const chips = document.querySelectorAll('.kw-chip');
+  const details = document.querySelectorAll('.kw-detail');
+  chips.forEach(c => c.classList.remove('active'));
+  details.forEach(d => d.classList.remove('show'));
+  chips[i].classList.add('active');
+  details[i].classList.add('show');
+  activeKw = i;
+}
+
+// Side panel keyword toggles
+document.querySelectorAll('.sub-item[data-kw]').forEach(el => {
+  el.addEventListener('click', function(e) {
+    const idx = parseInt(this.dataset.kw);
+    const popup = document.getElementById('kwPopup' + idx);
+    if (popup.classList.contains('show')) {
+      popup.classList.remove('show');
+    } else {
+      document.querySelectorAll('.keyword-popup').forEach(p => p.classList.remove('show'));
+      popup.classList.add('show');
+    }
+  });
+});
+
+// Accordion
+function togglePoint(header) {
+  const card = header.parentElement;
+  const body = card.querySelector('.point-body');
+  if (card.classList.contains('open')) {
+    card.classList.remove('open');
+    body.style.maxHeight = null;
+  } else {
+    card.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+}
+
+// Observe for resize
+const ro = new ResizeObserver(entries => {
+  entries.forEach(e => {
+    const card = e.target.closest('.point-card');
+    if (card && card.classList.contains('open')) {
+      const body = card.querySelector('.point-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+});
+document.querySelectorAll('.point-body-inner').forEach(el => ro.observe(el));
+
+// Quiz
+function selectOpt(el, idx) {
+  const card = el.closest('.quiz-card');
+  if (card.dataset.answered) return;
+  card.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  card.dataset.selected = idx;
+}
+
+function toggleHint(btn) {
+  const card = btn.closest('.quiz-card');
+  const hintText = card.querySelector('.quiz-hint-text');
+  if (hintText.classList.contains('show')) {
+    hintText.classList.remove('show');
+    btn.textContent = '💡 힌트 보기';
+  } else {
+    hintText.textContent = card.dataset.hint;
+    hintText.classList.add('show');
+    btn.textContent = '💡 힌트 숨기기';
+  }
+}
+
+function submitQuiz() {
+  const cards = document.querySelectorAll('.quiz-card');
+  let score = 0;
+  let allAnswered = true;
+
+  cards.forEach(card => {
+    if (card.dataset.selected === undefined) { allAnswered = false; return; }
+    card.dataset.answered = 'true';
+    const sel = parseInt(card.dataset.selected);
+    const cor = parseInt(card.dataset.correct);
+    const opts = card.querySelectorAll('.quiz-opt');
+    const fb = card.querySelector('.quiz-feedback');
+
+    if (sel === cor) {
+      score++;
+      opts[sel].classList.remove('selected');
+      opts[sel].classList.add('correct');
+      fb.className = 'quiz-feedback show correct-fb';
+      fb.textContent = '✅ 정답입니다!';
+    } else {
+      opts[sel].classList.remove('selected');
+      opts[sel].classList.add('wrong');
+      opts[cor].classList.add('correct');
+      fb.className = 'quiz-feedback show wrong-fb';
+      fb.textContent = '❌ 오답입니다. 정답을 확인하세요.';
+    }
+  });
+
+  if (!allAnswered) {
+    alert('모든 문제에 답을 선택해 주세요.');
+    return;
+  }
+
+  const result = document.getElementById('quizResult');
+  document.getElementById('quizScore').textContent = score + ' / 5';
+  const msgs = [
+    '다시 한 번 핵심 요점을 읽어 보세요!',
+    '조금 더 살펴보면 좋겠습니다!',
+    '잘 이해하고 계시네요!',
+    '훌륭합니다! 거의 완벽해요!',
+    '대단합니다! 메시지의 핵심을 잘 이해하셨습니다!',
+    '완벽합니다! 메시지의 핵심을 정확히 이해하셨습니다!'
+  ];
+  document.getElementById('quizMsg').textContent = msgs[score];
+  result.classList.add('show');
+  document.getElementById('quizSubmit').disabled = true;
+  result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Intro Layer
+function closeIntroLayer() {
+  document.getElementById('introLayer').classList.add('hidden');
+  document.body.classList.remove('no-scroll');
+}
+</script>
+</body>
+</html>
