@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우주적 청소와 신혼여행 — 요한계시록 19장</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base-font-size: 19px;
+  --font-scale: 1;
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #333333;
+  --highlight: #ffe066;
+  --highlight-soft: #fff8dc;
+  --border: #e0e0e0;
+  --accent-1: #2563eb;
+  --accent-2: #059669;
+  --accent-3: #d97706;
+  --accent-4: #dc2626;
+  --accent-5: #7c3aed;
+  --accent-6: #0891b2;
+  --accent-7: #be185d;
+  --card-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  --topbar-h: 44px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 52px; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.75;
+  padding-top: var(--topbar-h);
+}
+
+/* ===== INTRO LAYER (레이어 벗기기) ===== */
+.intro-layer {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 9999; display: flex; flex-direction: row;
+  transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s;
+  background: #000;
+}
+.intro-layer.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.intro-half {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  padding: 40px; position: relative;
+}
+.intro-left {
+  background: linear-gradient(135deg, #ffffff 40%, #e6e6e6 100%);
+  color: #1a1a1a; align-items: flex-end; text-align: right;
+  border-right: 1px solid #d4af37;
+}
+.intro-right {
+  background: linear-gradient(135deg, #3a0000 0%, #0a0000 60%);
+  color: #fff; align-items: flex-start; text-align: left;
+  border-left: 1px solid #ff4d4d;
+}
+.intro-content { max-width: 360px; z-index: 2; }
+.intro-title { font-size: calc(26px * var(--font-scale)); font-weight: 900; margin-bottom: 5px; word-break: keep-all; letter-spacing: -0.5px; }
+.intro-left .intro-title { color: #b8860b; }
+.intro-right .intro-title { color: #ff4d4d; text-shadow: 0 0 15px rgba(255,0,0,0.6); }
+.intro-ref { font-size: calc(16px * var(--font-scale)); font-weight: 600; margin-bottom: 24px; opacity: 0.8; }
+.intro-text { font-size: calc(16px * var(--font-scale)); line-height: 1.6; word-break: keep-all; }
+
+.intro-center-badge {
+  position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%);
+  background: #ffffff; color: #1a1a1a; padding: 18px 28px;
+  border: 2px solid #d4af37; border-radius: 8px;
+  font-weight: 700; font-size: calc(16px * var(--font-scale)); text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6); z-index: 10;
+  width: 85%; max-width: 520px; word-break: keep-all; line-height: 1.5;
+}
+
+.intro-start-btn {
+  position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(90deg, #d4af37, #ff4d4d); color: white;
+  border: none; padding: 15px 35px; font-size: calc(16px * var(--font-scale)); font-weight: 700;
+  border-radius: 30px; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  z-index: 10; font-family: inherit; transition: transform 0.2s;
+  animation: pulseBtn 2s infinite; letter-spacing: 0.5px;
+}
+.intro-start-btn:active { transform: translateX(-50%) scale(0.95); }
+
+@keyframes pulseBtn {
+  0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+
+/* ===== TOP BAR ===== */
+.topbar {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  height: var(--topbar-h);
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 6px;
+  gap: 2px;
+}
+.topbar button {
+  background: none; border: none; cursor: pointer;
+  width: 34px; height: 34px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text); flex-shrink:0;
+  font-size: 16px;
+}
+.topbar button:hover { background: #f3f4f6; }
+.topbar-title {
+  flex: 1; min-width: 0;
+  overflow-x: auto; white-space: nowrap;
+  font-size: 14px; font-weight: 600; color: var(--text);
+  padding: 0 4px;
+  -ms-overflow-style: none; scrollbar-width: none;
+}
+.topbar-title::-webkit-scrollbar { display:none; }
+.font-controls {
+  display:flex; align-items:center; gap:1px; flex-shrink:0;
+  background: #f5f5f5; border-radius:6px; padding:2px;
+}
+.font-controls button {
+  width:30px; height:28px; font-size:14px; font-weight:600;
+  border-radius:4px;
+}
+
+/* ===== SIDE PANEL ===== */
+.overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:1001; }
+.overlay.open { display:block; }
+.side-panel {
+  position:fixed; top:0; left:-300px; width:280px; height:100%;
+  background:#fff; z-index:1002; transition:left .3s ease;
+  overflow-y:auto; padding:16px 0;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+}
+.side-panel.open { left:0; }
+.side-panel .panel-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 16px 12px; border-bottom:1px solid var(--border); margin-bottom:8px;
+}
+.side-panel .panel-header h3 { font-size:15px; font-weight:700; }
+.side-panel .close-btn {
+  background:none; border:none; cursor:pointer; font-size:20px; color:#666; padding:4px;
+}
+.nav-item {
+  display:block; padding:10px 20px; text-decoration:none;
+  color: var(--text); font-size:14px; font-weight:500;
+  transition: background .15s;
+}
+.nav-item:hover { background:#f5f5f5; }
+.nav-item.sub { padding-left:40px; font-size:13px; font-weight:400; color:var(--text-secondary); }
+.nav-item .nav-icon { margin-right:8px; font-size:13px; }
+.nav-divider { height:1px; background:var(--border); margin:6px 16px; }
+
+/* Keyword tooltip in panel */
+.keyword-item {
+  padding:10px 20px; cursor:pointer; font-size:13px; font-weight:400;
+  color:var(--text-secondary); padding-left:40px; transition: background .15s;
+}
+.keyword-item:hover { background:#f5f5f5; }
+.keyword-def {
+  display:none; padding:6px 20px 10px 50px; font-size:12px; line-height:1.6;
+  color:#555; background:#fafafa; border-left:3px solid var(--highlight);
+}
+.keyword-def.open { display:block; }
+
+/* ===== MAIN CONTENT ===== */
+.container { max-width:720px; margin:0 auto; padding:20px 16px 40px; }
+
+/* Title Section */
+.title-section { text-align:center; padding:32px 0 20px; }
+.title-section .book-ref {
+  display:inline-block; font-size:12px; font-weight:600; color:var(--accent-1);
+  background:#eff6ff; padding:4px 12px; border-radius:20px; margin-bottom:12px;
+  letter-spacing:0.5px;
+}
+.title-section h1 {
+  font-size:calc(24px * var(--font-scale)); font-weight:900; line-height:1.4;
+  color:var(--text); margin-bottom:8px;
+}
+.title-section .subtitle {
+  font-size:calc(14px * var(--font-scale)); color:var(--text-secondary);
+  font-weight:400; line-height:1.6;
+}
+.title-verse {
+  margin-top:16px; padding:14px 18px;
+  background:#f8fafc; border-left:3px solid var(--accent-1);
+  border-radius:0 8px 8px 0; text-align:left;
+  font-size:calc(14px * var(--font-scale)); color:var(--text-secondary); line-height:1.8;
+}
+.title-verse .verse-ref { font-weight:600; color:var(--accent-1); }
+
+/* ===== DASHBOARD ===== */
+.dashboard {
+  margin:24px 0; padding:20px;
+  background:#fafbfc; border:1px solid var(--border); border-radius:12px;
+}
+.dashboard h2 {
+  font-size:calc(15px * var(--font-scale)); font-weight:700; margin-bottom:16px;
+  display:flex; align-items:center; gap:8px;
+}
+.dashboard h2 .icon { font-size:18px; }
+.flow-steps {
+  display:flex; flex-direction:column; gap:0;
+}
+.flow-step {
+  display:flex; align-items:flex-start; gap:12px; position:relative;
+  padding:10px 0;
+}
+.flow-step:not(:last-child)::after {
+  content:''; position:absolute; left:15px; top:36px; bottom:-6px;
+  width:2px; background:var(--border);
+}
+.flow-dot {
+  width:30px; height:30px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:700; color:#fff;
+}
+.flow-content { flex:1; }
+.flow-content .flow-title {
+  font-size:calc(13px * var(--font-scale)); font-weight:600; color:var(--text);
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+}
+.dashboard-verse {
+  font-size:calc(11px * var(--font-scale)); font-weight:700; color:var(--accent-1);
+  background:#eff6ff; padding:2px 8px; border-radius:10px; letter-spacing:0.5px; margin-bottom: 2px;
+}
+.flow-content .flow-desc {
+  font-size:calc(12px * var(--font-scale)); color:var(--text-secondary); margin-top:2px;
+}
+
+/* Dashboard Verse Box */
+.verse-box {
+  margin-top: 12px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-size: calc(13.5px * var(--font-scale));
+  color: var(--text-secondary);
+  line-height: 1.65;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.05);
+  position: relative;
+}
+.verse-box::before {
+  content: '"';
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  font-size: 45px;
+  color: rgba(0,0,0,0.06);
+  font-family: serif;
+  font-style: italic;
+  line-height: 1;
+}
+.vb-1 { border-left: 4px solid var(--accent-1); background: #f0f7ff; }
+.vb-2 { border-left: 4px solid var(--accent-2); background: #ecfdf5; }
+.vb-3 { border-left: 4px solid var(--accent-5); background: #f5f3ff; }
+.vb-4 { border-left: 4px solid var(--accent-4); background: #fef2f2; }
+.vb-5 { border-left: 4px solid var(--accent-6); background: #ecfeff; }
+.vb-6 { border-left: 4px solid var(--accent-3); background: #fffbeb; }
+
+.vb-ref-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-right: 6px;
+  margin-bottom: 4px;
+  vertical-align: middle;
+}
+.vb-1 .vb-ref-badge { background: rgba(37, 99, 235, 0.15); color: var(--accent-1); }
+.vb-2 .vb-ref-badge { background: rgba(5, 150, 105, 0.15); color: var(--accent-2); }
+.vb-3 .vb-ref-badge { background: rgba(124, 58, 237, 0.15); color: var(--accent-5); }
+.vb-4 .vb-ref-badge { background: rgba(220, 38, 38, 0.15); color: var(--accent-4); }
+.vb-5 .vb-ref-badge { background: rgba(8, 145, 178, 0.15); color: var(--accent-6); }
+.vb-6 .vb-ref-badge { background: rgba(217, 119, 6, 0.15); color: var(--accent-3); }
+
+.vb-item { margin-bottom: 10px; z-index: 1; position: relative; }
+.vb-item:last-child { margin-bottom: 0; }
+
+.v-hl {
+  background: linear-gradient(180deg, transparent 60%, var(--highlight) 40%);
+  font-weight: 700;
+  color: var(--text);
+  padding: 0 2px;
+}
+
+/* ===== KEYWORDS ===== */
+.keywords-section {
+  margin:20px 0; padding:16px 18px;
+  background:#fff; border:1px solid var(--border); border-radius:12px;
+}
+.keywords-section h2 {
+  font-size:calc(15px * var(--font-scale)); font-weight:700; margin-bottom:12px;
+  display:flex; align-items:center; gap:8px;
+}
+.keyword-tags { display:flex; flex-wrap:wrap; gap:8px; }
+.keyword-tag {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:5px 12px; border-radius:20px;
+  font-size:calc(12px * var(--font-scale)); font-weight:500;
+  cursor:pointer; transition:all .2s;
+  border:1px solid var(--border); background:#fafafa; color:var(--text);
+}
+.keyword-tag:hover { background:var(--highlight-soft); border-color:var(--highlight); }
+.keyword-tag .kw-icon { font-size:12px; }
+.keyword-tooltip {
+  display:none; margin-top:12px; padding:12px 16px;
+  background:var(--highlight-soft); border-radius:8px;
+  font-size:calc(13px * var(--font-scale)); line-height:1.7; color:var(--text-secondary);
+  border-left:3px solid var(--highlight);
+}
+.keyword-tooltip.open { display:block; }
+.keyword-tooltip strong { color:var(--text); }
+
+/* ===== ACCORDION ===== */
+.points-section { margin-top:24px; }
+.points-section > h2 {
+  font-size:calc(16px * var(--font-scale)); font-weight:700; margin-bottom:16px;
+  display:flex; align-items:center; gap:8px;
+}
+.accordion-item {
+  margin-bottom:12px; border:1px solid var(--border);
+  border-radius:12px; overflow:hidden; background:#fff;
+  transition: box-shadow .2s;
+}
+.accordion-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.accordion-header {
+  display:flex; align-items:center; gap:10px;
+  padding:14px 16px; cursor:pointer; user-select:none;
+  transition: background .15s;
+}
+.accordion-header:hover { background:#fafafa; }
+.acc-icon {
+  width:36px; height:36px; border-radius:10px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; color:#fff;
+}
+.acc-num {
+  font-size:11px; font-weight:700; color:#fff; background:rgba(255,255,255,0.3);
+  width:18px; height:18px; border-radius:50%; display:flex;
+  align-items:center; justify-content:center; position:absolute;
+  top:-4px; right:-4px;
+}
+.acc-icon-wrap { position:relative; }
+.acc-title-text {
+  flex:1; font-size:calc(15px * var(--font-scale)); font-weight:600; color:var(--text);
+}
+.acc-arrow {
+  flex-shrink:0; font-size:14px; color:#aaa; transition:transform .3s;
+}
+.accordion-item.open .acc-arrow { transform:rotate(180deg); }
+.accordion-body {
+  max-height:0; overflow:hidden; transition:max-height .4s ease;
+}
+.accordion-inner {
+  padding:0 16px 18px;
+}
+
+/* Bible verse block */
+.bible-block {
+  margin-bottom:14px; padding:12px 14px;
+  background:#f0f7ff; border-radius:8px;
+  border-left:3px solid var(--accent-1);
+}
+.bible-block-title {
+  display:flex; align-items:center; gap:6px;
+  font-size:calc(12px * var(--font-scale)); font-weight:600; color:var(--accent-1);
+  margin-bottom:8px;
+}
+.bible-block-title .bk-icon { font-size:14px; }
+.bible-verse-item {
+  font-size:calc(14px * var(--font-scale)); line-height:1.8;
+  color:var(--text-secondary); margin-bottom:6px;
+  padding-left:4px;
+}
+.bible-verse-item:last-child { margin-bottom:0; }
+.bible-verse-item .vref { font-weight:600; color:var(--accent-1); font-size:calc(12px * var(--font-scale)); }
+
+/* Point content */
+.point-content { font-size:calc(15px * var(--font-scale)); line-height:1.85; color:var(--text-secondary); }
+.point-content p { margin-bottom:10px; }
+.point-content p:last-child { margin-bottom:0; }
+.point-subhead {
+  font-weight:600; color:var(--text); font-size:calc(14px * var(--font-scale));
+  margin:14px 0 6px; display:flex; align-items:center; gap:6px;
+}
+.point-subhead .sh-icon { font-size:13px; }
+
+.hl { background:var(--highlight); padding:1px 3px; border-radius:3px; font-weight:600; color:var(--text); }
+.bold { font-weight:600; color:var(--text); }
+
+/* 시각적 대결 다이어그램 (Point 1 구체적 사례용) */
+.clash-diagram {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: #0f172a; padding: 24px 20px; border-radius: 8px; margin: 16px 0;
+  position: relative; overflow: hidden;
+}
+.clash-top { color: #ffffff; text-align: center; font-weight: 700; margin-bottom: 5px; font-size: 15px; }
+.clash-bottom { color: #ef4444; text-align: center; font-weight: 700; margin-top: 5px; font-size: 15px; }
+.clash-sub { font-size: 12px; font-weight: 400; opacity: 0.8; display: block; margin-top: 2px;}
+.clash-center-box {
+  border: 1.5px solid #fbbf24; color: #fbbf24; padding: 8px 16px;
+  font-weight: 700; text-align: center; font-size: 14px;
+  background: rgba(0,0,0,0.6); z-index: 2; line-height: 1.4;
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.15); margin: 8px 0;
+}
+.clash-arrow-down { color: #ffffff; font-size: 24px; line-height: 1; }
+.clash-arrow-up { color: #ef4444; font-size: 28px; line-height: 1; }
+
+/* ===== SECTION 1 & 2 SPECIAL STYLES ===== */
+.army-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: calc(13px * var(--font-scale)); background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+.army-table th { background: #f8fafc; padding: 12px 10px; text-align: left; border-bottom: 2px solid #cbd5e1; color: var(--text); font-weight: 700; }
+.army-table td { padding: 12px 10px; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; line-height: 1.5; }
+.army-table tr:last-child td { border-bottom: none; }
+.army-table .th-sky { color: var(--accent-1); }
+.army-table .th-earth { color: var(--accent-4); }
+
+.hm-cards { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+.hm-card { background: #f8fafc; border-left: 4px solid var(--accent-3); padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.hm-card-title { font-weight: 700; margin-bottom: 6px; font-size: 15px; display: flex; align-items: center; gap: 6px; }
+.hm-card-desc { font-size: calc(14px * var(--font-scale)); color: var(--text-secondary); line-height: 1.6; word-break: keep-all; }
+
+.tp-container { background: #0f172a; border-radius: 8px; padding: 20px 16px; display: flex; flex-direction: column; gap: 8px; margin: 16px 0; box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
+.tp-item { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 16px; text-align: center; }
+.tp-item-title { font-weight: 700; font-size: 15px; margin-bottom: 6px; letter-spacing: 0.5px; }
+.tp-item-desc { font-size: 13px; color: #cbd5e1; line-height: 1.5; word-break: keep-all; }
+.tp-arrow-down { text-align: center; color: #fbbf24; font-size: 20px; line-height: 1.2; margin: 4px 0; }
+.tp-arrow-text { display: inline-block; font-size: 12px; font-weight: 700; margin-top: 4px; color: #fcd34d; background: rgba(245, 158, 11, 0.15); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+/* Flow connector between accordions */
+.flow-connector {
+  display:flex; justify-content:center; padding:4px 0;
+}
+.flow-connector .arrow-down {
+  width:2px; height:20px; background:var(--border); position:relative;
+}
+.flow-connector .arrow-down::after {
+  content:'▼'; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%);
+  font-size:10px; color:#ccc;
+}
+
+/* ===== QUIZ ===== */
+.quiz-section {
+  margin-top:32px; padding:20px 18px;
+  background:#fafbfc; border:1px solid var(--border); border-radius:12px;
+}
+.quiz-section h2 {
+  font-size:calc(16px * var(--font-scale)); font-weight:700; margin-bottom:16px;
+  display:flex; align-items:center; gap:8px;
+}
+.quiz-item { margin-bottom:20px; }
+.quiz-q {
+  display:flex; align-items:flex-start; gap:10px; margin-bottom:10px;
+}
+.quiz-badge {
+  width:28px; height:28px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700; color:#fff; background:var(--accent-1);
+}
+.quiz-q-text { font-size:1rem; font-weight:600; color:var(--text); line-height:1.6; padding-top:2px; }
+.quiz-options { display:flex; flex-direction:column; gap:6px; margin-left:38px; }
+.quiz-opt {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 14px; border-radius:8px; cursor:pointer;
+  border:1px solid var(--border); background:#fff;
+  font-size:1rem; color:var(--text-secondary); transition:all .15s;
+  line-height:1.5;
+}
+.quiz-opt:hover { background:#f8f9fa; border-color:#ccc; }
+.quiz-opt.selected { border-color:var(--accent-1); background:#eff6ff; color:var(--text); }
+.quiz-opt.correct { border-color:var(--accent-2); background:#ecfdf5; color:var(--accent-2); }
+.quiz-opt.wrong { border-color:var(--accent-4); background:#fef2f2; color:var(--accent-4); }
+.quiz-opt .opt-circle {
+  width:18px; height:18px; border-radius:50%; border:2px solid #ccc;
+  flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  font-size:11px; transition:all .15s;
+}
+.quiz-opt.selected .opt-circle { border-color:var(--accent-1); background:var(--accent-1); color:#fff; }
+.quiz-opt.correct .opt-circle { border-color:var(--accent-2); background:var(--accent-2); color:#fff; }
+.quiz-opt.wrong .opt-circle { border-color:var(--accent-4); background:var(--accent-4); color:#fff; }
+
+.quiz-hint-btn {
+  display:inline-flex; align-items:center; gap:4px;
+  margin:8px 0 0 38px; padding:5px 12px; border-radius:6px;
+  background:#fff8dc; border:1px solid #f0e68c; cursor:pointer;
+  font-size:13px; color:#b8860b; font-weight:500; transition:all .15s;
+}
+.quiz-hint-btn:hover { background:#fff3b0; }
+.quiz-hint {
+  display:none; margin:6px 0 0 38px; padding:8px 12px;
+  background:#fff8dc; border-radius:6px; font-size:13px;
+  color:#8b7000; line-height:1.6;
+}
+.quiz-hint.open { display:block; }
+.quiz-feedback {
+  display:none; margin:6px 0 0 38px; padding:6px 12px;
+  border-radius:6px; font-size:13px; font-weight:500;
+}
+
+.quiz-submit {
+  display:block; width:100%; padding:12px; margin-top:16px;
+  background:var(--accent-1); color:#fff; border:none; border-radius:8px;
+  font-size:1rem; font-weight:600; cursor:pointer; transition:background .15s;
+  font-family:'Noto Sans KR',sans-serif;
+}
+.quiz-submit:hover { background:#1d4ed8; }
+.quiz-result {
+  display:none; margin-top:16px; padding:16px;
+  background:#fff; border:1px solid var(--border); border-radius:10px; text-align:center;
+}
+.quiz-score { font-size:calc(28px * var(--font-scale)); font-weight:900; color:var(--accent-1); }
+.quiz-msg { font-size:1rem; color:var(--text-secondary); margin-top:6px; }
+
+/* ===== PRAYER ===== */
+.prayer-section {
+  margin-top:32px; padding:24px 20px;
+  background:linear-gradient(135deg,#f8fafc,#f0f7ff);
+  border:1px solid #dbeafe; border-radius:12px; text-align:center;
+}
+.prayer-section h2 {
+  font-size:calc(16px * var(--font-scale)); font-weight:700; margin-bottom:16px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.prayer-text {
+  font-size:calc(15px * var(--font-scale)); line-height:2; color:var(--text-secondary);
+  text-align:left; white-space:pre-line;
+}
+.prayer-amen {
+  margin-top:16px; font-size:calc(16px * var(--font-scale)); font-weight:700; color:var(--accent-1);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align:center; padding:24px 0 16px;
+  font-size:12px; color:#aaa;
+}
+
+/* Mobile */
+@media (max-width:768px) {
+  .intro-layer { flex-direction: column; }
+  .intro-left { align-items: center; text-align: center; border-right: none; border-bottom: 1px solid #d4af37; padding: 30px 20px 70px; }
+  .intro-right { align-items: center; text-align: center; border-left: none; padding: 70px 20px 30px; }
+  .intro-center-badge { top: 50%; width: 90%; }
+  .intro-start-btn { bottom: 30px; padding: 12px 28px; }
+  .intro-content { max-width: 100%; }
+}
+
+@media (max-width:480px) {
+  .container { padding:16px 12px 32px; }
+  .accordion-header { padding:12px 12px; }
+  .accordion-inner { padding:0 12px 14px; }
+  .title-section h1 { font-size:calc(20px * var(--font-scale)); }
+  .verse-box { padding: 12px; font-size: calc(13px * var(--font-scale)); border-radius: 6px; }
+  .vb-ref-badge { font-size: 10.5px; padding: 1px 6px; }
+  .intro-title { font-size: calc(22px * var(--font-scale)); }
+  .intro-ref { margin-bottom: 12px; }
+  .intro-text { font-size: calc(14px * var(--font-scale)); }
+  .intro-center-badge { font-size: calc(14px * var(--font-scale)); padding: 14px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO LAYER (레이어 벗기기) -->
+<div class="intro-layer" id="intro-layer">
+  <div class="intro-half intro-left">
+    <div class="intro-content">
+      <div class="intro-title">가장 아름다운 연회</div>
+      <div class="intro-ref">(계 19:7)</div>
+      <div class="intro-text">어린양의 결혼 날이 다가왔고,<br>그분의 아내도 자신을 준비하였습니다.</div>
+    </div>
+  </div>
+  <div class="intro-half intro-right">
+    <div class="intro-content">
+      <div class="intro-title">가장 치열한 전쟁</div>
+      <div class="intro-ref">(계 19:19)</div>
+      <div class="intro-text">짐승과 땅의 왕들과 그들의 군대들이 함께 모여,<br>말을 타신 분과 그분의 군대와 전쟁을 하였습니다.</div>
+    </div>
+  </div>
+
+  <button class="intro-start-btn" onclick="peelLayer()">진리 확인하기 ▾</button>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar" id="topbar">
+  <button onclick="togglePanel()" aria-label="목차">☰</button>
+  <button onclick="window.open('https://tk-korea.github.io/2025wintertraining/','_blank')" aria-label="홈">🏠</button>
+  <div class="topbar-title">우주적 청소와 신혼여행 — 요한계시록 19장</div>
+  <div class="font-controls">
+    <button onclick="changeFontSize(-1)">−</button>
+    <button onclick="resetFontSize()">가</button>
+    <button onclick="changeFontSize(1)">+</button>
+  </div>
+</div>
+
+<!-- SIDE PANEL -->
+<div class="overlay" id="overlay" onclick="togglePanel()"></div>
+<nav class="side-panel" id="sidePanel">
+  <div class="panel-header">
+    <h3>📑 목차</h3>
+    <button class="close-btn" onclick="togglePanel()">✕</button>
+  </div>
+  <a class="nav-item" href="#title-sec" onclick="togglePanel()"><span class="nav-icon">📖</span>제목</a>
+  <a class="nav-item" href="#dashboard-sec" onclick="togglePanel()"><span class="nav-icon">📊</span>대시보드</a>
+  <div class="nav-divider"></div>
+  <a class="nav-item" href="#keywords-sec" onclick="togglePanel()"><span class="nav-icon">🔑</span>키워드</a>
+  <div class="keyword-item" onclick="toggleKwDef(this)">💡 어린양의 결혼 잔치</div>
+  <div class="keyword-def">아마겟돈 전쟁 직전, 자신을 준비한 신부(이기는 믿는 이들)와 그리스도가 연합하는 축하연 (계 19:7).</div>
+  <div class="keyword-item" onclick="toggleKwDef(this)">💡 신부 군대</div>
+  <div class="keyword-def">이기는 믿는 이들 — 그리스도의 신부이자 동시에 적그리스도와 싸우는 군대. 의로운 행실인 세마포 옷을 입는다 (계 19:14).</div>
+  <div class="keyword-item" onclick="toggleKwDef(this)">💡 신실하시고 참되시다</div>
+  <div class="keyword-def">우주적 청소의 총사령관이신 그리스도의 칭호. 실재(알레티노스)이시며 신실하게 대적을 심판하신다 (계 19:11).</div>
+  <div class="keyword-item" onclick="toggleKwDef(this)">💡 아마겟돈</div>
+  <div class="keyword-def">적그리스도의 선동으로 땅이 하늘에, 사람이 하나님께 직접 맞서 전쟁을 선포하는 경악스러운 사건 (계 19:19).</div>
+  <div class="keyword-item" onclick="toggleKwDef(this)">💡 우주적 청소와 신혼여행</div>
+  <div class="keyword-def">결혼 잔치 후 신랑(그리스도)과 신부(이기는 이들)가 함께 천년왕국에 장애가 되는 우주의 먼지들을 제거하는 즐거운 시간.</div>
+  <div class="keyword-item" onclick="toggleKwDef(this)">💡 불 못(쓰레기통)</div>
+  <div class="keyword-def">궁극적인 '우주적 쓰레기통'. 적그리스도, 거짓 신언자, 사탄, 그리고 모든 반역의 쓰레기가 최종적으로 던져지는 곳 (계 19:20).</div>
+  <div class="keyword-item" onclick="toggleKwDef(this)">💡 새 예루살렘</div>
+  <div class="keyword-def">모든 먼지가 청소된 후, 오직 금과 진주와 보석만이 영원히 남는 거룩한 성. 우리가 모아질 최종 목적지.</div>
+  <div class="nav-divider"></div>
+  <a class="nav-item" href="#points-sec" onclick="togglePanel()"><span class="nav-icon">📌</span>핵심요점</a>
+  <a class="nav-item sub" href="#point-1" onclick="togglePanel()">1. 군대로서의 연합</a>
+  <a class="nav-item sub" href="#point-2" onclick="togglePanel()">2. 우주 정결 작업(신혼여행)</a>
+  <a class="nav-item sub" href="#point-3" onclick="togglePanel()">3. 신실하시고 참되신 심판자</a>
+  <div class="nav-divider"></div>
+  <a class="nav-item" href="#quiz-sec" onclick="togglePanel()"><span class="nav-icon">✏️</span>퀴즈</a>
+  <a class="nav-item" href="#prayer-sec" onclick="togglePanel()"><span class="nav-icon">🙏</span>오늘의 기도</a>
+</nav>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- TITLE -->
+  <section class="title-section" id="title-sec">
+    <div class="book-ref">요한계시록 19:11-21 · 메시지 425</div>
+    <h1>우주적 청소와<br>승리의 신혼여행</h1>
+    <p class="subtitle">신랑이신 그리스도와 군대인 신부가<br>모든 반역을 <span class="bold">불 못</span>으로 쓸어 넣고 새 예루살렘을 예비하는 과정</p>
+    <div class="title-verse">
+      <span class="verse-ref">계 19:11, 14</span> … 보십시오, 흰색 말이 있고, <span class="hl">신실하시고 참되시다</span>고 불리시는 분께서 그 위에 타셨는데, 그분은 의로 심판하시고 전쟁하시는 분이십니다. 또 하늘에 있는 <span class="hl">군대들이 희고 깨끗한 세마포 옷</span>을 입고 흰색 말을 타고서 그분을 따랐습니다.
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section class="dashboard" id="dashboard-sec">
+    <h2><span class="icon">📊</span> 서사 흐름 대시보드</h2>
+    <div class="flow-steps">
+      
+      <div class="flow-step">
+        <div class="flow-dot" style="background:var(--accent-1);">①</div>
+        <div class="flow-content">
+          <div class="flow-title">신부의 준비와 결혼 잔치 <span class="dashboard-verse">계 19:7-8</span></div>
+          <div class="flow-desc">이기는 자들이 의로운 행실(세마포)로 자격을 갖춤</div>
+          <div class="verse-box vb-1">
+            <div class="vb-item"><span class="vb-ref-badge">계 19:7</span> 우리가 기뻐하고 크게 기뻐하며 그분께 영광을 돌립시다. 왜냐하면 <span class="v-hl">어린양의 결혼 날</span>이 다가왔고, 그분의 아내도 <span class="v-hl">자신을 준비</span>하였기 때문입니다.</div>
+            <div class="vb-item"><span class="vb-ref-badge">계 19:8</span> 신부는 빛나고 깨끗한 <span class="v-hl">세마포 옷</span>을 입게 되었는데, 그 세마포 옷은 <span class="v-hl">성도들의 의</span>입니다.”</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flow-step">
+        <div class="flow-dot" style="background:var(--accent-2);">②</div>
+        <div class="flow-content">
+          <div class="flow-title">신부 군대와 총사령관의 출전 <span class="dashboard-verse">계 19:11, 14</span></div>
+          <div class="flow-desc">참되신 말씀과 연합하여 우주적 청소를 위해 나아감</div>
+          <div class="verse-box vb-2">
+            <div class="vb-item"><span class="vb-ref-badge">계 19:11</span> 또 나는 하늘이 열린 것을 보았습니다. 보십시오, 흰색 말이 있고, <span class="v-hl">신실하시고 참되시다</span>고 불리시는 분께서 그 위에 타셨는데, 그분은 <span class="v-hl">의로 심판하시고 전쟁</span>하시는 분이십니다.</div>
+            <div class="vb-item"><span class="vb-ref-badge">계 19:14</span> 또 하늘에 있는 군대들이 <span class="v-hl">희고 깨끗한 세마포 옷</span>을 입고 흰색 말을 타고서 그분을 따랐습니다.</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flow-step">
+        <div class="flow-dot" style="background:var(--accent-5);">③</div>
+        <div class="flow-content">
+          <div class="flow-title">신혼여행으로서의 우주적 청소 <span class="dashboard-verse">계 19:15</span></div>
+          <div class="flow-desc">갓 결혼한 부부(그리스도와 이기는 이들)가 함께 먼지를 쓸어냄</div>
+          <div class="verse-box vb-3">
+            <div class="vb-item"><span class="vb-ref-badge">계 19:15</span> 그분의 입에서는 <span class="v-hl">예리한 칼</span>이 나오는데, 그것은 민족들을 치시기 위한 것입니다. 그분은 쇠막대기로 그들을 다스리실 것이며, 전능하신 분이신 하나님의 극심한 분노의 <span class="v-hl">포도즙 틀</span>을 밟으실 것입니다.</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flow-step">
+        <div class="flow-dot" style="background:var(--accent-4);">④</div>
+        <div class="flow-content">
+          <div class="flow-title">아마겟돈 전쟁: 그리스도와 신부 vs 적그리스도, 거짓 신언자, 열 왕과 그들의 군대들 <span class="dashboard-verse">계 19:19</span></div>
+          <div class="flow-desc">사람이 하나님께 전쟁을 선포하는 경악스러운 반역</div>
+          <div class="verse-box vb-4">
+            <div class="vb-item"><span class="vb-ref-badge">계 19:19</span> 또 내가 보니, 그 짐승과 땅의 왕들과 그들의 군대들이 함께 모여, <span class="v-hl">말을 타신 분과 그분의 군대와 전쟁</span>을 하였습니다.</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flow-step">
+        <div class="flow-dot" style="background:var(--accent-6);">⑤</div>
+        <div class="flow-content">
+          <div class="flow-title">궁극적인 쓰레기통: 불 못 <span class="dashboard-verse">계 19:20</span></div>
+          <div class="flow-desc">적그리스도, 거짓 신언자, 모든 반역 세력을 영원히 폐기함</div>
+          <div class="verse-box vb-5">
+            <div class="vb-item"><span class="vb-ref-badge">계 19:20</span> 짐승이 붙잡혔고, 또 그 짐승 앞에서 기적들을 행하던 거짓 신언자도 함께 붙잡혔습니다... 이 둘은 <span class="v-hl">유황으로 불타는 불 못</span>에 산 채로 던져졌고,</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flow-step">
+        <div class="flow-dot" style="background:var(--accent-3);">⑥</div>
+        <div class="flow-content">
+          <div class="flow-title">정돈된 우주와 새 예루살렘 <span class="dashboard-verse">계 21:2</span></div>
+          <div class="flow-desc">먼지가 완전히 제거되고, 금/진주/보석만 남음</div>
+          <div class="verse-box vb-6">
+            <div class="vb-item"><span class="vb-ref-badge">계 21:2</span> 또 내가 보니, 거룩한 성 <span class="v-hl">새 예루살렘</span>이 하늘에서 하나님에게서 내려오는데, 남편을 위하여 <span class="v-hl">단장한 신부로 준비</span>되어 있었습니다.</div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- KEYWORDS -->
+  <section class="keywords-section" id="keywords-sec">
+    <h2>🔑 핵심 키워드</h2>
+    <div class="keyword-tags">
+      <span class="keyword-tag" onclick="showKwTooltip(0)"><span class="kw-icon">💒</span>결혼 잔치</span>
+      <span class="keyword-tag" onclick="showKwTooltip(1)"><span class="kw-icon">🛡️</span>신부 군대</span>
+      <span class="keyword-tag" onclick="showKwTooltip(2)"><span class="kw-icon">✦</span>신실/참되심</span>
+      <span class="keyword-tag" onclick="showKwTooltip(3)"><span class="kw-icon">⚔️</span>아마겟돈 전쟁</span>
+      <span class="keyword-tag" onclick="showKwTooltip(4)"><span class="kw-icon">🧹</span>우주적 청소</span>
+      <span class="keyword-tag" onclick="showKwTooltip(5)"><span class="kw-icon">🔥</span>불 못(쓰레기통)</span>
+      <span class="keyword-tag" onclick="showKwTooltip(6)"><span class="kw-icon">💎</span>새 예루살렘</span>
+    </div>
+    <div class="keyword-tooltip" id="kw-tooltip"></div>
+  </section>
+
+  <!-- POINTS -->
+  <section class="points-section" id="points-sec">
+    <h2>📌 핵심 요점</h2>
+
+    <!-- POINT 1 -->
+    <div class="accordion-item" id="point-1">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <div class="acc-icon-wrap"><div class="acc-icon" style="background:var(--accent-1);">🛡️</div></div>
+        <div class="acc-title-text">1. 결혼 잔치(계 19:7) 후에 있을 전쟁</div>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <div class="bible-block">
+            <div class="bible-block-title"><span class="bk-icon">🔖</span> 관련 성경구절</div>
+            <div class="bible-verse-item"><span class="vref">[계 19:7]</span> 어린양의 결혼 날이 다가왔고, 그분의 아내도 <span class="hl">자신을 준비</span>하였기 때문입니다.</div>
+            <div class="bible-verse-item"><span class="vref">[계 19:14]</span> 또 하늘에 있는 <span class="hl">군대들이 희고 깨끗한 세마포 옷</span>을 입고 흰색 말을 타고서 그분을 따랐습니다.</div>
+            <div class="bible-verse-item"><span class="vref">[계 19:19]</span> ...짐승과 땅의 왕들과 그들의 군대들이 함께 모여, <span class="bold">말을 타신 분과 그분의 군대와 전쟁</span>을 하였습니다.</div>
+          </div>
+          <div class="point-content">
+            <div class="point-subhead"><span class="sh-icon">💡</span> 핵심 의미 — 신랑은 총사령관이시고, 신부는 군대이다</div>
+            <p>요한계시록 19장에서 우리는 신랑이 오셔서 그분의 신부의 도움을 받으시면서 그분의 원수들과 맞서 싸우시는 것을 본다. 결혼 잔치 후에 그리스도는 <span class="hl">그분의 군대인 그분의 신부, 곧 이기는 믿는 이들과 함께 싸우는 장군</span>으로 오신다. 참으로 신랑은 총사령관이시고, 신부는 군대이다.</p>
+            <div class="point-subhead"><span class="sh-icon">📋</span> 구체적 사례 — 피조물이 창조주에게 전쟁을 선포하다</div>
+            <p>적그리스도에게 선동된 인간이 모든 왕의 왕, 모든 주인의 주님과 맞서 전쟁을 벌인다. 이것은 단지 세력 간의 다툼이 아니라 <span class="bold">땅이 하늘들에 맞서고, 사람이 실지로 하나님께 맞서 전쟁을 선포하는 경악스러운 대결</span>이다.</p>
+            <div class="clash-diagram">
+              <div class="clash-top">하늘<span class="clash-sub">(하나님, 어린양)</span></div>
+              <div class="clash-arrow-down">⬇</div>
+              <div class="clash-center-box">경악스러운 일:<BR>피조물이 창조주에게<br>전쟁을 선포하다</div>
+              <div class="clash-arrow-up">⬆</div>
+              <div class="clash-bottom">땅<span class="clash-sub">(적그리스도, 사람)</span></div>
+            </div>
+            
+            <div class="point-subhead" style="margin-top:24px;"><span class="sh-icon">📊</span> 구체적 비교 — 하늘의 군대 vs 땅의 군대</div>
+            <div style="overflow-x:auto;">
+              <table class="army-table">
+                <thead>
+                  <tr>
+                    <th>구분</th>
+                    <th class="th-sky">하늘의 군대</th>
+                    <th class="th-earth">땅의 군대</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>지휘관</strong></td>
+                    <td>그리스도<br><span style="font-size:0.85em; opacity:0.8;">(신실하시고 참되신 분)</span></td>
+                    <td>적그리스도(짐승)와 거짓 신언자</td>
+                  </tr>
+                  <tr>
+                    <td><strong>군대 구성</strong></td>
+                    <td>이기는 이들로 구성된 그분의 신부<br><span style="font-size:0.85em; opacity:0.8;">(부름받고 구속받은 신실한 이들)</span></td>
+                    <td>적그리스도에게 속한 열 왕과 그들의 군대들</td>
+                  </tr>
+                  <tr>
+                    <td><strong>성격 및 목적</strong></td>
+                    <td>하나님의 의로운 심판 집행<br><span style="font-size:0.85em; opacity:0.8;">(하나님의 권익을 위한 싸움)</span></td>
+                    <td>사탄인 용의 선동<br><span style="font-size:0.85em; opacity:0.8;">(하나님을 향한 직접적인 반역)</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>무장 및 상태</strong></td>
+                    <td>희고 깨끗한 세마포 옷 (의로운 행실),<br>그리스도의 입에서 나오는 날카로운 검</td>
+                    <td>개구리 같은 세 더러운 영의 미혹,<br>기적을 통한 군대 소집</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-connector"><div class="arrow-down"></div></div>
+
+    <!-- POINT 2 -->
+    <div class="accordion-item" id="point-2">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <div class="acc-icon-wrap"><div class="acc-icon" style="background:var(--accent-5);">🧹</div></div>
+        <div class="acc-title-text">2. 우주적인 청소: 갓 결혼한 부부의 신혼여행</div>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <div class="bible-block">
+            <div class="bible-block-title"><span class="bk-icon">🔖</span> 관련 성경구절</div>
+            <div class="bible-verse-item"><span class="vref">[계 19:20]</span> ...짐승과 거짓 신언자가 붙잡혔고... 이 둘은 유황으로 불타는 <span class="hl">불 못</span>에 산 채로 던져졌고,</div>
+            <div class="bible-verse-item"><span class="vref">[마 25:41]</span> ...너희는 나를 떠나, 마귀와 그의 천사들에게 예비된 <span class="bold">영원한 불속</span>으로 들어가거라.</div>
+          </div>
+          <div class="point-content">
+            <div class="point-subhead"><span class="sh-icon">💡</span> 핵심 의미 — 이것은 갓 결혼한 부부의 신혼여행일 것입니다.</div>
+            <p style="font-weight: 600; color: var(--accent-5); margin-bottom: 12px;">(This will be the honeymoon of the newlywed couple.)</p>
+            
+            <div class="hm-cards">
+              <div class="hm-card" style="border-left-color: var(--accent-1);">
+                <div class="hm-card-title"><span style="color:var(--accent-1);">[새로운 관점]</span> 왕국을 위한 예비</div>
+                <div class="hm-card-desc">아마겟돈 전쟁은 단순한 파괴가 아닙니다. 그것은 반역하는 무리들을 처리하여, 다가올 천년왕국(어린양의 결혼 잔치)이 이 땅에 임할 수 있도록 환경을 예비하는 과정입니다.</div>
+              </div>
+              <div class="hm-card" style="border-left-color: var(--accent-3);">
+                <div class="hm-card-title"><span style="color:var(--accent-3);">[우주적인 청소]</span> 쓰레기를 쓸어내심</div>
+                <div class="hm-card-desc">신랑이신 그리스도께서는 이 우주적인 신혼여행 기간에 적그리스도와 거짓 신언자를 불못에 던지심으로써, 우주를 깨끗하게 청소하십니다.</div>
+              </div>
+              <div class="hm-card" style="border-left-color: var(--accent-4);">
+                <div class="hm-card-title"><span style="color:var(--accent-4);">[신부의 동역]</span> 함께 싸우는 군대</div>
+                <div class="hm-card-desc">신부는 수동적인 구경꾼이 아닙니다. 이기는 이들로 단장된 신부는 곧 하늘의 군대가 되어, 신랑과 함께 <span class="bold">'우주의 쓰레기(먼지)를 쓸어내는'</span> 이 영광스러운 일에 직접 동역합니다.</div>
+              </div>
+            </div>
+
+            <div class="point-subhead" style="margin-top:24px;"><span class="sh-icon">📋</span> 구체적 사례 — 우주의 정결 작업과 쓰레기통의 역사</div>
+            <div class="tp-container">
+              <div class="tp-item" style="border-top: 3px solid #3b82f6;">
+                <div class="tp-item-title" style="color:#93c5fd;">최초의 쓰레기통: 바다</div>
+                <div class="tp-item-desc">어둠이 깊음의 표면 위에 있었고...<br>하나님은 우주의 먼지를 일차적으로 바다로 쓸어 넣으셨다.</div>
+              </div>
+              <div class="tp-arrow-down">
+                ⬇<br>
+                <span class="tp-arrow-text">천년왕국을 향한 정결 작업 (아마겟돈 쓰레받기)</span>
+                <div style="font-size:11px; color:#9ca3af; margin-top:6px; font-weight:normal;">최고 권위에 반역하는 무리들이 스스로 쓸어버릴 기회를 제공함</div>
+              </div>
+              <div class="tp-item" style="border-top: 3px solid #ef4444; background: rgba(239, 68, 68, 0.1);">
+                <div class="tp-item-title" style="color:#fca5a5;">궁극의 쓰레기통: 불 못</div>
+                <div class="tp-item-desc">마귀와 그의 천사들에게 예비된 영원한 불 속.<br>크고 흰 보좌의 심판 이후, 모든 영적 쓰레기가 영구적으로 격리되는 최종 정착지.</div>
+              </div>
+            </div>
+
+            <div class="point-subhead"><span class="sh-icon">🎯</span> 실행 및 적용</div>
+            <p>우리는 불 못에 버려질 쓰레기(세상의 죄악과 반역)를 좇는 대신, 우주를 정돈하시는 주님과 협력하여 청소하는 일에 적극 동참해야 한다. 이 놀라운 동역을 거쳐 우리는 마침내 <span class="hl">새 예루살렘</span>으로 모아질 것이다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flow-connector"><div class="arrow-down"></div></div>
+
+    <!-- POINT 3 -->
+    <div class="accordion-item" id="point-3">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <div class="acc-icon-wrap"><div class="acc-icon" style="background:var(--accent-3);">✦</div></div>
+        <div class="acc-title-text">3. 신실하시고 참되신 분을 신뢰함</div>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <div class="bible-block">
+            <div class="bible-block-title"><span class="bk-icon">🔖</span> 관련 성경구절</div>
+            <div class="bible-verse-item"><span class="vref">[계 19:11]</span> ...보십시오, 흰색 말이 있고, <span class="hl">신실하시고 참되시다</span>고 불리시는 분께서 그 위에 타셨는데, 그분은 의로 심판하시고 전쟁하시는 분이십니다.</div>
+            <div class="bible-verse-item"><span class="vref">[계 19:13]</span> 그분의 이름은 <span class="bold">‘하나님의 말씀’</span>이라고 불립니다.</div>
+          </div>
+          <div class="point-content">
+            <div class="point-subhead"><span class="sh-icon">💡</span> 핵심 의미 — 돌아오시는 하나님의 말씀</div>
+            <p>그리스도는 적그리스도와 거짓 신언자를 패배시키시고 멸망시키시기 위해 돌아오시는 모든 왕의 왕이시자 모든 주인의 주님이신 <span class="hl">하나님의 말씀</span>으로 계시되신다. <span class="bold">‘신실하시고 참되시다’</span>는 그리스도의 칭호일 것이다.</p>
+            <div class="point-subhead"><span class="sh-icon">📋</span> 구체적 사례 — 실재이시며 신실하신 분</div>
+            <p>그리스도는 하나님께 신실하시고, 그분 자신을 믿는 사람들에게도 신실하시다. 그분은 이렇게 신실하신 것에 근거하시어, 하나님을 반대하는 자들과 믿는 이들을 박해하는 자들을 패배시키시고 멸망시키신다. '참되시다'라는 단어가 헬라어 원문에서 <span class="hl">‘알레티노스(alethinos)’</span>이며, 단지 ‘참 또는 거짓’이나 심지어 정직함의 의미에서만이 아니라 <span class="bold">실재라는 의미에서도 참되신 그리스도</span>를 가리킨다는 것에 주목하라.</p>
+            <div class="point-subhead"><span class="sh-icon">🎯</span> 실행 및 적용</div>
+            <p>그분은 또한 하나님의 경륜을 수행하시는 면과 믿는 이들을 돌보시는 면에서도 참된 분이시다. 그분은 <span class="hl">신뢰할 만한 분이시고, 그분께는 거짓이 없으시다.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="quiz-section" id="quiz-sec">
+    <h2>✏️ 퀴즈: 우주적 청소와 신부의 자격</h2>
+
+    <div class="quiz-item" data-answer="1">
+      <div class="quiz-q">
+        <div class="quiz-badge">1</div>
+        <div class="quiz-q-text">어린양의 결혼 잔치에 참여하는 '신부'가 입는 세마포 옷의 의미는 무엇입니까?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>모든 사람이 거저 받는 구원</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>신부가 생활 속에서 살아낸 의로운 행실</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>천사들이 대신 짜준 옷</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>아마겟돈에서 적군에게 빼앗은 전리품</div>
+      </div>
+      <div class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</div>
+      <div class="quiz-hint">신부 자신이 자격을 갖추어 직접 준비한 예복입니다. 이기는 자의 삶과 관련이 있습니다.</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz-item" data-answer="0">
+      <div class="quiz-q">
+        <div class="quiz-badge">2</div>
+        <div class="quiz-q-text">요한계시록 19장에서 아마겟돈 전쟁을 치르는 총사령관의 칭호는 무엇입니까?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>신실하시고 참되신 분</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>알파와 오메가</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>광명한 새벽별</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>평강의 왕</div>
+      </div>
+      <div class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</div>
+      <div class="quiz-hint">계 19:11에서 흰 말을 타신 분을 부르는 이름입니다. 그분은 실재(알레티노스)이십니다.</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz-item" data-answer="2">
+      <div class="quiz-q">
+        <div class="quiz-badge">3</div>
+        <div class="quiz-q-text">아마겟돈 전쟁의 가장 경악스러운 본질은 무엇으로 설명됩니까?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>강대국들 간의 핵전쟁</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>천사들끼리의 세력 다툼</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>사람이 하나님께 직접 전쟁을 선포하는 반역</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>이념과 종교의 충돌</div>
+      </div>
+      <div class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</div>
+      <div class="quiz-hint">적그리스도에게 선동된 땅의 군대들이 하늘에 맞서는 사건입니다.</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz-item" data-answer="3">
+      <div class="quiz-q">
+        <div class="quiz-badge">4</div>
+        <div class="quiz-q-text">지문에서 천년왕국은 신랑과 신부에게 무엇과 같다고 비유됩니까?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>지루한 수련회</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>고된 노동의 현장</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>무거운 심판의 재판장</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>갓 결혼한 부부의 즐거운 신혼여행</div>
+      </div>
+      <div class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</div>
+      <div class="quiz-hint">결혼 잔치 후, 부부가 함께 우주를 정돈하며 누리는 기쁨의 시간입니다.</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz-item" data-answer="1">
+      <div class="quiz-q">
+        <div class="quiz-badge">5</div>
+        <div class="quiz-q-text">우주의 모든 먼지(반역하는 무리)가 궁극적으로 쓸어 넣어져 폐기되는 쓰레기통은 어디입니까?</div>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>바다</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>불 못</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>무저갱 (임시 장소 아님)</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>새 땅</div>
+      </div>
+      <div class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</div>
+      <div class="quiz-hint">적그리스도와 거짓 신언자가 가장 먼저 던져지고, 훗날 사탄도 들어갈 영원한 장소입니다.</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <button class="quiz-submit" onclick="submitQuiz()">결과 확인하기</button>
+    <div class="quiz-result" id="quizResult">
+      <div class="quiz-score" id="quizScore"></div>
+      <div class="quiz-msg" id="quizMsg"></div>
+    </div>
+  </section>
+
+  <!-- PRAYER -->
+  <section class="prayer-section" id="prayer-sec">
+    <h2>🙏 오늘의 기도</h2>
+    <div class="prayer-text">주 예수님, 당신은 <span class="bold">신실하시고 참되신 분</span>이십니다.
+우주를 어지럽히는 모든 먼지와 반역을 완전히 쓸어내실 참된 말씀이십니다.
+
+주님, 우리가 오늘 이 땅에서 단지 구경꾼으로 남지 않게 하소서.
+매일 당신의 생명을 누림으로 <span class="hl">희고 깨끗한 세마포 옷을 입은 이기는 자</span>, 곧 신부로 준비되기를 원합니다.
+
+사람이 하나님을 대적하는 이 경악스러운 세상 속에서,
+오히려 우리는 당신과 연합된 <span class="bold">신부 군대</span>가 되어,
+당신과 함께 우주를 청소하는 영광스러운 신혼여행에 참여하게 하소서.
+
+오 주님, 모든 쓰레기가 불 못에 버려지고, 오직 <span class="bold">금과 진주와 보석</span>만이 남는
+그 영광스러운 성, <span class="hl">새 예루살렘</span>으로 우리를 모아 주소서.
+그 놀라운 잔치 날을 고대하며, 오늘 우리 자신을 준비합니다.</div>
+    <div class="prayer-amen">아멘!</div>
+  </section>
+
+  <div class="footer">요한계시록 19장 · 메시지 425 · 신약의 결론 26권</div>
+</div>
+
+<script>
+// Intro Layer Peel
+function peelLayer() {
+  const intro = document.getElementById('intro-layer');
+  intro.classList.add('hidden');
+}
+
+// Side Panel
+function togglePanel(){
+  document.getElementById('sidePanel').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+// Keyword def in panel
+function toggleKwDef(el){
+  const def = el.nextElementSibling;
+  def.classList.toggle('open');
+}
+
+// Font size
+let fontScale = 1;
+function changeFontSize(dir){
+  fontScale = Math.max(0.7, Math.min(1.5, fontScale + dir * 0.05));
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+}
+function resetFontSize(){
+  fontScale = 1;
+  document.documentElement.style.setProperty('--font-scale', 1);
+}
+
+// Accordion (independent)
+function toggleAccordion(header){
+  const item = header.parentElement;
+  const body = header.nextElementSibling;
+  
+  if(item.classList.contains('open')){
+    item.classList.remove('open');
+    // 닫기 전 현재 높이를 명시적으로 설정하여 부드럽게 닫히도록 함
+    body.style.maxHeight = body.scrollHeight + 'px';
+    void body.offsetHeight; // 강제 리플로우 (브라우저가 높이 변화를 인식하도록)
+    body.style.maxHeight = '0';
+  } else {
+    item.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+    // 애니메이션(0.4초) 완료 후 높이 제한을 완전히 해제하여 폰트 크기 변경 시 잘림 방지
+    setTimeout(()=>{ 
+      if(item.classList.contains('open')) {
+        body.style.maxHeight = 'none'; 
+      }
+    }, 400);
+  }
+}
+
+// Keywords tooltip
+const kwData = [
+  {title:'결혼 잔치', desc:'아마겟돈 전쟁 직전, 자신을 준비한 신부(이기는 믿는 이들)와 그리스도가 연합하는 축하연 (계 19:7).'},
+  {title:'신부 군대', desc:'이기는 믿는 이들. 그리스도의 신부이자 동시에 적그리스도와 싸우는 군대. 의로운 행실인 세마포 옷을 입는다 (계 19:14).'},
+  {title:'신실/참되심', desc:'우주적 청소의 총사령관이신 그리스도의 칭호. 실재(알레티노스)이시며 신실하게 대적을 심판하신다 (계 19:11).'},
+  {title:'아마겟돈 전쟁', desc:'적그리스도의 선동으로 땅이 하늘에, 사람이 하나님께 직접 맞서 전쟁을 선포하는 경악스러운 사건 (계 19:19).'},
+  {title:'우주적 청소', desc:'결혼 잔치 후 신랑(그리스도)과 신부(이기는 이들)가 함께 천년왕국에 장애가 되는 우주의 먼지들을 제거하는 즐거운 시간.'},
+  {title:'불 못(쓰레기통)', desc:'궁극적인 우주적 쓰레기통. 적그리스도, 거짓 신언자, 사탄, 그리고 모든 반역의 쓰레기가 최종적으로 던져지는 곳 (계 19:20).'},
+  {title:'새 예루살렘', desc:'모든 먼지가 청소된 후, 오직 금과 진주와 보석만이 영원히 남는 거룩한 성. 우리가 모아질 최종 목적지.'},
+];
+function showKwTooltip(i){
+  const tip = document.getElementById('kw-tooltip');
+  if(tip.dataset.idx === String(i) && tip.classList.contains('open')){
+    tip.classList.remove('open');
+    tip.dataset.idx = '';
+    return;
+  }
+  tip.innerHTML = '<strong>'+kwData[i].title+'</strong> — '+kwData[i].desc;
+  tip.dataset.idx = String(i);
+  tip.classList.add('open');
+}
+
+// Quiz
+function selectOpt(el){
+  const item = el.closest('.quiz-item');
+  if(item.dataset.done) return;
+  item.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function toggleHint(btn){
+  const hint = btn.nextElementSibling;
+  hint.classList.toggle('open');
+  btn.textContent = hint.classList.contains('open') ? '💡 힌트 닫기' : '💡 힌트 보기';
+}
+function submitQuiz(){
+  let correct = 0;
+  const items = document.querySelectorAll('.quiz-item');
+  items.forEach(item=>{
+    const answer = parseInt(item.dataset.answer);
+    const opts = item.querySelectorAll('.quiz-opt');
+    const fb = item.querySelector('.quiz-feedback');
+    let selected = -1;
+    opts.forEach((o,i)=>{if(o.classList.contains('selected'))selected=i;});
+    item.dataset.done = '1';
+    if(selected === -1){
+      fb.textContent = '⚠️ 답을 선택해주세요.';
+      fb.style.display='block'; fb.style.background='#fff3cd'; fb.style.color='#856404';
+      return;
+    }
+    if(selected === answer){
+      correct++;
+      opts[selected].classList.remove('selected');
+      opts[selected].classList.add('correct');
+      opts[selected].querySelector('.opt-circle').textContent='✓';
+      fb.textContent = '✅ 정답입니다!';
+      fb.style.display='block'; fb.style.background='#d1fae5'; fb.style.color='#065f46';
+    } else {
+      opts[selected].classList.remove('selected');
+      opts[selected].classList.add('wrong');
+      opts[selected].querySelector('.opt-circle').textContent='✗';
+      opts[answer].classList.add('correct');
+      opts[answer].querySelector('.opt-circle').textContent='✓';
+      fb.textContent = '❌ 오답입니다.';
+      fb.style.display='block'; fb.style.background='#fee2e2'; fb.style.color='#991b1b';
+    }
+  });
+  const res = document.getElementById('quizResult');
+  const score = document.getElementById('quizScore');
+  const msg = document.getElementById('quizMsg');
+  res.style.display='block';
+  score.textContent = correct + ' / ' + items.length;
+  if(correct===items.length) msg.textContent='🎉 완벽합니다! 신부 군대의 자격과 우주적 청소의 흐름을 잘 파악하셨습니다!';
+  else if(correct>=3) msg.textContent='👍 잘 하셨습니다! 헷갈린 부분은 해설과 본문을 다시 확인해 보세요.';
+  else msg.textContent='📖 흐름을 다시 한번 찬찬히 읽어보시고 이기는 신부로 준비되기를 소망합니다!';
+}
+
+// Recalc accordion heights on resize
+window.addEventListener('resize',()=>{
+  document.querySelectorAll('.accordion-item.open .accordion-body').forEach(b=>{
+    b.style.maxHeight = 'none';
+  });
+});
+</script>
+</body>
+</html>
