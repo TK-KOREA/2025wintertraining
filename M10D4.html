@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>흰색 말을 타신 그리스도</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- Three.js 라이브러리 추가 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root {
+  --base-font-size: 17px;
+  --font-scale: 1;
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #2a2a2a;
+  --accent: #2563eb;
+  --highlight: #fef08a;
+  --border: #e5e7eb;
+  --card-bg: #ffffff;
+  --card-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  --section-bg: #f8fafc;
+  --c1: #2563eb;
+  --c2: #d97706;
+  --c3: #dc2626;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Noto Sans KR',sans-serif;
+  font-size:calc(var(--base-font-size)*var(--font-scale));
+  line-height:1.75;
+  color:var(--text);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+}
+body.locked { overflow: hidden; }
+
+/* SPLASH SCREEN (레이어 벗기기) */
+#splashScreen {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: #f8fafc; z-index: 9999;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 20px; text-align: center; cursor: pointer;
+  transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.7s ease;
+  transform-origin: top center;
+}
+#splashScreen.peeled {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.splash-title {
+  font-size: calc(32px * var(--font-scale)); font-weight: 900; color: #0f172a;
+  margin-bottom: 16px; line-height: 1.35; letter-spacing: -0.5px;
+}
+.splash-title span { color: var(--c1); }
+.splash-subtitle {
+  font-size: calc(16.5px * var(--font-scale)); color: #475569; font-weight: 500;
+  margin-bottom: 36px; line-height: 1.6; word-break: keep-all;
+}
+.splash-quote {
+  background: #1e3a8a; color: #fff; padding: 26px 20px;
+  border-radius: 12px; font-size: calc(16.5px * var(--font-scale)); font-weight: 700;
+  border-left: 4px solid #fde047; border-right: 4px solid #fde047;
+  margin-bottom: 36px; max-width: 650px; box-shadow: 0 12px 24px rgba(30,58,138,0.25);
+  line-height: 1.7; word-break: keep-all;
+}
+.splash-footer {
+  font-size: calc(16px * var(--font-scale)); color: #1e293b; font-weight: 500;
+  max-width: 650px; line-height: 1.7; margin-bottom: 40px; word-break: keep-all;
+}
+.splash-footer b { color: var(--c1); font-size: 1.1em; font-weight: 800; }
+.splash-click-text {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 12px 24px; background: #e2e8f0; color: #334155;
+  border-radius: 30px; font-weight: 700; font-size: 15px;
+  animation: pulse 2s infinite; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+@keyframes pulse { 
+  0% { box-shadow: 0 0 0 0 rgba(226, 232, 240, 0.8); } 
+  70% { box-shadow: 0 0 0 12px rgba(226, 232, 240, 0); } 
+  100% { box-shadow: 0 0 0 0 rgba(226, 232, 240, 0); } 
+}
+
+/* TOP BAR */
+.top-bar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:#fff;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  height:42px;padding:0;
+  box-shadow:0 1px 3px rgba(0,0,0,0.04);
+}
+.top-bar button{
+  background:none;border:none;cursor:pointer;
+  color:var(--text);display:flex;align-items:center;justify-content:center;
+  width:36px;height:42px;flex-shrink:0;font-size:18px;
+}
+.top-bar button:hover{background:#f3f4f6;}
+.top-bar-title{
+  flex:1;min-width:0;overflow-x:auto;overflow-y:hidden;
+  white-space:nowrap;font-size:14px;font-weight:600;
+  color:var(--text);padding:0 6px;
+  scrollbar-width:none;-ms-overflow-style:none;
+  -webkit-overflow-scrolling:touch;
+}
+.top-bar-title::-webkit-scrollbar{display:none;}
+.font-controls{
+  display:flex;align-items:center;flex-shrink:0;
+  border-left:1px solid var(--border);height:100%;
+}
+.font-controls button{width:32px;height:42px;font-size:15px;font-weight:600;color:var(--text-secondary);}
+.font-controls .fc-label{font-size:12px;font-weight:500;color:var(--text-secondary);width:20px;text-align:center;cursor:pointer;}
+
+/* SIDE PANEL */
+.side-panel-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:1100;}
+.side-panel-overlay.open{display:block;}
+.side-panel{
+  position:fixed;top:0;left:-300px;width:280px;max-width:80vw;height:100%;
+  background:#fff;z-index:1200;transition:left 0.3s ease;overflow-y:auto;
+  box-shadow:2px 0 12px rgba(0,0,0,0.1);
+}
+.side-panel.open{left:0;}
+.side-panel-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-bottom:1px solid var(--border);font-weight:700;font-size:15px;
+}
+.side-panel-header button{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text);}
+.side-menu{list-style:none;padding:8px 0;}
+.side-menu a{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 20px;color:var(--text);text-decoration:none;
+  font-size:14px;font-weight:500;transition:background 0.15s;
+}
+.side-menu a:hover{background:#f3f4f6;}
+.side-menu .sub-menu{list-style:none;padding:0;}
+.side-menu .sub-menu a{padding-left:40px;font-size:13px;font-weight:400;color:var(--text-secondary);}
+.menu-icon{width:18px;text-align:center;flex-shrink:0;font-size:14px;}
+
+/* KEYWORD TOOLTIP */
+.kw-tooltip{
+  display:none;position:absolute;background:#fff;border:1px solid var(--border);
+  border-radius:8px;padding:10px 14px;font-size:calc(13px * var(--font-scale));line-height:1.6;
+  box-shadow:0 4px 16px rgba(0,0,0,0.12);z-index:100;max-width:260px;color:var(--text);
+  left:0;top:100%;margin-top:4px;
+}
+.kw-tooltip.show{display:block;}
+
+/* MAIN */
+.main-content{max-width:720px;margin:0 auto;padding:56px 16px 40px;}
+
+/* HERO */
+.hero{text-align:center;padding:10px 0 20px;}
+#horse3d-container {
+  width: 100%; height: 220px; margin: 0 auto; 
+  border-radius: 12px; background: radial-gradient(circle, #e0e7ff 0%, #ffffff 70%);
+  margin-bottom: 20px; box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
+}
+.hero h1{
+  font-size:calc(22px * var(--font-scale));font-weight:800;
+  color:var(--text);line-height:1.4;margin-bottom:8px;
+}
+.hero .subtitle{
+  font-size:calc(15px * var(--font-scale));color:var(--text-secondary);
+  font-weight:400;line-height:1.7;
+}
+.hero .ref{font-size:calc(13px * var(--font-scale));color:#666;margin-top:6px;}
+
+/* REVEAL SECTION */
+.reveal-section {
+  margin: 10px 0 28px; text-align: center;
+}
+.reveal-btn {
+  background: var(--highlight); color: #1a1a1a; border: none;
+  padding: 16px 20px; font-size: calc(15px * var(--font-scale));
+  font-weight: 800; border-radius: 8px; cursor: pointer;
+  transition: all 0.2s; width: 100%; max-width: 480px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: inline-flex; justify-content: center; align-items: center; gap: 8px;
+}
+.reveal-btn:hover { background: #fde047; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+.reveal-content {
+  max-height: 0; overflow: hidden; transition: max-height 0.5s ease, opacity 0.5s ease;
+  opacity: 0; text-align: left; max-width: 650px; margin: 0 auto;
+}
+.reveal-content.open {
+  max-height: 400px; opacity: 1; margin-top: 16px;
+}
+.reveal-inner {
+  background: #f8fafc; padding: 20px; border-radius: 12px;
+  border: 1px solid var(--border); border-left: 4px solid var(--c1);
+  font-size: calc(15px * var(--font-scale)); line-height: 1.7; color: var(--text);
+}
+
+/* DASHBOARD */
+.dashboard{
+  margin:24px 0 28px;padding:20px;
+  background:var(--section-bg);border-radius:14px;border:1px solid var(--border);
+}
+.dashboard h2{
+  font-size:calc(15px * var(--font-scale));font-weight:700;
+  margin-bottom:16px;text-align:center;color:var(--text);
+}
+
+/* FLOW TIMELINE */
+.flow-timeline{position:relative;display:flex;flex-direction:column;gap:0;}
+.ft-step{display:flex;align-items:stretch;gap:0;}
+.ft-line-col{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.ft-dot{
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;color:#fff;flex-shrink:0;position:relative;z-index:2;
+}
+.ft-line{flex:1;width:3px;min-height:8px;}
+.ft-content{flex:1;padding:4px 0 16px 10px;min-width:0;}
+.ft-label{font-size:calc(11px * var(--font-scale));font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:1px;}
+.ft-title{font-size:calc(14px * var(--font-scale));font-weight:600;color:var(--text);line-height:1.5;}
+.ft-desc{font-size:calc(12px * var(--font-scale));color:var(--text-secondary);line-height:1.5;margin-top:2px;}
+
+/* CONNECTION BANNER */
+.connection-banner{
+  margin:0 0 28px;padding:16px;
+  background:linear-gradient(135deg,#eff6ff,#fefce8);
+  border-radius:12px;border:1px solid #bfdbfe;text-align:center;
+}
+.connection-banner .cb-icon{font-size:22px;margin-bottom:6px;}
+.connection-banner .cb-text{font-size:calc(14px * var(--font-scale));color:var(--text);line-height:1.7;font-weight:500;}
+
+/* KEYWORDS */
+.keywords-section{margin:0 0 28px;}
+.keywords-section h2{font-size:calc(16px * var(--font-scale));font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.kw-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.kw-chip{
+  position:relative;display:inline-flex;align-items:center;gap:5px;
+  padding:6px 14px;border-radius:20px;
+  background:#f1f5f9;border:1px solid var(--border);
+  font-size:calc(13px * var(--font-scale));font-weight:500;
+  cursor:pointer;transition:all 0.2s;color:var(--text);
+}
+.kw-chip:hover{background:#e2e8f0;border-color:#cbd5e1;}
+.kw-chip .kw-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+
+/* ACCORDION */
+.accordion-section{margin-bottom:0;}
+.accordion-card{
+  background:var(--card-bg);border-radius:12px;
+  border:1px solid var(--border);overflow:hidden;
+  box-shadow:var(--card-shadow);transition:box-shadow 0.2s;
+}
+.accordion-card:hover{box-shadow:0 2px 8px rgba(0,0,0,0.08);}
+.accordion-header{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:16px;cursor:pointer;user-select:none;transition:background 0.15s;
+}
+.accordion-header:hover{background:#fafafa;}
+.acc-icon{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;color:#fff;margin-top:2px;
+}
+.acc-title-wrap{flex:1;min-width:0;}
+.acc-num{font-size:calc(11px * var(--font-scale));font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;}
+.acc-title{font-size:calc(16px * var(--font-scale));font-weight:700;color:var(--text);line-height:1.4;}
+.acc-subtitle{font-size:calc(13px * var(--font-scale));color:var(--text-secondary);font-weight:400;margin-top:2px;line-height:1.4;}
+.acc-chevron{font-size:18px;color:#999;flex-shrink:0;transition:transform 0.3s ease;margin-top:4px;}
+.accordion-card.open .acc-chevron{transform:rotate(180deg);}
+.accordion-body{max-height:0;overflow:hidden;transition:max-height 0.4s ease;}
+.accordion-body-inner{padding:0 16px 16px;}
+
+/* VERSE */
+.verse-box{
+  background:#fefce8;border-left:3px solid #eab308;
+  border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:14px;
+}
+.verse-box .verse-label{display:flex;align-items:center;gap:5px;font-size:calc(12px * var(--font-scale));font-weight:600;color:#92400e;margin-bottom:8px;}
+.verse-box .verse-ref{font-size:calc(13px * var(--font-scale));font-weight:700;color:#78350f;margin-bottom:3px;}
+.verse-box .verse-text{font-size:calc(14px * var(--font-scale));color:#451a03;line-height:1.7;}
+.verse-text + .verse-ref{margin-top:10px;}
+
+/* CONTENT */
+.point-content{font-size:calc(15px * var(--font-scale));color:var(--text);line-height:1.85;}
+.point-content p{margin-bottom:10px;}
+.point-content .sub-title{font-size:calc(14px * var(--font-scale));font-weight:700;margin:16px 0 6px;display:flex;align-items:center;gap:6px;}
+.hl{background:linear-gradient(to top,var(--highlight) 45%,transparent 45%);font-weight:700;padding:0 2px;}
+
+/* --- NEW 5 PILLARS DESIGN --- */
+.pillars-wrapper {
+  margin: 16px 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 10px;
+}
+.pillar-step {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--c1);
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  margin-left: calc(var(--step-idx) * 16px);
+  transition: transform 0.2s;
+}
+.pillar-step:hover {
+  transform: translateX(5px);
+  border-color: #bfdbfe;
+}
+.pillar-step .p-title {
+  font-weight: 800;
+  color: var(--text);
+  font-size: calc(15px * var(--font-scale));
+  margin-bottom: 2px;
+}
+.pillar-step .p-desc {
+  font-size: calc(13.5px * var(--font-scale));
+  color: var(--text-secondary);
+}
+.pillar-summary {
+  background: #eff6ff;
+  color: #1e3a8a;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: calc(14.5px * var(--font-scale));
+  margin-top: 10px;
+  text-align: center;
+  border: 1px dashed #bfdbfe;
+}
+
+/* --- NEW WARNING BOX DESIGN --- */
+.warning-container {
+  border: 2px dashed #ef4444;
+  background: #fef2f2;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.08);
+}
+.warning-title {
+  color: #b91c1c;
+  font-weight: 800;
+  font-size: calc(16px * var(--font-scale));
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+.warning-text {
+  color: #7f1d1d;
+  font-size: calc(14.5px * var(--font-scale));
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.warning-footer {
+  background: #dc2626;
+  color: #ffffff;
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-weight: 800;
+  text-align: center;
+  font-size: calc(15px * var(--font-scale));
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* BRIDGE CARD */
+.bridge-card{
+  margin:18px 0 0;padding:14px 16px;
+  border-radius:10px;border:1px solid;
+  display:flex;align-items:flex-start;gap:10px;
+}
+.bridge-card .bridge-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+.bridge-card .bridge-text{font-size:calc(14px * var(--font-scale));line-height:1.7;font-weight:500;}
+
+/* QUIZ & PRAYER SECTION OMITTED FOR BREVITY BUT KEPT IN FULL CODE */
+.quiz-section{
+  margin:36px 0 28px;padding:20px;
+  background:var(--section-bg);border-radius:14px;border:1px solid var(--border);
+}
+.quiz-section h2{font-size:calc(18px * var(--font-scale));font-weight:800;margin-bottom:16px;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;}
+.quiz-item{background:#fff;border-radius:10px;padding:16px;margin-bottom:14px;border:1px solid var(--border);}
+.quiz-q{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
+.quiz-badge{
+  width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;flex-shrink:0;
+}
+.quiz-q-text{font-size:1rem;font-weight:600;color:var(--text);line-height:1.5;padding-top:3px;}
+.quiz-options{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;}
+.quiz-opt{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;border-radius:8px;
+  border:1px solid var(--border);cursor:pointer;
+  font-size:1rem;color:var(--text);transition:all 0.2s;background:#fff;
+}
+.quiz-opt:hover{background:#f8fafc;border-color:#cbd5e1;}
+.quiz-opt.selected{border-color:var(--accent);background:#eff6ff;}
+.quiz-opt.correct{border-color:#16a34a;background:#f0fdf4;color:#166534;}
+.quiz-opt.wrong{border-color:#dc2626;background:#fef2f2;color:#991b1b;}
+.quiz-opt .opt-circle{
+  width:20px;height:20px;border-radius:50%;border:2px solid #d1d5db;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:11px;transition:all 0.2s;
+}
+.quiz-opt.selected .opt-circle{border-color:var(--accent);background:var(--accent);color:#fff;}
+.quiz-opt.correct .opt-circle{border-color:#16a34a;background:#16a34a;color:#fff;}
+.quiz-opt.wrong .opt-circle{border-color:#dc2626;background:#dc2626;color:#fff;}
+.quiz-hint-btn{
+  background:none;border:none;cursor:pointer;font-size:1rem;color:#d97706;font-weight:500;
+  display:flex;align-items:center;gap:4px;padding:4px 0;
+}
+.quiz-hint{display:none;font-size:1rem;color:#92400e;background:#fefce8;padding:8px 12px;border-radius:6px;margin-top:4px;line-height:1.5;}
+.quiz-hint.show{display:block;}
+.quiz-feedback{font-size:1rem;font-weight:600;margin-top:6px;padding:6px 10px;border-radius:6px;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.correct-fb{background:#f0fdf4;color:#166534;}
+.quiz-feedback.wrong-fb{background:#fef2f2;color:#991b1b;}
+.quiz-result{text-align:center;padding:20px;background:#fff;border-radius:10px;border:1px solid var(--border);display:none;}
+.quiz-result.show{display:block;}
+.quiz-result .score{font-size:calc(32px * var(--font-scale));font-weight:800;color:var(--accent);}
+.quiz-result .score-text{font-size:1rem;color:var(--text-secondary);margin-top:4px;}
+.quiz-result .feedback-msg{font-size:1rem;margin-top:10px;padding:10px;border-radius:8px;background:#eff6ff;color:var(--accent);font-weight:500;}
+.quiz-submit-btn{
+  display:block;width:100%;padding:12px;margin-top:10px;
+  background:var(--accent);color:#fff;border:none;border-radius:8px;
+  font-size:1rem;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;
+}
+.quiz-submit-btn:hover{background:#1d4ed8;}
+.prayer-section{
+  margin:28px 0 40px;padding:24px 20px;
+  background:linear-gradient(135deg,#fefce8,#fff7ed);
+  border-radius:14px;border:1px solid #fde68a;
+}
+.prayer-section h2{font-size:calc(17px * var(--font-scale));font-weight:800;margin-bottom:14px;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;}
+.prayer-text{font-size:calc(15px * var(--font-scale));color:var(--text);line-height:1.9;text-align:left;}
+.prayer-text p{margin-bottom:12px;}
+.footer{text-align:center;padding:24px 16px;font-size:calc(12px * var(--font-scale));color:#888;}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:2px;}
+@media(max-width:480px){
+  .main-content{padding:50px 10px 32px;}
+  .hero h1{font-size:calc(19px * var(--font-scale));}
+  .accordion-header{padding:14px 12px;}
+  .accordion-body-inner{padding:0 12px 14px;}
+  .splash-title{font-size:calc(26px * var(--font-scale));}
+  .splash-quote{padding:20px 16px;font-size:calc(15px * var(--font-scale));}
+}
+</style>
+</head>
+<body class="locked">
+
+<!-- SPLASH SCREEN (레이어 벗기기) -->
+<div id="splashScreen" onclick="hideSplash()">
+  <h1 class="splash-title"><span>오늘, 누가 흰색 말을 타는가?</span></h1>
+  
+  <div class="splash-quote">
+    "오늘날 우리는 이 흰색 말을 타고 있습니다.<br>
+    우리의 복음 전파는 깨끗하고 순수하며<br>
+    주님께 절대적으로 인정받을 만한 것입니다."
+  </div>
+  
+  
+  <div class="splash-click-text">👆 화면을 클릭하여 흰색 말을 타기</div>
+</div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <button onclick="togglePanel()" title="목차">☰</button>
+  <button onclick="location.href='https://tk-korea.github.io/2025wintertraining/'" title="홈">🏠</button>
+  <div class="top-bar-title">흰색 말을 타신 그리스도</div>
+  <div class="font-controls">
+    <button onclick="adjustFont(-1)" title="축소">−</button>
+    <span class="fc-label" onclick="resetFont()" title="초기화">가</span>
+    <button onclick="adjustFont(1)" title="확대">+</button>
+  </div>
+</div>
+
+<!-- SIDE PANEL -->
+<div class="side-panel-overlay" id="panelOverlay" onclick="togglePanel()"></div>
+<div class="side-panel" id="sidePanel">
+  <div class="side-panel-header">
+    <span>📑 목차</span>
+    <button onclick="togglePanel()">✕</button>
+  </div>
+  <ul class="side-menu">
+    <li><a href="#hero" onclick="togglePanel()"><span class="menu-icon">📖</span>제목</a></li>
+    <li><a href="#dashboard" onclick="togglePanel()"><span class="menu-icon">📊</span>대시보드</a></li>
+    <li>
+      <a href="#keywords" onclick="togglePanel()"><span class="menu-icon">🔑</span>키워드</a>
+      <ul class="sub-menu" id="kwSubMenu"></ul>
+    </li>
+    <li>
+      <a href="#points" onclick="togglePanel()"><span class="menu-icon">💡</span>핵심요점</a>
+      <ul class="sub-menu">
+        <li><a href="#point1" onclick="togglePanel()">1. 오늘날의 흰색 말</a></li>
+        <li><a href="#point2" onclick="togglePanel()">2. 다함이 없는 그리스도</a></li>
+        <li><a href="#point3" onclick="togglePanel()">3. 그리스도의 귀환과 심판</a></li>
+      </ul>
+    </li>
+    <li><a href="#quiz" onclick="togglePanel()"><span class="menu-icon">✏️</span>퀴즈</a></li>
+    <li><a href="#prayer" onclick="togglePanel()"><span class="menu-icon">🙏</span>오늘의 기도</a></li>
+  </ul>
+</div>
+
+<div class="main-content">
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <!-- 3D Horse Container -->
+  <div class="ref">2025 겨울훈련 10주 4일</div>
+  <h1>흰색 말을 타신 그리스도<br>— 의로 심판하시고 전쟁하시는 분</h1>
+  <div class="subtitle">우리가 오늘 복음을 전하며 주님의 풍성을 누리는 삶은<br>온 우주의 불의를 끝내시기 위해 흰색 말을 타시고 의로 심판하시며 전쟁하시는 분을 모셔온다.</div>
+  
+</section>
+
+<!-- REVEAL SECTION (흰색 말을 멈추게 하지 않으려면) -->
+<div class="reveal-section">
+  <button class="reveal-btn" id="revealBtn" onclick="toggleReveal()">
+    🔓 흰색 말을 멈추게 하지 않으려면? (내용 열어보기)
+  </button>
+  <div class="reveal-content" id="revealContent">
+    <div class="reveal-inner">
+      우리가 복음을 전파하여 죄인들을 구원하지 않거나, 젊은이들을 먹이고 보양하고 보살피지 않거나, 그룹 집회를 위해 새로운 사람들을 함께 모으지 않거나, 교회의 건축을 위해 신언할 역량과 재능이 없다면, <b>우리는 흰색 말에 탄 것이 아닙니다.</b><br><br>
+      <span style="color:var(--c3); font-weight:800;">우리는 결코 흰색 말을 멈추게 해서는 안 됩니다!</span>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<section class="dashboard" id="dashboard">
+  <h2>📊 전체 흐름 — 오늘의 삶에서 우주적 심판까지</h2>
+  <div class="flow-timeline">
+    <div class="ft-step">
+      <div class="ft-line-col">
+        <div class="ft-dot" style="background:var(--c1)">1</div>
+        <div class="ft-line" style="background:linear-gradient(to bottom,var(--c1),var(--c2))"></div>
+      </div>
+      <div class="ft-content">
+        <div class="ft-label" style="color:var(--c1)">지금 · 우리의 삶</div>
+        <div class="ft-title">오늘날의 흰색 말 — 복음 전파와 교회 건축</div>
+        <div class="ft-desc">복음을 전하고, 사람들을 돌보며, 교회를 건축함으로써 흰색 말을 탄다</div>
+      </div>
+    </div>
+    <div class="ft-step">
+      <div class="ft-line-col">
+        <div class="ft-dot" style="background:var(--c2)">2</div>
+        <div class="ft-line" style="background:linear-gradient(to bottom,var(--c2),var(--c3))"></div>
+      </div>
+      <div class="ft-content">
+        <div class="ft-label" style="color:var(--c2)">과정 · 체험과 누림</div>
+        <div class="ft-title">다함이 없는 그리스도의 풍성 누림</div>
+        <div class="ft-desc">아무도 모르는 이름 — 가장 가까운 이기는 이들도 다 알 수 없는 무한한 풍성</div>
+      </div>
+    </div>
+    <div class="ft-step">
+      <div class="ft-line-col">
+        <div class="ft-dot" style="background:var(--c3)">3</div>
+        <div class="ft-line" style="background:transparent"></div>
+      </div>
+      <div class="ft-content">
+        <div class="ft-label" style="color:var(--c3)">완성 · 우주적 심판</div>
+        <div class="ft-title">그리스도의 귀환 — 의로운 심판과 최종 승리</div>
+        <div class="ft-desc">총사령관이신 그리스도가 적그리스도와 사탄의 불법에 맞서 온 우주를 의롭게 심판</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEYWORDS -->
+<section class="keywords-section" id="keywords">
+  <h2>🔑 핵심 키워드</h2>
+  <div class="kw-grid">
+    <div class="kw-chip" onclick="showKwTooltip(this)">
+      <span class="kw-dot" style="background:var(--c1)"></span>흰색 말
+      <div class="kw-tooltip">깨끗하고 순수하며 공정하고 인정받을 만한 것을 의미한다. 복음 전파를 상징하며, 그리스도께서 원수와 맞서 싸우실 때 타시는 말이다.</div>
+    </div>
+    <div class="kw-chip" onclick="showKwTooltip(this)">
+      <span class="kw-dot" style="background:var(--c3)"></span>의(義)
+      <div class="kw-tooltip">하나님의 의로운 절차에 따라 하나님과 사람에게 올바른 것. 의와 정의는 하나님의 보좌의 기초이다(시 89:14).</div>
+    </div>
+    <div class="kw-chip" onclick="showKwTooltip(this)">
+      <span class="kw-dot" style="background:#ef4444"></span>불법의 비밀
+      <div class="kw-tooltip">이미 이 세상에서 활동하고 있는 사탄의 세력. 불법의 사람인 적그리스도로 귀결될 것이다(살후 2:7-8).</div>
+    </div>
+    <div class="kw-chip" onclick="showKwTooltip(this)">
+      <span class="kw-dot" style="background:var(--c2)"></span>아무도 모르는 이름
+      <div class="kw-tooltip">오직 그리스도 자신만 아시는 그분의 비밀. 이기는 이들에게조차 알려지지 않은 다함이 없는 풍성을 가리킨다.</div>
+    </div>
+    <div class="kw-chip" onclick="showKwTooltip(this)">
+      <span class="kw-dot" style="background:var(--c1)"></span>복음 전파
+      <div class="kw-tooltip">흰색 말을 타는 것. 가정 집회, 젊은이들을 먹이는 것, 그룹 집회, 교회 건축을 위한 신언을 포함한다.</div>
+    </div>
+    <div class="kw-chip" onclick="showKwTooltip(this)">
+      <span class="kw-dot" style="background:#f59e0b"></span>불꽃의 눈
+      <div class="kw-tooltip">그리스도의 심판하는 눈. 자신이 보시는 바에 따라 심판하시며, 불타오르는 눈이 심판을 수행할 것이다.</div>
+    </div>
+    <div class="kw-chip" onclick="showKwTooltip(this)">
+      <span class="kw-dot" style="background:var(--c3)"></span>적그리스도
+      <div class="kw-tooltip">불법의 사람이자 멸망의 아들. 사탄의 불의한 권세가 귀결되는 존재로, 그리스도께서 의로 심판하실 대상이다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY POINTS -->
+<section id="points">
+
+<!-- POINT 1 -->
+<div class="accordion-section" id="point1">
+<div class="accordion-card">
+  <div class="accordion-header" onclick="toggleAcc(this)">
+    <div class="acc-icon" style="background:var(--c1)">📢</div>
+    <div class="acc-title-wrap">
+      <div class="acc-num" style="color:var(--c1)">핵심 01 · 지금 우리의 삶</div>
+      <div class="acc-title">오늘날의 흰색 말 — 복음 전파와 교회 건축</div>
+      <div class="acc-subtitle">출발점은 현재 우리의 삶이다</div>
+    </div>
+    <span class="acc-chevron">▼</span>
+  </div>
+  <div class="accordion-body">
+    <div class="accordion-body-inner">
+
+      <div class="verse-box">
+        <div class="verse-label">🔖 관련 성경구절</div>
+        <div class="verse-ref">계 6:2</div>
+        <div class="verse-text">내가 보니, <b>흰색 말</b>이 있고, 그 위에 탄 이는 활을 가지고 있었으며, 그에게 면류관이 주어졌습니다. 그래서 그는 <b>정복하며 나아갔고 또 정복하려고</b> 나아갔습니다.</div>
+        <div class="verse-ref" style="margin-top:10px;">계 19:11</div>
+        <div class="verse-text">또 나는 하늘이 열린 것을 보았습니다. 보십시오, <b>흰색 말</b>이 있고, <b>신실하시고 참되시다</b>고 불리시는 분께서 그 위에 타셨는데, 그분은 <b>의로 심판하시고 전쟁하시는 분</b>이십니다.</div>
+      </div>
+
+      <div class="point-content">
+        <div class="sub-title">▸ 흰색 말의 의미</div>
+        <p>요한계시록 6장 2절에 있는 첫째 봉인의 말도 흰색이고, <span class="hl">복음 전파</span>를 상징한다. 그러므로 그리스도와 복음은 둘 다 흰색 말을 탄다. 요한계시록에서 흰색은 <span class="hl">깨끗하고 순수하며 공정하고 인정받을 만한 것</span>을 의미한다. 6장 2절에서 흰색 말을 탄 이에게는 화살은 없고 활만 있다. 이것은 화살이 이미 활시위를 떠나 원수를 파멸시켰다는 것을 가리킨다. 이 흰색 말을 탄 이는 <span class="hl">승리한 복음</span>이다.</p>
+
+        <!-- 흰색 말을 타는 5가지 실천 기둥 (이미지 1 반영) -->
+        <div class="sub-title">▸ 흰색 말을 타는 5가지 실천 기둥</div>
+        <p>흰색 말을 타는 것은 단순히 죄인들을 구원하는 것만을 의미하지 않습니다. 복음 전파를 시작으로 신언에 이르기까지 <span class="hl">구체적인 5가지 실천 기둥</span>이 흰색 말의 질주를 이룹니다.</p>
+
+        <div class="pillars-wrapper">
+          <div class="pillar-step" style="--step-idx: 0;">
+            <div class="p-title">1. 복음 전파</div>
+            <div class="p-desc">죄인들을 구원으로 인도하여 열매 맺음.</div>
+          </div>
+          <div class="pillar-step" style="--step-idx: 1;">
+            <div class="p-title">2. 가정 집회</div>
+            <div class="p-desc">구원받은 이들의 일상을 돌봄.</div>
+          </div>
+          <div class="pillar-step" style="--step-idx: 2;">
+            <div class="p-title">3. 먹임과 보양</div>
+            <div class="p-desc">젊은이들을 영적으로 자라게 함.</div>
+          </div>
+          <div class="pillar-step" style="--step-idx: 3;">
+            <div class="p-title">4. 그룹 집회</div>
+            <div class="p-desc">새로운 사람들을 모아 온전케 함.</div>
+          </div>
+          <div class="pillar-step" style="--step-idx: 4;">
+            <div class="p-title">5. 신언</div>
+            <div class="p-desc">교회를 직접 건축함.</div>
+          </div>
+        </div>
+        
+        <div class="pillar-summary">
+          이 모든 과정은 독립된 활동이 아니라, 하나님의 왕국을 위해 그리스도의 몸을 건축하는 <b>'하나의 수고'</b>입니다.
+        </div>
+
+        <!-- 경고 메시지 (이미지 2 반영) -->
+        <div class="warning-container">
+          <div class="warning-title">⚠️ 경고: 흰색 말을 멈추게 하지 마십시오</div>
+          <div class="warning-text">
+            성경적 진리를 인정하는 것만으로는 충분하지 않습니다.<br>
+            아무런 열매도 맺지 못하고, 돌봄이 없고, 신언할 역량이 없다면... <b>우리는 실제로는 흰색 말에 탄 것이 아닙니다.</b><br><br>
+            복음을 전하지 않는 것에 대해 변명할 수 없습니다.
+          </div>
+          <div class="warning-footer">
+            우리의 무관심이 질주하는 흰색 말을 멈추게 해서는 안 됩니다!
+          </div>
+        </div>
+
+      </div>
+
+      <div class="bridge-card" style="border-color:#bfdbfe;background:#eff6ff;">
+        <span class="bridge-icon">⬇️</span>
+        <span class="bridge-text">우리가 복음을 전하고 교회를 건축하는 이 여정에서, 우리는 그리스도의 다함이 없는 풍성을 체험하게 된다 →</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="flow-connector"><div class="flow-line" style="background:linear-gradient(to bottom,var(--c1),var(--c2))"></div></div>
+
+<!-- POINT 2 -->
+<div class="accordion-section" id="point2">
+<div class="accordion-card">
+  <div class="accordion-header" onclick="toggleAcc(this)">
+    <div class="acc-icon" style="background:var(--c2)">✨</div>
+    <div class="acc-title-wrap">
+      <div class="acc-num" style="color:var(--c2)">핵심 02 · 체험과 누림의 과정</div>
+      <div class="acc-title">다함이 없는 그리스도의 풍성 — 아무도 모르는 이름</div>
+      <div class="acc-subtitle">가장 가까운 이기는 이들조차 다 알 수 없는 무한한 그리스도</div>
+    </div>
+    <span class="acc-chevron">▼</span>
+  </div>
+  <div class="accordion-body">
+    <div class="accordion-body-inner">
+
+      <div class="verse-box">
+        <div class="verse-label">🔖 관련 성경구절</div>
+        <div class="verse-ref">계 19:12</div>
+        <div class="verse-text">그분의 눈은 <b>불꽃</b>이고, 머리에는 <b>많은 왕관</b>이 있고, <b>그분 자신 외에는 아무도 모르는 이름</b>이 그분께 쓰여 있으며,</div>
+        <div class="verse-ref" style="margin-top:10px;">히 2:9</div>
+        <div class="verse-text">다만 우리는 <b>영광과 존귀로 관을 쓰신 예수님</b>을 봅니다. 그분은 죽음의 고난을 받으시려고 천사들보다 조금 못하게 되셨습니다. 그것은 그분께서 하나님의 은혜로 모든 것을 위하여 죽음을 맛보시기 위한 것이었습니다.</div>
+      </div>
+
+      <div class="point-content">
+        <div class="sub-title">▸ 불꽃의 눈 — 심판하시는 눈</div>
+        <p>그리스도의 눈이 <span class="hl">'불꽃'</span>이라는 것은 그분의 <span class="hl">심판하는 눈</span>을 의미한다. 그분은 자신이 보시는 바에 따라 심판하실 것이다. 그분의 불타오르는 눈이 그분의 심판을 수행할 것이다.</p>
+
+        <div class="sub-title">▸ 많은 왕관 — 각종 영광</div>
+        <p>전투원이신 그리스도의 머리에는 많은 왕관이 있다. 그리스도는 <span class="hl">각종 영광으로 관을 쓰셨기 때문에</span>(히 2:9), 많은 왕관이 있으시다.</p>
+
+        <div class="sub-title">▸ 아무도 모르는 이름 — 감추어진 풍성</div>
+        <p>흰색 말을 타신 분이신 주님께는 '그분 자신 외에는 아무도 모르는 이름'이 쓰여 있다. 이것은 우리가 <span class="hl">체험하지 못한, 오직 그리스도 자신만 아시는 그분의 어떤 면</span>이 있다는 것을 가리킨다. 이러한 것들은 그리스도께서 자신 안에 간직하시는, 그분 자신에 관한 비밀들이다.</p>
+        <p>우리가 그리스도를 극도로 체험하고 누릴지라도 여전히 우리에게는 감추어진 그분의 방면들이 있을 것이다. 그러한 것들은 심지어 <span class="hl">그분과 가장 가까운 이기는 이들에게도 알려지지 않을 것</span>이다. 이것은 우리가 체험하는 <span class="hl">그리스도께서 다함이 없으신 분</span>이심을 가리킨다.</p>
+      </div>
+
+      <div class="bridge-card" style="border-color:#fde68a;background:#fefce8;">
+        <span class="bridge-icon">⬇️</span>
+        <span class="bridge-text">이 다함이 없으신 그리스도가 총사령관으로서 흰색 말을 타고 다시 오셔서, 온 우주의 모든 불의에 맞서 의로 전쟁하신다 →</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="flow-connector"><div class="flow-line" style="background:linear-gradient(to bottom,var(--c2),var(--c3))"></div></div>
+
+<!-- POINT 3 -->
+<div class="accordion-section" id="point3">
+<div class="accordion-card">
+  <div class="accordion-header" onclick="toggleAcc(this)">
+    <div class="acc-icon" style="background:var(--c3)">⚔️</div>
+    <div class="acc-title-wrap">
+      <div class="acc-num" style="color:var(--c3)">핵심 03 · 완성 — 우주적 심판</div>
+      <div class="acc-title">그리스도의 다시오심 — 의로운 심판과 최종 승리</div>
+      <div class="acc-subtitle">우리의 삶이 연결되는 궁극적 목적지</div>
+    </div>
+    <span class="acc-chevron">▼</span>
+  </div>
+  <div class="accordion-body">
+    <div class="accordion-body-inner">
+
+      <div class="verse-box">
+        <div class="verse-label">🔖 관련 성경구절</div>
+        <div class="verse-ref">살후 2:7-8</div>
+        <div class="verse-text"><b>불법의 비밀</b>이 이미 활동하고 있지만, 지금 억제하고 있는 이가 물러날 때까지만 활동할 것입니다.</div>
+        <div class="verse-text" style="margin-top:6px;">그때에 그 <b>불법자</b>가 나타날 것이며, 주 예수님께서 그분의 <b>입의 호흡으로 그를 죽이실 것</b>이고, 직접 오시어 나타나심으로써 그를 제거하실 것입니다.</div>
+        <div class="verse-ref" style="margin-top:10px;">시 89:14</div>
+        <div class="verse-text"><b>의와 정의</b>가 주님의 <b>보좌의 기초</b>라 / 자애와 진리가 주님 앞에서 나아갑니다.</div>
+        <div class="verse-ref" style="margin-top:10px;">계 19:15</div>
+        <div class="verse-text">그분의 입에서는 <b>예리한 칼</b>이 나오는데, 그것은 민족들을 치시기 위한 것입니다. 그분은 <b>쇠막대기로 그들을 다스리실 것</b>이며, 전능하신 분이신 하나님의 극심한 분노의 포도즙 틀을 밟으실 것입니다.</div>
+        <div class="verse-ref" style="margin-top:10px;">살후 2:3</div>
+        <div class="verse-text">먼저 변절하는 일이 생기고, 그 <b>불법의 사람 곧 멸망의 아들</b>이 나타나기 전에는 그날이 오지 않을 것이기 때문입니다.</div>
+      </div>
+
+      <div class="point-content">
+        <div class="sub-title">▸ 사탄의 불의한 권세에 맞서시는 그리스도</div>
+        <p>그리스도는 하나님의 신실하시고 참되신 증인으로서 흰색 말을 타시고 의로 심판하시며 전쟁하신다. 그리스도는 돌아오셔서 <span class="hl">사탄의 불의한 권세</span>에 맞서 싸우실 것이다. 이 불의한 권세는 오늘날 <span class="hl">불법의 비밀</span>로서 이 세상에서 활동하고 있으며, <span class="hl">불법의 사람인 적그리스도</span>로 귀결될 것이다. 온 세상은 사탄의 불의한 권세 아래 있다.</p>
+
+        <div class="sub-title">▸ 싸우심으로써 심판하심</div>
+        <p>그리스도는 <span class="hl">의로 심판하실 뿐 아니라 의로 싸우신다</span>. 그분은 <span class="hl">싸우심으로써 심판하신다</span>. 오늘날에도 정부가 판결을 뒷받침하는 경찰력을 가지고 있지 않다면, 범죄자들은 법정에서의 판결을 받아들이지 않을 것이다. 판결은 경찰력에 의해서만 집행될 수 있다. 그리스도께서 오셔서 적그리스도를 심판하실 때, 적그리스도는 극도로 반역적일 것이다. 그러므로 그리스도께서 이러한 <span class="hl">반역을 굴복시키시고</span> 이러한 반역자들을 의로 심판하시기 위해 싸우실 필요가 있을 것이다.</p>
+        <p>그분께서 싸우심으로 심판하시는 것은 <span class="hl">의에 따른 것일 뿐 아니라 의를 유지하기 위한 것</span>이다.</p>
+
+        <div class="sub-title">▸ 오늘날의 상황과 필요</div>
+        <p>의와 정의는 하나님의 보좌의 기초이다(시 89:14). 그리스도는 불의와 부정과 불법과 반역으로 가득한 이 세상에 오셔서 의로 싸우실 것이다. 현재 우리는 그리스도께서 흰색 말을 타고 오셔서 의로 심판하시기를 앙망하고 있다. 의는 하나님의 의로운 절차에 따라 하나님과 사람에게 올바른 것을 의미한다. 오늘날 부패한 땅에는 <span class="hl">의가 없고 불법만 존재</span>한다. 모든 사람이 자신이 보기에 옳은 일을 한다. 이런 세상에 필요한 것은 <span class="hl">의로운 왕 곧 의로운 통치자</span>이다. 의로우신 그리스도는 돌아오셔서 모든 불의에 맞서 전쟁하실 것이다.</p>
+      </div>
+
+      <div class="bridge-card" style="border-color:#fecaca;background:#fef2f2;">
+        <span class="bridge-icon">🔗</span>
+        <span class="bridge-text">우리가 오늘 타는 흰색 말(복음 전파)과 주님의 다함 없는 풍성을 누리는 삶은 바로 이 우주적 심판과 최종 승리의 거대한 흐름 안에 있다. <b>우리의 삶이 주님의 다시 오심과 연결되어 온 우주를 의롭게 심판하는 것까지 이어진다.</b></span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</section>
+
+<!-- QUIZ -->
+<section class="quiz-section" id="quiz">
+  <h2>✏️ 이해도 퀴즈</h2>
+  <div id="quizContainer"></div>
+  <button class="quiz-submit-btn" id="quizSubmitBtn" onclick="submitQuiz()">결과 확인하기</button>
+  <div class="quiz-result" id="quizResult">
+    <div class="score" id="quizScore"></div>
+    <div class="score-text" id="quizScoreText"></div>
+    <div class="feedback-msg" id="quizFeedback"></div>
+  </div>
+</section>
+
+<!-- PRAYER -->
+<section class="prayer-section" id="prayer">
+  <h2>🙏 오늘의 기도</h2>
+  <div class="prayer-text">
+    <p>주 예수님, 당신은 신실하시고 참되신 증인이시며 흰색 말을 타시고 의로 심판하시고 전쟁하시는 분이십니다. 주님, 당신의 눈은 불꽃이시어 모든 것을 꿰뚫어 보시며, 당신의 의로우심으로 이 땅의 모든 불의와 불법에 맞서 싸우시는 분이십니다.</p>
+    <p>주님, 오늘날 불법의 비밀이 이 세상에서 활동하고 있음을 봅니다. 이 부패한 땅에 의가 없고 불법만 존재합니다. 우리에게 필요한 것은 의로운 왕이시며 의로운 통치자이신 당신뿐입니다. 주님, 우리가 당신의 오심을 앙망합니다.</p>
+    <p>주님, 우리도 흰색 말을 타게 하여 주십시오. 복음을 전파하여 죄인들을 구원으로 인도하고, 가정 집회를 열고, 젊은이들을 먹이고 보양하며, 그룹 집회에서 새로운 사람들을 함께 모으고, 교회의 건축을 위해 신언하게 하여 주십시오. 우리가 흰색 말을 멈추게 하지 않도록 은혜를 더하여 주십시오.</p>
+    <p>주님, 당신은 다함이 없으신 분이십니다. 우리가 당신을 극도로 체험하고 누릴지라도 여전히 감추어진 당신의 방면들이 있습니다. 우리가 오늘 복음을 전하고 주님의 풍성을 누리는 이 삶이 주님의 다시 오심과 연결되어 온 우주를 의롭게 심판하시는 그 최종 승리의 흐름 안에 있음을 감사합니다. 주님, 당신을 더 깊이 체험하고 더 많이 누리기를 간절히 사모합니다. 아멘.</p>
+  </div>
+</section>
+
+<div class="footer">메시지 425 — 그리스도에 대한 체험과 누림과 표현 (요한계시록)</div>
+
+</div>
+
+<script>
+// Splash Screen (레이어 벗기기)
+function hideSplash() {
+  const splash = document.getElementById('splashScreen');
+  splash.classList.add('peeled');
+  document.body.classList.remove('locked');
+  setTimeout(() => {
+    splash.style.display = 'none';
+    window.scrollTo(0, 0);
+  }, 700);
+}
+
+// Reveal Section (흰색 말을 멈추게 하지 않으려면)
+function toggleReveal() {
+  const content = document.getElementById('revealContent');
+  const btn = document.getElementById('revealBtn');
+  if(content.classList.contains('open')){
+    content.classList.remove('open');
+    btn.innerHTML = '🔓 흰색 말을 멈추게 하지 않으려면? (내용 열어보기)';
+  } else {
+    content.classList.add('open');
+    btn.innerHTML = '🔒 내용 닫기 (숨기기)';
+  }
+}
+
+// Three.js 3D Running Horse Animation (무게감 있고 자연스러운 움직임)
+window.addEventListener('load', init3DHorse);
+function init3DHorse() {
+  const container = document.getElementById('horse3d-container');
+  if (!container) return;
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
+  const scene = new THREE.Scene();
+  // 카메라 위치와 각도를 조정하여 더 역동적인 구도 설정
+  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+  camera.position.set(0, 3.5, 14);
+  camera.lookAt(0, 2.5, 0);
+
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  renderer.setSize(width, height);
+  renderer.shadowMap.enabled = true; // 그림자 활성화
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  container.appendChild(renderer.domElement);
+
+  // 조명 개선 (더 입체적이고 무게감 있게)
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
+
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  dirLight.position.set(5, 10, 8);
+  dirLight.castShadow = true;
+  dirLight.shadow.mapSize.width = 1024;
+  dirLight.shadow.mapSize.height = 1024;
+  dirLight.shadow.camera.near = 0.5;
+  dirLight.shadow.camera.far = 50;
+  scene.add(dirLight);
+
+  // 바닥 그림자 추가
+  const groundMesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(20, 20),
+    new THREE.ShadowMaterial({ opacity: 0.15 })
+  );
+  groundMesh.rotation.x = -Math.PI / 2;
+  groundMesh.position.y = 0.1;
+  groundMesh.receiveShadow = true;
+  scene.add(groundMesh);
+
+  // 말 그룹
+  const horseGroup = new THREE.Group();
+  scene.add(horseGroup);
+  horseGroup.rotation.y = Math.PI / 2; // 오른쪽을 바라보게 설정
+
+  // 재질 개선 (더 고급스러운 느낌)
+  const material = new THREE.MeshStandardMaterial({
+    color: 0xf0f0f0, // 순백색보다 약간 따뜻한 느낌
+    roughness: 0.6,
+    metalness: 0.1,
+  });
+
+  // 모델링 개선 (더 상세하고 무게감 있게)
+  // 몸통 (두 부분으로 나누어 근육 표현)
+  const bodyFrontGeo = new THREE.BoxGeometry(1.4, 1.6, 1.8);
+  const bodyFront = new THREE.Mesh(bodyFrontGeo, material);
+  bodyFront.position.set(0, 3.4, 0.8);
+  bodyFront.castShadow = true;
+  horseGroup.add(bodyFront);
+
+  const bodyBackGeo = new THREE.BoxGeometry(1.3, 1.5, 1.6);
+  const bodyBack = new THREE.Mesh(bodyBackGeo, material);
+  bodyBack.position.set(0, 3.5, -0.7);
+  bodyBack.castShadow = true;
+  horseGroup.add(bodyBack);
+
+  // 목 (더 굵고 힘있게)
+  const neckGeo = new THREE.BoxGeometry(0.7, 1.4, 1.0);
+  const neck = new THREE.Mesh(neckGeo, material);
+  neck.position.set(0, 4.2, 1.8);
+  neck.rotation.x = Math.PI / 4;
+  neck.castShadow = true;
+  horseGroup.add(neck);
+
+  // 머리 (더 상세하게)
+  const headGroup = new THREE.Group();
+  headGroup.position.set(0, 5.1, 2.3);
+  horseGroup.add(headGroup);
+
+  const headMainGeo = new THREE.BoxGeometry(0.6, 0.7, 1.2);
+  const headMain = new THREE.Mesh(headMainGeo, material);
+  headMain.castShadow = true;
+  headGroup.add(headMain);
+
+  const snoutGeo = new THREE.BoxGeometry(0.5, 0.5, 0.6);
+  const snout = new THREE.Mesh(snoutGeo, material);
+  snout.position.set(0, -0.1, 0.8);
+  snout.castShadow = true;
+  headGroup.add(snout);
+  
+  headGroup.rotation.x = Math.PI / 6;
+
+  // 다리 관절 함수 (상박, 하박 분리)
+  function createLeg(x, z) {
+    const legGroup = new THREE.Group();
+    legGroup.position.set(x, 3.0, z);
+
+    // 상박 (Thigh/Upper Leg)
+    const upperLegGeo = new THREE.BoxGeometry(0.45, 1.2, 0.45);
+    const upperLeg = new THREE.Mesh(upperLegGeo, material);
+    upperLeg.position.y = -0.6;
+    upperLeg.castShadow = true;
+    legGroup.add(upperLeg);
+
+    // 하박 (Shin/Lower Leg) - 관절 추가
+    const lowerLegGroup = new THREE.Group();
+    lowerLegGroup.position.y = -1.2;
+    legGroup.add(lowerLegGroup);
+
+    const lowerLegGeo = new THREE.BoxGeometry(0.35, 1.0, 0.35);
+    const lowerLeg = new THREE.Mesh(lowerLegGeo, material);
+    lowerLeg.position.y = -0.5;
+    lowerLeg.castShadow = true;
+    lowerLegGroup.add(lowerLeg);
+
+    // 발굽 (Hoof)
+    const hoofGeo = new THREE.BoxGeometry(0.4, 0.4, 0.4);
+    const hoof = new THREE.Mesh(hoofGeo, material);
+    hoof.position.y = -1.1;
+    hoof.castShadow = true;
+    lowerLegGroup.add(hoof);
+
+    horseGroup.add(legGroup);
+    return { upper: legGroup, lower: lowerLegGroup };
+  }
+
+  // 다리 생성
+  const fl = createLeg(0.6, 1.3);
+  const fr = createLeg(-0.6, 1.3);
+  const bl = createLeg(0.6, -1.1);
+  const br = createLeg(-0.6, -1.1);
+
+  // 꼬리 (더 풍성하고 자연스럽게)
+  const tailGroup = new THREE.Group();
+  tailGroup.position.set(0, 3.8, -1.5);
+  horseGroup.add(tailGroup);
+
+  const tailBaseGeo = new THREE.BoxGeometry(0.3, 0.6, 0.3);
+  const tailBase = new THREE.Mesh(tailBaseGeo, material);
+  tailBase.rotation.x = -Math.PI / 4;
+  tailBase.castShadow = true;
+  tailGroup.add(tailBase);
+
+  const tailHairGeo = new THREE.BoxGeometry(0.4, 1.5, 0.4);
+  const tailHair = new THREE.Mesh(tailHairGeo, material);
+  tailHair.position.set(0, -0.8, -0.3);
+  tailHair.rotation.x = -Math.PI / 8;
+  tailHair.castShadow = true;
+  tailGroup.add(tailHair);
+
+
+  // 애니메이션 (자연스러운 갤롭 동작 구현)
+  let time = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    time += 0.12; // 속도 조절
+
+    // 몸통의 움직임 (상하 바운스 및 기울기)
+    horseGroup.position.y = 0.3 + Math.sin(time * 2) * 0.2;
+    horseGroup.rotation.z = Math.sin(time) * 0.05; // 좌우 기울기
+    horseGroup.rotation.x = -Math.PI / 2 + Math.sin(time * 2 + Math.PI/4) * 0.08; // 앞뒤 기울기
+
+    // 다리 관절 애니메이션 (위상차를 이용한 갤롭)
+    // 앞다리
+    fl.upper.rotation.x = Math.sin(time) * 0.6;
+    fl.lower.rotation.x = Math.sin(time + Math.PI/3) * 0.8 - 0.4;
+
+    fr.upper.rotation.x = Math.sin(time + Math.PI/2) * 0.6;
+    fr.lower.rotation.x = Math.sin(time + Math.PI/2 + Math.PI/3) * 0.8 - 0.4;
+
+    // 뒷다리 (앞다리와 반대 위상)
+    bl.upper.rotation.x = Math.sin(time + Math.PI) * 0.7;
+    bl.lower.rotation.x = Math.sin(time + Math.PI + Math.PI/3) * 0.9 - 0.3;
+
+    br.upper.rotation.x = Math.sin(time + Math.PI*1.5) * 0.7;
+    br.lower.rotation.x = Math.sin(time + Math.PI*1.5 + Math.PI/3) * 0.9 - 0.3;
+
+    // 머리와 목의 반동
+    neck.rotation.x = Math.PI / 4 + Math.sin(time * 2) * 0.1;
+    headGroup.rotation.x = Math.PI / 6 + Math.sin(time * 2 - Math.PI/4) * 0.15;
+
+    // 꼬리의 움직임
+    tailGroup.rotation.x = Math.sin(time * 2) * 0.2;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.clientWidth, container.clientHeight);
+  });
+}
+
+function togglePanel(){
+  document.getElementById('sidePanel').classList.toggle('open');
+  document.getElementById('panelOverlay').classList.toggle('open');
+}
+let fontScale=1;
+function adjustFont(dir){
+  fontScale=Math.max(0.7,Math.min(1.5,fontScale+dir*0.05));
+  document.documentElement.style.setProperty('--font-scale',fontScale);
+}
+function resetFont(){
+  fontScale=1;document.documentElement.style.setProperty('--font-scale',1);
+}
+function toggleAcc(header){
+  const card=header.parentElement;
+  const body=card.querySelector('.accordion-body');
+  if(card.classList.contains('open')){
+    body.style.maxHeight='0';card.classList.remove('open');
+  } else {
+    card.classList.add('open');
+    body.style.maxHeight=body.scrollHeight+'px';
+    setTimeout(()=>{body.style.maxHeight='none';},400);
+  }
+}
+let activeTooltip=null;
+function showKwTooltip(chip){
+  const tooltip=chip.querySelector('.kw-tooltip');
+  if(activeTooltip&&activeTooltip!==tooltip){activeTooltip.classList.remove('show');}
+  tooltip.classList.toggle('show');
+  activeTooltip=tooltip.classList.contains('show')?tooltip:null;
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.kw-chip')&&activeTooltip){activeTooltip.classList.remove('show');activeTooltip=null;}
+});
+
+const quizData=[
+  {
+    q:"이 메시지에서 '흰색 말을 타는 것'은 오늘날 우리에게 무엇을 의미하는가?",
+    opts:["세상 권력을 잡는 것","복음을 전파하고 교회를 건축하는 것","개인적 수련과 기도만 하는 것","전쟁에 참여하는 것"],
+    answer:1,
+    hint:"흰색 말이 포함하는 네 가지 활동(복음 전파, 가정 집회, 양육, 신언)을 떠올려 보세요.",
+    explain:"정답! 흰색 말을 타는 것은 복음 전파, 가정 집회, 젊은이를 먹이는 것, 그룹 집회, 신언 등 교회 건축의 활동을 포함합니다."
+  },
+  {
+    q:"'그분 자신 외에는 아무도 모르는 이름'이 가리키는 핵심 의미는?",
+    opts:["그리스도의 숨겨진 정체","우리가 다 체험할 수 없는 그리스도의 무한하고 다함 없는 풍성","천사들만 아는 비밀 계획","구약 예언의 미스터리"],
+    answer:1,
+    hint:"이기는 이들에게조차 알려지지 않은 그리스도의 어떤 특성을 가리킵니다.",
+    explain:"정답! 이것은 우리가 체험하지 못한, 오직 그리스도 자신만 아시는 그분의 무한한 풍성을 가리키며, 그리스도께서 다함이 없으신 분이심을 보여줍니다."
+  },
+  {
+    q:"그리스도께서 적그리스도를 심판하실 때 단순히 판결만 내리지 않고 '전쟁(싸움)'을 하시는 이유는 무엇입니까?",
+    opts:["적그리스도의 세력이 그리스도보다 강하기 때문","모든 민족에게 공포심을 심어주기 위해","적그리스도가 극도로 반역적이라 판결을 받아들이지 않기 때문","구약의 예언을 문자 그대로 성취하기 위해"],
+    answer:2,
+    hint:"판결을 뒷받침하는 '경찰력'의 비유를 떠올려 보세요.",
+    explain:"정답! 적그리스도가 극도로 반역적일 것이므로, 그리스도께서 이러한 반역을 굴복시키시고 의로 심판하시기 위해 싸우실 필요가 있습니다."
+  },
+  {
+    q:"오늘날 우리의 복음 전파가 주님의 다시 오심과 어떻게 연결되는가?",
+    opts:["전혀 관련이 없다","우리의 삶이 궁극적으로 온 우주의 불의를 끝내시는 그리스도의 최종 승리로 이어진다","복음 전파는 심판을 피하기 위한 것이다","개인의 구원에만 관련된다"],
+    answer:1,
+    hint:"대시보드의 흐름 — '지금 우리의 삶'에서 '우주적 심판'까지의 연결을 떠올려 보세요.",
+    explain:"정답! 우리가 복음을 전하며 주님의 풍성을 누리는 삶은 궁극적으로 온 우주의 모든 불의를 끝내고 하나님의 의를 세우시는 그리스도의 마지막 승리로 이어지는 거대한 흐름 속에 있습니다."
+  },
+  {
+    q:"본문에서 '흰색 말에 탄 것'으로 간주되는 믿는 이들의 구체적인 실행이 아닌 것은 무엇입니까?",
+    opts:[
+      "교회의 건축을 위해 신언하는 것",
+      "젊은이들을 먹이고 보살피는 가정 집회",
+      "복음을 전파하여 죄인들을 구원함",
+      "세상의 정치 시스템을 개혁하기 위해 투쟁함"
+    ],
+    answer:3,
+    hint:"요점 1을 확인해 보세요.",
+    explain:"정답! 본문은 흰색 말을 타는 것을 복음 전파, 양육, 집회, 교회 건축을 위한 신언 등으로 정의하며 정치 투쟁은 언급하지 않습니다."
+  }
+];
+
+const quizContainer=document.getElementById('quizContainer');
+quizData.forEach((item,i)=>{
+  const div=document.createElement('div');
+  div.className='quiz-item';
+  let optsHtml=item.opts.map((o,j)=>`
+    <div class="quiz-opt" data-q="${i}" data-o="${j}" onclick="selectOpt(this)">
+      <span class="opt-circle"></span><span>${o}</span>
+    </div>
+  `).join('');
+  div.innerHTML=`
+    <div class="quiz-q"><span class="quiz-badge">${i+1}</span><span class="quiz-q-text">${item.q}</span></div>
+    <div class="quiz-options">${optsHtml}</div>
+    <button class="quiz-hint-btn" onclick="toggleHint(${i})">💡 힌트 보기</button>
+    <div class="quiz-hint" id="hint-${i}">${item.hint}</div>
+    <div class="quiz-feedback" id="fb-${i}"></div>
+  `;
+  quizContainer.appendChild(div);
+});
+
+const userAnswers={};
+function selectOpt(el){
+  const q=el.dataset.q;
+  el.parentElement.querySelectorAll('.quiz-opt').forEach(s=>{s.classList.remove('selected');s.querySelector('.opt-circle').textContent='';});
+  el.classList.add('selected');el.querySelector('.opt-circle').textContent='✓';
+  userAnswers[q]=parseInt(el.dataset.o);
+}
+function toggleHint(i){document.getElementById('hint-'+i).classList.toggle('show');}
+function submitQuiz(){
+  let score=0;
+  quizData.forEach((item,i)=>{
+    const opts=document.querySelectorAll(`[data-q="${i}"]`);
+    const fb=document.getElementById('fb-'+i);
+    opts.forEach(o=>{o.classList.remove('correct','wrong');o.style.pointerEvents='none';});
+    if(userAnswers[i]!==undefined){
+      if(userAnswers[i]===item.answer){
+        score++;opts[userAnswers[i]].classList.add('correct');
+        fb.className='quiz-feedback show correct-fb';fb.textContent=item.explain;
+      } else {
+        opts[userAnswers[i]].classList.add('wrong');opts[item.answer].classList.add('correct');
+        fb.className='quiz-feedback show wrong-fb';fb.textContent='정답: '+item.opts[item.answer];
+      }
+    } else {
+      opts[item.answer].classList.add('correct');
+      fb.className='quiz-feedback show wrong-fb';fb.textContent='미응답 — 정답: '+item.opts[item.answer];
+    }
+  });
+  document.getElementById('quizResult').classList.add('show');
+  document.getElementById('quizScore').textContent=score+' / '+quizData.length;
+  document.getElementById('quizScoreText').textContent='총 '+quizData.length+'문제 중 '+score+'문제 정답';
+  let msg='';
+  if(score===5) msg='🎉 완벽합니다! 메시지의 핵심 흐름을 정확히 이해하셨습니다!';
+  else if(score>=3) msg='👏 잘하셨습니다! 세 가지 핵심 흐름의 연결을 다시 확인해 보세요.';
+  else msg='📖 핵심요점을 다시 한번 읽어보시길 추천합니다.';
+  document.getElementById('quizFeedback').textContent=msg;
+  document.getElementById('quizSubmitBtn').style.display='none';
+}
+
+const kwData={
+  '흰색 말':'복음 전파를 상징, 깨끗하고 순수하며 공정한 것',
+  '의(義)':'하나님의 보좌의 기초, 하나님과 사람에게 올바른 것',
+  '불법의 비밀':'이미 세상에서 활동, 적그리스도로 귀결',
+  '아무도 모르는 이름':'그리스도의 다함 없는 풍성',
+  '복음 전파':'가정 집회·양육·신언 포함, 흰색 말을 타는 것',
+  '불꽃의 눈':'심판하는 눈, 보시는 바에 따라 심판',
+  '적그리스도':'불법의 사람, 멸망의 아들'
+};
+const kwSubMenu=document.getElementById('kwSubMenu');
+Object.entries(kwData).forEach(([k,v])=>{
+  const li=document.createElement('li');
+  li.innerHTML=`<a href="#keywords" onclick="togglePanel()" title="${v}">• ${k}</a>`;
+  kwSubMenu.appendChild(li);
+});
+</script>
+</body>
+</html>
