@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>왕국을 가져오는 '하나님의 말씀'</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base-font-size: 17px;
+  --font-scale: 1;
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #333333;
+  --accent: #2563eb;
+  --highlight: #fef08a;
+  --highlight-text: #1a1a1a;
+  --border: #e5e7eb;
+  --card-bg: #ffffff;
+  --card-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  --section-bg: #f8f9fa;
+  --verse-bg: #f0f4ff;
+  --verse-border: #93b4f5;
+  --topbar-h: 44px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  scroll-behavior: smooth;
+  scroll-padding-top: 52px;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  padding-top: var(--topbar-h);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ===== TOP BAR ===== */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--topbar-h);
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  z-index: 1000;
+  padding: 0;
+  gap: 0;
+}
+.topbar-left {
+  display: flex; align-items: center; flex-shrink: 0;
+}
+.topbar-btn {
+  width: 40px; height: var(--topbar-h);
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer;
+  color: var(--text); font-size: 18px;
+}
+.topbar-btn:hover { background: #f3f4f6; }
+.topbar-title-wrap {
+  flex: 1; min-width: 0; overflow-x: auto;
+  white-space: nowrap; scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  display: flex; align-items: center;
+  height: var(--topbar-h);
+  padding: 0 6px;
+}
+.topbar-title-wrap::-webkit-scrollbar { display: none; }
+.topbar-title {
+  font-size: 15px; font-weight: 600; color: var(--text);
+  white-space: nowrap;
+}
+.font-controls {
+  display: flex; align-items: center; flex-shrink: 0;
+  height: var(--topbar-h);
+}
+.font-btn {
+  width: 34px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  background: #f3f4f6; border: 1px solid var(--border);
+  cursor: pointer; font-size: 14px; font-weight: 600;
+  color: var(--text); border-radius: 4px; margin-right: 4px;
+}
+.font-btn:hover { background: #e5e7eb; }
+
+/* ===== SIDE PANEL ===== */
+.overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.3); z-index: 1001;
+}
+.overlay.active { display: block; }
+.side-panel {
+  position: fixed; top: 0; left: -300px; width: 280px;
+  height: 100%; background: #fff; z-index: 1002;
+  transition: left 0.3s ease; overflow-y: auto;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+  padding: 0;
+}
+.side-panel.active { left: 0; }
+.panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; border-bottom: 1px solid var(--border);
+  font-weight: 700; font-size: 15px;
+}
+.panel-close {
+  background: none; border: none; font-size: 20px;
+  cursor: pointer; color: #666; padding: 4px;
+}
+.panel-nav { padding: 8px 0; }
+.panel-item {
+  display: block; padding: 10px 20px;
+  text-decoration: none; color: var(--text);
+  font-size: 14px; font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all 0.2s;
+}
+.panel-item:hover, .panel-item:active {
+  background: #f3f4f6; border-left-color: var(--accent);
+}
+.panel-sub {
+  padding-left: 36px; font-size: 13px; font-weight: 400;
+  color: var(--text-secondary);
+}
+.panel-divider { height: 1px; background: var(--border); margin: 6px 16px; }
+.keyword-popup {
+  display: none; margin: 4px 20px 8px 36px;
+  background: #f8f9fa; border-radius: 6px;
+  padding: 8px 12px; font-size: 13px; line-height: 1.6;
+  color: var(--text-secondary); border: 1px solid var(--border);
+}
+.keyword-popup.show { display: block; }
+
+/* ===== MAIN CONTAINER ===== */
+.container {
+  max-width: 720px; margin: 0 auto;
+  padding: 0 16px 60px;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  text-align: center; padding: 40px 0 24px;
+}
+.hero-badge {
+  display: inline-block;
+  background: #eef2ff; color: var(--accent);
+  font-size: 0.8rem; font-weight: 600;
+  padding: 6px 16px; border-radius: 20px;
+  margin-bottom: 12px; letter-spacing: 0.5px;
+}
+.hero h1 {
+  font-size: 1.7rem; font-weight: 800;
+  color: var(--text); line-height: 1.4;
+  margin-bottom: 10px;
+}
+.hero h1 .highlight-word {
+  background: linear-gradient(180deg, transparent 55%, var(--highlight) 55%);
+  padding: 0 2px;
+}
+.hero-sub {
+  font-size: 0.95rem; color: var(--text-secondary);
+  font-weight: 500; margin-bottom: 8px; line-height: 1.5;
+}
+.hero-verse-ref {
+  font-size: 0.85rem; color: #6b7280; font-weight: 500;
+}
+
+/* ===== LAYER INTRO ===== */
+.layer-intro {
+  background: #fafbfc; border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px;
+  margin: 16px 0 28px; text-align: center;
+}
+.layer-title {
+  font-size: 0.95rem; font-weight: 700; color: var(--accent);
+  margin-bottom: 14px; display: flex; align-items: center;
+  justify-content: center; gap: 6px;
+}
+.layer-steps {
+  display: flex; flex-direction: column; gap: 0; align-items: center;
+}
+.layer-step {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0; width: 100%; max-width: 340px; text-align: left;
+}
+.layer-icon {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0; font-weight: 700;
+  color: #fff;
+}
+.layer-text { font-size: 0.9rem; font-weight: 500; color: var(--text); }
+.layer-arrow {
+  color: #d1d5db; font-size: 18px; margin: -4px 0;
+}
+
+/* ===== DASHBOARD ===== */
+.dashboard {
+  margin: 0 0 28px;
+}
+.dash-title {
+  font-size: 0.95rem; font-weight: 700; color: var(--text);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+}
+.dash-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.dash-card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+.dash-card:hover { transform: translateY(-1px); }
+.dash-icon { font-size: 24px; margin-bottom: 8px; }
+.dash-label { font-size: 0.8rem; color: #6b7280; font-weight: 500; margin-bottom: 4px; }
+.dash-value { font-size: 0.9rem; font-weight: 700; color: var(--text); line-height: 1.4; }
+
+/* ===== ACCORDION SECTIONS ===== */
+.section-group { margin: 28px 0; }
+.section-title {
+  font-size: 1rem; font-weight: 700; color: var(--text);
+  margin-bottom: 16px; display: flex; align-items: center; gap: 6px;
+}
+
+.accordion {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+.accordion-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px; cursor: pointer;
+  user-select: none; transition: background 0.2s;
+  border-left: 4px solid;
+}
+.accordion-header:hover { background: #f9fafb; }
+.acc-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0; color: #fff; font-weight: 700;
+}
+.acc-title-wrap { flex: 1; min-width: 0; }
+.acc-num { font-size: 0.75rem; font-weight: 600; color: #6b7280; margin-bottom: 2px; }
+.acc-title { font-size: 1rem; font-weight: 700; color: var(--text); }
+.acc-chevron {
+  font-size: 18px; color: #9ca3af; transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.accordion.open .acc-chevron { transform: rotate(180deg); }
+
+.accordion-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.accordion-content {
+  padding: 0 16px 20px;
+}
+
+/* ===== VERSE BLOCK ===== */
+.verse-block {
+  background: var(--verse-bg);
+  border-left: 3px solid var(--verse-border);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+.verse-header {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 8px;
+}
+.verse-bookmark { font-size: 15px; color: var(--accent); }
+.verse-ref { font-size: 0.8rem; font-weight: 600; color: var(--accent); }
+.verse-text {
+  font-size: 0.95rem; line-height: 1.7;
+  color: var(--text); word-break: keep-all;
+}
+.verse-text + .verse-text { margin-top: 10px; }
+.verse-text b, .verse-text strong {
+  background: var(--highlight); padding: 1px 3px;
+  border-radius: 2px; font-weight: 700;
+}
+
+/* ===== CONTENT STYLING ===== */
+.point-content {
+  font-size: 0.95rem; line-height: 1.8;
+  color: var(--text); word-break: keep-all;
+}
+.point-content p { margin-bottom: 12px; }
+.point-content p:last-child { margin-bottom: 0; }
+.point-content b, .point-content strong {
+  background: var(--highlight); padding: 1px 3px;
+  border-radius: 2px; font-weight: 700;
+}
+
+.point-subheading {
+  font-size: 0.95rem; font-weight: 700; color: var(--text);
+  margin: 20px 0 8px; padding-left: 0;
+  display: flex; align-items: center; gap: 6px;
+}
+.point-subheading::before {
+  content: ''; width: 5px; height: 5px;
+  background: var(--accent); border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.callout-box {
+  background: #fffbeb; border: 1px solid #fde68a;
+  border-radius: 8px; padding: 16px;
+  margin: 16px 0; font-size: 0.9rem; line-height: 1.6;
+}
+.callout-box .callout-label {
+  font-weight: 700; color: #92400e; font-size: 0.8rem;
+  margin-bottom: 6px;
+}
+
+/* ===== 요점 1: 질서 vs 혼돈 이미지 스타일 ===== */
+.order-chaos-wrapper {
+  margin: 24px 0; border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  box-shadow: var(--card-shadow); display: flex; flex-direction: column;
+}
+.oc-top {
+  background-color: #f8fafc;
+  background-image: linear-gradient(#e2e8f0 1px, transparent 1px), linear-gradient(90deg, #e2e8f0 1px, transparent 1px);
+  background-size: 20px 20px;
+  padding: 24px 16px 40px 16px;
+}
+.oc-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+}
+.oc-item {
+  background: #ffffff; border: 2px solid #cbd5e1; padding: 14px 6px; text-align: center;
+  font-weight: 800; color: #0f172a; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  font-size: 0.9rem; word-break: keep-all; display: flex; flex-direction: column; justify-content: center;
+}
+.oc-item-sub {
+  font-size: 0.75rem; font-weight: 500; color: #64748b; margin-top: 4px;
+}
+.oc-middle {
+  background: #1e293b; color: #f8fafc; text-align: center; padding: 18px; font-size: 0.95rem;
+  font-weight: 600; line-height: 1.6; border: 4px solid #991b1b; border-left: none; border-right: none;
+  position: relative; z-index: 10; margin: -24px 0; word-break: keep-all; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.oc-middle strong { color: #fef08a; font-weight: 800; }
+.oc-bottom {
+  background-color: #fef2f2;
+  padding: 40px 16px 24px 16px;
+  position: relative;
+}
+.oc-bottom::before {
+  content: ''; position: absolute; inset: 0; opacity: 0.25;
+  background: repeating-linear-gradient(45deg, #ef4444 0, #ef4444 1px, transparent 1px, transparent 15px),
+              repeating-linear-gradient(-45deg, #1e293b 0, #1e293b 1px, transparent 1px, transparent 20px);
+}
+.oc-item.dark {
+  position: relative; z-index: 2; background: #ffffff; border: 3px solid #1e293b;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.1); transform: rotate(-1deg);
+}
+.oc-item.dark:nth-child(2) { transform: rotate(1deg); }
+.oc-item.dark:nth-child(3) { transform: rotate(-2deg); }
+
+/* ===== 비교표 및 다크 콜아웃 스타일 (요점 2) ===== */
+.detailed-compare {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--border); border-radius: 8px;
+  overflow: hidden; margin: 20px 0 0 0;
+  box-shadow: var(--card-shadow);
+}
+.dc-header {
+  padding: 16px 10px; text-align: center; font-weight: 700;
+  font-size: 0.95rem; border-bottom: 2px solid var(--border);
+  line-height: 1.4;
+}
+.dc-header.left { background: #f8fafc; border-right: 1px solid var(--border); color: #1e293b; }
+.dc-header.right { background: #fef2f2; color: #991b1b; }
+.dc-sub { font-size: 0.8rem; font-weight: 500; display: block; margin-top: 4px; }
+.dc-header.left .dc-sub { color: #475569; }
+.dc-header.right .dc-sub { color: #b91c1c; }
+.dc-cell {
+  padding: 16px 12px; font-size: 0.9rem; text-align: center;
+  display: flex; align-items: center; justify-content: center;
+  border-bottom: 1px solid var(--border); line-height: 1.5;
+  word-break: keep-all;
+}
+.dc-cell.left { border-right: 1px solid var(--border); background: #ffffff; color: var(--text); }
+.dc-cell.right { background: #fffcfc; color: var(--text); }
+.dc-cell.bottom-left, .dc-cell.bottom-right { border-bottom: none; }
+.text-danger { color: #dc2626; font-weight: 700; }
+
+.dark-callout {
+  background: #273142; color: #f8fafc; border-radius: 8px;
+  padding: 20px 16px; margin: 16px 0 24px 0; font-size: 1rem;
+  text-align: center; line-height: 1.6; word-break: keep-all;
+  border: 2px solid #374151; box-shadow: var(--card-shadow);
+}
+.dark-callout strong { color: #fef08a; }
+
+/* ===== 5단계 표 스타일 (요점 3) ===== */
+.tf-container { margin: 20px 0; font-family: 'Noto Sans KR', sans-serif; }
+.tf-domain { border: 1px solid #cbd5e1; border-radius: 12px; padding: 24px 16px 16px 16px; position: relative; background: #f8fafc; margin-bottom: 0px; }
+.tf-domain-label { position: absolute; top: -14px; left: 16px; background: #fff; padding: 6px 14px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 0.8rem; font-weight: 700; color: #475569; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.tf-step { border-radius: 8px; padding: 16px; margin-bottom: 10px; border: 1px solid transparent; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
+.tf-step:last-child { margin-bottom: 0; }
+.tf-step.bg-1 { background: #eff6ff; border-color: #bfdbfe; color: #1e3a8a; }
+.tf-step.bg-2 { background: #f0fdf4; border-color: #bbf7d0; color: #14532d; }
+.tf-step.bg-3 { background: #faf5ff; border-color: #e9d5ff; color: #581c87; }
+.tf-step.bg-4 { background: #fff7ed; border-color: #fed7aa; color: #9a3412; }
+.tf-step-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 6px; }
+.tf-step-desc { font-size: 0.88rem; color: #475569; line-height: 1.6; word-break: keep-all; }
+.tf-step-desc b { background: rgba(255,255,255,0.6); padding: 0 4px; border-radius: 4px; color: inherit; }
+.tf-arrow { text-align: center; color: #94a3b8; margin: 6px 0; font-size: 1.2rem; font-weight: 800; }
+.tf-transition-wrapper { text-align: center; margin: 16px 0; }
+.tf-transition { display: inline-block; font-size: 0.85rem; font-weight: 700; color: #475569; padding: 8px 16px; background: #e2e8f0; border-radius: 20px; border: 1px dashed #94a3b8; }
+.tf-verse-box { text-align: center; font-size: 0.9rem; color: #475569; margin: 24px 0 16px 0; padding: 16px; background: #f1f5f9; border-radius: 8px; font-style: normal; line-height: 1.6; word-break: keep-all; border-left: 4px solid #cbd5e1; }
+.tf-verse-box strong { color: #1e293b; }
+.tf-final { text-align: center; background: #fff7ed; color: #9a3412; font-weight: 800; padding: 16px; border-radius: 30px; border: 2px solid #fdba74; font-size: 1.05rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+.dark-callout-truth {
+  background: #1e293b; color: #f8fafc; border: 2px solid #475569;
+  border-radius: 8px; padding: 18px; font-size: 0.95rem; font-weight: 500;
+  text-align: center; margin-top: 24px; position: relative; line-height: 1.6;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); word-break: keep-all;
+}
+.dark-callout-truth::before {
+  content: ''; position: absolute; top: -8px; left: 50%;
+  transform: translateX(-50%); border-left: 8px solid transparent;
+  border-right: 8px solid transparent; border-bottom: 8px solid #475569;
+}
+
+/* ===== QUIZ SECTION ===== */
+#quiz-section { margin: 40px 0; }
+.quiz-title {
+  font-size: 1rem; font-weight: 700; color: var(--text);
+  margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+}
+.quiz-desc { color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem; }
+.quiz-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  display: none;
+}
+.quiz-card.active { display: block; animation: fadeIn 0.4s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.quiz-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+.quiz-badge {
+  background: var(--accent);
+  color: #fff;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 16px; flex-shrink: 0;
+  margin-top: 2px;
+}
+.quiz-question {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 1rem;
+}
+.quiz-label {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  word-break: keep-all;
+  background: #fff;
+  color: var(--text);
+}
+.quiz-label:hover { background: #f8f9fa; }
+.quiz-label input { margin-right: 15px; transform: scale(1.2); flex-shrink: 0; }
+.quiz-hint-btn {
+  background: none; border: none;
+  color: #d97706; font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; margin-top: 16px; display: inline-flex; align-items: center; gap: 5px;
+}
+.quiz-hint-text {
+  display: none; background: #fffbeb; border-left: 3px solid #fde68a;
+  padding: 12px 16px; margin-top: 10px; font-size: 0.9rem; border-radius: 6px; color: #92400e; line-height: 1.6; word-break: keep-all;
+}
+.quiz-nav {
+  display: flex; justify-content: space-between; margin-top: 24px;
+}
+.btn {
+  padding: 14px 28px; border: none; border-radius: 8px;
+  font-weight: 700; cursor: pointer; font-size: 1rem; transition: opacity 0.2s;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { opacity: 0.9; }
+
+#quiz-result {
+  text-align: center; padding: 30px 20px; background: var(--card-bg); border-radius: 12px; display: none; border: 1px solid var(--border); box-shadow: var(--card-shadow);
+}
+.score-circle {
+  width: 100px; height: 100px; border-radius: 50%; background: var(--accent);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 2.2em; font-weight: 700; margin: 0 auto 20px;
+}
+
+/* ===== PRAYER ===== */
+#prayer-section { margin: 40px 0 20px; }
+.prayer-box {
+  background: #fafbfc; border: 1px solid var(--border);
+  border-radius: 12px; padding: 28px 24px;
+  text-align: center;
+}
+.prayer-icon { font-size: 32px; margin-bottom: 12px; }
+.prayer-title {
+  font-size: 1rem; font-weight: 700; color: var(--text);
+  margin-bottom: 16px;
+}
+.prayer-text {
+  font-size: 0.95rem; line-height: 2;
+  color: var(--text); text-align: left; word-break: keep-all;
+}
+.prayer-text p { margin-bottom: 12px; }
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center; padding: 24px 0;
+  font-size: 0.8rem; color: #9ca3af;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+/* ===== RESPONSIVE (MOBILE OPTIMIZATION) ===== */
+@media (max-width: 480px) {
+  .container { padding: 0 16px 60px; }
+  .hero h1 { font-size: 1.5rem; }
+  .dash-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  
+  /* 요점 1 이미지 반응형 개선 */
+  .oc-item { font-size: 0.85rem; padding: 10px 4px; }
+  .oc-item-sub { font-size: 0.7rem; }
+  .oc-middle { font-size: 0.9rem; padding: 14px 10px; margin: -16px 0; }
+
+  /* 비교표 반응형: 글씨가 작아지지 않게 좌우 레이아웃 유지 */
+  .dc-header { padding: 10px 4px; font-size: 0.85rem; }
+  .dc-cell { padding: 12px 8px; font-size: 0.85rem; }
+  
+  /* 상단 바 모바일 유지 */
+  .topbar-title { font-size: 14px; }
+  
+  /* 아코디언 내 여백 확보 */
+  .verse-block { padding: 12px 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="topbar-btn" onclick="togglePanel()" aria-label="목차">☰</button>
+    <a href="https://tk-korea.github.io/2025wintertraining/" class="topbar-btn" aria-label="홈">🏠</a>
+  </div>
+  <div class="topbar-title-wrap">
+    <span class="topbar-title">왕국을 가져오는 '하나님의 말씀'</span>
+  </div>
+  <div class="font-controls">
+    <button class="font-btn" onclick="changeFontSize(-1)">−</button>
+    <button class="font-btn" onclick="resetFontSize()">가</button>
+    <button class="font-btn" onclick="changeFontSize(1)">+</button>
+  </div>
+</div>
+
+<!-- SIDE PANEL -->
+<div class="overlay" id="overlay" onclick="togglePanel()"></div>
+<div class="side-panel" id="sidePanel">
+  <div class="panel-header">
+    목차
+    <button class="panel-close" onclick="togglePanel()">✕</button>
+  </div>
+  <nav class="panel-nav">
+    <a class="panel-item" href="#hero" onclick="togglePanel()">📖 제목</a>
+    <a class="panel-item" href="#dashboard" onclick="togglePanel()">📊 대시보드</a>
+    <div class="panel-divider"></div>
+    <a class="panel-item" href="#keywords" onclick="togglePanel()">🔑 키워드</a>
+    <a class="panel-item panel-sub keyword-toggle" data-kw="kw1" href="javascript:void(0)">하나님의 말씀</a>
+    <div class="keyword-popup" id="kw1">그리스도 자신이 곧 하나님의 말씀이시다. 하나님의 표현이요, 증거요, 말씀하심이다.</div>
+    <a class="panel-item panel-sub keyword-toggle" data-kw="kw2" href="javascript:void(0)">아마겟돈</a>
+    <div class="keyword-popup" id="kw2">요한계시록 16:16에 나오는 최후의 전쟁 장소. 그리스도께서 하나님의 말씀으로서 원수와 싸우시는 전쟁이다.</div>
+    <a class="panel-item panel-sub keyword-toggle" data-kw="kw3" href="javascript:void(0)">질서의 하나님</a>
+    <div class="keyword-popup" id="kw3">하나님은 혼돈의 하나님이 아니시며, 의로우시고 주권적이신 질서의 하나님으로서 반역을 용인하지 않으신다.</div>
+    <a class="panel-item panel-sub keyword-toggle" data-kw="kw4" href="javascript:void(0)">장비됨</a>
+    <div class="keyword-popup" id="kw4">말씀을 읽고, 연구하고, 주목하고, 숙고하고, 응시하며 소화하고 동화하여 말씀으로 조성되는 것이다.</div>
+    <div class="panel-divider"></div>
+    <a class="panel-item" href="#points" onclick="togglePanel()">📌 핵심요점</a>
+    <a class="panel-item panel-sub" href="#point1" onclick="togglePanel()">1. '하나님의 말씀'이신 그리스도</a>
+    <a class="panel-item panel-sub" href="#point2" onclick="togglePanel()">2. 말씀의 두 가지 기능</a>
+    <a class="panel-item panel-sub" href="#point3" onclick="togglePanel()">3. 오늘날 우리의 실행</a>
+    <div class="panel-divider"></div>
+    <a class="panel-item" href="#quiz-section" onclick="togglePanel()">✏️ 퀴즈</a>
+    <a class="panel-item" href="#prayer-section" onclick="togglePanel()">🙏 오늘의 기도</a>
+  </nav>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero" id="hero">
+    <div class="hero-badge">2025 겨울훈련 10주 5일</div>
+    <h1><span class="highlight-word">왕국을 가져오는 '하나님의 말씀'</span></h1>
+    <p class="hero-sub">"그분은 피로 물든 옷을 입으셨는데,<br>그분의 이름은 '하나님의 말씀'이라고 불립니다."</p>
+    <p class="hero-verse-ref">요한계시록 19:13</p>
+  </div>
+
+  <!-- LAYER INTRO -->
+  <div class="layer-intro">
+    <div class="layer-title">🧅 핵심 요점 요약</div>
+    <div class="layer-steps">
+      <div class="layer-step">
+        <div class="layer-icon" style="background:#3b82f6;">1</div>
+        <div class="layer-text"><b>'하나님의 말씀'</b>이신 그리스도의 출전</div>
+      </div>
+      <div class="layer-arrow">↓</div>
+      <div class="layer-step">
+        <div class="layer-icon" style="background:#8b5cf6;">2</div>
+        <div class="layer-text">생명 공급과 <b>영적 전쟁의 무기</b>인 말씀</div>
+      </div>
+      <div class="layer-arrow">↓</div>
+      <div class="layer-step">
+        <div class="layer-icon" style="background:#ec4899;">3</div>
+        <div class="layer-text">오늘날 삶의 현장에서 <b>말씀으로 무장하고 선포함</b></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="dashboard" id="dashboard">
+    <div class="dash-title">📊 핵심 대시보드</div>
+    <div class="dash-grid">
+      <div class="dash-card">
+        <div class="dash-icon">⚔️</div>
+        <div class="dash-label">핵심 인물</div>
+        <div class="dash-value">전투하는 그리스도</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-icon">📖</div>
+        <div class="dash-label">말씀의 두 기능</div>
+        <div class="dash-value">생명 공급 & 무기</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-icon">🎯</div>
+        <div class="dash-label">우리의 실행</div>
+        <div class="dash-value">말씀 장비와 선포</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-icon">🌍</div>
+        <div class="dash-label">최종 목적지</div>
+        <div class="dash-value">아마겟돈의 승리</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCORDION POINTS -->
+  <div class="section-group" id="points">
+    <div class="section-title">📌 핵심요점</div>
+
+    <!-- POINT 1 -->
+    <div class="accordion" id="point1">
+      <div class="accordion-header" style="border-left-color:#3b82f6;" onclick="toggleAcc(this)">
+        <div class="acc-icon" style="background:#3b82f6;">🗣️</div>
+        <div class="acc-title-wrap">
+          <div class="acc-num">요점 1</div>
+          <div class="acc-title">'하나님의 말씀'이신 그리스도</div>
+        </div>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <div class="verse-block">
+            <div class="verse-header">
+              <span class="verse-bookmark">🔖</span>
+              <span class="verse-ref">요한계시록 19:13</span>
+            </div>
+            <div class="verse-text">그분은 피로 물든 옷을 입으셨는데, 그분의 이름은 <b>'하나님의 말씀'</b>이라고 불립니다.</div>
+          </div>
+          <div class="verse-block">
+            <div class="verse-header">
+              <span class="verse-bookmark">🔖</span>
+              <span class="verse-ref">요한계시록 19:15</span>
+            </div>
+            <div class="verse-text">그분의 입에서는 <b>예리한 칼</b>이 나오는데, 그것은 민족들을 치시기 위한 것입니다. 그분은 쇠막대기로 그들을 다스리실 것이며, 전능하신 분이신 하나님의 극심한 분노의 포도즙 틀을 밟으실 것입니다.</div>
+          </div>
+          <div class="point-content">
+            <p>요한계시록 19장에서 그리스도는 피로 물든 옷을 입고 <b>'하나님의 말씀'</b>이라는 이름으로 아마겟돈 전쟁에 출전하십니다.</p>
+            
+            <div class="point-subheading">싸우시는 것 = 말씀하시는 것</div>
+            <p>요한계시록 19장에서 하나님의 말씀이신 그리스도는 반역적인 사람들에게 하나님의 심판을 집행하심으로써 <b>하나님을 위해 말씀하신다</b>. 주님은 싸우실 때에도 하나님을 위해 말씀하시며 하나님을 표현하신다. <b>그리스도께서 싸우시는 것은 하나님의 말씀을 말하시는 것이다.</b></p>
+            
+            <div class="point-subheading">주권과 공의의 선포</div>
+            <p>하나님은 혼돈의 하나님이 아니시다. 그분은 의로우시고 주권적이시다. 그분은 또한 <b>질서의 하나님</b>이시며, 그러한 분으로서 <b>무질서와 반역을 용인하실 수 없다</b>.</p>
+
+            <!-- 질서 vs 혼돈 시각적 강조 블록 -->
+            <div class="order-chaos-wrapper">
+              <div class="oc-top">
+                <div class="oc-grid">
+                  <div class="oc-item">의로우심<span class="oc-item-sub">(Righteous)</span></div>
+                  <div class="oc-item">주권적이심<span class="oc-item-sub">(Sovereign)</span></div>
+                  <div class="oc-item">질서의 하나님<span class="oc-item-sub">(God of Order)</span></div>
+                </div>
+              </div>
+              <div class="oc-middle">
+                질서의 하나님은 무질서와 반역을 결코 용인하실 수 없습니다.<br>
+                그리스도의 말씀하심은 반역을 쓸어버리는 <strong>'신성한 질서'</strong>의 선언입니다.
+              </div>
+              <div class="oc-bottom">
+                <div class="oc-grid">
+                  <div class="oc-item dark">무질서<span class="oc-item-sub">(Disorder)</span></div>
+                  <div class="oc-item dark">반역<span class="oc-item-sub">(Rebellion)</span></div>
+                  <div class="oc-item dark">혼돈<span class="oc-item-sub">(Chaos)</span></div>
+                </div>
+              </div>
+            </div>
+
+            <p>그리스도는 원수와 맞서 싸우실 때, 하나님께서 <b>주권적이시고 의로우시며 질서 있으시다</b>고 말씀하실 것이다. 아마겟돈에서의 전쟁에서 주님께서 싸우시는 것은 강력하게 말씀하시는 것일 것이다. 이것은 사탄과 적그리스도와 거짓 신언자와 온 우주에 <b>하나님께서 주권적이시며 누구도 그분께 반역할 수 없다고 말씀하시는 것</b>일 것이다. 질서의 하나님은 <b>모든 반역을 쓸어버리실 것이다</b>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POINT 2 -->
+    <div class="accordion" id="point2">
+      <div class="accordion-header" style="border-left-color:#8b5cf6;" onclick="toggleAcc(this)">
+        <div class="acc-icon" style="background:#8b5cf6;">⚔️</div>
+        <div class="acc-title-wrap">
+          <div class="acc-num">요점 2</div>
+          <div class="acc-title">말씀의 두 가지 기능</div>
+        </div>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <div class="verse-block">
+            <div class="verse-header">
+              <span class="verse-bookmark">🔖</span>
+              <span class="verse-ref">요한복음 1:1, 14</span>
+            </div>
+            <div class="verse-text">태초에 말씀께서 계셨다. … 말씀께서 육체가 되시어 우리 가운데 장막을 치시니, <b>은혜와 실재</b>가 충만하였다.</div>
+          </div>
+          <div class="point-content">
+            <p>하나님의 말씀은 우리에게 생명과 은혜를 공급할 뿐만 아니라, 영적 전쟁에서 원수를 물리치는 무기(예리한 칼)가 됩니다.</p>
+            
+            <div class="detailed-compare">
+              <div class="dc-header left">요한복음 1장의 말씀<span class="dc-sub">(공급과 누림)</span></div>
+              <div class="dc-header right">요한계시록 19장의 말씀<span class="dc-sub">(영적 전쟁과 무기)</span></div>
+
+              <div class="dc-cell left">시대의 시작 / 초림</div>
+              <div class="dc-cell right">시대의 끝 / 재림</div>
+
+              <div class="dc-cell left">육체가 되심. 생명과 은혜, 실재를 가져오심.</div>
+              <div class="dc-cell right">백마를 타신 심판자. <span class="text-danger">원수와의 최후 전투.</span></div>
+
+              <div class="dc-cell left bottom-left">우리를 위한 구속 성취.</div>
+              <div class="dc-cell right bottom-right">하나님의 <span class="text-danger">심판</span> 집행, <span class="text-danger">원수를 죽이심.</span></div>
+            </div>
+
+            <div class="dark-callout">
+              우리에게는 생명과 공급을 위한 말씀뿐 아니라,<br>
+              전쟁을 위한 말씀도 필요합니다.
+            </div>
+
+            <div class="point-subheading">생명 공급과 영적 무기</div>
+            <p>요한복음의 서두에 계시된 말씀은 우리에게 생명을 가져오셨고, 우리에게 은혜와 실재를 가져오셨으며, 우리를 위해 구속을 성취하셨다. 요한계시록 19장에서 우리는 이 시대의 끝에서 <b>원수와 최후의 전투를 벌이시기 위해 흰색 말을 타고 계신 그리스도</b>를 보는데, 그분의 이름은 '하나님의 말씀'이다.</p>
+            <p>말씀이신 그분은 생명과 은혜와 실재를 주시기 위해 싸우시는 것이 아니라, 그분의 <b>입에서 나오는 칼로 원수를 죽이시기 위해 싸우신다</b>.</p>
+
+            <div class="callout-box">
+              <div class="callout-label">💡 핵심 통찰</div>
+              우리에게는 생명과 공급과 누림을 위한 말씀이 필요할 뿐 아니라 <b>싸우기 위한 말씀</b>도 필요하다. 우리가 인지하고 있든 그렇지 않든 우리는 <b>전쟁 중에 있다</b>. 이 영적 전쟁에서 필요한 것은 하나님의 말씀이다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POINT 3 -->
+    <div class="accordion" id="point3">
+      <div class="accordion-header" style="border-left-color:#ec4899;" onclick="toggleAcc(this)">
+        <div class="acc-icon" style="background:#ec4899;">🌍</div>
+        <div class="acc-title-wrap">
+          <div class="acc-num">요점 3</div>
+          <div class="acc-title">오늘날 우리의 실행</div>
+        </div>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <div class="verse-block">
+            <div class="verse-header">
+              <span class="verse-bookmark">🔖</span>
+              <span class="verse-ref">요한계시록 19:14</span>
+            </div>
+            <div class="verse-text">또 하늘에 있는 군대들이 희고 깨끗한 세마포 옷을 입고 흰색 말을 타고서 <b>그분을 따랐습니다</b>.</div>
+          </div>
+          
+          <div class="point-content">
+            <p>우리는 훈련과 집회를 통해 이 말씀으로 무장해야 합니다. 원수와 맞서 싸우기 위해 하나님의 말씀을 가지려면, 우리는 <b>하나님의 말씀을 알고 하나님의 말씀으로 장비되고 조성되며 충만해져야 합니다</b>.</p>
+
+            <div class="point-subheading">원수와 맞서 싸우기 위해 하나님의 말씀으로 조성되는 길</div>
+            
+            <div class="tf-container">
+              <!-- 생각(Mind) 영역 -->
+              <div class="tf-domain">
+                <div class="tf-domain-label">생각 (Mind)</div>
+                <div class="tf-step bg-1">
+                  <div class="tf-step-title">1단계: 읽기 (Reading)</div>
+                  <div class="tf-step-desc">객관적 진리 — <b>로고스(Logos)</b>를 접촉함<br>(표면적 접촉)</div>
+                </div>
+                <div class="tf-arrow">↓</div>
+                <div class="tf-step bg-1">
+                  <div class="tf-step-title">2단계: 연구 (Studying)</div>
+                  <div class="tf-step-desc">성경의 사실과 구조, 신성한 경륜을 파악함<br>(구조적 이해)</div>
+                </div>
+              </div>
+
+              <!-- 전환 -->
+              <div class="tf-transition-wrapper">
+                <div class="tf-transition">⬇ 빛 비춤(계시와 이상)</div>
+              </div>
+
+              <!-- 영(Spirit) 영역 -->
+              <div class="tf-domain">
+                <div class="tf-domain-label">영 (Spirit)</div>
+                <div class="tf-step bg-2">
+                  <div class="tf-step-title">3단계: 주목함 (Observing)</div>
+                  <div class="tf-step-desc">말씀을 기도로 읽고 읊조리면서 주의 깊게 상고함</div>
+                </div>
+                <div class="tf-arrow">↓</div>
+                <div class="tf-step bg-3">
+                  <div class="tf-step-title">4단계: 숙고함 (Pondering)</div>
+                  <div class="tf-step-desc">말씀을 맛보고 누림</div>
+                </div>
+                <div class="tf-arrow">↓</div>
+                <div class="tf-step bg-4">
+                  <div class="tf-step-title">5단계: 응시함 (Gazing)</div>
+                  <div class="tf-step-desc">항상 말씀이신 하나님의 아들을 우리 앞에 모심. 우리의 생각과 감정은 그분으로 점유됨. 우리가 응시하고 주시하는 것은 항상 주님이어야 함</div>
+                </div>
+              </div>
+
+              <!-- 성경 구절 -->
+              <div class="tf-verse-box">
+                고후 3:18 "우리 모두가 너울을 벗은 얼굴로 주님의 영광을 거울처럼 반영하면서 <strong>같은 형상으로 변화되어 영광에서 영광에 이릅니다</strong>"
+              </div>
+
+              <!-- 최종 목적지 -->
+              <div class="tf-final">
+                진리로 조성됨 (Constitution)
+              </div>
+
+              <!-- 강조 박스 -->
+              <div class="dark-callout-truth">
+                메시지를 단순한 정보나 영감으로 그치게 하지 마십시오.<br>원수와 싸우기 위해서는 먼저 말씀으로 철저히 <b>장비되고, 조성되며, 충만해져야</b> 합니다.
+              </div>
+            </div>
+
+            <div class="point-subheading">삶의 현장에서의 선포</div>
+            <p>오늘날 주님의 회복 안에서 우리가 배워야 할 것은 믿지 않는 이들에게 하나님의 말씀을 <b>복음으로 말하고 선포</b>하며, 하나님의 자녀들 중 무지한 많은 이들에게 <b>진리를 말하고 선포</b>하는 것이다. 우리는 <b>어디서나 언제든지 하나님의 말씀을 말해야 한다</b>.</p>
+            <p>우리는 하나님의 말씀을 알고, 하나님의 말씀으로 채워지고, 어디서나 곧 가정과 <b>캠퍼스와 직장과 지역 사회에서 하나님의 말씀을 말할 필요가 있다</b>. 그렇게 할 때 하나님의 말씀은 <b>밖으로 나갈 길을 얻게 될 것이다</b>.</p>
+
+            <div class="callout-box">
+              <div class="callout-label">🔥 두 가지 부담과 비전</div>
+              하나님께서 정하신 길의 <b>첫 번째 부담은 교회생활을 가정으로 가져가는 것</b>이고, <b>두 번째 부담은 성도들을 진리 곧 하나님의 말씀 안으로 이끄는 것</b>이다. 수많은 성도들이 매주 하나님의 말씀을 말한다면, 이 나라는 달라질 것이다. 하나님의 말씀은 우리 가운데 <b>세력을 얻고 이기며 승리해야 한다</b>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ (기존 인터랙티브 방식 유지) -->
+  <div id="quiz-section">
+    <div class="quiz-title">✏️ 퀴즈 — 핵심 점검</div>
+    <p class="quiz-desc">각 요점을 잘 이해했는지 확인해 보세요.</p>
+    
+    <div id="quiz-container">
+      <!-- 퀴즈 1 -->
+      <div class="quiz-card active" id="q1">
+        <div class="quiz-header">
+          <div class="quiz-badge">1</div>
+          <h3 class="quiz-question">요한계시록 19장에서 흰색 말을 타신 그리스도의 이름은 무엇입니까?</h3>
+        </div>
+        <div class="quiz-options">
+          <label class="quiz-label"><input type="radio" name="q1" value="A"> A) 평화의 왕</label>
+          <label class="quiz-label"><input type="radio" name="q1" value="B"> B) 생명의 떡</label>
+          <label class="quiz-label"><input type="radio" name="q1" value="C"> C) 하나님의 말씀</label>
+          <label class="quiz-label"><input type="radio" name="q1" value="D"> D) 어린양</label>
+        </div>
+        <button class="quiz-hint-btn" onclick="toggleHint(1)">💡 힌트 보기</button>
+        <div class="quiz-hint-text" id="hint1">계 19:13 "그분은 피로 물든 옷을 입으셨는데, 그분의 이름은 '이것'이라고 불립니다."</div>
+      </div>
+
+      <!-- 퀴즈 2 -->
+      <div class="quiz-card" id="q2">
+        <div class="quiz-header">
+          <div class="quiz-badge">2</div>
+          <h3 class="quiz-question">요한계시록 19장의 말씀이신 그리스도는 무엇을 위해 싸우십니까?</h3>
+        </div>
+        <div class="quiz-options">
+          <label class="quiz-label"><input type="radio" name="q2" value="A"> A) 단지 우리에게 생명과 은혜를 주시기 위해</label>
+          <label class="quiz-label"><input type="radio" name="q2" value="B"> B) 입에서 나오는 칼로 원수를 죽이시고 심판하시기 위해</label>
+          <label class="quiz-label"><input type="radio" name="q2" value="C"> C) 물질적인 축복을 주시기 위해</label>
+          <label class="quiz-label"><input type="radio" name="q2" value="D"> D) 병을 고치시기 위해</label>
+        </div>
+        <button class="quiz-hint-btn" onclick="toggleHint(2)">💡 힌트 보기</button>
+        <div class="quiz-hint-text" id="hint2">요한복음의 말씀은 생명을 위한 것이지만, 계시록의 말씀은 전쟁과 심판을 위한 것입니다.</div>
+      </div>
+
+      <!-- 퀴즈 3 -->
+      <div class="quiz-card" id="q3">
+        <div class="quiz-header">
+          <div class="quiz-badge">3</div>
+          <h3 class="quiz-question">그리스도께서 아마겟돈 전쟁에서 원수와 싸우시는 것은 본질적으로 무엇을 하시는 것입니까?</h3>
+        </div>
+        <div class="quiz-options">
+          <label class="quiz-label"><input type="radio" name="q3" value="A"> A) 침묵하시는 것</label>
+          <label class="quiz-label"><input type="radio" name="q3" value="B"> B) 인간의 능력을 보여주는 것</label>
+          <label class="quiz-label"><input type="radio" name="q3" value="C"> C) 하나님께서 주권적이시며 질서의 하나님이시라고 강력하게 말씀하시는 것</label>
+          <label class="quiz-label"><input type="radio" name="q3" value="D"> D) 타협안을 제시하는 것</label>
+        </div>
+        <button class="quiz-hint-btn" onclick="toggleHint(3)">💡 힌트 보기</button>
+        <div class="quiz-hint-text" id="hint3">전사이신 그분은 말씀이십니다. 싸우시는 것 자체가 하나님의 주권을 선포하는 것입니다.</div>
+      </div>
+
+      <!-- 퀴즈 4 -->
+      <div class="quiz-card" id="q4">
+        <div class="quiz-header">
+          <div class="quiz-badge">4</div>
+          <h3 class="quiz-question">머리이신 그리스도께서 말씀하실 때, 이 땅에서는 누가 하나님의 말씀을 말할 수 있습니까?</h3>
+        </div>
+        <div class="quiz-options">
+          <label class="quiz-label"><input type="radio" name="q4" value="A"> A) 특별한 사역자들만</label>
+          <label class="quiz-label"><input type="radio" name="q4" value="B"> B) 신학교를 졸업한 사람들만</label>
+          <label class="quiz-label"><input type="radio" name="q4" value="C"> C) 천사들만</label>
+          <label class="quiz-label"><input type="radio" name="q4" value="D"> D) 몸의 모든 지체들</label>
+        </div>
+        <button class="quiz-hint-btn" onclick="toggleHint(4)">💡 힌트 보기</button>
+        <div class="quiz-hint-text" id="hint4">내가 말할 때 온몸이 말하듯이, 머리께서 말씀하실 때 그분의 '이것'도 말합니다.</div>
+      </div>
+
+      <!-- 퀴즈 5 -->
+      <div class="quiz-card" id="q5">
+        <div class="quiz-header">
+          <div class="quiz-badge">5</div>
+          <h3 class="quiz-question">진리를 내면화하는 과정 중 말씀을 기도로 읽어 '주관적인 레마'로 만드는 단계는 무엇입니까?</h3>
+        </div>
+        <div class="quiz-options">
+          <label class="quiz-label"><input type="radio" name="q5" value="A"> A) 읽고(Read) 연구함(Study)</label>
+          <label class="quiz-label"><input type="radio" name="q5" value="B"> B) 숙고함(Ponder) - 영적인 혼합</label>
+          <label class="quiz-label"><input type="radio" name="q5" value="C"> C) 주목함(Observe)</label>
+          <label class="quiz-label"><input type="radio" name="q5" value="D"> D) 응시함(Gaze)</label>
+        </div>
+        <button class="quiz-hint-btn" onclick="toggleHint(5)">💡 힌트 보기</button>
+        <div class="quiz-hint-text" id="hint5">단순한 묵상을 넘어 영을 훈련하여 기도로 읽고 혼합되는 단계입니다.</div>
+      </div>
+
+      <div class="quiz-nav">
+        <button class="btn btn-primary" id="quiz-next-btn" onclick="nextQuiz()">다음 문제</button>
+        <button class="btn btn-primary" id="quiz-submit-btn" style="display:none;" onclick="submitQuiz()">결과 확인</button>
+      </div>
+    </div>
+
+    <div id="quiz-result">
+      <div class="score-circle" id="score-display">0</div>
+      <h3 id="feedback-title" style="margin-bottom: 10px; color: var(--accent);"></h3>
+      <p id="feedback-desc" style="color: var(--text-secondary); line-height: 1.5; font-size: 0.95rem;"></p>
+      <button class="btn btn-primary" style="margin-top: 20px;" onclick="resetQuiz()">다시 풀기</button>
+    </div>
+  </div>
+
+  <!-- PRAYER -->
+  <div id="prayer-section">
+    <div class="prayer-box">
+      <div class="prayer-icon">🙏</div>
+      <div class="prayer-title">오늘의 기도</div>
+      <div class="prayer-text">
+        <p>주 예수님, 주님은 하나님의 말씀이십니다. 주님 자신이 하나님의 표현이요, 증거요, 말씀하심이심을 감사합니다.</p>
+        <p>주님, 우리에게 생명과 은혜와 실재를 위한 말씀만이 아니라 원수와 맞서 싸울 수 있는 말씀도 주십시오. 우리가 인지하든 그렇지 않든 우리는 전쟁 중에 있음을 기억하게 하시고, 이 영적 전쟁에서 필요한 하나님의 말씀으로 우리를 장비시켜 주십시오.</p>
+        <p>주님, 우리가 주님의 말씀을 단지 정보나 영감으로만 받아들이지 않게 하시고, 시간을 들여 읽고, 연구하고, 주목하고, 숙고하고, 응시하며, 신진대사적으로 동화되고 진리로 조성되게 하여 주십시오.</p>
+        <p>주님, 하나님의 말씀이 우리 가운데 세력을 얻고 이기며 승리하게 하시고, 우리가 캠퍼스와 직장과 지역 사회에서 어디서나 하나님의 말씀을 말하여, 말씀이 밖으로 나갈 길을 얻게 하여 주십시오. 아멘.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">하나님의 말씀 — 그리스도의 이름 · 계 19:13</div>
+
+</div>
+
+<script>
+/* Font Size Control */
+let fontScale = 1;
+function changeFontSize(dir) {
+  fontScale = Math.max(0.7, Math.min(1.5, fontScale + dir * 0.05));
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+}
+function resetFontSize() {
+  fontScale = 1;
+  document.documentElement.style.setProperty('--font-scale', 1);
+}
+
+/* Side Panel */
+function togglePanel() {
+  document.getElementById('sidePanel').classList.toggle('active');
+  document.getElementById('overlay').classList.toggle('active');
+}
+
+/* Keyword popups in panel */
+document.querySelectorAll('.keyword-toggle').forEach(el => {
+  el.addEventListener('click', function(e) {
+    e.preventDefault();
+    const kwId = this.getAttribute('data-kw');
+    const popup = document.getElementById(kwId);
+    popup.classList.toggle('show');
+  });
+});
+
+/* Accordion */
+function toggleAcc(header) {
+  const acc = header.parentElement;
+  const body = acc.querySelector('.accordion-body');
+  if (acc.classList.contains('open')) {
+    acc.classList.remove('open');
+    body.style.maxHeight = null;
+  } else {
+    acc.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+}
+
+/* Quiz (기존 인터랙티브 방식 연동) */
+let currentQuiz = 1;
+const totalQuiz = 5;
+const answers = { q1: 'C', q2: 'B', q3: 'C', q4: 'D', q5: 'B' };
+
+function toggleHint(num) {
+  const hintText = document.getElementById('hint' + num);
+  const btn = hintText.previousElementSibling;
+  
+  if(hintText.style.display === 'block') {
+    hintText.style.display = 'none';
+    btn.innerHTML = '💡 힌트 보기';
+  } else {
+    hintText.style.display = 'block';
+    btn.innerHTML = '💡 힌트 닫기';
+  }
+}
+
+function nextQuiz() {
+  const selected = document.querySelector(`input[name="q${currentQuiz}"]:checked`);
+  if(!selected) {
+    let warning = document.getElementById(`q${currentQuiz}`).querySelector('.quiz-warning');
+    if(!warning) {
+      warning = document.createElement('div');
+      warning.className = 'quiz-warning';
+      warning.style.color = '#ef4444';
+      warning.style.fontSize = '0.85rem';
+      warning.style.marginTop = '10px';
+      warning.style.fontWeight = '600';
+      warning.textContent = '⚠️ 답을 선택해 주세요.';
+      document.getElementById(`q${currentQuiz}`).querySelector('.quiz-options').appendChild(warning);
+    }
+    return;
+  } else {
+    let warning = document.getElementById(`q${currentQuiz}`).querySelector('.quiz-warning');
+    if(warning) warning.remove();
+  }
+
+  document.getElementById(`q${currentQuiz}`).classList.remove('active');
+  currentQuiz++;
+  
+  if(currentQuiz <= totalQuiz) {
+    document.getElementById(`q${currentQuiz}`).classList.add('active');
+  }
+  
+  if(currentQuiz === totalQuiz) {
+    document.getElementById('quiz-next-btn').style.display = 'none';
+    document.getElementById('quiz-submit-btn').style.display = 'inline-block';
+  }
+}
+
+function submitQuiz() {
+  const selected = document.querySelector(`input[name="q${totalQuiz}"]:checked`);
+  if(!selected) {
+    let warning = document.getElementById(`q${currentQuiz}`).querySelector('.quiz-warning');
+    if(!warning) {
+      warning = document.createElement('div');
+      warning.className = 'quiz-warning';
+      warning.style.color = '#ef4444';
+      warning.style.fontSize = '0.85rem';
+      warning.style.marginTop = '10px';
+      warning.style.fontWeight = '600';
+      warning.textContent = '⚠️ 답을 선택해 주세요.';
+      document.getElementById(`q${currentQuiz}`).querySelector('.quiz-options').appendChild(warning);
+    }
+    return;
+  } else {
+    let warning = document.getElementById(`q${currentQuiz}`).querySelector('.quiz-warning');
+    if(warning) warning.remove();
+  }
+
+  let score = 0;
+  for(let i=1; i<=totalQuiz; i++) {
+    const userAns = document.querySelector(`input[name="q${i}"]:checked`)?.value;
+    if(userAns === answers[`q${i}`]) {
+      score += 20;
+    }
+  }
+
+  document.getElementById('quiz-container').style.display = 'none';
+  const resultDiv = document.getElementById('quiz-result');
+  resultDiv.style.display = 'block';
+  
+  // 점수 애니메이션
+  const scoreDisplay = document.getElementById('score-display');
+  let currentScore = 0;
+  const timer = setInterval(() => {
+    scoreDisplay.textContent = currentScore;
+    if(currentScore >= score) clearInterval(timer);
+    currentScore += 5;
+  }, 30);
+
+  const title = document.getElementById('feedback-title');
+  const desc = document.getElementById('feedback-desc');
+
+  if(score === 100) {
+    title.textContent = "완벽합니다! (100점)";
+    desc.textContent = "하나님의 말씀이 당신 안에서 풍성히 거하고 있습니다. 배운 진리를 어디서나 담대히 선포하십시오!";
+  } else if(score >= 80) {
+    title.textContent = "훌륭합니다! (80점)";
+    desc.textContent = "메시지의 핵심을 잘 이해하고 계십니다. 헷갈렸던 부분을 다시 한번 읽어보시면 진리로 더욱 견고히 조성될 것입니다.";
+  } else {
+    title.textContent = "다시 한번 확인해보세요. (" + score + "점)";
+    desc.textContent = "핵심 요점을 다시 한번 천천히 읽고 소화하는 시간을 가져보세요. 말씀은 읽고 연구할 때 더욱 밝아집니다.";
+  }
+}
+
+function resetQuiz() {
+  document.querySelectorAll('.quiz-label input').forEach(input => input.checked = false);
+  document.querySelectorAll('.quiz-hint-text').forEach(hint => {
+    hint.style.display = 'none';
+    hint.previousElementSibling.innerHTML = '💡 힌트 보기';
+  });
+  document.querySelectorAll('.quiz-warning').forEach(warning => warning.remove());
+  
+  document.getElementById('quiz-result').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'block';
+  
+  currentQuiz = 1;
+  document.querySelectorAll('.quiz-card').forEach(card => card.classList.remove('active'));
+  document.getElementById('q1').classList.add('active');
+  
+  document.getElementById('quiz-next-btn').style.display = 'inline-block';
+  document.getElementById('quiz-submit-btn').style.display = 'none';
+}
+</script>
+</body>
+</html>
