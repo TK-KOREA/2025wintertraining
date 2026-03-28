@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>땅을 통치하고 민족들을 다스리실 왕</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--base-font:17px;
+--font-scale:1;
+--bg:#ffffff;
+--text:#1a1a1a;
+--text-light:#444444;
+--accent:#2563eb;
+--accent-light:#e8f0fe;
+--highlight:#fef08a;
+--highlight-strong:#facc15;
+--border:#e5e7eb;
+--card-bg:#fafafa;
+--shadow:0 2px 8px rgba(0,0,0,0.06);
+--radius:12px;
+}
+html{scroll-behavior:smooth;scroll-padding-top:52px}
+body{
+font-family:'Noto Sans KR',sans-serif;
+font-size:calc(var(--base-font)*var(--font-scale));
+line-height:1.75;
+color:var(--text);
+background:var(--bg);
+-webkit-text-size-adjust:100%;
+}
+.no-scale{font-size:initial !important}
+
+/* TOP BAR */
+.topbar{
+position:fixed;top:0;left:0;right:0;z-index:1000;
+background:#fff;
+border-bottom:1px solid var(--border);
+display:flex;align-items:center;
+height:44px;min-height:44px;max-height:44px;
+padding:0 6px;
+box-shadow:0 1px 4px rgba(0,0,0,0.05);
+}
+.topbar-btn{
+width:36px;height:36px;
+display:flex;align-items:center;justify-content:center;
+background:none;border:none;cursor:pointer;
+color:var(--text);font-size:18px;flex-shrink:0;
+border-radius:8px;
+}
+.topbar-btn:hover{background:#f3f4f6}
+.topbar-title{
+flex:1;min-width:0;overflow-x:auto;overflow-y:hidden;
+white-space:nowrap;font-size:14px;font-weight:600;
+color:var(--text);padding:0 4px;
+scrollbar-width:none;-ms-overflow-style:none;
+}
+.topbar-title::-webkit-scrollbar{display:none}
+.font-controls{
+display:flex;align-items:center;flex-shrink:0;
+background:#f3f4f6;border-radius:8px;overflow:hidden;
+height:32px;
+}
+.font-controls button{
+width:32px;height:32px;
+display:flex;align-items:center;justify-content:center;
+background:none;border:none;cursor:pointer;
+font-size:14px;font-weight:600;color:var(--text);
+}
+.font-controls button:hover{background:#e5e7eb}
+.font-controls .fc-reset{font-size:12px;width:28px;}
+
+/* SIDE PANEL */
+.overlay{
+position:fixed;inset:0;background:rgba(0,0,0,0.3);
+z-index:1100;opacity:0;pointer-events:none;
+transition:opacity .3s;
+}
+.overlay.active{opacity:1;pointer-events:auto}
+.sidepanel{
+position:fixed;top:0;left:0;bottom:0;
+width:280px;max-width:85vw;
+background:#fff;z-index:1200;
+transform:translateX(-100%);
+transition:transform .3s ease;
+box-shadow:4px 0 20px rgba(0,0,0,0.1);
+overflow-y:auto;
+}
+.sidepanel.active{transform:translateX(0)}
+.sp-header{
+display:flex;align-items:center;justify-content:space-between;
+padding:14px 16px;border-bottom:1px solid var(--border);
+font-weight:700;font-size:15px;
+}
+.sp-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-light)}
+.sp-nav{list-style:none;padding:8px 0}
+.sp-nav li{}
+.sp-nav a{
+display:flex;align-items:center;gap:10px;
+padding:10px 16px;color:var(--text);text-decoration:none;
+font-size:14px;font-weight:500;
+transition:background .2s;
+}
+.sp-nav a:hover{background:#f3f4f6}
+.sp-nav a .sp-icon{width:20px;text-align:center;font-size:14px;color:var(--accent)}
+.sp-sub{list-style:none;padding-left:20px}
+.sp-sub a{font-size:13px;font-weight:400;color:var(--text-light);padding:6px 16px}
+.sp-sub a:hover{color:var(--text)}
+
+/* MAIN CONTENT */
+.main-wrap{padding-top:52px}
+.container{max-width:720px;margin:0 auto;padding:16px}
+
+/* HERO */
+.hero{
+text-align:center;padding:40px 16px 28px;
+}
+.hero-label{
+display:inline-block;
+font-size:calc(12px * var(--font-scale));
+font-weight:600;letter-spacing:1px;text-transform:uppercase;
+color:var(--accent);
+background:var(--accent-light);
+padding:4px 14px;border-radius:20px;
+margin-bottom:12px;
+}
+.hero h1{
+font-size:calc(26px * var(--font-scale));
+font-weight:800;line-height:1.35;
+color:var(--text);margin-bottom:12px;
+}
+.hero-sub{
+font-size:calc(15px * var(--font-scale));
+color:var(--text-light);font-weight:500;
+line-height:1.6;background:#f9fafb;padding:12px 16px;
+border-radius:8px;border-left:4px solid var(--accent);
+text-align:left;word-break:keep-all;
+}
+.hero-verse{
+margin-top:16px;
+display:inline-block;
+background:#fffde7;border-left:3px solid var(--highlight-strong);
+padding:8px 14px;border-radius:0 8px 8px 0;
+font-size:calc(14px * var(--font-scale));
+color:var(--text);text-align:left;
+line-height:1.7;
+}
+.hero-verse .vref{font-weight:700;color:var(--accent)}
+
+/* DASHBOARD */
+.dashboard{
+background:#fff;border:1px solid var(--border);
+border-radius:var(--radius);padding:20px 16px;
+margin:0 0 24px;
+box-shadow:var(--shadow);
+}
+.dash-title{
+font-size:calc(16px * var(--font-scale));
+font-weight:700;margin-bottom:16px;
+display:flex;align-items:center;gap:8px;
+}
+.dash-flow{
+display:grid;
+grid-template-columns:repeat(2, 1fr);
+gap:12px;
+}
+
+.dash-card{
+background:var(--card-bg);border:1px solid var(--border);
+border-radius:10px;padding:16px 14px;text-align:left;
+transition:transform .2s;
+display:flex;flex-direction:column;gap:8px;
+}
+.dash-card:hover{transform:translateY(-2px); border-color:var(--accent-light); background:#fff}
+.dash-badge{
+display:inline-flex;align-items:center;justify-content:center;
+width:24px;height:24px;border-radius:50%;
+font-size:calc(12px * var(--font-scale));
+font-weight:800;
+background:var(--text);color:#fff;
+margin-right:8px;flex-shrink:0;
+}
+.dash-header{display:flex;align-items:center;border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:4px}
+.dash-label{font-size:calc(14px * var(--font-scale));font-weight:700;color:var(--text);}
+.dash-value{font-size:calc(13.5px * var(--font-scale));color:var(--text-light);line-height:1.45;word-break:keep-all;}
+
+/* FLOW CONNECTOR */
+.flow-line{
+width:2px;height:28px;
+background:linear-gradient(to bottom,var(--border),var(--accent),var(--border));
+margin:0 auto;
+}
+
+/* ACCORDION */
+.accordion{margin-bottom:16px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:#fff;box-shadow:var(--shadow)}
+.acc-header{
+display:flex;align-items:center;gap:10px;
+padding:16px 16px;cursor:pointer;
+background:#fff;
+transition:background .2s;
+user-select:none;
+}
+.acc-header:hover{background:#f9fafb}
+.acc-num{
+width:32px;height:32px;border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+font-size:calc(14px * var(--font-scale));font-weight:800;color:#fff;
+flex-shrink:0;
+}
+.acc-title-text{
+flex:1;font-weight:700;
+font-size:calc(16.5px * var(--font-scale));
+color:var(--text);line-height:1.4;
+}
+.acc-arrow{
+font-size:12px;color:var(--text-light);
+transition:transform .3s;flex-shrink:0;
+}
+.accordion.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{
+max-height:0;overflow:hidden;
+transition:max-height .5s ease;
+}
+.acc-inner{padding:0 16px 20px 16px}
+
+/* BIBLE VERSE BLOCK */
+.verse-block{
+background:#fffef5;border:1px solid #fde68a;
+border-radius:10px;padding:14px 14px;margin-bottom:16px;
+}
+.verse-block-title{
+display:flex;align-items:center;gap:6px;
+font-size:calc(13px * var(--font-scale));font-weight:700;
+color:#b45309;margin-bottom:8px;
+}
+.verse-item{
+font-size:calc(14px * var(--font-scale));
+color:var(--text);line-height:1.75;
+margin-bottom:8px;padding-left:8px;
+border-left:2px solid #fcd34d;
+}
+.verse-item:last-child{margin-bottom:0}
+.verse-item .vref{font-weight:700;color:var(--accent)}
+
+/* CONTENT STYLING */
+.point-content{
+font-size:calc(15.5px * var(--font-scale));
+color:var(--text);line-height:1.8;
+}
+.point-content p{margin-bottom:12px}
+.point-content p:last-child{margin-bottom:0}
+.hl{background:var(--highlight);padding:1px 3px;border-radius:3px;font-weight:600}
+
+.badge-meaning,.badge-apply{
+display:inline-flex;align-items:center;gap:4px;
+font-size:calc(13px * var(--font-scale));
+font-weight:700;padding:4px 10px;
+border-radius:6px;margin-bottom:8px;margin-top:12px;
+}
+.badge-meaning{background:#e0f2fe;color:#0369a1}
+.badge-apply{background:#fef3c7;color:#b45309}
+.badge-meaning::before{content:'💡'}
+.badge-apply::before{content:'🎯'}
+
+.content-box{
+background:var(--card-bg);
+border-left:3px solid var(--border);
+padding:12px 14px;
+border-radius:0 8px 8px 0;
+margin-bottom:12px;
+}
+
+/* ADMIN STRUCTURE (3 PARTS) */
+.admin-box { background:transparent; border:none; padding:0; margin-top:16px; margin-bottom:12px; }
+.admin-desc { text-align:center; font-size:calc(14.5px * var(--font-scale)); font-weight:700; color:var(--text); margin-bottom:16px; word-break:keep-all; background:var(--card-bg); padding:10px; border-radius:8px; border:1px solid var(--border); }
+.admin-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; }
+.admin-card { background:#fff; border:1px solid var(--border); border-radius:8px; overflow:hidden; box-shadow:0 2px 4px rgba(0,0,0,0.03); display:flex; flex-direction:column; }
+.ac-head { padding:12px 10px; text-align:center; font-weight:700; color:#fff; font-size:calc(13.5px * var(--font-scale)); letter-spacing:0.5px; }
+.ac-head.bg-gray { background:#4b5563; }
+.ac-head.bg-amber { background:#b45309; }
+.ac-head.bg-green { background:#0f766e; } /* 셋째 부분의 영광스러운 빛에 맞춘 틸(teal) 색상 */
+.ac-body { padding:14px; display:flex; flex-direction:column; gap:12px; flex:1; }
+.ac-row { display:flex; flex-direction:column; gap:4px; font-size:calc(13.5px * var(--font-scale)); }
+.ac-label { font-weight:700; color:#475569; font-size:calc(12px * var(--font-scale)); display:flex; align-items:center; gap:4px; }
+.ac-val { color:var(--text); line-height:1.45; word-break:keep-all; }
+.ac-val.ref { color:#64748b; font-size:calc(12px * var(--font-scale)); font-weight:500; }
+
+/* PILLAR STRUCTURE (3 PILLARS) */
+.pillar-box { background:transparent; border:none; padding:0; margin-top:16px; margin-bottom:12px; }
+.pillar-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:16px; }
+.pillar-card { background:#fff; border:1px solid var(--border); border-top:4px solid var(--sec); border-radius:8px; padding:18px 16px; box-shadow:0 2px 4px rgba(0,0,0,0.04); display:flex; flex-direction:column; gap:10px; transition:transform 0.2s;}
+.pillar-card:hover { transform:translateY(-2px); box-shadow:0 4px 8px rgba(0,0,0,0.08); }
+.pillar-num { font-size:calc(12px * var(--font-scale)); font-weight:800; color:var(--sec); display:inline-block; padding:4px 10px; background:var(--sec-light); border-radius:6px; align-self:flex-start;}
+.pillar-title { font-size:calc(15.5px * var(--font-scale)); font-weight:700; color:var(--text); line-height:1.4; border-bottom:1px solid var(--border); padding-bottom:12px;}
+.pillar-content-text { font-size:calc(14px * var(--font-scale)); color:var(--text); line-height:1.65; display:flex; flex-direction:column; gap:12px;}
+.pillar-content-text p { margin:0 !important; }
+.pillar-content-text strong { color:#92400e; font-weight:700;}
+
+/* QUIZ */
+.quiz-section{
+background:#fff;border:1px solid var(--border);
+border-radius:var(--radius);padding:24px 16px;
+margin:24px 0;box-shadow:var(--shadow);
+}
+.quiz-title{
+font-size:calc(18px * var(--font-scale));
+font-weight:700;margin-bottom:20px;
+display:flex;align-items:center;gap:8px;
+}
+.q-item{
+margin-bottom:24px;padding-bottom:20px;
+border-bottom:1px solid var(--border);
+}
+.q-item:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.q-num{
+display:inline-flex;align-items:center;justify-content:center;
+width:28px;height:28px;border-radius:50%;
+background:var(--accent);color:#fff;
+font-size:0.95rem;font-weight:700;
+margin-right:8px;flex-shrink:0;
+vertical-align:middle;
+}
+.q-text{
+font-size:1rem;font-weight:600;
+color:var(--text);line-height:1.6;
+margin-bottom:12px;
+}
+.q-options{display:flex;flex-direction:column;gap:8px}
+.q-opt{
+display:flex;align-items:center;gap:12px;
+padding:12px 14px;border:1px solid var(--border);
+border-radius:8px;cursor:pointer;
+font-size:1rem;color:var(--text);
+transition:all .2s;background:#fff;
+line-height:1.4;
+}
+.q-opt:hover{background:#f9fafb;border-color:#d1d5db}
+.q-opt.selected{border-color:var(--accent);background:var(--accent-light)}
+.q-opt.correct{border-color:#22c55e;background:#dcfce7}
+.q-opt.wrong{border-color:#ef4444;background:#fee2e2}
+.q-opt input{display:none}
+.q-radio{
+width:20px;height:20px;border-radius:50%;
+border:2px solid #d1d5db;flex-shrink:0;
+display:flex;align-items:center;justify-content:center;
+transition:all .2s;
+}
+.q-opt.selected .q-radio{border-color:var(--accent);background:var(--accent);box-shadow:inset 0 0 0 3px #fff}
+.q-opt.correct .q-radio{border-color:#22c55e;background:#22c55e;box-shadow:inset 0 0 0 3px #fff}
+.q-opt.wrong .q-radio{border-color:#ef4444;background:#ef4444;box-shadow:inset 0 0 0 3px #fff}
+.q-hint-btn{
+margin-top:10px;
+background:none;border:none;
+color:var(--accent);font-size:0.95rem;
+cursor:pointer;font-weight:600;
+display:flex;align-items:center;gap:4px;
+padding:4px 8px;border-radius:4px;
+}
+.q-hint-btn:hover{background:var(--accent-light)}
+.q-hint{
+display:none;margin-top:8px;
+background:#fffde7;border-left:3px solid #facc15;
+border-radius:0 6px 6px 0;
+padding:10px 14px;font-size:0.95rem;
+color:var(--text-light);line-height:1.5;
+}
+.q-hint.show{display:block}
+.q-feedback{
+margin-top:10px;font-size:1rem;font-weight:600;
+display:none;padding:10px 14px;border-radius:8px;
+}
+.q-feedback.show{display:block}
+.q-feedback.correct-fb{color:#166534;background:#dcfce7;border:1px solid #bbf7d0}
+.q-feedback.wrong-fb{color:#991b1b;background:#fee2e2;border:1px solid #fecaca}
+
+.quiz-submit{
+display:block;width:100%;padding:14px;
+background:var(--text);color:#fff;
+border:none;border-radius:10px;
+font-size:1.1rem;font-weight:700;
+cursor:pointer;margin-top:24px;
+transition:background .2s;
+box-shadow:0 4px 6px rgba(0,0,0,0.1);
+}
+.quiz-submit:hover{background:#000}
+.quiz-result{
+display:none;margin-top:20px;
+padding:24px;border-radius:12px;
+text-align:center;
+font-size:1.05rem;
+box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+.quiz-result.show{display:block}
+.quiz-result .score{font-size:calc(36px * var(--font-scale));font-weight:900;margin-bottom:8px;color:var(--text)}
+.quiz-result .feedback{font-weight:600;line-height:1.5;color:var(--text-light)}
+
+/* PRAYER */
+.prayer-section{
+background:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%);
+border:1px solid #fde68a;
+border-radius:var(--radius);padding:30px 24px;
+margin:24px 0;text-align:center;
+box-shadow:var(--shadow);
+}
+.prayer-title{
+font-size:calc(18px * var(--font-scale));
+font-weight:800;margin-bottom:16px;
+display:flex;align-items:center;justify-content:center;gap:8px;
+color:#92400e;
+}
+.prayer-text{
+font-size:calc(16px * var(--font-scale));
+color:#78350f;line-height:1.9;
+text-align:left;font-weight:500;
+}
+.prayer-quote-icon{
+font-size:24px;color:#d97706;opacity:0.5;margin-bottom:8px;
+}
+
+.footer{
+text-align:center;padding:32px 16px;
+font-size:calc(13px * var(--font-scale));
+color:var(--text-light);
+}
+
+/* COLORS PER SECTION */
+.c1{--sec:#4b5563;--sec-light:#f3f4f6;--border:#d1d5db} /* Gray */
+.c2{--sec:#b45309;--sec-light:#fef3c7;--border:#fde68a} /* Amber */
+.c3{--sec:#2563eb;--sec-light:#dbeafe;--border:#bfdbfe} /* Blue */
+.c4{--sec:#16a34a;--sec-light:#dcfce7;--border:#bbf7d0} /* Green */
+
+@media(max-width:600px){
+.dash-flow{grid-template-columns:1fr;}
+.acc-header{padding:14px 12px}
+.acc-inner{padding:0 12px 16px 12px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar no-scale">
+<button class="topbar-btn" onclick="togglePanel()" aria-label="목차">☰</button>
+<button class="topbar-btn" onclick="location.href='https://tk-korea.github.io/2025wintertraining/'" aria-label="홈">🏠</button>
+<div class="topbar-title">땅을 통치하고 민족들을 다스리실 왕</div>
+<div class="font-controls">
+<button onclick="adjustFont(-1)" aria-label="축소">−</button>
+<button class="fc-reset" onclick="adjustFont(0)" aria-label="초기화">가</button>
+<button onclick="adjustFont(1)" aria-label="확대">+</button>
+</div>
+</div>
+
+<!-- SIDE PANEL OVERLAY -->
+<div class="overlay" id="overlay" onclick="togglePanel()"></div>
+<div class="sidepanel" id="sidepanel">
+<div class="sp-header">
+<span>📖 목차</span>
+<button class="sp-close" onclick="togglePanel()">✕</button>
+</div>
+<ul class="sp-nav">
+<li><a href="#hero" onclick="togglePanel()"><span class="sp-icon">📌</span>제목</a></li>
+<li><a href="#dashboard" onclick="togglePanel()"><span class="sp-icon">📊</span>논리적 흐름 대시보드</a></li>
+<li>
+<a href="#points" onclick="togglePanel()"><span class="sp-icon">📝</span>핵심요점 4단계</a>
+<ul class="sp-sub">
+<li><a href="#pt1" onclick="togglePanel()">1. 대주제 선언: 다가올 왕국의 중심이신 그리스도</a></li>
+<li><a href="#pt2" onclick="togglePanel()">2. 성경적 증명: 구약 예언의 성취</a></li>
+<li><a href="#pt3" onclick="togglePanel()">3. 통치의 근거: 구속을 통한 완전한 권리 획득</a></li>
+<li><a href="#pt4" onclick="togglePanel()">4. 결과 및 적용: 만물의 회복과 우리의 반응</a></li>
+</ul>
+</li>
+<li><a href="#quiz" onclick="togglePanel()"><span class="sp-icon">❓</span>실전 적용 퀴즈</a></li>
+<li><a href="#prayer" onclick="togglePanel()"><span class="sp-icon">🙏</span>오늘의 기도</a></li>
+</ul>
+</div>
+
+<!-- MAIN -->
+<div class="main-wrap">
+<div class="container">
+
+<!-- HERO -->
+<section class="hero" id="hero">
+<div class="hero-label">2025 겨울훈련 10주 6일</div>
+<h1>그리스도<br>땅을 통치하고 민족들을 다스리실 왕</h1>
+<p class="hero-sub">
+그리스도는 예언된 대로 십자가의 구속을 통해 통치권을 합법적으로 획득하셨고, 장차 이 땅을 의와 평강으로 다스리실 것이므로, 우리는 그분과 함께 다스릴 왕들로 준비되어야 합니다.
+</p>
+<div class="hero-verse">
+<span class="vref">계 19:16</span> 그분의 옷과 넓적다리에는 '<span class="hl">모든 왕의 왕, 모든 주인의 주님</span>'이라는 이름이 쓰여 있었습니다.
+</div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="dashboard" id="dashboard">
+<div class="dash-title">🌊 개요의 논리적 흐름</div>
+<div class="dash-flow">
+<div class="dash-card">
+<div class="dash-header">
+<div class="dash-badge" style="background:var(--sec)">1</div>
+<div class="dash-label">대주제 선언</div>
+</div>
+<div class="dash-value">다가올 천년왕국에서 그리스도께서 왕으로서 땅을 통치하실 것이며, 이기는 믿는 이들이 함께 다스릴 것입니다.</div>
+</div>
+
+<div class="dash-card">
+<div class="dash-header">
+<div class="dash-badge" style="background:#b45309">2</div>
+<div class="dash-label">성경적 증명</div>
+</div>
+<div class="dash-value">이 통치는 창세부터 이어져 온 하나님의 오래된 약속인 구약 예언들(이사야, 예레미야, 스가랴)의 확실한 성취입니다.</div>
+</div>
+
+<div class="dash-card">
+<div class="dash-header">
+<div class="dash-badge" style="background:#2563eb">3</div>
+<div class="dash-label">통치의 합법적 근거</div>
+</div>
+<div class="dash-value">그리스도는 만물을 구속하시고 모든 것을 팔아 왕국을 사셨기에, 땅을 되찾고 통치하실 '완전한 권리'가 있으십니다.</div>
+</div>
+
+<div class="dash-card">
+<div class="dash-header">
+<div class="dash-badge" style="background:#16a34a">4</div>
+<div class="dash-label">결과 및 우리의 적용</div>
+</div>
+<div class="dash-value">만물이 의와 기쁨으로 회복됩니다. 우리는 공동 왕이 되기 위해 "왕국이 오게 하시며" 기도하고 자신을 장비해야 합니다.</div>
+</div>
+</div>
+</section>
+
+<!-- POINTS -->
+<section id="points">
+<div class="section-label">📝 4단계 핵심 요점 전개</div>
+
+<!-- POINT 1 -->
+<div class="flow-line"></div>
+<div class="accordion c1" id="pt1">
+<div class="acc-header" onclick="toggleAcc(this)">
+<div class="acc-num" style="background:var(--sec)">1</div>
+<span class="acc-title-text">대주제 선언: 다가올 왕국의 중심이신 그리스도</span>
+<span class="acc-arrow">▼</span>
+</div>
+<div class="acc-body">
+<div class="acc-inner">
+<div class="verse-block">
+<div class="verse-block-title">🔖 관련 성경구절</div>
+<div class="verse-item"><span class="vref">계 20:4</span> 또 내가 보니, 보좌들이 있고 그 위에 사람들이 앉아 있었으며 … 그들은 살아나서 <span class="hl">그리스도와 함께 천 년 동안 왕으로서 다스렸습니다.</span></div>
+<div class="verse-item"><span class="vref">계 2:26</span> <span class="hl">이기는 이</span>와 나의 일을 끝까지 지키는 이에게는 내가 <span class="hl">민족들을 다스리는 권위를 줄 것</span>이다.</div>
+</div>
+<div class="point-content">
+<div class="badge-meaning">전체 결론이자 핵심 주제</div>
+<div class="content-box">
+<p><span class="hl">그리스도는 땅을 소유하신 후에 왕국 안에서 왕으로서 땅을 통치하실 것이며, 그분의 이기는 믿는 이들과 함께 민족들을 다스리실 것</span>이다. 장차 오실 왕이신 그분은 <span class="hl">다가올 천년왕국에서 하나님의 왕국의 머리와 중심이실 것</span>이다.</p>
+</div>
+
+<div class="badge-meaning">천년왕국의 3차원적 행정 구조</div>
+<div class="admin-box">
+<div class="admin-desc">하나님의 왕국은 단일한 공간이 아닌, 우주적이고 입체적인 행정 체계를 가집니다.</div>
+<div class="admin-grid">
+<div class="admin-card">
+<div class="ac-head bg-gray">[첫째 부분: 땅의 부분]</div>
+<div class="ac-body">
+<div class="ac-row"><span class="ac-label">📍 영역</span><span class="ac-val">온 땅 (복원된 피조 세계)</span></div>
+<div class="ac-row"><span class="ac-label">👥 통치자/주체</span><span class="ac-val">그리스도의 다스림 아래 있는 민족들</span></div>
+<div class="ac-row"><span class="ac-label">✨ 특징</span><span class="ac-val">창조물의 회복과 축복</span></div>
+<div class="ac-row"><span class="ac-label">📖 성구</span><span class="ac-val ref">창세기 1:28-30</span></div>
+</div>
+</div>
+<div class="admin-card">
+<div class="ac-head bg-amber">[둘째 부분: 이스라엘 나라]</div>
+<div class="ac-body">
+<div class="ac-row"><span class="ac-label">📍 영역</span><span class="ac-val">가나안 땅<br><span style="font-size:0.9em;color:var(--text-light)">(나일강 ~ 유프라테스강)</span></span></div>
+<div class="ac-row"><span class="ac-label">👥 통치자/주체</span><span class="ac-val">구원받은 유대인들</span></div>
+<div class="ac-row"><span class="ac-label">✨ 특징</span><span class="ac-val">이스라엘이 이방 나라들 위에 제사장 나라로 섭리함</span></div>
+<div class="ac-row"><span class="ac-label">📖 성구</span><span class="ac-val ref">이사야 60:10-12, 스가랴 14:16-18</span></div>
+</div>
+</div>
+<div class="admin-card">
+<div class="ac-head bg-green">[셋째 부분: 하늘에 속한 영적인 영역]</div>
+<div class="ac-body">
+<div class="ac-row"><span class="ac-label">📍 영역</span><span class="ac-val">천국의 출현 (영적 영역)</span></div>
+<div class="ac-row"><span class="ac-label">👑 통치자/주체</span><span class="ac-val"><span class="hl">그리스도와 이기는 믿는 이들 (공동 왕)</span></span></div>
+<div class="ac-row"><span class="ac-label">✨ 특징</span><span class="ac-val">왕국의 최고 보상, 썩지 않을 영광의 누림</span></div>
+<div class="ac-row"><span class="ac-label">📖 성구</span><span class="ac-val ref">고전 15:50-52, 마 5:20</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- POINT 2 -->
+<div class="flow-line"></div>
+<div class="accordion c2" id="pt2">
+<div class="acc-header" onclick="toggleAcc(this)">
+<div class="acc-num" style="background:var(--sec)">2</div>
+<span class="acc-title-text">성경적 증명: 구약 예언의 성취</span>
+<span class="acc-arrow">▼</span>
+</div>
+<div class="acc-body">
+<div class="acc-inner">
+<div class="verse-block">
+<div class="verse-block-title">🔖 관련 성경구절</div>
+<div class="verse-item"><span class="vref">사 32:1</span> 참으로 <span class="hl">한 왕께서 의에 따라 통치</span>하시고 / 통치자들이 정의에 따라 다스리리라.</div>
+<div class="verse-item"><span class="vref">렘 23:5</span> 참으로 그 날들이 오고 있다. / 여호와의 선포이다. / 그때에 내가 다윗에게 의로운 한 순을 일으키리니 / 그가 <span class="hl">왕으로서 다스리고 현명하게 행하며 / 땅에서 정의와 의를 집행</span>하리라.</div>
+<div class="verse-item"><span class="vref">계 19:16</span> 그분의 옷과 넓적다리에는 ‘<span class="hl">모든 왕의 왕, 모든 주인의 주님</span>’이라는 이름이 쓰여 있었습니다.</div>
+</div>
+<div class="point-content">
+<div class="badge-meaning">창세부터 이어져 온 약속</div>
+<div class="content-box">
+<p>그리스도께서 왕으로서 이 땅을 다스리실 것이라는 사실은 갑작스러운 주장이 아니다. <span class="hl">이것은 이사야서 32장 1절과 예레미야서 23장 5절과 스가랴서 14장 9절과 17절의 성취일 것</span>이다. 스가랴서 14장 9절은 “여호와께서 온 땅의 왕이 되시리니”라고 말한다. 이 절들은 <span class="hl">여호와께서 왕으로 다스리신다는 것</span>을 분명하게 보여 준다!</p>
+<p>장차 그리스도는 <span class="hl">땅에 대한 그분의 권리를 주장하실 것</span>이다. 그분의 옷과 넓적다리에는 ‘모든 왕의 왕, 모든 주인의 주님’이라는 이름이 쓰여 있으며, 우리 주님께서 온전히 다스리시는 날이 다가오고 있다.</p>
+</div>
+
+<div class="badge-meaning">왕국의 도래를 향한 3대 예언적 기둥 (사역의 관점 적용)</div>
+<div class="pillar-box">
+<div class="pillar-grid">
+<div class="pillar-card">
+<div class="pillar-num">첫 번째 기둥</div>
+<div class="pillar-title">신성한 행정과<br>공동 왕들의 통치<br><span style="font-size:0.85em;color:var(--text-light);font-weight:500;">(이사야 32:1)</span></div>
+<div class="pillar-content-text">
+<p><strong>한 왕과 통치자들:</strong> '한 왕'은 그리스도이시며, '통치자들'은 단순히 천사나 구약의 성도들이 아니라 생명 안에서 성숙하여 산출된 <span class="hl">이기는 믿는 이들(overcomers)</span>을 가리킵니다.</p>
+<p><strong>신성한 행정:</strong> 다가올 천년왕국은 인간의 정치나 철학이 아닌, 하나님의 절대적인 공의(의와 정의)를 기초로 한 <span class="hl">신성한 행정(divine administration)</span>이 땅에 세워지는 때입니다. 이기는 이들은 보좌로 이끌려 그리스도와 함께 공동 왕(co-kings)으로서 이 땅을 다스리게 됩니다.</p>
+</div>
+</div>
+<div class="pillar-card">
+<div class="pillar-num">두 번째 기둥</div>
+<div class="pillar-title">인성을 입으신 그리스도의<br>합법적 왕권<br><span style="font-size:0.85em;color:var(--text-light);font-weight:500;">(예레미야 23:5)</span></div>
+<div class="pillar-content-text">
+<p><strong>다윗의 의로운 순:</strong> '순(Shoot)'은 육체를 입은 한 사람이 되심으로써 다윗의 수손이 되신 그리스도이다. 여기에서 '순'은 <span class="hl">그리스도의 인성(humanity)</span>을 가리키며, 또한 생명을 암시한다.</p>
+<p><strong>합법적 주체의 등장:</strong> 하나님께서 땅을 다스리시기 위해서는 '사람'이 필요하셨습니다. 그리스도는 참 하나님이실 뿐만 아니라, '다윗의 씨'로서 완전한 인성을 입고 사탄을 이기셨기에 이 땅의 왕국을 차지하고 다스리실 <span class="hl">완전하고 합법적인 자격</span>을 갖추셨음을 보여줍니다.</p>
+</div>
+</div>
+<div class="pillar-card">
+<div class="pillar-num">세 번째 기둥</div>
+<div class="pillar-title">회복된 땅과<br>우주적인 머리 되심<br><span style="font-size:0.85em;color:var(--text-light);font-weight:500;">(스가랴 14:9)</span></div>
+<div class="pillar-content-text">
+<p><strong>사탄의 강탈에서 회복됨:</strong> 현재 이 땅은 '이 세상의 통치자'인 사탄에게 강탈당해 있지만, 그리스도께서 십자가에서 모든 것을 지불하시고 땅(밭)을 사셨습니다.</p>
+<p><strong>유일한 머리 되심(Headship):</strong> 그날이 오면, 거짓 신들과 분열된 국가들의 통치가 끝이 납니다. 만물이 그리스도 안에서 머리이신 분 아래 통일되며, 여호와이신 그리스도께서 온 땅을 회복하시어 유일한 주님이자 절대적인 <span class="hl">우주적 머리로서 주권</span>을 행사하시게 됩니다.</p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<!-- POINT 3 -->
+<div class="flow-line"></div>
+<div class="accordion c3" id="pt3">
+<div class="acc-header" onclick="toggleAcc(this)">
+<div class="acc-num" style="background:var(--sec)">3</div>
+<span class="acc-title-text">통치의 합법적 근거: 구속을 통한 완전한 권리 획득</span>
+<span class="acc-arrow">▼</span>
+</div>
+<div class="acc-body">
+<div class="acc-inner">
+<div class="verse-block">
+<div class="verse-block-title">🔖 관련 성경구절</div>
+<div class="verse-item"><span class="vref">요일 3:8</span> 죄짓는 것을 일삼는 사람은 마귀에게서 나왔습니다. … 하나님의 아들께서 나타나신 목적은 <span class="hl">마귀에게서 나온 일을 제거</span>하시기 위한 것입니다.</div>
+<div class="verse-item"><span class="vref">마 13:44</span> 천국은 마치 밭에 감추어진 보물과 같습니다. … 기뻐하며 가서, <span class="hl">자기의 모든 소유를 팔아 그 밭을 삽니다.</span></div>
+<div class="verse-item"><span class="vref">골 1:20</span> 그분의 <span class="hl">십자가의 피를 통하여 화평을 이루어</span>, 만물 곧 땅에 있는 것들이나 하늘들에 있는 것들을 그분을 통해 그분 자신과 화목하게 하는 것을 기뻐하기 때문입니다.</div>
+<div class="verse-item"><span class="vref">단 7:13-14</span> 내가 밤의 이상들 가운데 살펴보니 / 하늘의 구름을 타고 / 사람의 아들과 같은 분께서 오시는데 … <span class="hl">그분께 통치권과 영광과 왕국이 주어져</span> / 모든 백성들과 민족들 … 이 그분을 섬기게 되었다.</div>
+</div>
+<div class="point-content">
+<div class="badge-meaning">합법적 자격과 대가 지불</div>
+<div class="content-box">
+<p>하나님의 원수인 사탄은 하나님의 권위에 대항하여 반역했다. 그를 처리하시기 위해 하나님은 예수라는 이름의 사람이 되시어 <span class="hl">마귀에게서 나온 일을 제거하시고 마귀를 멸망시키셨다.</span> 이것은 하나님께서 땅을 되찾아 그분의 왕국으로 삼으시기 위한 것이었다.</p>
+<p>그리스도는 땅과 그 모든 백성들을 구속하심으로 왕국의 영역과 왕국의 구성 요소가 되게 하셨으며, <span class="hl">모든 것을 팔아 왕국을 사셨고, 땅과 그 모든 백성들을 사탄의 강탈에서 구출</span>하셨다. 그러므로 그리스도는 복원된 땅과 복원된 민족들의 왕이 되실 <span class="hl">완전한 권리를 가지실 것</span>이다. 다가오는 왕국에서 그분은 하나님의 승리와 영광의 표시로서뿐 아니라 <span class="hl">사탄의 패배와 수치의 표시로서도 분명히 '사람의 아들'이실 것</span>이다.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- POINT 4 -->
+<div class="flow-line"></div>
+<div class="accordion c4" id="pt4">
+<div class="acc-header" onclick="toggleAcc(this)">
+<div class="acc-num" style="background:var(--sec)">4</div>
+<span class="acc-title-text">결과 및 적용: 만물의 회복과 우리의 반응</span>
+<span class="acc-arrow">▼</span>
+</div>
+<div class="acc-body">
+<div class="acc-inner">
+<div class="verse-block">
+<div class="verse-block-title">🔖 관련 성경구절</div>
+<div class="verse-item"><span class="vref">마 6:9-10</span> 그러므로 여러분은 이렇게 기도하십시오. ‘하늘에 계신 우리 아버지, 아버지의 이름이 거룩히 여겨지도록 하시며, <span class="hl">왕국이 오게 하시며</span>, 뜻이 하늘에서 이루어진 것같이 땅에서도 이루어지게 하십시오.’</div>
+<div class="verse-item"><span class="vref">사 32:17</span> <span class="hl">의의 일이 화평</span>이 되고 / 의의 결과가 영원토록 <span class="hl">평온과 안전</span>이 되리라.</div>
+<div class="verse-item"><span class="vref">사 35:1-2</span> 광야와 메마른 땅이 즐거워하리니 / 사막은 크게 기뻐 / <span class="hl">장미처럼 꽃피리라.</span> / 피고 또 피어 / 큰 기쁨으로 기뻐 환호하리라. … 그들이 여호와의 영광과 / 우리 하나님의 광채를 보리라.</div>
+</div>
+<div class="point-content">
+<div class="badge-meaning">통치의 결과</div>
+<div class="content-box">
+<p>다가오는 그리스도의 통치에서 하나님의 권위와 영광이 완전히 나타날 것이고, <span class="hl">온 땅과 그 백성들은 의와 평안과 기쁨 안으로, 그리고 하나님의 창조에 속한 완전한 축복 안으로 이끌릴 것</span>이다. 그리스도께서 천년왕국 안에서 하시는 유일한 일은 이렇게 모든 민족을 다스리시는 것이며, 이것을 통해 온 우주를 향하여 신성하고 하늘에 속한 권위를 가진 그분의 왕권을 천 년 동안 나타내심으로 <span class="hl">하나님께 패배한 원수 사탄을 수치당하게 하실 것</span>이다.</p>
+</div>
+
+<div class="badge-apply">우리의 실천적 적용</div>
+<div class="content-box" style="border-left-color:#16a34a; background:#f0fdf4">
+<p>마태복음 6장 9절과 10절에서 주 예수님은 우리에게 <span class="hl">“왕국이 오게 하시며”라고 기도하라고 가르치셨다.</span> 하나님의 말씀이시고 모든 왕의 왕이시며 모든 주인의 주님이신 그리스도는 오셔서 심판을 집행하시고 질서를 가져오시고 그분의 의를 가져오시어 그분의 왕국을 세우실 것이다. 우리는 <span class="hl">그리스도께서 왕으로서 오셔서 이 땅을 다스리실 날을 기다리고 있다.</span> 그분의 왕국 안에서 우리는 그분과 함께 공동 왕들로서 다스릴 것이다. 이것이 우리의 소망이자 바람이다.</p>
+<p>우리는 이렇게 기도해야 한다. <span class="hl">“주님, 저를 보좌로 이끌어 주십시오. 제가 당신과 협력하여 당신과 함께 공동 왕으로서 다스릴 수 있도록 준비되고 장비되게 해 주십시오.”</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- QUIZ -->
+<section class="quiz-section" id="quiz">
+<div class="quiz-title">❓ 실전 적용 퀴즈</div>
+
+<div class="q-item" data-answer="2">
+<div class="q-text"><span class="q-num">1</span>그리스도께서 사탄에게 강탈당했던 땅을 되찾고 통치하실 수 있는 '합법적이고 완전한 권리'는 어떻게 획득되었습니까?</div>
+<div class="q-options">
+<label class="q-opt" data-idx="0"><span class="q-radio"></span>힘으로 사탄을 굴복시켜서 빼앗았다</label>
+<label class="q-opt" data-idx="1"><span class="q-radio"></span>창조주이시므로 아무런 대가 없이 그냥 취하셨다</label>
+<label class="q-opt" data-idx="2"><span class="q-radio"></span>모든 것을 팔아 왕국을 사셨고 십자가의 피로 땅과 백성을 구속하셨다</label>
+<label class="q-opt" data-idx="3"><span class="q-radio"></span>인간들과의 협상을 통해 통치권을 이양받았다</label>
+</div>
+<button class="q-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+<div class="q-hint">핵심 요점 3번: 통치의 합법적 근거 부분(마 13:44, 골 1:20)을 떠올려 보세요.</div>
+<div class="q-feedback"></div>
+</div>
+
+<div class="q-item" data-answer="3">
+<div class="q-text"><span class="q-num">2</span>그리스도의 통치의 결과로 온 땅은 어떤 상태로 회복됩니까?</div>
+<div class="q-options">
+<label class="q-opt" data-idx="0"><span class="q-radio"></span>끝없는 심판이 계속되는 형벌의 장소가 된다</label>
+<label class="q-opt" data-idx="1"><span class="q-radio"></span>물질이 소멸되고 영적인 것만 남게 된다</label>
+<label class="q-opt" data-idx="2"><span class="q-radio"></span>엄격한 율법 통제로 자유가 완전히 사라진다</label>
+<label class="q-opt" data-idx="3"><span class="q-radio"></span>의와 평안과 기쁨 안으로, 하나님의 창조에 속한 완전한 축복 안으로 이끌린다</label>
+</div>
+<button class="q-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+<div class="q-hint">핵심 요점 4번의 '통치의 결과' 설명과 사 32:17 말씀을 상기해 보세요.</div>
+<div class="q-feedback"></div>
+</div>
+
+<div class="q-item" data-answer="0">
+<div class="q-text"><span class="q-num">3</span>다가올 천년왕국에서 그리스도께서 이 땅을 다스리신다는 것은 어느 날 갑자기 생긴 약속입니까?</div>
+<div class="q-options">
+<label class="q-opt" data-idx="0"><span class="q-radio"></span>아니다. 이사야, 예레미야, 스가랴 등 구약에 약속된 예언들의 확실한 성취이다.</label>
+<label class="q-opt" data-idx="1"><span class="q-radio"></span>그렇다. 요한계시록에 와서야 처음 등장한 새로운 약속이다.</label>
+<label class="q-opt" data-idx="2"><span class="q-radio"></span>아니다. 인간의 상상력이 만들어낸 철학적 희망일 뿐이다.</label>
+<label class="q-opt" data-idx="3"><span class="q-radio"></span>그렇다. 사도 바울이 독창적으로 만들어낸 개념이다.</label>
+</div>
+<button class="q-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+<div class="q-hint">핵심 요점 2번(성경적 증명)에서 여호와께서 통치하신다는 오래된 약속을 찾아보세요.</div>
+<div class="q-feedback"></div>
+</div>
+
+<div class="q-item" data-answer="1">
+<div class="q-text"><span class="q-num">4</span>다가올 천년왕국에서 하나님의 왕국의 머리와 중심이신 그리스도와 함께 만국을 다스리게 될 사람들은 누구입니까?</div>
+<div class="q-options">
+<label class="q-opt" data-idx="0"><span class="q-radio"></span>구원받은 모든 사람들이 예외 없이 다스린다</label>
+<label class="q-opt" data-idx="1"><span class="q-radio"></span>자신을 합당하게 예비한 '이기는 믿는 이들'</label>
+<label class="q-opt" data-idx="2"><span class="q-radio"></span>오직 열두 사도들만 다스린다</label>
+<label class="q-opt" data-idx="3"><span class="q-radio"></span>천사들이 인간들을 대신하여 다스린다</label>
+</div>
+<button class="q-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+<div class="q-hint">핵심 요점 1번(대주제 선언)에서 그분이 "누구와 함께" 다스리시는지 확인해 보세요.</div>
+<div class="q-feedback"></div>
+</div>
+
+<div class="q-item" data-answer="3">
+<div class="q-text"><span class="q-num">5</span>이러한 웅대한 비전을 바탕으로, 우리가 공동 왕으로서 다스림에 동참하기 위해 '오늘날' 해야 할 가장 합당한 적용과 기도는 무엇입니까?</div>
+<div class="q-options">
+<label class="q-opt" data-idx="0"><span class="q-radio"></span>세상을 등지고 산속으로 들어가 조용히 기다리는 것</label>
+<label class="q-opt" data-idx="1"><span class="q-radio"></span>미래의 일이니 아무 신경 쓰지 않고 현재를 즐기는 것</label>
+<label class="q-opt" data-idx="2"><span class="q-radio"></span>내 힘으로 세상의 정치와 제도를 개혁하려 노력하는 것</label>
+<label class="q-opt" data-idx="3"><span class="q-radio"></span>"왕국이 오게 하시며" 기도하고, 공동 왕으로 다스릴 수 있도록 준비되고 장비되기를 간구하는 것</label>
+</div>
+<button class="q-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+<div class="q-hint">핵심 요점 4번의 '우리의 실천적 적용' 부분에 나오는 지문의 문장을 기억해 보세요.</div>
+<div class="q-feedback"></div>
+</div>
+
+<button class="quiz-submit" onclick="submitQuiz()">채점하고 결과 보기</button>
+<div class="quiz-result" id="quizResult">
+<div class="score" id="quizScore"></div>
+<div class="feedback" id="quizFeedback"></div>
+</div>
+</section>
+
+<!-- PRAYER -->
+<section class="prayer-section" id="prayer">
+<div class="prayer-title">🙏 오늘의 기도</div>
+<div class="prayer-quote-icon">❝</div>
+<div class="prayer-text">
+<p>주님, 왕국이 오게 하시며, 뜻이 하늘에서 이루어진 것같이 땅에서도 이루어지게 하십시오.</p>
+<br>
+<p>주님, 저를 보좌로 이끌어 주십시오. 제가 당신과 협력하여 당신과 함께 공동 왕으로서 다스릴 수 있도록 준비되고 장비되게 해 주십시오. 왕국과 능력과 영광이 영원토록 아버지의 것입니다. 아멘.</p>
+</div>
+</section>
+
+<div class="footer">
+© 2025 겨울훈련 — 그리스도 왕으로서 땅을 다스리시는 분
+</div>
+
+</div><!-- container -->
+</div><!-- main-wrap -->
+
+<script>
+// SIDE PANEL
+function togglePanel(){
+document.getElementById('sidepanel').classList.toggle('active');
+document.getElementById('overlay').classList.toggle('active');
+}
+
+// FONT SIZE
+let fontScale=1;
+function adjustFont(dir){
+if(dir===0){fontScale=1}
+else{fontScale=Math.max(0.7,Math.min(1.6,fontScale+dir*0.05))}
+document.documentElement.style.setProperty('--font-scale',fontScale);
+}
+
+// ACCORDION
+function toggleAcc(header){
+const acc=header.parentElement;
+const body=acc.querySelector('.acc-body');
+if(acc.classList.contains('open')){
+body.style.maxHeight='0px';
+acc.classList.remove('open');
+}else{
+body.style.maxHeight=body.scrollHeight+'px';
+acc.classList.add('open');
+}
+}
+
+// QUIZ HINT
+function toggleHint(btn){
+const hint=btn.nextElementSibling;
+hint.classList.toggle('show');
+btn.textContent=hint.classList.contains('show')?'💡 힌트 닫기':'💡 힌트 보기';
+}
+
+// QUIZ OPTION SELECT
+document.querySelectorAll('.q-opt').forEach(opt=>{
+opt.addEventListener('click',function(){
+const item=this.closest('.q-item');
+if(item.dataset.locked) return;
+item.querySelectorAll('.q-opt').forEach(o=>o.classList.remove('selected'));
+this.classList.add('selected');
+});
+});
+
+// QUIZ SUBMIT
+function submitQuiz(){
+const items=document.querySelectorAll('.q-item');
+let correct=0,total=items.length,allAnswered=true;
+items.forEach(item=>{
+const answer=parseInt(item.dataset.answer);
+const selected=item.querySelector('.q-opt.selected');
+const fb=item.querySelector('.q-feedback');
+if(!selected){allAnswered=false;return}
+item.dataset.locked='true';
+const idx=parseInt(selected.dataset.idx);
+if(idx===answer){
+correct++;
+selected.classList.add('correct');
+fb.textContent='✅ 정답입니다!';
+fb.className='q-feedback show correct-fb';
+}else{
+selected.classList.add('wrong');
+item.querySelectorAll('.q-opt')[answer].classList.add('correct');
+fb.textContent='❌ 오답입니다. 해설과 본문을 다시 확인해 보세요.';
+fb.className='q-feedback show wrong-fb';
+}
+});
+if(!allAnswered){alert('모든 문제에 답을 선택해 주세요.');return}
+const pct=Math.round(correct/total*100);
+const res=document.getElementById('quizResult');
+document.getElementById('quizScore').textContent=correct+' / '+total+' ('+pct+'점)';
+let msg='';
+if(pct===100)msg='🎉 완벽합니다! 개요의 논리적 흐름과 실천적 적용을 정확히 파악하셨습니다.';
+else if(pct>=80)msg='👏 훌륭합니다! 대부분의 요점과 적용을 잘 이해하셨습니다.';
+else if(pct>=60)msg='👍 좋습니다! 틀린 부분의 본문을 다시 묵상해 보시면 좋겠습니다.';
+else msg='📖 4단계 논리적 흐름을 따라 다시 한번 천천히 읽어보시길 권합니다.';
+document.getElementById('quizFeedback').textContent=msg;
+res.style.background=pct>=80?'#ecfdf5':pct>=60?'#fefce8':'#fef2f2';
+res.classList.add('show');
+}
+</script>
+</body>
+</html>
