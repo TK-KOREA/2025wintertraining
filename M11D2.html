@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우리 존재의 중심에 있는 보좌와 생명수의 흐름</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base-font-size: 17px;
+  --font-scale: 1;
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-light: #444444;
+  --accent-yellow: #ffe066;
+  --highlight-yellow: #fff3b0;
+  --border-light: #e8e8e8;
+  --card-bg: #fafafa;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,0.1);
+  --throne-color: #b8860b;
+  --flow-color: #2e86ab;
+  --inner-color: #e07a2f;
+  --eat-color: #4a9e5c;
+  --reign-color: #7b5ea7;
+  --radius: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── TOP BAR ── */
+.top-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 44px;
+  background: #fff;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  padding: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.top-bar-left {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 0;
+}
+
+.top-bar-btn {
+  width: 40px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.top-bar-btn:hover { background: #f0f0f0; }
+
+.top-bar-title {
+  flex: 1;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  padding: 0 8px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.top-bar-title::-webkit-scrollbar { display: none; }
+
+.font-controls {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 0;
+  margin-right: 4px;
+}
+
+.font-btn {
+  width: 32px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.font-btn:first-child { border-radius: 6px 0 0 6px; }
+.font-btn:last-child { border-radius: 0 6px 6px 0; }
+.font-btn:hover { background: #e8e8e8; }
+.font-btn-reset {
+  font-size: 12px;
+  border-left: none;
+  border-right: none;
+}
+
+/* ── SIDE PANEL ── */
+.side-panel-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1100;
+}
+.side-panel-overlay.active { display: block; }
+
+.side-panel {
+  position: fixed;
+  top: 0; left: -300px; bottom: 0;
+  width: 280px;
+  background: #fff;
+  z-index: 1200;
+  transition: left 0.3s ease;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+.side-panel.active { left: 0; }
+
+.side-panel-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 15px;
+}
+.side-panel-close {
+  background: none; border: none;
+  font-size: 20px; cursor: pointer;
+  color: var(--text-light);
+}
+
+.side-menu { padding: 12px 0; }
+.side-menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  transition: background 0.2s;
+}
+.side-menu-item:hover { background: #f5f5f5; }
+.side-menu-item.sub {
+  padding-left: 36px;
+  font-size: 13px;
+  color: var(--text-light);
+}
+.side-menu-divider {
+  height: 1px;
+  background: var(--border-light);
+  margin: 8px 16px;
+}
+
+.keyword-tooltip {
+  display: none;
+  margin: 4px 20px 8px 36px;
+  padding: 8px 12px;
+  background: var(--highlight-yellow);
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text);
+}
+.keyword-tooltip.show { display: block; }
+
+/* ── MAIN ── */
+.main-content {
+  padding-top: 44px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 60px;
+}
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  padding: 40px 0 24px;
+}
+.hero-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+.hero-title {
+  font-size: calc(26px * var(--font-scale));
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.hero-subtitle {
+  font-size: calc(15px * var(--font-scale));
+  color: var(--text-light);
+  font-weight: 400;
+}
+.hero-verse-box {
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #fefefe, #f9f7f0);
+  border-left: 4px solid var(--throne-color);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  text-align: left;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.8;
+  color: var(--text);
+}
+.hero-verse-ref {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+  color: var(--throne-color);
+  font-size: calc(13px * var(--font-scale));
+}
+
+mark {
+  background: var(--accent-yellow);
+  padding: 1px 3px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+/* ── LAYER INTRO ── */
+.layer-intro {
+  margin: 24px 0;
+  padding: 20px;
+  background: #f9f9f7;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-light);
+}
+.layer-intro-title {
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.layer-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dashed #e0e0e0;
+}
+.layer-step:last-child { border-bottom: none; }
+.layer-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.layer-text {
+  font-size: calc(14px * var(--font-scale));
+  color: var(--text);
+  line-height: 1.7;
+}
+
+/* ── DASHBOARD ── */
+.dashboard {
+  margin: 28px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+}
+.dash-card {
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: 16px 12px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s;
+}
+.dash-card:hover { transform: translateY(-2px); }
+.dash-icon { font-size: 28px; margin-bottom: 6px; }
+.dash-label {
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.dash-desc {
+  font-size: calc(11px * var(--font-scale));
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+/* ── FLOW CONNECTOR ── */
+.flow-connector {
+  display: flex;
+  justify-content: center;
+  padding: 6px 0;
+}
+.flow-arrow {
+  width: 2px;
+  height: 28px;
+  background: linear-gradient(to bottom, #ddd, #bbb);
+  position: relative;
+}
+.flow-arrow::after {
+  content: '▼';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: #bbb;
+}
+
+/* ── KEYWORD CHIPS ── */
+.keywords-section {
+  margin: 20px 0 28px;
+  text-align: center;
+}
+.keywords-title {
+  font-size: calc(14px * var(--font-scale));
+  font-weight: 600;
+  color: var(--text-light);
+  margin-bottom: 10px;
+}
+.keyword-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.keyword-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 600;
+  border: 1.5px solid;
+  background: #fff;
+}
+
+/* ── ACCORDION ── */
+.accordion-section { margin: 8px 0; }
+
+.accordion-card {
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 8px;
+  border: 1px solid var(--border-light);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+.accordion-header:hover { background: #fafafa; }
+
+.accordion-icon-wrapper {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.accordion-title-area { flex: 1; }
+.accordion-step-num {
+  font-size: calc(11px * var(--font-scale));
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1px;
+}
+.accordion-title {
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.accordion-chevron {
+  font-size: 14px;
+  color: #aaa;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+.accordion-card.open .accordion-chevron { transform: rotate(180deg); }
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.accordion-body-inner {
+  padding: 0 16px 18px;
+}
+
+/* Bible verse block */
+.bible-block {
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #fefefe, #f9f7f0);
+  border-radius: 10px;
+  margin-bottom: 14px;
+  border-left: 3px solid;
+}
+.bible-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: calc(12px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.bible-bookmark { font-size: 14px; }
+.bible-verse-item {
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.8;
+  color: var(--text);
+  margin-bottom: 6px;
+  padding-left: 4px;
+}
+.bible-verse-item:last-child { margin-bottom: 0; }
+.bible-ref {
+  font-weight: 700;
+  font-size: calc(12px * var(--font-scale));
+}
+
+/* Point content */
+.point-block { margin-bottom: 14px; }
+.point-label {
+  font-size: calc(12px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.point-text {
+  font-size: calc(15px * var(--font-scale));
+  line-height: 1.85;
+  color: var(--text);
+}
+
+.point-box {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f8f8f6;
+  border: 1px solid #eee;
+  margin-bottom: 10px;
+}
+
+.point-quote {
+  padding: 12px 14px;
+  background: #fefcf3;
+  border-left: 3px solid var(--accent-yellow);
+  border-radius: 0 8px 8px 0;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.8;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+/* ── DIAGNOSIS BLOCK ── */
+.diagnosis-block {
+  margin-bottom: 16px;
+  border: 1px solid #f5c6c6;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+.diagnosis-header {
+  background: #fef0f0;
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid #f5c6c6;
+}
+.diagnosis-title {
+  color: #c92a2a;
+  font-weight: 800;
+  font-size: calc(15px * var(--font-scale));
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.diagnosis-subtitle {
+  font-size: calc(13px * var(--font-scale));
+  color: #666;
+  font-weight: 500;
+}
+.diagnosis-body {
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 480px) {
+  .diagnosis-body { flex-direction: row; }
+}
+.diagnosis-col {
+  flex: 1;
+  padding: 14px 16px;
+}
+.diagnosis-col:first-child {
+  border-bottom: 1px solid #f5c6c6;
+}
+@media (min-width: 480px) {
+  .diagnosis-col:first-child {
+    border-bottom: none;
+    border-right: 1px solid #f5c6c6;
+  }
+}
+.diagnosis-col-title {
+  font-weight: 800;
+  color: #c92a2a;
+  font-size: calc(14px * var(--font-scale));
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.diagnosis-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: calc(13px * var(--font-scale));
+  line-height: 1.7;
+  color: var(--text);
+}
+.diagnosis-list li { margin-bottom: 6px; }
+.diagnosis-list li strong { color: #1a1a1a; }
+
+/* ── DAILY THRONE BLOCK ── */
+.daily-throne-box {
+  border: 2px solid #f5d0b5;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: #fffcf9;
+}
+.daily-throne-quote {
+  font-weight: 700;
+  color: var(--inner-color);
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: calc(14.5px * var(--font-scale));
+  padding-bottom: 14px;
+  border-bottom: 1px dashed #f5d0b5;
+  line-height: 1.6;
+}
+.daily-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media(min-width: 480px) {
+  .daily-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+.daily-item {
+  background: #fff;
+  border: 1px solid #f5d0b5;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+.daily-icon {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+.daily-title {
+  font-weight: 700;
+  color: var(--text);
+  font-size: calc(13px * var(--font-scale));
+  margin-bottom: 4px;
+}
+.daily-desc {
+  font-size: calc(12px * var(--font-scale));
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+/* ── SERVICE CYCLE & EQUATION ── */
+.service-cycle {
+  display: flex; flex-direction: column; gap: 8px; margin: 12px 0;
+}
+@media(min-width: 480px) { .service-cycle { flex-direction: row; align-items: stretch; } }
+.cycle-item {
+  flex: 1; background: #fdfdfc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 10px; text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+.cycle-icon { font-size: 26px; margin-bottom: 8px; }
+.cycle-title { font-weight: 800; color: var(--reign-color); font-size: calc(13px * var(--font-scale)); margin-bottom: 6px; }
+.cycle-desc { font-size: calc(11.5px * var(--font-scale)); color: var(--text-light); line-height: 1.5; word-break: keep-all; }
+.cycle-arrow {
+  display: flex; align-items: center; justify-content: center; color: #cbd5e1; font-size: 18px;
+}
+@media(max-width: 479px) { .cycle-arrow { transform: rotate(90deg); margin: -4px 0; } }
+
+.gospel-equation {
+  display: flex; flex-direction: column; gap: 8px; margin: 12px 0;
+}
+@media(min-width: 480px) { .gospel-equation { flex-direction: row; align-items: stretch; } }
+.eq-box {
+  flex: 1; border: 2px solid #e2e8f0; border-radius: 10px; padding: 14px 10px; text-align: center; background: #fff;
+}
+.eq-box.result { border-color: #d4af37; background: #fffcf5; box-shadow: 0 2px 8px rgba(212,175,55,0.15); border-width: 2.5px; }
+.eq-title { font-weight: 800; font-size: calc(13px * var(--font-scale)); margin-bottom: 6px; }
+.eq-desc { font-size: calc(11.5px * var(--font-scale)); color: var(--text-light); line-height: 1.5; word-break: keep-all; }
+.eq-sign { font-size: 24px; font-weight: 900; color: #94a3b8; display: flex; align-items: center; justify-content: center; }
+
+/* ── QUIZ ── */
+.quiz-section {
+  margin: 32px 0;
+  padding: 24px 16px;
+  background: #fafafa;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-light);
+}
+.quiz-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.quiz-header h2 {
+  font-size: calc(20px * var(--font-scale));
+  font-weight: 800;
+}
+.quiz-header p {
+  font-size: calc(13px * var(--font-scale));
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+.quiz-item {
+  margin-bottom: 20px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid var(--border-light);
+}
+.quiz-q-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.quiz-badge {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--flow-color);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.quiz-question {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.quiz-hint-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 10px;
+  padding: 4px 10px;
+  background: #fff8e0;
+  border: 1px solid #f0e0a0;
+  border-radius: 16px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #8a6d00;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.quiz-hint-text {
+  display: none;
+  padding: 8px 12px;
+  background: #fffbe6;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.quiz-hint-text.show { display: block; }
+
+.quiz-options { display: flex; flex-direction: column; gap: 6px; }
+.quiz-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #fafafa;
+  border: 1.5px solid #e5e5e5;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: all 0.2s;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: var(--text);
+}
+.quiz-option:hover { border-color: #ccc; background: #f5f5f5; }
+.quiz-option.selected { border-color: var(--flow-color); background: #eef6fa; }
+.quiz-option.correct { border-color: #4a9e5c; background: #eef8f0; }
+.quiz-option.wrong { border-color: #d94f4f; background: #fdf0f0; }
+
+.quiz-option-radio {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.quiz-option.selected .quiz-option-radio { border-color: var(--flow-color); }
+.quiz-option.selected .quiz-option-radio::after {
+  content: '';
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--flow-color);
+}
+.quiz-option.correct .quiz-option-radio { border-color: #4a9e5c; }
+.quiz-option.correct .quiz-option-radio::after {
+  content: '✓';
+  font-size: 12px; color: #4a9e5c; font-weight: 700;
+}
+.quiz-option.wrong .quiz-option-radio { border-color: #d94f4f; }
+.quiz-option.wrong .quiz-option-radio::after {
+  content: '✗';
+  font-size: 12px; color: #d94f4f; font-weight: 700;
+}
+
+.quiz-feedback {
+  display: none;
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.quiz-feedback.correct-fb { display: block; background: #eef8f0; color: #2a6e3a; }
+.quiz-feedback.wrong-fb { display: block; background: #fdf0f0; color: #b33; }
+
+.quiz-submit-area { text-align: center; margin-top: 20px; }
+.quiz-submit-btn {
+  padding: 12px 32px;
+  background: var(--flow-color);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: background 0.2s;
+}
+.quiz-submit-btn:hover { background: #256e8f; }
+
+.quiz-result {
+  display: none;
+  text-align: center;
+  margin-top: 20px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+}
+.quiz-score {
+  font-size: calc(32px * var(--font-scale));
+  font-weight: 900;
+  color: var(--flow-color);
+}
+.quiz-result-text {
+  font-size: calc(15px * var(--font-scale));
+  margin-top: 6px;
+  color: var(--text);
+}
+
+/* ── PRAYER ── */
+.prayer-section {
+  margin: 32px 0;
+  text-align: center;
+}
+.prayer-icon { font-size: 32px; margin-bottom: 8px; }
+.prayer-title {
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+.prayer-card {
+  background: #f8fbff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 36px 20px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+}
+.prayer-quote-mark {
+  font-size: 48px;
+  line-height: 0.5;
+  color: #c2d6ff;
+  margin-bottom: 24px;
+  font-family: Georgia, serif;
+}
+.prayer-quote-mark.bottom {
+  margin-top: 36px;
+  margin-bottom: 28px;
+}
+.prayer-quote-text {
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 800;
+  color: #1a202c;
+  line-height: 1.8;
+  word-break: keep-all;
+}
+.prayer-divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 0 auto 24px;
+  width: 100%;
+}
+.prayer-footer-text {
+  font-size: calc(14.5px * var(--font-scale));
+  color: #4a5568;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 12px;
+  color: #aaa;
+  border-top: 1px solid var(--border-light);
+  margin-top: 32px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .main-content { padding-left: 12px; padding-right: 12px; }
+  .hero-title { font-size: calc(22px * var(--font-scale)); }
+  .dashboard { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .accordion-header { padding: 12px 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="top-bar-btn" onclick="togglePanel()" title="목차">☰</button>
+    <button class="top-bar-btn" onclick="window.open('https://tk-korea.github.io/2025wintertraining/','_blank')" title="홈">🏠</button>
+  </div>
+  <div class="top-bar-title">우리 존재의 중심에 있는 보좌와 생명수의 흐름</div>
+  <div class="font-controls">
+    <button class="font-btn" onclick="adjustFont(-1)">−</button>
+    <button class="font-btn font-btn-reset" onclick="adjustFont(0)">가</button>
+    <button class="font-btn" onclick="adjustFont(1)">+</button>
+  </div>
+</div>
+
+<!-- SIDE PANEL -->
+<div class="side-panel-overlay" id="panelOverlay" onclick="togglePanel()"></div>
+<div class="side-panel" id="sidePanel">
+  <div class="side-panel-header">
+    <span>📖 목차</span>
+    <button class="side-panel-close" onclick="togglePanel()">✕</button>
+  </div>
+  <div class="side-menu">
+    <button class="side-menu-item" onclick="goTo('hero')">🏷️ 제목</button>
+    <button class="side-menu-item" onclick="goTo('dashboard')">📊 대시보드</button>
+    <div class="side-menu-divider"></div>
+    <button class="side-menu-item" onclick="goTo('keywords')">🔑 키워드</button>
+    <button class="side-menu-item sub keyword-menu-btn" onclick="toggleKeyword('kw1')">보좌</button>
+    <div class="keyword-tooltip" id="kw1">삼일 하나님의 지배 권위와 머리의 권위. 우리 존재의 중심에서 모든 흐름의 근원이 되는 자리.</div>
+    <button class="side-menu-item sub keyword-menu-btn" onclick="toggleKeyword('kw2')">생명수</button>
+    <div class="keyword-tooltip" id="kw2">보좌에서 흘러나오는 신성한 공급. 우리에게 생명의 영양을 공급하는 흐름.</div>
+    <button class="side-menu-item sub keyword-menu-btn" onclick="toggleKeyword('kw3')">생명나무</button>
+    <div class="keyword-tooltip" id="kw3">생명수 안에서 자라나는 덩굴나무. 때에 따라 열매를 산출하여 영원토록 먹을 수 있게 함.</div>
+    <button class="side-menu-item sub keyword-menu-btn" onclick="toggleKeyword('kw4')">섬김</button>
+    <div class="keyword-tooltip" id="kw4">하나님을 먹고 마시고 누리는 것. 하나님을 위해 무엇을 하는 것이 아닌 방식의 봉사.</div>
+    <button class="side-menu-item sub keyword-menu-btn" onclick="toggleKeyword('kw5')">다스림</button>
+    <div class="keyword-tooltip" id="kw5">보좌의 흐름 안에서 왕으로서 다스리는 것. 하늘과 땅의 모든 권위로 복음을 전파함.</div>
+    <div class="side-menu-divider"></div>
+    <button class="side-menu-item" onclick="goTo('points')">📌 핵심 요점</button>
+    <button class="side-menu-item sub" onclick="goTo('acc-1')">1. 보좌 — 모든 흐름의 근원</button>
+    <button class="side-menu-item sub" onclick="goTo('acc-2')">2. 흐름 — 생명수와 생명나무</button>
+    <button class="side-menu-item sub" onclick="goTo('acc-3')">3. 내적 보좌 — 일상의 복종</button>
+    <button class="side-menu-item sub" onclick="goTo('acc-4')">4. 먹고 마심 — 참된 섬김</button>
+    <button class="side-menu-item sub" onclick="goTo('acc-5')">5. 참된 봉사 — 하나님을 누림</button>
+    <div class="side-menu-divider"></div>
+    <button class="side-menu-item" onclick="goTo('quiz')">✏️ 퀴즈</button>
+    <button class="side-menu-item" onclick="goTo('prayer')">🙏 오늘의 기도</button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <p class="hero-subtitle">2025 겨울훈련 11주 2일</p>
+    <h1 class="hero-title">우리 존재의 중심에 있는 보좌와 생명수의 흐름</h1>
+    <div class="hero-verse-box">
+      <span class="hero-verse-ref">📖 계 22:3-5</span>
+      <mark>하나님과 어린양의 보좌</mark>가 그 성안에 있을 것이며, 그분의 노예들이 그분을 <mark>섬길</mark> 것입니다. 그들은 그분의 <mark>얼굴을 볼</mark> 것이고, 그분의 이름이 그들의 이마에 있을 것입니다. … 그들은 <mark>영원히 다스릴</mark> 것입니다.
+    </div>
+  </section>
+
+  <!-- LAYER INTRO -->
+  <section class="layer-intro">
+    <div class="layer-intro-title">🧅 메시지의 핵심 구조</div>
+    <div class="layer-step">
+      <div class="layer-num" style="background:var(--throne-color);">1</div>
+      <div class="layer-text"><strong>보좌</strong>가 중심에 세워지면 → <strong>흐름</strong>이 시작된다</div>
+    </div>
+    <div class="layer-step">
+      <div class="layer-num" style="background:var(--flow-color);">2</div>
+      <div class="layer-text"><strong>흐름</strong> 안에서 생명수와 생명나무가 → <strong>공급</strong>된다</div>
+    </div>
+    <div class="layer-step">
+      <div class="layer-num" style="background:var(--inner-color);">3</div>
+      <div class="layer-text"><strong>공급</strong>을 받으려면 → <strong>내적 보좌</strong>에 복종해야 한다</div>
+    </div>
+    <div class="layer-step">
+      <div class="layer-num" style="background:var(--eat-color);">4</div>
+      <div class="layer-text">하나님을 <strong>먹고 마심</strong>이 → 참된 <strong>섬김</strong>이다</div>
+    </div>
+    <div class="layer-step">
+      <div class="layer-num" style="background:var(--reign-color);">5</div>
+      <div class="layer-text">이 흐름 안에서 → <strong>왕으로 다스린다</strong></div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard">
+    <div class="dashboard">
+      <div class="dash-card" style="border-top:3px solid var(--throne-color);">
+        <div class="dash-icon">👑</div>
+        <div class="dash-label">보좌</div>
+        <div class="dash-desc">모든 흐름의<br>근원이자 중심</div>
+      </div>
+      <div class="dash-card" style="border-top:3px solid var(--flow-color);">
+        <div class="dash-icon">💧</div>
+        <div class="dash-label">흐름</div>
+        <div class="dash-desc">생명수와<br>생명나무의 공급</div>
+      </div>
+      <div class="dash-card" style="border-top:3px solid var(--inner-color);">
+        <div class="dash-icon">🫀</div>
+        <div class="dash-label">내적 보좌</div>
+        <div class="dash-desc">존재의 중심에서<br>복종하기</div>
+      </div>
+      <div class="dash-card" style="border-top:3px solid var(--eat-color);">
+        <div class="dash-icon">🍞</div>
+        <div class="dash-label">먹고 마심</div>
+        <div class="dash-desc">하나님을 누리는<br>참된 섬김</div>
+      </div>
+      <div class="dash-card" style="border-top:3px solid var(--reign-color);">
+        <div class="dash-icon">⚜️</div>
+        <div class="dash-label">참된 봉사</div>
+        <div class="dash-desc">하나님을 누림과<br>왕으로서 다스림</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEYWORDS -->
+  <section class="keywords-section" id="keywords">
+    <div class="keywords-title">🔑 핵심 키워드</div>
+    <div class="keyword-chips">
+      <span class="keyword-chip" style="color:var(--throne-color);border-color:var(--throne-color);">👑 보좌</span>
+      <span class="keyword-chip" style="color:var(--flow-color);border-color:var(--flow-color);">💧 생명수</span>
+      <span class="keyword-chip" style="color:var(--eat-color);border-color:var(--eat-color);">🌿 생명나무</span>
+      <span class="keyword-chip" style="color:var(--inner-color);border-color:var(--inner-color);">🍞 먹고 마심</span>
+      <span class="keyword-chip" style="color:var(--reign-color);border-color:var(--reign-color);">⚜️ 다스림</span>
+    </div>
+  </section>
+
+  <!-- ACCORDION POINTS -->
+  <section id="points">
+
+    <!-- POINT 1 -->
+    <div class="accordion-section" id="acc-1">
+      <div class="accordion-card">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-icon-wrapper" style="background:var(--throne-color);">👑</div>
+          <div class="accordion-title-area">
+            <div class="accordion-step-num" style="color:var(--throne-color);">STEP 01</div>
+            <div class="accordion-title">보좌 — 모든 흐름의 근원</div>
+          </div>
+          <div class="accordion-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+
+            <div class="bible-block" style="border-color:var(--throne-color);">
+              <div class="bible-header" style="color:var(--throne-color);">
+                <span class="bible-bookmark">🔖</span> 관련 성경구절
+              </div>
+              <div class="bible-verse-item">
+                <span class="bible-ref">[계 22:3]</span> 더 이상 저주가 없을 것이고, <mark>하나님과 어린양의 보좌</mark>가 그 성안에 있을 것이며, 그분의 노예들이 그분을 섬길 것입니다.
+              </div>
+            </div>
+
+            <div class="diagnosis-block">
+              <div class="diagnosis-header">
+                <div class="diagnosis-title">⚠️ 영적 고갈과 메마름의 근본적 원인</div>
+                <div class="diagnosis-subtitle">많은 경우 우리가 고갈되고 심지어 말라 버린 느낌을 갖는 이유는 무엇입니까?</div>
+              </div>
+              <div class="diagnosis-body">
+                <div class="diagnosis-col">
+                  <div class="diagnosis-col-title">🔍 진단</div>
+                  <ul class="diagnosis-list">
+                    <li>흐름의 유일한 근원인 <strong>'보좌'의 상실</strong></li>
+                    <li>존재의 중심에 <strong>지배 권위(머리의 권위)가 부재함</strong></li>
+                  </ul>
+                </div>
+                <div class="diagnosis-col">
+                  <div class="diagnosis-col-title">🚨 결과</div>
+                  <ul class="diagnosis-list">
+                    <li>내면의 <strong>생명수 흐름이 즉각적으로 차단됨</strong></li>
+                    <li>새 예루살렘(영적 생태계) 전체가 <strong>굶주림과 죽음</strong>에 이르게 됨</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--throne-color);">💡 핵심 의미</div>
+              <div class="point-text">
+                새 예루살렘과 관련하여 계시된 <mark>마지막 항목은 보좌</mark>이다. 보좌가 없으면 새 예루살렘에는 <mark>중심이 없고</mark>, 보좌가 없으면 <mark>생명의 흐름도 없다</mark>. 단절된 파이프처럼 결과적으로 새 예루살렘 전체는 말라 버릴 것이며 심지어 굶주려서 죽음에 이르게 될 것이다.
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:#c92a2a;">🚨 영적인 메마름의 결정적 원인</div>
+              <div class="point-quote" style="border-left-color: #c92a2a; background: #fdf0f0; color: #1a1a1a;">
+                "<strong>생수의 흐름이 없는 것은</strong> 바로 우리 존재의 중심에서 삼일 하나님의 권위, 즉 그분의 <mark style="background: #f5c6c6; color: #9b1c1c;">지배 권위와 머리의 권위를 받아들이지 않거나 인식하지 못하기 때문</mark>이다."
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--throne-color);">📖 구체적 설명</div>
+              <div class="point-text">
+                보좌가 사라질 때마다 <mark>흐름의 근원이 없어진다</mark>. 이것이 많은 경우에 우리가 <mark>고갈되고 심지어 말라 버린 느낌</mark>을 갖는 명확한 이유이다.
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--throne-color);">🔑 적용</div>
+              <div class="point-quote">
+                보좌는 곧 삼일 하나님의 <mark>지배 권위</mark>이자 <mark>머리의 권위</mark>이다. 이 권위를 받아들이지 않으면 흐름이 멈추고, 우리는 고갈되며 말라 버린다. 보좌가 우리 존재의 중심에 세워질 때 비로소 모든 공급이 시작된다.
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-connector"><div class="flow-arrow"></div></div>
+
+    <!-- POINT 2 -->
+    <div class="accordion-section" id="acc-2">
+      <div class="accordion-card">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-icon-wrapper" style="background:var(--flow-color);">💧</div>
+          <div class="accordion-title-area">
+            <div class="accordion-step-num" style="color:var(--flow-color);">STEP 02</div>
+            <div class="accordion-title">흐름 — 생명수와 생명나무</div>
+          </div>
+          <div class="accordion-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+
+            <div class="bible-block" style="border-color:var(--flow-color);">
+              <div class="bible-header" style="color:var(--flow-color);">
+                <span class="bible-bookmark">🔖</span> 관련 성경구절
+              </div>
+              <div class="bible-verse-item">
+                <span class="bible-ref">[계 22:5]</span> 더 이상 밤이 없겠고, 그들에게는 등불과 햇빛이 필요하지 않습니다. 왜냐하면 <mark>주 하나님께서 그들을 비추실 것</mark>이기 때문입니다. 그들은 영원히 다스릴 것입니다.
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--flow-color);">💡 핵심 의미</div>
+              <div class="point-text">
+                <mark>생명수는 보좌에서 흘러나오고</mark>, 생명나무는 생명수 안에서 자라서 생명수의 강 양쪽에 있는 <mark>덩굴나무</mark>가 되어, 하나님께 구속받은 이들이 <mark>영원토록 먹을 수 있도록</mark> 때에 따라 열매를 산출한다.
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--flow-color);">📖 구체적 설명</div>
+              <div class="point-text">
+                <mark>생명수와 생명나무는 둘 다 보좌에서 나온 산출물</mark>이다. 일단 우리가 하나님을 그분의 보좌에 앉혀 드리면, 즉시 <mark>물이 흐르고 나무가 자라며</mark> 우리에게 먹을 것과 마실 것이 있게 된다. 생명수가 보좌에서 흘러나와 우리에게 <mark>공급</mark>을 주고, 온종일 우리에게 <mark>영양을 공급하는 생명나무</mark>를 가져올 것이다.
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--flow-color);">🔑 적용</div>
+              <div class="point-quote">
+                보좌 → 생명수 → 생명나무. 이 흐름은 끊어지지 않는 하나의 연결 고리이다. 하나님을 보좌에 앉혀 드리는 순간, 물이 흐르고 나무가 자라며, 우리에게 먹을 것과 마실 것이 즉시 공급된다.
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-connector"><div class="flow-arrow"></div></div>
+
+    <!-- POINT 3 -->
+    <div class="accordion-section" id="acc-3">
+      <div class="accordion-card">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-icon-wrapper" style="background:var(--inner-color);">🫀</div>
+          <div class="accordion-title-area">
+            <div class="accordion-step-num" style="color:var(--inner-color);">STEP 03</div>
+            <div class="accordion-title">내적 보좌 — 일상의 복종</div>
+          </div>
+          <div class="accordion-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+
+            <div class="bible-block" style="border-color:var(--inner-color);">
+              <div class="bible-header" style="color:var(--inner-color);">
+                <span class="bible-bookmark">🔖</span> 관련 성경구절
+              </div>
+              <div class="bible-verse-item">
+                <span class="bible-ref">[계 22:3]</span> 하나님과 어린양의 보좌가 그 성안에 있을 것이며, 그분의 <mark>노예들이 그분을 섬길</mark> 것입니다.
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--inner-color);">💡 핵심 의미</div>
+              <div class="point-text">
+                삼일 하나님을 <mark>머리로 취할 때마다</mark>, 그때가 바로 우리의 존재 안에서 <mark>무언가가 흐르기 시작하는 때</mark>이다. 이것을 우리 <mark>일상생활의 모든 경우</mark>와 심지어 자잘한 일에서도 적용해야 한다.
+              </div>
+            </div>
+
+            <div class="daily-throne-box">
+              <div class="daily-throne-quote">
+                "하늘들을 바라보지 말고, 마땅히 보좌가 있어야 할 곳인<br>여러분의 온 존재의 중심에 주의를 기울이라."
+              </div>
+              <div class="daily-grid">
+                <div class="daily-item">
+                  <div class="daily-icon">💬</div>
+                  <div class="daily-title">상대방에 대한 말과 언어</div>
+                  <div class="daily-desc">배우자와 자녀에게 하는 말조차 내적인 보좌에 복종하기를 훈련함.</div>
+                </div>
+                <div class="daily-item">
+                  <div class="daily-icon">🧩</div>
+                  <div class="daily-title">사소한 결정들</div>
+                  <div class="daily-desc">일상의 모든 경우와 자잘한 일에서 머리의 권위를 인정함.</div>
+                </div>
+                <div class="daily-item">
+                  <div class="daily-icon">🌊</div>
+                  <div class="daily-title">온종일의 영양 공급</div>
+                  <div class="daily-desc">보좌가 중심에서 유력해질 때, 온종일 생명수가 공급을 줌.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--inner-color);">📖 구체적 설명</div>
+              <div class="point-text">
+                우리는 일상에서 위를 올려다보며 <mark>하늘들을 바라보려</mark> 할 때가 많다. 그러나 진정한 흐름은 마땅히 보좌가 있어야 할 <mark>우리 온 존재의 중심</mark>에서 시작된다. 배우자나 자녀와 나누는 가벼운 대화조차도 내적인 보좌의 다스림 아래 둘 때, 보좌는 우리 존재 안에서 <mark>유력해지고</mark> 생수의 공급은 끊이지 않게 된다.
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--inner-color);">🔑 적용</div>
+              <div class="point-quote">
+                "주님, 저는 당신을 저의 머리로 받아들입니다. … 당신을 제 마음 안에서 보좌에 앉혀 드립니다. 당신을 당신의 보좌에 앉혀 드립니다." 일단 하나님을 그분의 보좌에 앉혀 드리면, 즉시 물이 흐르고 나무가 자라며 우리에게 먹을 것과 마실 것이 있게 된다.
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-connector"><div class="flow-arrow"></div></div>
+
+    <!-- POINT 4 -->
+    <div class="accordion-section" id="acc-4">
+      <div class="accordion-card">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-icon-wrapper" style="background:var(--eat-color);">🍞</div>
+          <div class="accordion-title-area">
+            <div class="accordion-step-num" style="color:var(--eat-color);">STEP 04</div>
+            <div class="accordion-title">먹고 마심 — 참된 섬김</div>
+          </div>
+          <div class="accordion-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+
+            <div class="bible-block" style="border-color:var(--eat-color);">
+              <div class="bible-header" style="color:var(--eat-color);">
+                <span class="bible-bookmark">🔖</span> 관련 성경구절
+              </div>
+              <div class="bible-verse-item">
+                <span class="bible-ref">[계 22:3]</span> 그분의 노예들이 <mark>그분을 섬길</mark> 것입니다.
+              </div>
+              <div class="bible-verse-item">
+                <span class="bible-ref">[계 22:4]</span> 그들은 <mark>그분의 얼굴을 볼</mark> 것이고, 그분의 이름이 그들의 이마에 있을 것입니다.
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--eat-color);">💡 핵심 의미</div>
+              <div class="point-text">
+                우리는 삼일 하나님께서 흐르시는 곳에서 그분을 섬긴다. 우리는 그분을 섬길 뿐 아니라 <mark>그분의 얼굴을 본다</mark>. 생명수를 마실 때 우리는 그분의 얼굴을 보고, 생명나무의 열매를 먹을 때 우리는 <mark>그분의 얼굴을 얻는다</mark>. 우리는 주님을 <mark>먹고 마심으로 그분을 섬긴다</mark>.
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--eat-color);">📖 구체적 설명</div>
+              <div class="point-text">
+                그분을 위해 아무것도 하려 하지 말라. <mark>하나님은 모든 것을 하실 수 있지만, 그분 자신을 먹거나 마시실 수는 없다.</mark> 하나님은 그분을 먹고 마시는 우리를 의지하신다. 하나님은 자신을 위해 모든 것을 하실 수 있으므로, 우리가 일하는 것이 필요하지 않으시다. <mark>하나님은 다만 우리가 그분을 먹는 것과 그분을 마시는 것과 그분을 누리는 것이 필요하시다.</mark>
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--eat-color);">🔑 적용</div>
+              <div class="point-quote">
+                "저는 선교사가 되어 선교지에 가겠습니다."라고 말하지 말라. 하나님은 모든 것을 하실 수 있지만, <mark>그분을 먹고 마시는 누군가가 필요하시다</mark>.
+              </div>
+            </div>
+
+            <div class="point-block" style="margin-top: 20px;">
+              <div class="point-label" style="color:#d94f4f; justify-content: center; font-size: calc(14px * var(--font-scale));">💖 하나님의 갈망과 필요</div>
+              <div style="background: #fff0f0; border: 2px dashed #f5c6c6; border-radius: 12px; padding: 20px 10px; text-align: center; margin-top: 8px; box-shadow: var(--shadow-sm);">
+                <div style="font-size: calc(16.5px * var(--font-scale)); font-weight: 900; color: #b91c1c; word-break: keep-all; line-height: 1.5;">
+                  "하나님은 그분을 먹고 마시는 사람이<br>
+                  <span style="background: #fecaca; color: #7f1d1d; padding: 4px 12px; border-radius: 6px; display: inline-block; margin-top: 8px;">많이 필요하시다.</span>"
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-connector"><div class="flow-arrow"></div></div>
+
+    <!-- POINT 5 -->
+    <div class="accordion-section" id="acc-5">
+      <div class="accordion-card">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-icon-wrapper" style="background:var(--reign-color);">⚜️</div>
+          <div class="accordion-title-area">
+            <div class="accordion-step-num" style="color:var(--reign-color);">STEP 05</div>
+            <div class="accordion-title">참된 봉사 — 하나님을 누림</div>
+          </div>
+          <div class="accordion-chevron">▼</div>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+
+            <div class="bible-block" style="border-color:var(--reign-color);">
+              <div class="bible-header" style="color:var(--reign-color);">
+                <span class="bible-bookmark">🔖</span> 관련 성경구절
+              </div>
+              <div class="bible-verse-item">
+                <span class="bible-ref">[계 22:3-4]</span> 그분의 노예들이 <mark>그분을 섬길</mark> 것입니다. 그들은 그분의 <mark>얼굴을 볼</mark> 것이고…
+              </div>
+              <div class="bible-verse-item">
+                <span class="bible-ref">[마 28:18-19]</span> <mark>하늘과 땅의 모든 권위</mark>가 나에게 주어졌습니다. 그러므로 여러분은 가서…
+              </div>
+              <div class="bible-verse-item">
+                <span class="bible-ref">[계 22:5]</span> 주 하나님께서 그들을 비추실 것이기 때문입니다. 그들은 <mark>영원히 다스릴</mark> 것입니다.
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--reign-color);">💡 누림에서 흘러나오는 참된 봉사</div>
+              <div class="service-cycle">
+                <div class="cycle-item">
+                  <div class="cycle-icon">💧</div>
+                  <div class="cycle-title">1. 누림</div>
+                  <div class="cycle-desc">생명수를 마시고 생명나무를 먹음.<br>(하나님을 온전히 누림)</div>
+                </div>
+                <div class="cycle-arrow">▶</div>
+                <div class="cycle-item">
+                  <div class="cycle-icon">👀</div>
+                  <div class="cycle-title">2. 친밀함</div>
+                  <div class="cycle-desc">그분의 얼굴을 봄.<br>(누림을 통해 주님의 임재를 얻음)</div>
+                </div>
+                <div class="cycle-arrow">▶</div>
+                <div class="cycle-item">
+                  <div class="cycle-icon">🙌</div>
+                  <div class="cycle-title">3. 섬김</div>
+                  <div class="cycle-desc">노예들이 그분을 섬김.<br>(억지로 하는 일이 아닌 자연스러운 봉사)</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="point-block">
+              <div class="point-label" style="color:var(--reign-color);">📖 핵심 원리 1</div>
+              <div class="point-text">
+                우리는 주님을 먹고 마심으로 그분을 섬긴다. <mark>생명수를 마시고 생명나무를 먹어서 하나님을 누릴 때 비로소 참된 봉사가 나온다.</mark> 억지로 하는 '일'이 아니라, 내적 충만함에서 우러나오는 자연스러운 흘러넘침이 바로 진정한 섬김이다.
+              </div>
+            </div>
+
+            <div class="point-block" style="margin-top: 24px;">
+              <div class="point-label" style="color:var(--reign-color);">💡 복음 전파의 진정한 능력과 충격력</div>
+              <div class="gospel-equation">
+                <div class="eq-box" style="border-color:var(--reign-color);">
+                  <div class="eq-title" style="color:var(--reign-color);">내면의 보좌 <span style="font-weight:400; font-size:0.9em;">(계 22:5)</span></div>
+                  <div class="eq-desc">우리 존재 안에서 보좌에 앉아 계시는 <strong>하늘에 속한 왕의 권위</strong></div>
+                </div>
+                <div class="eq-sign">＋</div>
+                <div class="eq-box" style="border-color:#2e86ab;">
+                  <div class="eq-title" style="color:#2e86ab;">위임된 권위 <span style="font-weight:400; font-size:0.9em;">(마 28:18-19)</span></div>
+                  <div class="eq-desc">모든 민족을 제자로 삼기 위해 주신 <strong>외적인 권위</strong></div>
+                </div>
+                <div class="eq-sign">＝</div>
+                <div class="eq-box result">
+                  <div class="eq-title" style="color:#b8860b;">진정한 통치와 능력</div>
+                  <div class="eq-desc">단순히 '일'을 하러 가는 것이 아니라 우리의 존재 중심에 <strong>'하나님의 보좌'를 가지고 가는 것</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="point-block">
+              <div class="point-label" style="color:var(--reign-color);">📖 핵심 원리 2</div>
+              <div class="point-text">
+                선교지로 갈 때, 우리 존재 안에서 <mark>주님께서 보좌에 앉으실 때 자연스럽게 물이 흐르고 나무가 자라며</mark>, 그러면 우리의 봉사가 온전한 누림이 된다. 그럴 때 비로소 우리는 <mark>그분을 섬기고, 그분의 얼굴을 바라보며, 그분과 함께 왕으로서 다스리게 된다.</mark>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- QUIZ -->
+  <section class="quiz-section" id="quiz">
+    <div class="quiz-header">
+      <h2>✏️ 이해도 퀴즈</h2>
+      <p>5문제를 풀고 점수를 확인하세요</p>
+    </div>
+
+    <div id="quizContainer"></div>
+
+    <div class="quiz-submit-area">
+      <button class="quiz-submit-btn" onclick="submitQuiz()">결과 확인하기</button>
+    </div>
+
+    <div class="quiz-result" id="quizResult">
+      <div class="quiz-score" id="quizScore"></div>
+      <div class="quiz-result-text" id="quizResultText"></div>
+    </div>
+  </section>
+
+  <!-- PRAYER -->
+  <section class="prayer-section" id="prayer">
+    <div class="prayer-title">오늘의 기도</div>
+    <div class="prayer-card">
+      <div class="prayer-quote-mark">❝</div>
+      <div class="prayer-quote-text">
+        "주님, 저는 당신을 저의 머리로 받아들입니다.<br><br>
+        당신을 제 마음 안에서 보좌에 앉혀 드립니다.<br><br>
+        당신을 당신의 보좌에 앉혀 드립니다."
+      </div>
+      <div class="prayer-quote-mark bottom">❞</div>
+      <div class="prayer-divider"></div>
+      <div class="prayer-footer-text">
+        일단 우리가 하나님을 그분의 보좌에 앉혀 드리면, <mark>즉시 물이 흐르고 나무가 자라며</mark> 우리에게 먹을 것과 마실 것이 있게 됩니다.
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    출처: 위트니스 리 전집, 1984년, 3권 · 하나님의 신약 경륜 38장
+  </div>
+
+</div>
+
+<script>
+// Quiz data
+const quizData = [
+  {
+    q: "새 예루살렘과 관련하여 계시된 마지막 항목은 무엇인가?",
+    options: ["생명나무","생명수","보좌","어린양"],
+    answer: 2,
+    hint: "흐름의 근원이자 중심이 되는 것입니다.",
+    feedback: "새 예루살렘과 관련하여 계시된 마지막 항목은 '보좌'입니다."
+  },
+  {
+    q: "우리가 고갈되고 말라 버린 느낌을 갖는 이유는 무엇인가?",
+    options: ["기도가 부족해서","삼일 하나님의 권위를 받아들이지 않아서","봉사를 많이 해서","성경을 읽지 않아서"],
+    answer: 1,
+    hint: "존재의 중심에서 받아들여야 할 것과 관련됩니다.",
+    feedback: "삼일 하나님의 지배 권위와 머리의 권위를 받아들이지 않기 때문입니다."
+  },
+  {
+    q: "하나님을 섬기는 참된 방법은 무엇인가?",
+    options: ["선교지에 가는 것","하나님을 먹고 마시고 누리는 것","많은 일을 하는 것","금식하는 것"],
+    answer: 1,
+    hint: "하나님은 우리가 일하는 것이 필요하지 않으시다는 점을 기억하세요.",
+    feedback: "하나님은 다만 우리가 그분을 먹고 마시고 누리는 것이 필요하십니다."
+  },
+  {
+    q: "생명수와 생명나무는 어디에서 나온 산출물인가?",
+    options: ["교회","성경","보좌","기도"],
+    answer: 2,
+    hint: "모든 흐름의 근원에서 나옵니다.",
+    feedback: "생명수와 생명나무는 둘 다 '보좌'에서 나온 산출물입니다."
+  },
+  {
+    q: "복음 전파의 능력과 충격력은 어디에 있는가?",
+    options: ["우리의 노력과 헌신","존재 안에서 보좌에 앉으신 분","신학 지식","전도 프로그램"],
+    answer: 1,
+    hint: "그분께서 우리 존재 안에서 보좌에 앉으실 때 일어나는 일을 생각해 보세요.",
+    feedback: "그분께서 우리 존재 안에서 보좌에 앉으실 때, 물이 흐르고 나무가 자라며 봉사가 누림이 됩니다."
+  }
+];
+
+// Render quiz
+function renderQuiz() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = quizData.map((item, i) => `
+    <div class="quiz-item" id="quiz-${i}">
+      <div class="quiz-q-header">
+        <div class="quiz-badge">${i+1}</div>
+        <div class="quiz-question">${item.q}</div>
+      </div>
+      <button class="quiz-hint-btn" onclick="toggleHint(${i})">💡 힌트 보기</button>
+      <div class="quiz-hint-text" id="hint-${i}">${item.hint}</div>
+      <div class="quiz-options">
+        ${item.options.map((opt, j) => `
+          <div class="quiz-option" onclick="selectOption(${i},${j},this)">
+            <div class="quiz-option-radio"></div>
+            <span>${opt}</span>
+          </div>
+        `).join('')}
+      </div>
+      <div class="quiz-feedback" id="fb-${i}"></div>
+    </div>
+  `).join('');
+}
+
+const userAnswers = {};
+function selectOption(qi, oi, el) {
+  if (userAnswers[qi] !== undefined && document.getElementById(`fb-${qi}`).className.includes('-fb')) return;
+  const parent = el.closest('.quiz-item');
+  parent.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  userAnswers[qi] = oi;
+}
+
+function toggleHint(i) {
+  document.getElementById(`hint-${i}`).classList.toggle('show');
+}
+
+function submitQuiz() {
+  let score = 0;
+  quizData.forEach((item, i) => {
+    const fb = document.getElementById(`fb-${i}`);
+    const qItem = document.getElementById(`quiz-${i}`);
+    const options = qItem.querySelectorAll('.quiz-option');
+    
+    options.forEach(o => o.classList.remove('correct','wrong','selected'));
+    
+    if (userAnswers[i] === undefined) {
+      fb.className = 'quiz-feedback wrong-fb';
+      fb.textContent = '답을 선택해 주세요.';
+      return;
+    }
+    
+    if (userAnswers[i] === item.answer) {
+      score++;
+      options[item.answer].classList.add('correct');
+      fb.className = 'quiz-feedback correct-fb';
+      fb.textContent = '✅ 정답! ' + item.feedback;
+    } else {
+      options[userAnswers[i]].classList.add('wrong');
+      options[item.answer].classList.add('correct');
+      fb.className = 'quiz-feedback wrong-fb';
+      fb.textContent = '❌ ' + item.feedback;
+    }
+  });
+
+  const result = document.getElementById('quizResult');
+  const scoreEl = document.getElementById('quizScore');
+  const textEl = document.getElementById('quizResultText');
+  result.style.display = 'block';
+  scoreEl.textContent = `${score} / ${quizData.length}`;
+  
+  if (score === 5) textEl.textContent = '🎉 완벽합니다! 메시지의 핵심을 정확히 이해하셨습니다.';
+  else if (score >= 3) textEl.textContent = '👍 잘 하셨습니다! 놓친 부분을 다시 확인해 보세요.';
+  else textEl.textContent = '📖 핵심 요점을 다시 한번 읽어 보시기를 권합니다.';
+  
+  result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Accordion
+function toggleAccordion(header) {
+  const card = header.closest('.accordion-card');
+  const body = card.querySelector('.accordion-body');
+  if (card.classList.contains('open')) {
+    body.style.maxHeight = null;
+    card.classList.remove('open');
+  } else {
+    body.style.maxHeight = body.scrollHeight + 'px';
+    card.classList.add('open');
+  }
+}
+
+// Font controls
+let fontScale = 1;
+function adjustFont(dir) {
+  if (dir === 0) fontScale = 1;
+  else fontScale = Math.min(1.4, Math.max(0.7, fontScale + dir * 0.05));
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+  // Recalculate open accordions
+  document.querySelectorAll('.accordion-card.open .accordion-body').forEach(b => {
+    b.style.maxHeight = b.scrollHeight + 'px';
+  });
+}
+
+// Side panel
+function togglePanel() {
+  document.getElementById('sidePanel').classList.toggle('active');
+  document.getElementById('panelOverlay').classList.toggle('active');
+}
+
+function goTo(id) {
+  togglePanel();
+  setTimeout(() => {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 300);
+}
+
+function toggleKeyword(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+}
+
+// Init
+renderQuiz();
+</script>
+</body>
+</html>
