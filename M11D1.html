@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>하나님과 어린양의 보좌와 우리의 생활의 중심</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base-font-size: 17px;
+  --font-scale: 1;
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #333333;
+  --accent-blue: #2563eb;
+  --accent-gold: #d97706;
+  --accent-green: #059669;
+  --accent-purple: #7c3aed;
+  --accent-red: #dc2626;
+  --accent-teal: #0d9488;
+  --highlight: #fef08a;
+  --highlight-strong: #fde047;
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  --section-bg: #f9fafb;
+  --topbar-h: 44px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 56px; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+  padding-top: var(--topbar-h);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Top Bar ── */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--topbar-h);
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex; align-items: center;
+  z-index: 1000;
+  padding: 0;
+}
+.topbar-left {
+  display: flex; align-items: center; flex-shrink: 0;
+}
+.topbar-btn {
+  width: 40px; height: var(--topbar-h);
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer;
+  color: var(--text); font-size: 18px;
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.topbar-btn:hover { background: #f3f4f6; }
+.topbar-title {
+  flex: 1; min-width: 0;
+  overflow-x: auto; white-space: nowrap;
+  font-size: 14px; font-weight: 600;
+  color: var(--text);
+  padding: 0 8px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.topbar-title::-webkit-scrollbar { display: none; }
+.topbar-font {
+  display: flex; align-items: center; flex-shrink: 0; margin-right: 4px;
+}
+.font-btn {
+  width: 32px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  background: #f3f4f6; border: 1px solid #d1d5db;
+  cursor: pointer; font-size: 13px; font-weight: 600;
+  color: var(--text);
+  transition: background .15s;
+}
+.font-btn:first-child { border-radius: 6px 0 0 6px; }
+.font-btn:last-child { border-radius: 0 6px 6px 0; }
+.font-btn:not(:last-child) { border-right: none; }
+.font-btn:hover { background: #e5e7eb; }
+
+/* ── Side Panel ── */
+.overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,.3);
+  z-index: 1100;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s;
+}
+.overlay.active { opacity: 1; pointer-events: auto; }
+.side-panel {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: 280px; max-width: 80vw;
+  background: #fff;
+  z-index: 1200;
+  transform: translateX(-100%);
+  transition: transform .25s ease;
+  overflow-y: auto;
+  box-shadow: 2px 0 12px rgba(0,0,0,.1);
+}
+.side-panel.active { transform: translateX(0); }
+.side-panel-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 15px; font-weight: 700;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.side-panel-close {
+  background: none; border: none; font-size: 20px; cursor: pointer;
+  color: #666; padding: 4px;
+}
+.side-nav { padding: 8px 0; }
+.side-nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px;
+  font-size: 14px; color: var(--text);
+  cursor: pointer; transition: background .15s;
+  text-decoration: none;
+  border: none; background: none; width: 100%; text-align: left;
+}
+.side-nav-item:hover { background: #f3f4f6; }
+.side-nav-item .nav-icon {
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; font-size: 12px; color: #fff; flex-shrink: 0;
+}
+.side-nav-sub { padding-left: 54px; }
+.side-nav-sub .side-nav-item {
+  padding: 7px 16px; font-size: 13px; color: var(--text-secondary);
+}
+
+/* ── Main Content ── */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px 60px;
+}
+
+/* ── Hero ── */
+.hero { text-align: center; padding: 40px 0 28px; }
+.hero-badge {
+  display: inline-block; padding: 4px 14px;
+  background: #eff6ff; color: var(--accent-blue);
+  border-radius: 20px; font-size: 12px; font-weight: 600;
+  margin-bottom: 14px; letter-spacing: .5px;
+}
+.hero h1 {
+  font-size: calc(22px * var(--font-scale));
+  font-weight: 800; line-height: 1.4; color: var(--text); margin-bottom: 10px;
+}
+.hero-sub {
+  font-size: calc(15px * var(--font-scale));
+  color: var(--text-secondary); line-height: 1.6; font-weight: 500;
+  background: #fefce8; padding: 10px; border-radius: 8px; border: 1px solid #fef08a;
+  display: inline-block; margin-top: 10px;
+}
+
+/* ── Flow Dashboard ── */
+.flow-dashboard {
+  background: var(--section-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 32px;
+}
+.flow-title {
+  font-size: calc(13px * var(--font-scale)); font-weight: 700; color: var(--accent-blue);
+  margin-bottom: 16px; text-align: center; letter-spacing: 1px;
+}
+.flow-steps {
+  display: flex; flex-direction: column; gap: 12px; position: relative;
+}
+.flow-step {
+  display: flex; align-items: stretch; background: #fff;
+  border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,.02);
+}
+.flow-step-num {
+  width: 44px; display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 800; font-size: 18px; flex-shrink: 0;
+}
+.flow-step-content {
+  padding: 12px 14px; flex: 1;
+}
+.flow-step-title {
+  font-weight: 700; font-size: calc(14px * var(--font-scale)); margin-bottom: 4px; color: var(--text);
+}
+.flow-step-desc {
+  font-size: calc(12px * var(--font-scale)); color: var(--text-secondary); line-height: 1.5;
+}
+.step-arrow {
+  text-align: center; color: #d1d5db; font-size: 14px; margin: -4px 0;
+}
+
+/* ── Section Title ── */
+.section-label {
+  font-size: calc(12px * var(--font-scale)); font-weight: 700; letter-spacing: 1.5px;
+  color: #9ca3af; margin-bottom: 16px; padding-left: 4px; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px;
+}
+
+/* ── Accordion Cards ── */
+.accordion {
+  margin-bottom: 14px; border-radius: 14px; border: 1px solid var(--card-border);
+  background: var(--card-bg); overflow: hidden; transition: box-shadow .2s;
+}
+.accordion:hover { box-shadow: 0 2px 10px rgba(0,0,0,.04); }
+.accordion-header {
+  display: flex; align-items: center; gap: 12px; padding: 16px; cursor: pointer; user-select: none; transition: background .15s;
+}
+.accordion-header:hover { background: #f9fafb; }
+.acc-num {
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  border-radius: 10px; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.acc-title {
+  flex: 1; font-size: calc(15px * var(--font-scale)); font-weight: 700; color: var(--text); line-height: 1.4;
+}
+.acc-chevron {
+  font-size: 12px; color: #9ca3af; transition: transform .3s; flex-shrink: 0;
+}
+.accordion.open .acc-chevron { transform: rotate(180deg); }
+.accordion-body {
+  max-height: 0; overflow: hidden; transition: max-height .4s ease;
+}
+.accordion-content { padding: 0 16px 20px; }
+
+/* ── Bible Verse Box ── */
+.verse-box {
+  background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px;
+  padding: 14px 16px; margin-bottom: 14px; font-size: calc(14px * var(--font-scale)); line-height: 1.8; color: var(--text-secondary);
+}
+.verse-box .verse-item { margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #fde68a; }
+.verse-box .verse-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.verse-ref {
+  display: flex; align-items: center; gap: 6px; font-size: calc(12px * var(--font-scale)); font-weight: 700; color: var(--accent-gold); margin-bottom: 4px;
+}
+
+/* ── Highlight ── */
+.hl { background: var(--highlight); padding: 1px 3px; border-radius: 3px; font-weight: 600; }
+
+/* ── Content Blocks ── */
+.point-section { margin-bottom: 14px; }
+.point-label {
+  font-size: calc(13px * var(--font-scale)); font-weight: 700; color: var(--accent-blue);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+}
+.point-text {
+  font-size: calc(var(--base-font-size) * var(--font-scale)); color: var(--text-secondary); line-height: 1.8;
+}
+.point-text p { margin-bottom: 10px; }
+.point-text p:last-child { margin-bottom: 0; }
+
+/* ── Compare Box ── */
+.compare-box {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0;
+}
+.compare-card {
+  padding: 14px; border-radius: 10px; font-size: calc(14px * var(--font-scale)); line-height: 1.6;
+}
+.compare-card.positive { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.compare-card.negative { background: #fef2f2; border: 1px solid #fecaca; }
+.compare-title { font-weight: 700; margin-bottom: 6px; font-size: calc(13px * var(--font-scale)); }
+.compare-card.positive .compare-title { color: var(--accent-green); }
+.compare-card.negative .compare-title { color: var(--accent-red); }
+
+/* ── Callout ── */
+.callout {
+  padding: 14px 16px; border-radius: 10px; margin: 12px 0; font-size: calc(14px * var(--font-scale)); line-height: 1.7;
+}
+.callout.prayer { background: #f5f3ff; border: 1px solid #ddd6fe; color: var(--text-secondary); }
+.callout.prayer .callout-label {
+  font-weight: 700; color: var(--accent-purple); margin-bottom: 6px; font-size: calc(12px * var(--font-scale));
+}
+
+/* ── Quiz Section ── */
+.quiz-section { margin-top: 36px; padding: 24px 0; }
+.quiz-card {
+  background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 20px 16px; margin-bottom: 16px;
+}
+.quiz-num {
+  display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px;
+  background: var(--accent-blue); color: #fff; border-radius: 50%; font-size: 13px; font-weight: 700; margin-right: 8px; flex-shrink: 0;
+}
+.quiz-q {
+  font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 14px; line-height: 1.6; display: flex; align-items: flex-start;
+}
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt {
+  display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid #e5e7eb;
+  border-radius: 10px; cursor: pointer; font-size: 1rem; color: var(--text-secondary); transition: all .15s; background: #fff; line-height: 1.5;
+}
+.quiz-opt:hover { background: #f9fafb; border-color: var(--accent-blue); }
+.quiz-opt.selected { border-color: var(--accent-blue); background: #eff6ff; }
+.quiz-opt.correct { border-color: var(--accent-green); background: #f0fdf4; color: var(--accent-green); }
+.quiz-opt.wrong { border-color: var(--accent-red); background: #fef2f2; color: var(--accent-red); }
+.quiz-opt .opt-circle {
+  width: 20px; height: 20px; border: 2px solid #d1d5db; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 11px;
+}
+.quiz-opt.selected .opt-circle { border-color: var(--accent-blue); background: var(--accent-blue); color: #fff; }
+.quiz-opt.correct .opt-circle { border-color: var(--accent-green); background: var(--accent-green); color: #fff; }
+.quiz-opt.wrong .opt-circle { border-color: var(--accent-red); background: var(--accent-red); color: #fff; }
+
+.quiz-feedback {
+  display: none; margin-top: 8px; padding: 10px 14px; border-radius: 8px; font-size: 14px; line-height: 1.6;
+}
+.quiz-feedback.correct-fb { display: block; background: #f0fdf4; color: var(--accent-green); }
+.quiz-feedback.wrong-fb { display: block; background: #fef2f2; color: var(--accent-red); }
+
+.quiz-result {
+  display: none; text-align: center; padding: 28px 20px; background: var(--card-bg);
+  border: 2px solid var(--accent-blue); border-radius: 14px; margin-top: 20px;
+}
+.quiz-result.show { display: block; }
+.quiz-score { font-size: 48px; font-weight: 900; color: var(--accent-blue); margin-bottom: 8px; }
+.quiz-score-label { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; }
+.quiz-msg { font-size: 16px; font-weight: 600; color: var(--text); }
+.quiz-submit {
+  display: block; width: 100%; padding: 14px; background: var(--accent-blue); color: #fff; border: none;
+  border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: background .15s; font-family: inherit;
+}
+.quiz-submit:disabled { background: #93c5fd; cursor: not-allowed; }
+
+/* ── Prayer Section ── */
+.prayer-section {
+  margin-top: 36px; padding: 28px 20px; background: linear-gradient(135deg, #f5f3ff 0%, #eff6ff 100%);
+  border-radius: 16px; border: 1px solid #ddd6fe;
+}
+.prayer-title {
+  text-align: center; font-size: calc(18px * var(--font-scale)); font-weight: 800; color: var(--accent-purple); margin-bottom: 20px;
+}
+.prayer-text {
+  font-size: calc(var(--base-font-size) * var(--font-scale)); color: var(--text-secondary); line-height: 2; text-align: left;
+}
+.prayer-text p { margin-bottom: 14px; }
+.prayer-amen { text-align: center; font-size: calc(18px * var(--font-scale)); font-weight: 800; color: var(--accent-purple); margin-top: 16px; }
+
+@media (max-width: 480px) {
+  .container { padding: 0 12px 40px; }
+  .compare-box { grid-template-columns: 1fr; }
+  .hero h1 { font-size: calc(20px * var(--font-scale)); }
+  .accordion-content { padding: 0 12px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="topbar-btn" onclick="togglePanel()" aria-label="메뉴">☰</button>
+    <a href="https://tk-korea.github.io/2025wintertraining/" class="topbar-btn" aria-label="홈">🏠</a>
+  </div>
+  <div class="topbar-title">하나님과 어린양의 보좌와 우리의 생활의 중심</div>
+  <div class="topbar-font">
+    <button class="font-btn" onclick="changeFontSize(-1)">−</button>
+    <button class="font-btn" onclick="resetFontSize()">가</button>
+    <button class="font-btn" onclick="changeFontSize(1)">+</button>
+  </div>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="togglePanel()"></div>
+
+<!-- Side Panel -->
+<div class="side-panel" id="sidePanel">
+  <div class="side-panel-header">
+    <span>📖 목차</span>
+    <button class="side-panel-close" onclick="togglePanel()">✕</button>
+  </div>
+  <nav class="side-nav">
+    <a class="side-nav-item" href="#hero" onclick="togglePanel()">
+      <span class="nav-icon" style="background:var(--accent-blue)">📌</span> 제목
+    </a>
+    <a class="side-nav-item" href="#flow-dashboard" onclick="togglePanel()">
+      <span class="nav-icon" style="background:var(--accent-gold)">🌊</span> 흐름과 연결고리
+    </a>
+
+    <!-- Key Points -->
+    <div class="side-nav-item" style="font-weight:700; cursor:default;">
+      <span class="nav-icon" style="background:var(--accent-green)">💡</span> 핵심요점
+    </div>
+    <div class="side-nav-sub">
+      <a class="side-nav-item" href="#pt1" onclick="togglePanel()">① 하나님과 어린양의 한 보좌</a>
+      <a class="side-nav-item" href="#pt2" onclick="togglePanel()">② 영적 내비게이션 (GPS)과 생명수</a>
+      <a class="side-nav-item" href="#pt3" onclick="togglePanel()">③ 교만과 불법(죄)에 대한 경고</a>
+      <a class="side-nav-item" href="#pt4" onclick="togglePanel()">④ 실행적인 적용과 생수의 흐름</a>
+    </div>
+
+    <a class="side-nav-item" href="#quiz" onclick="togglePanel()">
+      <span class="nav-icon" style="background:var(--accent-red)">❓</span> 퀴즈
+    </a>
+    <a class="side-nav-item" href="#prayer" onclick="togglePanel()">
+      <span class="nav-icon" style="background:var(--accent-purple)">🙏</span> 오늘의 기도
+    </a>
+  </nav>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-badge">2025 겨울훈련 11주 1일</div>
+    <h1>하나님과 어린양의 보좌와<br>우리의 생활의 중심</h1>
+    <div class="hero-sub">
+      그리스도인의 삶과 존재의 중심은 반드시 '하나님과 어린양의 보좌'가 되어야 하며,<br>
+      그분의 다스림과 권위에 온전히 복종할 때 생명수의 흐름을 매일 누릴 수 있습니다.
+    </div>
+  </section>
+
+  <!-- Flow Dashboard (흐름과 연결고리) -->
+  <section class="flow-dashboard" id="flow-dashboard">
+    <div class="flow-title">말씀의 흐름과 연결고리</div>
+    <div class="flow-steps">
+      <!-- Step 1 -->
+      <div class="flow-step">
+        <div class="flow-step-num" style="background: var(--accent-blue);">1</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">이상과 계시</div>
+          <div class="flow-step-desc">새 예루살렘의 중심에 있는 '하나님과 어린양의 보좌'를 계시합니다.</div>
+        </div>
+      </div>
+      <div class="step-arrow">▼</div>
+      
+      <!-- Step 2 -->
+      <div class="flow-step">
+        <div class="flow-step-num" style="background: var(--accent-teal);">2</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">일상으로의 연결</div>
+          <div class="flow-step-desc">이 보좌를 하늘에만 두지 않고 오늘날 우리의 일상과 내면의 중심으로 가져와야 함을 연결합니다.</div>
+        </div>
+      </div>
+      <div class="step-arrow">▼</div>
+      
+      <!-- Step 3 -->
+      <div class="flow-step">
+        <div class="flow-step-num" style="background: var(--accent-red);">3</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">두 가지 길의 대조</div>
+          <div class="flow-step-desc">자아를 높이는 사탄의 뜻(교만과 불법)과 주님을 왕으로 모시는 길(머리의 권위에 복종)을 대조합니다.</div>
+        </div>
+      </div>
+      <div class="step-arrow">▼</div>
+      
+      <!-- Step 4 -->
+      <div class="flow-step">
+        <div class="flow-step-num" style="background: var(--accent-purple);">4</div>
+        <div class="flow-step-content">
+          <div class="flow-step-title">실행적인 적용</div>
+          <div class="flow-step-desc">매일 아침의 시작에서 우리의 존재의 주님의 보좌가 세워질 때 우리 안에서 생수가 흐르게 됩니다.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Points -->
+  <section>
+    <div class="section-label">핵심 요점 상세</div>
+
+    <!-- Point 1 -->
+    <div class="accordion" id="pt1">
+      <div class="accordion-header" onclick="toggleAcc(this)">
+        <span class="acc-num" style="background:var(--accent-blue)">1</span>
+        <span class="acc-title">하나님과 어린양의 보좌</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <!-- 변경: 이미지에 명시된 참조 구절(계 21:23)을 추가로 배치 -->
+          <div class="verse-box">
+            <div class="verse-item">
+              <div class="verse-ref"><span class="bookmark">🔖</span> 계 22:1, 4:2-3</div>
+              <div class="verse-text">하늘에 한 보좌가 놓여 있었고… 그 강은 <span class="hl">하나님과 어린양의 보좌</span>에서 흘러나와 그 성의 길 가운데로 흐르고 있었습니다.</div>
+            </div>
+            <div class="verse-item">
+              <div class="verse-ref"><span class="bookmark">🔖</span> 계 21:23</div>
+              <div class="verse-text">하나님의 영광이 그 성을 밝게 하며, <span class="hl">그 성의 등이 어린양</span>이기 때문입니다.</div>
+            </div>
+          </div>
+          <div class="point-section">
+            <div class="point-label">💎 우주의 중심: 어린양-하나님</div>
+            <div class="point-text">
+              <p>하나님과 어린양의 한 보좌는 하나님과 어린양께서 한 분, 곧 <span class="hl">어린양-하나님, 구속하시는 하나님, 하나님-구속자</span>이시라는 것을 가리킨다. 영원 안에서 보좌에 앉으신 하나님은 우리를 구속하신 하나님이시며, 그분의 보좌에서 우리에게 공급과 만족을 주는 생명수의 강이 흘러나온다.</p>
+            </div>
+
+            <!-- 신규: 이미지에 있는 텍스트와 비유들을 인포그래픽 요소로 반영 -->
+            <div class="compare-box" style="margin-top: 16px;">
+              <div class="compare-card" style="background: #fffbeb; border: 1px solid #fde68a;">
+                <div class="compare-title" style="color: var(--accent-gold);">🪔 등과 빛의 한 실체</div>
+                <div style="font-size: calc(13px * var(--font-scale)); margin-bottom: 4px;">• <b>빛 (하나님):</b> 영광과 본질</div>
+                <div style="font-size: calc(13px * var(--font-scale)); margin-bottom: 8px;">• <b>등 (어린양):</b> 빛을 담고 표현하는 실체</div>
+                <div style="font-size: calc(12.5px * var(--font-scale)); border-top: 1px dashed #fcd34d; padding-top: 8px; line-height: 1.5;">
+                  빛과 등이 한 단위 곧 한 실체인 것처럼, <span class="hl">하나님과 어린양은 한 단위, 곧 한 실체</span>로서 하나의 보좌에 앉아 계십니다.
+                </div>
+              </div>
+              <div class="compare-card negative">
+                <div class="compare-title">🛋️ 단일한 보좌 (2인용 소파 ❌)</div>
+                <div style="font-size: calc(13px * var(--font-scale)); margin-bottom: 8px;">
+                  보좌는 두 사람을 위한 <b>2인용 소파가 아닙니다.</b> 하나님과 어린양은 나란히 앉아 계신 것이 아닙니다.
+                </div>
+                <div style="font-size: calc(12.5px * var(--font-scale)); border-top: 1px dashed #fecaca; padding-top: 8px; line-height: 1.5; color: var(--text-secondary);">
+                  하나님은 그리스도 안에서 <b>하나의 단일한 보좌</b>에 앉아 계십니다.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Point 2 -->
+    <div class="accordion" id="pt2">
+      <div class="accordion-header" onclick="toggleAcc(this)">
+        <span class="acc-num" style="background:var(--accent-teal)">2</span>
+        <span class="acc-title">보좌에 대한 체험</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          
+          <!-- Verse 1 -->
+          <div class="point-section">
+            <div class="verse-ref" style="color:var(--accent-teal); font-size:1.1em; margin-bottom: 6px;"><span class="bookmark">🔖</span> 요한계시록 22:1</div>
+            <div class="verse-box">
+              <div class="verse-text">"또 그 천사는 나에게 수정처럼 빛나는 생명수의 강을 보여 주었습니다. 그 강은 하나님과 어린양의 보좌에서 흘러나와 그 성의 길 가운데로 흐르고 있었습니다."</div>
+            </div>
+            <div class="point-text">
+              <p>이 책은 표징(영적인 의미를 지닌 상징)의 책이다. 성의 길은 순금(신성한 본성)으로 되어 있으므로, 신성한 생명이 우리의 길인 이 신성한 본성 안에서 흐르고 있다.</p>
+              <p><span class="hl" style="font-size: 1.05em;">우리가 인생의 갈림길에 서서 어떤 길을 선택해야 할지 고민하고 결정해야 할 때, 우리는 우리 안에 흐르는 생명의 흐름, 신성한 본성 가운데 흐르는 생명의 흐름을 따라가야 한다.</span></p>
+              <p>우리 믿는 이들은 진정한 <span class="hl">‘GPS’, 즉 하나님의 임재 위성(God’s Presence Satellite)</span>을 가지고 있다. 새 예루살렘에는 오직 하나의 길만 있기 때문에 새 예루살렘의 유일한 길 위에 있을 때, 우리는 결코 길을 잃을 수 없다.</p>
+            </div>
+
+            <!-- GPS 인포그래픽 요소 -->
+            <div style="background: linear-gradient(to bottom, #f0f9ff, #e0f2fe); border: 1px solid #bae6fd; border-radius: 12px; padding: 18px; margin: 16px 0;">
+              <div style="text-align: center; font-weight: 800; color: var(--accent-blue); margin-bottom: 16px; font-size: calc(16px * var(--font-scale));">🧭 영적 내비게이션: 하나님의 임재 위성 (GPS)</div>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="background: #fff; padding: 14px; border-radius: 8px; border-left: 5px solid var(--accent-gold); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                  <div style="font-weight: 700; font-size: calc(14px * var(--font-scale)); color: var(--accent-gold); margin-bottom: 6px;">경로 (The Way)</div>
+                  <div style="font-size: calc(13.5px * var(--font-scale)); color: var(--text-secondary); line-height: 1.6;">새 예루살렘의 길은 <b>순금(신성한 본성)</b>입니다. 갈림길에서 우리는 이 본성을 따라가야 합니다.</div>
+                </div>
+                <div style="background: #fff; padding: 14px; border-radius: 8px; border-left: 5px solid var(--accent-blue); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                  <div style="font-weight: 700; font-size: calc(14px * var(--font-scale)); color: var(--accent-blue); margin-bottom: 6px;">흐름 (The Flow)</div>
+                  <div style="font-size: calc(13.5px * var(--font-scale)); color: var(--text-secondary); line-height: 1.6;">길 가운데로 <b>생명수의 강</b>이 흐릅니다. 우리가 하는 모든 일은 이 생명수의 강의 흐름 안에서 이루어져야 합니다.</div>
+                </div>
+                <div style="background: #fff; padding: 14px; border-radius: 8px; border-left: 5px solid var(--accent-teal); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                  <div style="font-weight: 700; font-size: calc(14px * var(--font-scale)); color: var(--accent-teal); margin-bottom: 6px;">결과 (The Promise)</div>
+                  <div style="font-size: calc(13.5px * var(--font-scale)); color: var(--text-secondary); line-height: 1.6;">신성한 본성 안에서 흐르는 생명의 흐름을 따라 모든 일을 행한다면, <b>우리는 결코 길을 잃지 않을 것입니다. (계 21:21, 22:1)</b></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Verse 2 -->
+          <div class="point-section" style="margin-top: 30px;">
+            <div class="verse-ref" style="color:var(--accent-green); font-size:1.1em; margin-bottom: 6px;"><span class="bookmark">🔖</span> 요한계시록 22:2</div>
+            <div class="verse-box">
+              <div class="verse-text">"강의 이쪽과 저쪽에 생명나무가 있어서 열두 번 열매를 맺는데, 달마다 열매를 맺었습니다. 그 나무의 잎들은 민족들을 치료하기 위해 있습니다."</div>
+            </div>
+            <div class="point-text">
+              <p>생명수의 강과 함께 생명나무가 있다. 주님께서 우리 존재 안에서 보좌에 앉으실 때, <span class="hl">생명나무가 우리 안에서 자란다.</span> 우리 안에 강이 흐르고 나무가 자라는 것은 얼마나 놀라운 일인가!</p>
+            </div>
+          </div>
+
+          <!-- Verse 3 -->
+          <div class="point-section" style="margin-top: 30px;">
+            <div class="verse-ref" style="color:var(--accent-blue); font-size:1.1em; margin-bottom: 6px;"><span class="bookmark">🔖</span> 요한계시록 22:3</div>
+            <div class="verse-box">
+              <div class="verse-text">"더 이상 저주가 없을 것이고, 하나님과 어린양의 보좌가 그 성안에 있을 것이며, 그분의 노예들이 그분을 섬길 것입니다."</div>
+            </div>
+            <div class="point-text">
+              <p>이 성(새 예루살렘)은 어린양의 신부, 어린양의 아내이다. 신부로 준비되기 위해서 우리는 매일 우리의 삶에서 그분을 우리 존재의 보좌에 앉으시게 해 드려야 한다. 주님께서 우리 존재의 보좌에 앉으실 때, <span class="hl">우리는 그분을 섬기게 될 것이고, 우리의 섬김은 기쁨이 될 것이다.</span></p>
+            </div>
+          </div>
+
+          <!-- Verse 4 -->
+          <div class="point-section" style="margin-top: 30px;">
+            <div class="verse-ref" style="color:var(--accent-gold); font-size:1.1em; margin-bottom: 6px;"><span class="bookmark">🔖</span> 요한계시록 22:4</div>
+            <div class="verse-box">
+              <div class="verse-text">"그들은 그분의 얼굴을 볼 것이고, 그분의 이름이 그들의 이마에 있을 것입니다."</div>
+            </div>
+            <div class="point-text">
+              <p><b>얼굴을 봄:</b> 눈언저리는 감추어진 생각과 느낌을 보여 주는 곳이며, 그 사람의 임재이고 느낌을 전달한다. 누군가의 눈언저리를 바라보면 그 사람을 불어 넣는 것과 같다. <span class="hl">우리는 언제나 그분의 눈, 그분의 얼굴을 간절히 사모해야 한다.</span> 그러면 영원토록 그분의 얼굴을 뵙는 큰 보상을 받게 될 것이다.</p>
+              <p style="margin-top: 10px;"><b>이마에 있는 이름:</b> 이것은 마치 우리의 이마에 이름표를 달고 있는 것과 같다. <span class="hl">우리가 삼일 하나님께 속해 있다는 것과 그분과 동일시된다는 것</span>, 그리고 그분께서 우리 안에 계시고 우리가 그분 안에 있다는 것을 보여 준다.</p>
+            </div>
+          </div>
+
+          <!-- Verse 5 -->
+          <div class="point-section" style="margin-top: 30px;">
+            <div class="verse-ref" style="color:var(--accent-purple); font-size:1.1em; margin-bottom: 6px;"><span class="bookmark">🔖</span> 요한계시록 22:5</div>
+            <div class="verse-box">
+              <div class="verse-text">"더 이상 밤이 없겠고, 그들에게는 등불과 햇빛이 필요하지 않습니다. 왜냐하면 주 하나님께서 그들을 비추실 것이기 때문입니다. 그들은 영원히 다스릴 것입니다."</div>
+            </div>
+            <div class="point-text">
+              <p>우리가 주님을 우리 존재의 보좌에 앉으시게 해 드릴 때 이 말씀은 우리의 체험이 된다. 우리가 그분을 보좌에 앉으시게 해 드리고 그분을 누리며 섬길 때, <span class="hl">우리는 그분의 빛을 받게 될 것이고, 그분과 함께 왕으로서 다스릴 것이다.</span> 이 모든 체험은 하나님과 어린양의 보좌에서 흘러나오는 생명수의 강 안에서 우리의 체험이 된다.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Point 3 -->
+    <div class="accordion" id="pt3">
+      <div class="accordion-header" onclick="toggleAcc(this)">
+        <span class="acc-num" style="background:var(--accent-red)">3</span>
+        <span class="acc-title">자아의 보좌화: 교만과 불법(죄)에 대한 경고</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          <div class="verse-box">
+            <div class="verse-item">
+              <div class="verse-ref"><span class="bookmark">🔖</span> 이사야서 14:13-14</div>
+              <div class="verse-text">"너는 네 마음속으로 말하였다. '내가 하늘로 올라가리라. 내가 하나님의 별들 위로 <span class="hl">내 보좌를 높이리라.</span> ... 내가 나 자신을 가장 높으신 분과 같아지게 만들리라.'"</div>
+            </div>
+            <div class="verse-item">
+              <div class="verse-ref"><span class="bookmark">🔖</span> 요한일서 3:4</div>
+              <div class="verse-text">죄짓는 것을 일삼는 사람마다 불법을 일삼는데, <span class="hl">죄는 불법입니다.</span></div>
+            </div>
+          </div>
+
+          <!-- 자아의 보좌화 인포그래픽 -->
+          <div style="background: #fff5f5; border: 1px solid #fecaca; border-radius: 12px; padding: 18px; margin: 16px 0;">
+            <div style="text-align: center; font-weight: 800; color: #991b1b; margin-bottom: 16px; font-size: calc(16px * var(--font-scale));">⚠️ 우주적 바이러스의 기원: 자아의 보좌화</div>
+            
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+              <div style="background: #fff; padding: 10px 14px; border-radius: 8px; border-left: 4px solid #fca5a5; display: flex; align-items: center; gap: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                <span style="color: #ef4444; font-weight: 800;">↑</span> <span style="font-size: calc(13.5px * var(--font-scale)); color: var(--text-secondary);">내가 하늘로 올라가리라</span>
+              </div>
+              <!-- 하이라이트 된 사탄의 첫 번째 죄 -->
+              <div style="background: #fef2f2; padding: 12px 14px; border-radius: 8px; border-left: 5px solid #dc2626; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 6px rgba(220, 38, 38, 0.15); transform: scale(1.02); z-index: 1; margin: 4px 0;">
+                <span style="color: #dc2626; font-weight: 800; font-size: 1.2em;">⚠️</span> 
+                <div style="font-size: calc(14px * var(--font-scale)); color: #991b1b; line-height: 1.4;">
+                  <b>내가 내 보좌를 높이리라</b><br>
+                  <span style="font-size: 0.9em; opacity: 0.85; font-weight: 500;">(사탄의 첫 번째 죄: 마음속 보좌의 찬탈)</span>
+                </div>
+              </div>
+              <div style="background: #fff; padding: 10px 14px; border-radius: 8px; border-left: 4px solid #fca5a5; display: flex; align-items: center; gap: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                <span style="color: #ef4444; font-weight: 800;">↑</span> <span style="font-size: calc(13.5px * var(--font-scale)); color: var(--text-secondary);">내가 산 위에 앉으리라</span>
+              </div>
+              <div style="background: #fff; padding: 10px 14px; border-radius: 8px; border-left: 4px solid #fca5a5; display: flex; align-items: center; gap: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                <span style="color: #ef4444; font-weight: 800;">↑</span> <span style="font-size: calc(13.5px * var(--font-scale)); color: var(--text-secondary);">내가 꼭대기로 올라가리라</span>
+              </div>
+              <div style="background: #fff; padding: 10px 14px; border-radius: 8px; border-left: 4px solid #fca5a5; display: flex; align-items: center; gap: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                <span style="color: #ef4444; font-weight: 800;">↑</span> <span style="font-size: calc(13.5px * var(--font-scale)); color: var(--text-secondary);">내가 나 자신을 가장 높으신 분과 같아지게 만들리라</span>
+              </div>
+            </div>
+
+            <!-- 불법의 정의 강조 -->
+            <div style="background: #1e293b; color: #f8fafc; padding: 16px; border-radius: 8px; text-align: center; font-size: calc(13.5px * var(--font-scale)); line-height: 1.6; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);">
+              <span style="color: #f87171; font-weight: 700;">죄(불법)의 정의:</span> 사람을 다스리시는 하나님의 원칙 아래 있지 않고, <br><span style="color: #fef08a; font-weight: 700; font-size: 1.1em;">자아(Self)가 보좌에 앉는 것.</span> (요일 3:4)
+            </div>
+          </div>
+
+          <div class="point-section">
+            <div class="point-label">💎 사탄의 반역과 첫 번째 죄</div>
+            <div class="point-text">
+              <p>가장 존귀한 천사장, 가장 아름다운 천사가 타락하여 사탄이 된 이유는 단 하나, 즉 <span class="hl">자신의 아름다움 때문에 마음이 높아진 교만(거만한 영)</span> 때문이었다. (겔 28:17, 잠 16:18)</p>
+              <p>이사야서 14장에서 그는 마음속으로 무언가를 말했다. <span class="hl">"내가 내 보좌를 높이리라."</span> 우주에는 처음으로 하나님의 뜻 외에 또 다른 뜻이 존재하게 되었다. 바로 사탄의 뜻이다. <b>이것이 사탄의 죄였다. 죄는 하나님의 보좌를 무너뜨리는 것이다.</b></p>
+            </div>
+          </div>
+
+          <div class="point-section">
+            <div class="point-label">💎 우리 안의 자아 보좌화 경계</div>
+            <div class="point-text">
+              <p>불법 가운데 있다는 것은 우리가 '사람을 다스리시는 하나님의 원칙' 아래 있지 않다는 것을 의미한다. 우리가 실지로는 아무것도 아니면서 무엇이 된 줄로 생각한다면(갈 6:3), 자신을 속이는 것일 뿐 아니라 <span class="hl">우리의 자아가 우리 안에서 보좌에 앉게 되며</span>, 결과적으로 사탄이 우리 안에서 보좌에 앉게 된다.</p>
+              <p><b>실행적 방벽:</b> 신명기 17장에서 왕이 율법을 친히 베껴 써서 곁에 두고 평생 읽었던 것은 <span class="hl">그의 마음이 자기 형제들 위에 높아지지 않게</span> 하려는 것이었다. 우리도 말씀을 베껴 쓰고 필기하며 교만에 대해 경계해야 한다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Point 4 -->
+    <div class="accordion" id="pt4">
+      <div class="accordion-header" onclick="toggleAcc(this)">
+        <span class="acc-num" style="background:var(--accent-purple)">4</span>
+        <span class="acc-title">실행적인 적용: 가장 평범한 순간에 임하는 보좌</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-content">
+          
+          <!-- 가장 평범한 순간에 임하는 보좌 인포그래픽 -->
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 18px; margin: 16px 0;">
+            <div style="text-align: center; font-weight: 800; color: #1e293b; margin-bottom: 16px; font-size: calc(16px * var(--font-scale));">✨ 가장 평범한 순간에 임하는 보좌</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+              <!-- Card 1 -->
+              <div style="background: #fff; padding: 14px; border-radius: 8px; border-top: 4px solid var(--accent-blue); box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center;">
+                <div style="font-size: 24px; margin-bottom: 8px;">💻</div>
+                <div style="font-weight: 700; font-size: calc(13.5px * var(--font-scale)); color: var(--accent-blue); margin-bottom: 6px;">직장 생활</div>
+                <div style="font-size: calc(12.5px * var(--font-scale)); color: var(--text-secondary); line-height: 1.5; word-break: keep-all;">일할 때 내 안에 하나님의 보좌가 있는지 자문해 보아야 합니다.</div>
+              </div>
+              <!-- Card 2 -->
+              <div style="background: #fff; padding: 14px; border-radius: 8px; border-top: 4px solid var(--accent-gold); box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center;">
+                <div style="font-size: 24px; margin-bottom: 8px;">🍽️</div>
+                <div style="font-weight: 700; font-size: calc(13.5px * var(--font-scale)); color: var(--accent-gold); margin-bottom: 6px;">가정 생활</div>
+                <div style="font-size: calc(12.5px * var(--font-scale)); color: var(--text-secondary); line-height: 1.5; word-break: keep-all;">집회에서는 보좌를 말하면서, 일상에서는 보좌를 하늘 멀리 던져버리지 않습니까?</div>
+              </div>
+              <!-- Card 3 -->
+              <div style="background: #fff; padding: 14px; border-radius: 8px; border-top: 4px solid var(--accent-teal); box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center;">
+                <div style="font-size: 24px; margin-bottom: 8px;">👞👔</div>
+                <div style="font-weight: 700; font-size: calc(13.5px * var(--font-scale)); color: var(--accent-teal); margin-bottom: 6px;">쇼핑과 결정</div>
+                <div style="font-size: calc(12.5px * var(--font-scale)); color: var(--text-secondary); line-height: 1.5; word-break: keep-all;">누가 우리의 주님이며 권위입니까? 넥타이나 구두를 사는 아주 작은 일에서도 중심에 보좌를 두어야 합니다.</div>
+              </div>
+            </div>
+            <div style="background: #1e3a8a; color: #fff; padding: 12px; border-radius: 8px; text-align: center; font-size: calc(13.5px * var(--font-scale)); font-weight: 700; margin-top: 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);">
+              일상생활의 모든 것이 그분의 머리의 권위에 철저히 복종되어야 합니다.
+            </div>
+          </div>
+
+          <div class="point-section">
+            <div class="point-label">💎 생수의 흐름을 체험하는 길</div>
+            <div class="point-text">
+              <p>우리의 일상생활과 가정생활과 결혼 생활과 직장 생활과 교회생활에서 중심은 반드시 하나님의 보좌여야 한다. 모든 것이 그분의 머리의 권위에 반드시 복종되어야 한다.</p>
+              <p>매일 아침 일어난 후에 우리는 주님께 이렇게 말씀드려야 한다.</p>
+              <div style="background: #fdf4ff; border-left: 4px solid #d946ef; padding: 12px 16px; border-radius: 0 8px 8px 0; font-style: italic; color: #701a75; margin: 10px 0; font-weight: 500; line-height: 1.6;">
+                "주님, 제가 당신을 저의 주님으로 모실 수 있는 새로운 하루를 주셔서 감사합니다. 저는 온종일 당신의 머리의 권위에 복종합니다. 주님, 저의 삶에 당신의 보좌를 세워 주십시오. 제 존재의 중심에 당신의 보좌를 세워 주십시오. 주님, 저의 하루 전체와 일상의 모든 일이 당신의 보좌 아래 있게 해 주십시오."
+              </div>
+              <p>우리가 매일 아침 삼일 하나님께 이러한 기도를 드린다면, <span class="hl">그 순간부터 우리 안에서 생수가 흐를 것이다.</span> "주님, 오늘 저의 삶에 당신의 보좌를 세워 주십시오." 우리가 이렇게 한다면, 순간순간 우리 안에서 생수가 흐르는 것을 체험할 것이다.</p>
+            </div>
+          </div>
+
+          <div class="point-section">
+            <div class="point-label">💎 보좌에 복종할 때의 놀라운 결과</div>
+            <div class="point-text">
+              <p>우리의 체험에서 우리가 삼일 하나님께 복종하여 그분을 우리의 머리로 취할 때마다, 우리는 우리 안에 있는 흐름을 누리게 된다. 이 강은 목적을 세우신 하나님과 구속을 이루신 어린양과 지금 모든 것을 포함하시고 과정을 거치시고 생명 주시는 영이신 그 영과 함께 흐른다.</p>
+              <p>그분의 머리의 권위 아래서 우리는 <span class="hl">생명의 흐름과 함께 생명의 공급과 생명의 길</span>을 누린다. 생명의 흐름 안에서 우리는 그분을 섬기고 그분을 보며 그분과 함께 왕으로서 다스린다. <b>할렐루야, 이것은 놀라운 일이다!</b></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz -->
+  <section class="quiz-section" id="quiz">
+    <div class="section-label">이해력 점검 퀴즈</div>
+
+    <div class="quiz-card" data-correct="0">
+      <div class="quiz-q"><span class="quiz-num">1</span><span>요한계시록 21장과 22장에 나타난 '하나님과 어린양의 보좌'에 대한 설명으로 가장 적절한 것은 무엇입니까?</span></div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>빛이신 하나님과 등이신 어린양은 한 실체로서, 하나의 단일한 보좌에 앉아 계신다.</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>보좌는 두 분을 위한 2인용 소파와 같아서 나란히 앉아 계신다.</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>하나님께서 보좌를 온전히 어린양에게 물려주시고 하늘로 올라가셨다.</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>하나님과 어린양은 각각 다른 두 개의 보좌에서 만물을 다스리신다.</div>
+      </div>
+      <div class="quiz-feedback"></div>
+      <div style="margin-top: 10px; text-align: right;">
+        <button onclick="toggleHint(this)" style="background:none; border:none; color:var(--accent-blue); cursor:pointer; font-size:13px; font-weight:700; text-decoration: underline;">💡 힌트 보기</button>
+      </div>
+      <div class="hint-text" style="display:none; background:#fffbeb; border:1px solid #fde68a; padding:10px; border-radius:8px; font-size:13.5px; margin-top:8px; color:#92400e; text-align: left;">
+        빛을 담고 밖으로 표현하는 등처럼, 하나님과 어린양은 나뉘지 않는 한 단위이십니다.
+      </div>
+    </div>
+
+    <div class="quiz-card" data-correct="2">
+      <div class="quiz-q"><span class="quiz-num">2</span><span>우리가 인생의 갈림길에서 결정을 내려야 할 때 의지해야 할 '영적 내비게이션(하나님의 임재 위성, GPS)'의 올바른 경로는 무엇입니까?</span></div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>나의 과거 경험과 세상적인 지혜의 흐름</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>민족들을 치료하는 생명나무 잎사귀의 방향</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>순금으로 상징되는 신성한 본성 안에서 흐르는 생명수의 흐름</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>막혀 있던 외적인 환경과 상황이 자연스럽게 열리는 것</div>
+      </div>
+      <div class="quiz-feedback"></div>
+      <div style="margin-top: 10px; text-align: right;">
+        <button onclick="toggleHint(this)" style="background:none; border:none; color:var(--accent-blue); cursor:pointer; font-size:13px; font-weight:700; text-decoration: underline;">💡 힌트 보기</button>
+      </div>
+      <div class="hint-text" style="display:none; background:#fffbeb; border:1px solid #fde68a; padding:10px; border-radius:8px; font-size:13.5px; margin-top:8px; color:#92400e; text-align: left;">
+        새 예루살렘의 거리는 투명한 유리 같은 이것으로 되어 있으며, 그 길 한가운데로 강이 흐릅니다.
+      </div>
+    </div>
+
+    <div class="quiz-card" data-correct="2">
+      <div class="quiz-q"><span class="quiz-num">3</span><span>성경(특히 요한일서 3:4)과 사탄의 타락 사례에서 묘사되는 '죄(불법)'의 본질적이고 우주적인 기원은 무엇입니까?</span></div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>단순히 도덕적인 규범을 어기거나 이웃에게 피해를 주는 행동</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>일상생활에서 넥타이나 구두를 사는 것과 같은 세속적인 결정</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>사람을 다스리시는 하나님의 원칙을 벗어나, 자신의 자아(Self)가 보좌에 앉는 것</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>구약의 율법을 베껴 쓰지 않거나 말씀을 잊어버리는 것</div>
+      </div>
+      <div class="quiz-feedback"></div>
+      <div style="margin-top: 10px; text-align: right;">
+        <button onclick="toggleHint(this)" style="background:none; border:none; color:var(--accent-blue); cursor:pointer; font-size:13px; font-weight:700; text-decoration: underline;">💡 힌트 보기</button>
+      </div>
+      <div class="hint-text" style="display:none; background:#fffbeb; border:1px solid #fde68a; padding:10px; border-radius:8px; font-size:13.5px; margin-top:8px; color:#92400e; text-align: left;">
+        가장 아름다웠던 천사장이 타락한 근본 원인인 "내 보좌를 높이리라"는 교만과 직접적으로 연결됩니다.
+      </div>
+    </div>
+
+    <div class="quiz-card" data-correct="2">
+      <div class="quiz-q"><span class="quiz-num">4</span><span>보좌를 우리의 생활 중심에 둔다는 것의 의미를 가장 잘 보여주는 실행은 무엇입니까?</span></div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>주일에 열리는 교회 집회에서만 보좌를 찬양하고 선포하는 것</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>중대한 사업 결정을 하거나 큰 어려움이 닥쳤을 때만 주님의 뜻을 구하는 것</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>직장, 가정은 물론 넥타이나 구두를 사는 아주 작은 일에서도 그분의 머리의 권위에 복종하는 것</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>매일 아침 성경을 기계적으로 반복해서 베껴 쓰기만 하는 것</div>
+      </div>
+      <div class="quiz-feedback"></div>
+      <div style="margin-top: 10px; text-align: right;">
+        <button onclick="toggleHint(this)" style="background:none; border:none; color:var(--accent-blue); cursor:pointer; font-size:13px; font-weight:700; text-decoration: underline;">💡 힌트 보기</button>
+      </div>
+      <div class="hint-text" style="display:none; background:#fffbeb; border:1px solid #fde68a; padding:10px; border-radius:8px; font-size:13.5px; margin-top:8px; color:#92400e; text-align: left;">
+        하나님의 보좌는 특별한 순간뿐만 아니라 '가장 평범한 순간'과 사소해 보이는 일상에도 동일하게 임해야 합니다.
+      </div>
+    </div>
+
+    <div class="quiz-card" data-correct="2">
+      <div class="quiz-q"><span class="quiz-num">5</span><span>매일 아침 "주님, 제 존재의 중심에 당신의 보좌를 세워 주십시오"라고 기도하며 그분의 머리의 권위에 복종할 때, 우리가 즉시 체험하게 되는 결과는 무엇입니까?</span></div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>눈앞에 천사들이 나타나 신비로운 환상을 보게 된다.</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>일상생활에서 겪던 모든 육신적인 질병이 즉시 완전하게 치유된다.</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>우리 존재 안에서 하나님의 풍성으로 충만한 생명수의 강이 흐르는 것을 누린다.</div>
+        <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>내 주변 사람들의 생각과 마음이 내 뜻대로 쉽게 바뀌게 된다.</div>
+      </div>
+      <div class="quiz-feedback"></div>
+      <div style="margin-top: 10px; text-align: right;">
+        <button onclick="toggleHint(this)" style="background:none; border:none; color:var(--accent-blue); cursor:pointer; font-size:13px; font-weight:700; text-decoration: underline;">💡 힌트 보기</button>
+      </div>
+      <div class="hint-text" style="display:none; background:#fffbeb; border:1px solid #fde68a; padding:10px; border-radius:8px; font-size:13.5px; margin-top:8px; color:#92400e; text-align: left;">
+        어린양의 보좌 아래로 자아를 굴복시킬 때, 새 예루살렘의 보좌에서 흘러나오는 '이것'이 우리 안에서도 즉시 시작됩니다.
+      </div>
+    </div>
+
+    <button class="quiz-submit" id="quizSubmit" onclick="submitQuiz()">정답 확인하기</button>
+
+    <div class="quiz-result" id="quizResult">
+      <div class="quiz-score" id="quizScore">0/5</div>
+      <div class="quiz-score-label">맞은 문제 수</div>
+      <div class="quiz-msg" id="quizMsg"></div>
+    </div>
+  </section>
+
+  <!-- Prayer -->
+  <section class="prayer-section" id="prayer">
+    <div class="prayer-title">오늘의 기도</div>
+    <div class="callout prayer" style="background: none; border: none; padding: 0;">
+      <div class="prayer-text">
+        <p>"주님, 제가 당신을 저의 주님으로 모실 수 있는 새로운 하루를 주셔서 감사합니다. 저는 온종일 당신의 머리의 권위에 복종합니다. 주님, 저의 삶에 당신의 보좌를 세워 주십시오. 제 존재의 중심에 당신의 보좌를 세워 주십시오. 주님, 저의 하루 전체와 일상의 모든 일이 당신의 보좌 아래 있게 해 주십시오."</p>
+      </div>
+      <div class="prayer-amen">아멘!</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// Panel toggle
+function togglePanel() {
+  document.getElementById('sidePanel').classList.toggle('active');
+  document.getElementById('overlay').classList.toggle('active');
+}
+
+// Accordion
+function toggleAcc(header) {
+  const acc = header.parentElement;
+  const body = acc.querySelector('.accordion-body');
+  if (acc.classList.contains('open')) {
+    body.style.maxHeight = null;
+    acc.classList.remove('open');
+  } else {
+    body.style.maxHeight = body.scrollHeight + 'px';
+    acc.classList.add('open');
+  }
+}
+
+// Font size
+let fontScale = 1;
+function changeFontSize(dir) {
+  fontScale = Math.max(0.8, Math.min(1.4, fontScale + dir * 0.05));
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+  // Re-calc open accordions
+  document.querySelectorAll('.accordion.open .accordion-body').forEach(b => {
+    b.style.maxHeight = b.scrollHeight + 'px';
+  });
+}
+function resetFontSize() {
+  fontScale = 1;
+  document.documentElement.style.setProperty('--font-scale', 1);
+  document.querySelectorAll('.accordion.open .accordion-body').forEach(b => {
+    b.style.maxHeight = b.scrollHeight + 'px';
+  });
+}
+
+// Quiz
+function selectOpt(el) {
+  const card = el.closest('.quiz-card');
+  if (card.classList.contains('answered')) return;
+  card.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function toggleHint(btn) {
+  const hintDiv = btn.parentElement.nextElementSibling;
+  if (hintDiv.style.display === 'none' || hintDiv.style.display === '') {
+    hintDiv.style.display = 'block';
+  } else {
+    hintDiv.style.display = 'none';
+  }
+}
+
+function submitQuiz() {
+  const cards = document.querySelectorAll('.quiz-card');
+  let score = 0;
+  let allAnswered = true;
+
+  cards.forEach(card => {
+    const selected = card.querySelector('.quiz-opt.selected');
+    if (!selected) { allAnswered = false; return; }
+    const correct = parseInt(card.dataset.correct);
+    const opts = card.querySelectorAll('.quiz-opt');
+    const selectedIdx = Array.from(opts).indexOf(selected);
+    const fb = card.querySelector('.quiz-feedback');
+    card.classList.add('answered');
+
+    if (selectedIdx === correct) {
+      selected.classList.add('correct');
+      selected.querySelector('.opt-circle').textContent = '✓';
+      fb.className = 'quiz-feedback correct-fb';
+      fb.textContent = '✅ 정확합니다!';
+      score++;
+    } else {
+      selected.classList.add('wrong');
+      selected.querySelector('.opt-circle').textContent = '✗';
+      opts[correct].classList.add('correct');
+      opts[correct].querySelector('.opt-circle').textContent = '✓';
+      fb.className = 'quiz-feedback wrong-fb';
+      fb.textContent = '❌ 지문의 표현을 다시 한번 확인해보세요.';
+    }
+  });
+
+  if (!allAnswered) {
+    alert('모든 문제에 답을 선택해 주세요.');
+    return;
+  }
+
+  const result = document.getElementById('quizResult');
+  document.getElementById('quizScore').textContent = score + '/5';
+  const msgs = [
+    '메시지를 처음부터 다시 한번 천천히 읽어보세요! 💪',
+    '핵심 요점을 다시 한번 복습해 보세요.',
+    '메시지의 흐름을 조금 더 파악해 보세요.',
+    '잘하셨습니다! 절반 이상 이해하셨네요.',
+    '훌륭합니다! 메시지의 핵심을 거의 정확히 파악하셨습니다.',
+    '완벽합니다! 🎉 흐름과 요점을 완벽히 이해하셨습니다!'
+  ];
+  document.getElementById('quizMsg').textContent = msgs[score];
+  result.classList.add('show');
+  document.getElementById('quizSubmit').disabled = true;
+  result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+</body>
+</html>
