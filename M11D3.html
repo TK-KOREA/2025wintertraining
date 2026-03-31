@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영적 체험의 가장 높은 지점 - 맑은 하늘과 보좌</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base-font-size: 17px;
+  --font-scale: 1;
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #333333;
+  --accent: #2563eb;
+  --accent-light: #dbeafe;
+  --highlight: #fef08a;
+  --highlight-strong: #fde047;
+  --border: #e5e7eb;
+  --card-bg: #fafafa;
+  --section1: #0ea5e9; /* Sky blue */
+  --section2: #8b5cf6; /* Purple for Throne */
+  --section3: #f59e0b; /* Amber for Glory */
+  --section4: #10b981; /* Emerald for Bethel/Ladder */
+  --topbar-h: 44px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 56px; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ── Top Bar ── */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: var(--topbar-h);
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  font-size: 14px !important;
+}
+.topbar * { font-size: 14px !important; }
+.topbar-left {
+  display: flex; align-items: center; gap: 2px;
+  flex-shrink: 0; padding-left: 6px;
+}
+.topbar-btn {
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: none; cursor: pointer;
+  color: var(--text); border-radius: 6px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.topbar-btn:hover { background: #f3f4f6; }
+.topbar-btn svg { width: 20px; height: 20px; }
+.topbar-title {
+  flex: 1; min-width: 0;
+  overflow-x: auto; white-space: nowrap;
+  padding: 0 8px;
+  font-weight: 600; color: var(--text);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.topbar-title::-webkit-scrollbar { display: none; }
+.topbar-right {
+  display: flex; align-items: center; gap: 1px;
+  flex-shrink: 0; padding-right: 6px;
+}
+.font-btn {
+  width: 30px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); background: #fff; cursor: pointer;
+  color: var(--text); font-weight: 600;
+  transition: background 0.2s;
+}
+.font-btn:hover { background: #f3f4f6; }
+.font-btn:first-child { border-radius: 6px 0 0 6px; }
+.font-btn:last-child { border-radius: 0 6px 6px 0; }
+.font-btn:nth-child(2) { border-left: none; border-right: none; font-size: 12px !important; }
+
+/* ── Side Panel ── */
+.overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3); z-index: 1100;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.overlay.active { opacity: 1; pointer-events: auto; }
+.sidepanel {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: 280px; max-width: 80vw;
+  background: #fff; z-index: 1200;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+}
+.sidepanel.active { transform: translateX(0); }
+.sidepanel-header {
+  padding: 16px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  font-weight: 700; font-size: 15px;
+}
+.sidepanel-close {
+  width: 32px; height: 32px; border: none; background: none;
+  cursor: pointer; border-radius: 6px; display: flex;
+  align-items: center; justify-content: center;
+}
+.sidepanel-close:hover { background: #f3f4f6; }
+.sidenav { padding: 8px 0; }
+.sidenav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; cursor: pointer;
+  color: var(--text); text-decoration: none;
+  transition: background 0.2s; font-size: 14px;
+}
+.sidenav-item:hover { background: #f3f4f6; }
+.sidenav-item.active { background: var(--accent-light); color: var(--accent); font-weight: 600; }
+.sidenav-sub {
+  padding-left: 36px;
+}
+.sidenav-sub .sidenav-item { padding: 7px 16px; font-size: 13px; }
+.sidenav-icon { width: 18px; text-align: center; flex-shrink: 0; }
+
+/* ── Main Content ── */
+.main { padding-top: calc(var(--topbar-h) + 8px); max-width: 720px; margin: 0 auto; padding-left: 16px; padding-right: 16px; padding-bottom: 60px; }
+
+/* Title Section */
+.title-section {
+  text-align: center; padding: 24px 0 16px;
+}
+.title-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: calc(11px * var(--font-scale));
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+.title-main {
+  font-size: calc(26px * var(--font-scale));
+  font-weight: 900;
+  line-height: 1.4;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.title-sub {
+  font-size: calc(15px * var(--font-scale));
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* ── Layer Peeling Slider (당신의 하늘은?) ── */
+.peeling-section {
+  margin: 10px 0 32px;
+  background: #111;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.peeling-header {
+  text-align: center;
+  padding: 20px 16px;
+  background: #000;
+  color: #fff;
+}
+.peeling-header h2 {
+  font-size: calc(20px * var(--font-scale));
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 280px; /* 고정 높이 */
+  overflow: hidden;
+  user-select: none;
+}
+/* Right Side: Clear Sky */
+.sky-after {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at center, #ffffff 0%, #b3e5fc 40%, #0ea5e9 100%);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 5%;
+}
+.sky-after-content {
+  text-align: right;
+  color: #0369a1;
+  max-width: 45%;
+}
+.sky-after-content h3 { font-size: calc(16px * var(--font-scale)); font-weight: 900; margin-bottom: 4px; }
+.sky-after-content p { font-size: calc(12px * var(--font-scale)); font-weight: 600; }
+
+/* Left Side: Dark Sky */
+.sky-before {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at center, #4b5563 0%, #1f2937 50%, #111827 100%);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 5%;
+  /* JS가 clip-path를 제어하여 잘라냅니다 */
+  clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+  z-index: 2;
+  border-right: 3px solid rgba(255,255,255,0.8);
+  box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+}
+.sky-before-content {
+  text-align: left;
+  color: #e5e7eb;
+  max-width: 45%;
+}
+.sky-before-content h3 { font-size: calc(16px * var(--font-scale)); font-weight: 800; margin-bottom: 4px; }
+.sky-before-content p { font-size: calc(12px * var(--font-scale)); font-weight: 400; color: #9ca3af; }
+
+/* The Range Slider that controls everything */
+.slider-input {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  outline: none;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  z-index: 4;
+  cursor: ew-resize;
+}
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 40px; height: 40px;
+  background: #fff;
+  border: 3px solid var(--accent);
+  border-radius: 50%;
+  cursor: ew-resize;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%232563eb" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><polyline points="15 18 9 12 15 6"/></svg>');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  transform: rotate(90deg); /* Make arrows point left/right */
+}
+.slider-input::-moz-range-thumb {
+  width: 40px; height: 40px;
+  background: #fff;
+  border: 3px solid var(--accent);
+  border-radius: 50%;
+  cursor: ew-resize;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.peeling-footer {
+  text-align: center;
+  padding: 16px;
+  background: #1e293b;
+  color: #e2e8f0;
+  font-size: calc(15px * var(--font-scale));
+}
+.peeling-footer strong { color: #fde047; font-size: 1.1em; }
+
+/* ── Core Message Box ── */
+.core-message-box {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  color: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  margin: 16px 0 32px 0;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+.core-message-box::before {
+  content: '”';
+  position: absolute;
+  top: -20px; left: 16px;
+  font-size: 120px;
+  color: rgba(255,255,255,0.1);
+  font-family: serif;
+  line-height: 1;
+}
+.core-msg-title {
+  font-size: calc(14px * var(--font-scale));
+  font-weight: 700;
+  color: #93c5fd;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.core-msg-text {
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 700;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+.core-msg-text mark {
+  background: rgba(253, 224, 71, 0.3);
+  color: #fde047;
+  padding: 0 4px;
+}
+
+/* ── Flow Section ── */
+.flow-section { margin: 32px 0 40px; }
+.flow-title {
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+.flow-line-wrap {
+  flex: 1; height: 1px; background: var(--border);
+  position: relative;
+}
+.flow-line-inner {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 50px; background: var(--accent);
+}
+.flow-container {
+  display: flex; flex-direction: column; gap: 0;
+  position: relative;
+  padding-left: 24px;
+}
+.flow-container::before {
+  content: '';
+  position: absolute; left: 7px; top: 10px; bottom: 30px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--section1) 0%, var(--section2) 33%, var(--section3) 66%, var(--section4) 100%);
+}
+.flow-step {
+  position: relative;
+  padding-bottom: 24px;
+}
+.flow-step::before {
+  content: '';
+  position: absolute; left: -24px; top: 4px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 4px solid var(--accent);
+  box-shadow: 0 0 0 4px #fff;
+  z-index: 1;
+}
+.flow-step:nth-child(1)::before { border-color: var(--section1); }
+.flow-step:nth-child(2)::before { border-color: var(--section2); }
+.flow-step:nth-child(3)::before { border-color: var(--section3); }
+.flow-step:nth-child(4)::before { border-color: var(--section4); }
+.flow-step-title {
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.flow-step-desc {
+  font-size: calc(14px * var(--font-scale));
+  color: var(--text-secondary);
+  line-height: 1.6;
+  background: var(--card-bg);
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.flow-step-desc mark {
+  background: var(--highlight);
+  color: var(--text);
+  padding: 1px 4px;
+}
+
+/* ── Accordion ── */
+.accordion-section { margin: 8px 0; }
+.accordion {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  transition: box-shadow 0.3s;
+}
+.accordion.open { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.accordion-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  background: #fff;
+  transition: background 0.2s;
+  user-select: none;
+}
+.accordion-header:hover { background: #fafafa; }
+.acc-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 20px;
+  color: #fff;
+}
+.acc-num {
+  font-size: calc(11px * var(--font-scale));
+  font-weight: 700;
+  color: #fff;
+  background: rgba(0,0,0,0.3);
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  position: absolute; top: -4px; right: -4px;
+}
+.acc-icon-wrap { position: relative; }
+.acc-title-wrap { flex: 1; min-width: 0; }
+.acc-title {
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.4;
+}
+.acc-subtitle {
+  font-size: calc(13px * var(--font-scale));
+  color: #666;
+  font-weight: 500;
+  margin-top: 2px;
+}
+.acc-arrow {
+  flex-shrink: 0;
+  width: 24px; height: 24px;
+  transition: transform 0.3s;
+  color: #aaa;
+}
+.accordion.open .acc-arrow { transform: rotate(180deg); }
+.acc-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+.acc-content {
+  padding: 0 16px 18px;
+}
+
+/* ── Comparison Table (하위요점 1 추가) ── */
+.comp-wrapper {
+  margin: 20px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.comp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.comp-col {
+  padding: 16px;
+}
+.comp-col.dark {
+  background: #1f2937;
+  color: #f3f4f6;
+}
+.comp-col.light {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+.comp-title {
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 800;
+  margin-bottom: 4px;
+  text-align: center;
+  line-height: 1.3;
+}
+.comp-subtitle {
+  font-size: calc(12px * var(--font-scale));
+  text-align: center;
+  margin-bottom: 16px;
+  opacity: 0.8;
+  display: block;
+}
+.comp-list {
+  list-style: none;
+  padding: 0; margin: 0;
+}
+.comp-list li {
+  font-size: calc(13px * var(--font-scale));
+  margin-bottom: 12px;
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.4;
+}
+.comp-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0; top: -1px;
+}
+.comp-col.dark .comp-list li::before { color: #9ca3af; }
+.comp-col.light .comp-list li::before { color: #0ea5e9; }
+
+.comp-bottom-banner {
+  background: #f1f5f9;
+  text-align: center;
+  padding: 12px;
+  font-size: calc(14px * var(--font-scale));
+  color: #334155;
+  border-top: 1px solid var(--border);
+  font-weight: 600;
+}
+.comp-bottom-banner strong { color: var(--accent); }
+
+/* ── Recovery Process Box (막힌 하늘 다시 열기) ── */
+.recovery-box {
+  margin-top: 24px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 12px;
+  padding: 20px;
+}
+.recovery-title {
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 800;
+  color: #0284c7;
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.recovery-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.r-step {
+  background: #ffffff;
+  border: 1px solid #e0f2fe;
+  border-left: 4px solid #0ea5e9;
+  border-radius: 8px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  position: relative;
+}
+.r-step-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 6px;
+}
+.r-step-num {
+  width: 24px; height: 24px;
+  background: #0ea5e9;
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800;
+}
+.r-step-title {
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 800;
+  color: #0f172a;
+}
+.r-step-desc {
+  font-size: calc(14px * var(--font-scale));
+  color: #475569;
+  line-height: 1.5;
+  padding-left: 34px;
+}
+.r-step-desc mark {
+  background: var(--highlight); padding: 0 4px; border-radius: 3px;
+}
+
+/* ── Emphasis Banner (하위요점 2 강조) ── */
+.emphasis-banner {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  color: #fff;
+  padding: 24px 20px;
+  border-radius: 12px;
+  margin: 24px 0 10px 0;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(30, 58, 138, 0.25);
+  border: 1px solid #3b82f6;
+  position: relative;
+  overflow: hidden;
+}
+.emphasis-banner::after {
+  content: '👑';
+  position: absolute;
+  top: -15px; right: -10px;
+  font-size: 80px;
+  opacity: 0.08;
+  transform: rotate(15deg);
+}
+.emphasis-banner p {
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 700;
+  margin: 0 !important;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+.emphasis-banner mark {
+  background: transparent;
+  color: #fde047;
+  padding: 0;
+  font-size: 1.05em;
+  font-weight: 900;
+}
+
+@media (min-width: 600px) {
+  .comp-grid { grid-template-columns: 1fr 1fr; }
+  .recovery-steps { flex-direction: row; flex-wrap: wrap; }
+  .r-step { flex: 1; min-width: 45%; }
+}
+
+@media (max-width: 480px) {
+  .comp-grid { grid-template-columns: 1fr; }
+  .comp-col { border-bottom: 1px solid var(--border); }
+  .slider-container { height: 220px; }
+  .sky-after-content h3, .sky-before-content h3 { font-size: calc(14px * var(--font-scale)); }
+  .sky-after-content p, .sky-before-content p { font-size: calc(11px * var(--font-scale)); }
+}
+
+/* Bible Verse */
+.bible-verse {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid var(--accent);
+  border-radius: 6px 10px 10px 6px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+.bible-ref {
+  display: flex; align-items: center; gap: 6px;
+  font-size: calc(12px * var(--font-scale));
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.bible-ref svg { width: 14px; height: 14px; flex-shrink: 0; }
+.bible-text {
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+.bible-text + .bible-ref { margin-top: 12px; }
+
+/* Content */
+.point-content {
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height: 1.85;
+  color: var(--text);
+}
+.point-content p { margin-bottom: 12px; }
+.point-content .sub-point {
+  padding-left: 16px;
+  border-left: 3px solid var(--border);
+  margin: 16px 0;
+  background: #fafafa;
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+}
+
+mark {
+  background: var(--highlight);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ── Quiz ── */
+.quiz-section {
+  margin: 40px 0;
+  padding: 24px 18px;
+  background: #fafafa;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.quiz-title {
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 800;
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+.quiz-item {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.quiz-q {
+  display: flex; gap: 10px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+.quiz-num {
+  width: 28px; height: 28px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.quiz-question {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.6;
+  padding-top: 3px;
+}
+.quiz-options { display: flex; flex-direction: column; gap: 6px; }
+.quiz-opt {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  background: #fafafa;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1rem;
+  line-height: 1.5;
+  min-height: 44px;
+}
+.quiz-opt:hover { border-color: var(--accent); background: var(--accent-light); }
+.quiz-opt.selected { border-color: var(--accent); background: var(--accent-light); }
+.quiz-opt.correct { border-color: #059669; background: #d1fae5; }
+.quiz-opt.wrong { border-color: #dc2626; background: #fee2e2; }
+.quiz-opt-circle {
+  width: 20px; height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  transition: all 0.2s;
+}
+.quiz-opt.selected .quiz-opt-circle { border-color: var(--accent); background: var(--accent); color: #fff; }
+.quiz-opt.correct .quiz-opt-circle { border-color: #059669; background: #059669; color: #fff; }
+.quiz-opt.wrong .quiz-opt-circle { border-color: #dc2626; background: #dc2626; color: #fff; }
+.quiz-hint-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 8px;
+  padding: 5px 12px;
+  background: #fffde7;
+  border: 1px solid #fde047;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #92400e;
+  transition: background 0.2s;
+}
+.quiz-hint-btn:hover { background: #fef08a; }
+.quiz-hint {
+  display: none;
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: #fffde7;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #92400e;
+  animation: fadeIn 0.3s ease;
+}
+.quiz-hint.show { display: block; }
+.quiz-feedback {
+  display: none;
+  margin-top: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  animation: fadeIn 0.3s ease;
+}
+.quiz-feedback.correct-fb { display: block; background: #d1fae5; color: #065f46; }
+.quiz-feedback.wrong-fb { display: block; background: #fee2e2; color: #991b1b; }
+
+.quiz-submit {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 8px;
+}
+.quiz-submit:hover { background: #1d4ed8; }
+.quiz-submit:disabled { background: #93c5fd; cursor: not-allowed; }
+.quiz-result {
+  display: none;
+  text-align: center;
+  padding: 24px 16px;
+  background: #fff;
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  margin-top: 16px;
+  animation: fadeIn 0.4s ease;
+}
+.quiz-result.show { display: block; }
+.quiz-score {
+  font-size: calc(48px * var(--font-scale));
+  font-weight: 900;
+  color: var(--accent);
+}
+.quiz-score-label {
+  font-size: calc(14px * var(--font-scale));
+  color: #666;
+  margin-bottom: 8px;
+}
+.quiz-result-msg {
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* Prayer */
+.prayer-section {
+  margin: 32px 0;
+  padding: 28px 24px;
+  background: linear-gradient(135deg, #f0f7ff 0%, #faf5ff 100%);
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  position: relative;
+}
+.prayer-title {
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 800;
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+.prayer-text {
+  font-size: calc(17px * var(--font-scale));
+  font-weight: 500;
+  line-height: 2;
+  color: var(--text);
+}
+.prayer-text p { margin-bottom: 14px; }
+.prayer-text p:last-child { margin-bottom: 0; }
+.prayer-text mark {
+  background: transparent;
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent-light);
+  padding: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  color: #aaa;
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .main { padding-left: 12px; padding-right: 12px; }
+  .title-main { font-size: calc(24px * var(--font-scale)); }
+  .core-message-box { padding: 20px; margin-left: 4px; margin-right: 4px; }
+  .core-msg-text { font-size: calc(16px * var(--font-scale)); }
+  .acc-content { padding: 0 14px 16px; }
+  .flow-container { padding-left: 16px; }
+  .flow-container::before { left: 4px; }
+  .flow-step::before { left: -19px; width: 14px; height: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="topbar" id="topbar">
+  <div class="topbar-left">
+    <button class="topbar-btn" onclick="togglePanel()" aria-label="목차">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <button class="topbar-btn" onclick="location.href='https://tk-korea.github.io/2025wintertraining/'" aria-label="홈">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z"/></svg>
+    </button>
+  </div>
+  <div class="topbar-title">영적 체험의 가장 높은 지점 - 맑은 하늘과 보좌</div>
+  <div class="topbar-right">
+    <button class="font-btn" onclick="adjustFont(-1)">−</button>
+    <button class="font-btn" onclick="adjustFont(0)">가</button>
+    <button class="font-btn" onclick="adjustFont(1)">+</button>
+  </div>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="togglePanel()"></div>
+
+<!-- Side Panel -->
+<div class="sidepanel" id="sidepanel">
+  <div class="sidepanel-header">
+    <span>📖 목차</span>
+    <button class="sidepanel-close" onclick="togglePanel()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <nav class="sidenav">
+    <a class="sidenav-item" href="#peeling-sec" onclick="togglePanel()"><span class="sidenav-icon">🔎</span> 당신의 하늘은?</a>
+    <a class="sidenav-item" href="#title-sec" onclick="togglePanel()"><span class="sidenav-icon">📌</span> 도입 및 핵심 요점</a>
+    <a class="sidenav-item" href="#flow-sec" onclick="togglePanel()"><span class="sidenav-icon">🗺️</span> 흐름과 연결고리</a>
+    <div>
+      <a class="sidenav-item" href="#points-sec" onclick="togglePanel()"><span class="sidenav-icon">💡</span> 하위 요점 (자세히 보기)</a>
+      <div class="sidenav-sub">
+        <a class="sidenav-item" href="#point1" onclick="togglePanel()">① 수정같이 맑은 하늘</a>
+        <a class="sidenav-item" href="#point2" onclick="togglePanel()">② 보좌와 다스리는 임재</a>
+        <a class="sidenav-item" href="#point3" onclick="togglePanel()">③ 보좌 위의 영광스러운 사람</a>
+        <a class="sidenav-item" href="#point4" onclick="togglePanel()">④ 하늘의 문과 사다리</a>
+      </div>
+    </div>
+    <a class="sidenav-item" href="#quiz-sec" onclick="togglePanel()"><span class="sidenav-icon">✏️</span> 이해도 퀴즈</a>
+    <a class="sidenav-item" href="#prayer-sec" onclick="togglePanel()"><span class="sidenav-icon">🎯</span> 적용 및 훈련</a>
+  </nav>
+</div>
+
+<!-- Main Content -->
+<div class="main" id="main-content">
+
+  <!-- ── Layer Peeling Section ── -->
+  <section class="peeling-section" id="peeling-sec">
+    <div class="peeling-header">
+      <h2>당신의 '하늘'은 어떤 상태입니까?</h2>
+    </div>
+    <div class="slider-container">
+      <!-- Right/Bottom Layer (맑은 하늘) -->
+      <div class="sky-after">
+        <div class="sky-after-content">
+          <h3>수정같이 맑고<br>확대되는 하늘</h3>
+          <p>현재 / 영적인 상태</p>
+        </div>
+      </div>
+      <!-- Left/Top Layer (어둡고 구름 낀 하늘) -->
+      <div class="sky-before" id="skyBeforeLayer">
+        <div class="sky-before-content">
+          <h3>어둡고<br>구름 낀 하늘</h3>
+          <p>과거 / 자연적인 상태</p>
+        </div>
+      </div>
+      <!-- Slider Input -->
+      <input type="range" min="0" max="100" value="50" class="slider-input" oninput="updateSkySlider(this.value)">
+    </div>
+    <div class="peeling-footer">
+      우리가 가진 하늘의 상태는 전적으로 우리의 <strong>'양심'</strong>에 달려 있습니다.
+    </div>
+  </section>
+
+  <!-- Title Section -->
+  <section class="title-section" id="title-sec">
+    <div class="title-badge">2025 겨울훈련 11주 3일</div>
+    <h1 class="title-main">맑은 하늘과 보좌</h1>
+    <p class="title-sub">하나님께 으뜸의 지위를 내어드리는 가장 높은 영적 체험</p>
+  </section>
+
+  <!-- Core Message Banner -->
+  <div class="core-message-box">
+    <div class="core-msg-title">🎯 핵심 요점</div>
+    <div class="core-msg-text">
+      우리의 영적인 체험에서 가장 높은 지점은 우리 내면에 <mark>맑은 하늘과 그 위에 있는 하나님의 보좌</mark>를 갖는 것이며, 이는 <mark>하나님의 권위와 다스림에 완전히 순종</mark>하여 그분께 으뜸의 자리를 내어드리는 것을 의미합니다.
+    </div>
+  </div>
+
+  <!-- Flow and Connection Dashboard -->
+  <section class="flow-section" id="flow-sec">
+    <div class="flow-title">
+      <span>🗺️ 흐름과 연결고리</span>
+      <div class="flow-line-wrap"><div class="flow-line-inner"></div></div>
+    </div>
+    
+    <div class="flow-container">
+      <div class="flow-step">
+        <div class="flow-step-title" style="color: var(--section1);">
+          <span style="font-size: 1.2em;">1.</span> 출발점: 맑은 하늘 확보
+        </div>
+        <div class="flow-step-desc">
+          먼저 <mark>철저한 회개와 자백</mark>을 통해 양심의 유죄판결을 처리하여 우리와 하나님 사이에 막힘이 없는 <mark>'맑은 하늘(가로막힘 없는 교통)'</mark>을 확보하는 것에서 출발합니다.
+        </div>
+      </div>
+      
+      <div class="flow-step">
+        <div class="flow-step-title" style="color: var(--section2);">
+          <span style="font-size: 1.2em;">2.</span> 전환점: 보좌 아래 놓임
+        </div>
+        <div class="flow-step-desc">
+          하늘이 맑아지면 우리는 <mark>자동적으로</mark> 우리를 통제하고 다스리시는 <mark>'보좌(하나님의 임재)'</mark> 아래 놓이게 됩니다.
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-step-title" style="color: var(--section3);">
+          <span style="font-size: 1.2em;">3.</span> 중심점: 보좌 위의 사람
+        </div>
+        <div class="flow-step-desc">
+          그 청옥 보좌 위에는 <mark>사람 같은 모습을 지니신 분</mark>(부활하고 승천하신 인자 예수님)이 계시며, 그분의 생명을 통해 우리도 부활 안에서 일어납니다.
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-step-title" style="color: var(--section4);">
+          <span style="font-size: 1.2em;">4.</span> 결론: 우리의 영과 교회로 연결
+        </div>
+        <div class="flow-step-desc">
+          저 멀리 셋째 하늘에 있는 줄만 알았던 이 보좌가 <mark>사다리이신 그리스도</mark>를 통해 다름 아닌 <mark>'우리의 영과 교회(벧엘)'</mark> 안으로 직접 연결된다는 영광스러운 실재로 결론을 맺습니다.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Details / Accordions -->
+  <section id="points-sec">
+    <div class="flow-title">
+      <span>💡 하위 요점 자세히 보기</span>
+      <div class="flow-line-wrap"><div class="flow-line-inner"></div></div>
+    </div>
+
+    <!-- Sub Point 1 -->
+    <div class="accordion" id="point1">
+      <div class="accordion-header" onclick="toggleAcc(this)">
+        <div class="acc-icon-wrap">
+          <div class="acc-icon" style="background:var(--section1);">🌤️</div>
+          <div class="acc-num">1</div>
+        </div>
+        <div class="acc-title-wrap">
+          <div class="acc-title">수정같이 맑은 하늘</div>
+          <div class="acc-subtitle">거리낌 없는 양심과 열려 있는 창공</div>
+        </div>
+        <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="acc-body">
+        <div class="acc-content">
+          <div class="bible-verse">
+            <div class="bible-ref">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H6zm0 2h12v16H6V4zm2 2v2h8V6H8z"/></svg>
+              겔 1:22
+            </div>
+            <div class="bible-text">생물의 머리 위로는 창공의 모양이 있었는데, 마치 <mark>두려운 수정</mark> 같고, 그들의 머리 위로 펼쳐져 있었다.</div>
+            <div class="bible-ref" style="margin-top:10px;">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H6zm0 2h12v16H6V4zm2 2v2h8V6H8z"/></svg>
+              행 24:16
+            </div>
+            <div class="bible-text">이 때문에 나 자신도 하나님과 사람들에 대하여 항상 <mark>거리낌 없는 양심</mark>을 간직하려고 훈련하고 있습니다.</div>
+          </div>
+          
+          <div class="comp-wrapper">
+            <div class="comp-grid">
+              <!-- 과거 상태 -->
+              <div class="comp-col dark">
+                <div class="comp-title">어둡고 구름 낀 하늘</div>
+                <span class="comp-subtitle">(과거 / 자연적인 상태)</span>
+                <ul class="comp-list">
+                  <li>구원받기 전의 상태</li>
+                  <li>안개가 자욱하고 비좁음</li>
+                  <li>죄책감과 단절감</li>
+                </ul>
+              </div>
+              <!-- 현재 상태 -->
+              <div class="comp-col light">
+                <div class="comp-title">수정같이 맑고 확대되는 하늘</div>
+                <span class="comp-subtitle">(현재 / 영적인 상태)</span>
+                <ul class="comp-list">
+                  <li>철저한 자백 후의 상태</li>
+                  <li>두려울 정도로 투명하고 끝없이 광활함</li>
+                  <li>막힘없는 교통</li>
+                </ul>
+              </div>
+            </div>
+            <div class="comp-bottom-banner">
+              우리가 가진 하늘의 상태는 전적으로 우리의 <strong>'양심'</strong>에 달려 있습니다.
+            </div>
+          </div>
+
+          <div class="point-content">
+            <p>우리가 구원받기 전에 우리의 하늘은 어둡고 구름이 끼어 있었으며 심지어 안개도 자욱했습니다. 그러나 어느 날 우리는 <mark>회개했고, 자신의 죄들을 자백했으며</mark>, 주 예수님을 우리의 구주로 받아들였습니다.</p>
+            <p>철저한 자백 이후 우리는 처음으로 우리 위에 있는 하늘이 맑다는 느낌을 갖게 되었습니다. 구원받았을 때 우리는 맑은 하늘만이 아니라 <mark>확대되고 있는 하늘</mark>도 얻었습니다.</p>
+            <div class="sub-point">
+              <p><strong>우리의 하늘과 양심의 관계:</strong> 그리스도인이 갖는 하늘의 종류는 그의 <mark>양심에 달려 있습니다.</mark> 양심에 오점이 없다면 하늘은 맑을 것입니다. 맑은 하늘을 가지려면 우리의 양심 속에 있는 거리낌과 유죄판결을 처리해야 할 필요가 있습니다. "우리의 하늘의 이야기는 우리의 양심의 이야기입니다."</p>
+            </div>
+            <p>우리가 하나님과 사람들에 대하여 거리낌 없는 순수한 양심을 유지할 때, 우리와 하나님 사이에는 가로막힌 것이 아무것도 없게 되며, 우리 서로 사이에도 가로막힌 것이 아무것도 없게 됩니다. 우리의 하늘은 <mark>극도로 맑고 끊임없이 확대</mark>될 것이며, 두려운 수정으로 된 큰 창공과 같을 것입니다.</p>
+          </div>
+
+          <!-- ── Recovery Process Box (막힌 하늘 다시 열기) ── -->
+          <div class="recovery-box">
+            <div class="recovery-title">🔄 막힌 하늘을 다시 여는 과정</div>
+            <div class="recovery-steps">
+              <div class="r-step">
+                <div class="r-step-head">
+                  <span class="r-step-num">1</span>
+                  <span class="r-step-title">의견 충돌</span>
+                </div>
+                <div class="r-step-desc">지체 또는 배우자와의 갈등 발생.</div>
+              </div>
+              <div class="r-step">
+                <div class="r-step-head">
+                  <span class="r-step-num">2</span>
+                  <span class="r-step-title">거리낌 발생</span>
+                </div>
+                <div class="r-step-desc">양심에 오점이 생기고 하늘이 닫힘. 주의 상(떡과 잔)에 합당하게 참여할 수 없음.</div>
+              </div>
+              <div class="r-step">
+                <div class="r-step-head">
+                  <span class="r-step-num">3</span>
+                  <span class="r-step-title">자백과 사과</span>
+                </div>
+                <div class="r-step-desc"><mark>"용서해 주세요, 미안합니다."</mark> 즉각적인 연락과 처리.</div>
+              </div>
+              <div class="r-step">
+                <div class="r-step-head">
+                  <span class="r-step-num">4</span>
+                  <span class="r-step-title">맑은 하늘 회복</span>
+                </div>
+                <div class="r-step-desc">모든 구름과 안개가 걷히고 주님 및 지체들과의 막힘없는 투명한 교통 회복.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub Point 2 -->
+    <div class="accordion" id="point2">
+      <div class="accordion-header" onclick="toggleAcc(this)">
+        <div class="acc-icon-wrap">
+          <div class="acc-icon" style="background:var(--section2);">👑</div>
+          <div class="acc-num">2</div>
+        </div>
+        <div class="acc-title-wrap">
+          <div class="acc-title">보좌와 다스리는 임재</div>
+          <div class="acc-subtitle">하나님의 권위와 완전한 복종</div>
+        </div>
+        <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="acc-body">
+        <div class="acc-content">
+          <div class="bible-verse">
+            <div class="bible-ref">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H6zm0 2h12v16H6V4zm2 2v2h8V6H8z"/></svg>
+              겔 1:26상
+            </div>
+            <div class="bible-text">그들의 머리 위에 있는 창공 위에는 <mark>보좌의 모양</mark>이 있었는데, 마치 청옥 모습 같았다.</div>
+          </div>
+          <div class="point-content">
+            <p>그리스도인의 생활과 교회생활에 수정 같은 하늘이 열릴 때, 우리는 자동적으로 그 하늘 위에 있는 보좌 아래 있게 됩니다. 그리스도인의 영적인 체험에서 가장 높은 단계는 우리의 맑은 하늘에 <mark>보좌를 갖는 것</mark>입니다.</p>
+            
+            <div class="sub-point" style="background: #eff6ff; border-left-color: #3b82f6;">
+              <p style="margin-bottom:0; color: #1e3a8a;"><strong>[Key Concept] 보좌는 물리적인 의자가 아닙니다.</strong><br>
+              보좌는 우주의 중심이며, 곧 우리를 통치하시는 그리스도의 <strong>'다스리는 임재(Governing Presence)'</strong>를 의미합니다.</p>
+            </div>
+
+            <p>그러한 맑은 하늘을 가질 때, 우리는 <mark>자동적으로 주님의 보좌의 통치 아래</mark> 있게 됩니다. 우리에게 경찰과 법정의 통제가 필요하다면, 이것은 우리가 보좌 아래 있지 않다는 것을 의미합니다.</p>
+
+            <style>
+              #point2 .comp-col.light { background: #f3e8ff; color: #5b21b6; }
+              #point2 .comp-col.light .comp-list li::before { color: #8b5cf6; }
+            </style>
+            <div class="comp-wrapper" style="margin-top: 24px;">
+              <div class="recovery-title" style="margin-top: 15px; margin-bottom: 12px; color: #6d28d9;">⚖️ 당신을 통제하는 것은 무엇입니까?</div>
+              <div class="comp-grid">
+                <!-- 외부적인 통제 -->
+                <div class="comp-col dark">
+                  <div class="comp-title">외부적인 통제</div>
+                  <span class="comp-subtitle">(경찰과 법정)</span>
+                  <ul class="comp-list">
+                    <li>세상의 법, 경찰, 성경의 문자적인 가르침</li>
+                    <li>단순히 화를 억누르는 인간적인 인내</li>
+                    <li>이는 우리가 <strong>보좌 아래 있지 않다는 증거</strong>입니다.</li>
+                  </ul>
+                </div>
+                <!-- 내부적인 굴복 -->
+                <div class="comp-col light">
+                  <div class="comp-title" style="color: #4c1d95;">내부적인 굴복</div>
+                  <span class="comp-subtitle" style="color: #6d28d9;">(보좌의 다스림)</span>
+                  <ul class="comp-list">
+                    <li style="color: #5b21b6;">화가 나서 성질을 내려는 순간, 우리 안에 있는 보좌의 다스림을 깨닫고 즉시 굴복하는 상태</li>
+                    <li style="color: #5b21b6;">외부의 통제가 필요 없는 절대적인 순종</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="comp-bottom-banner" style="font-size: 1.05em;">
+                보좌에 도달한다는 것은 하나님의 권위와 행정에 <strong style="color: #7c3aed;">완전히 복종함</strong>을 의미합니다.
+              </div>
+            </div>
+            
+            <div class="emphasis-banner">
+              <p>우리가 두려워해야 할 것은 오직 한 가지,<br><mark>주님의 다스리는 임재를 잃는 것</mark>뿐입니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub Point 3 -->
+    <div class="accordion" id="point3">
+      <div class="accordion-header" onclick="toggleAcc(this)">
+        <div class="acc-icon-wrap">
+          <div class="acc-icon" style="background:var(--section3);">✨</div>
+          <div class="acc-num">3</div>
+        </div>
+        <div class="acc-title-wrap">
+          <div class="acc-title">보좌 위의 영광스러운 사람</div>
+          <div class="acc-subtitle">승천하신 인자 예수님과 떠오르는 생명</div>
+        </div>
+        <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="acc-body">
+        <div class="acc-content">
+          <div class="bible-verse">
+            <div class="bible-ref">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H6zm0 2h12v16H6V4zm2 2v2h8V6H8z"/></svg>
+              겔 1:26하
+            </div>
+            <div class="bible-text">보좌의 모양 위에는 <mark>사람 같은 모습을 지니신 분</mark>께서 계셨다.</div>
+          </div>
+          <div class="point-content">
+            <p>청옥은 파란색이므로 하늘들을 상징합니다. 그러므로 창공 위에 있는 청옥은 하늘들에 있는 하나님의 보좌를 상징합니다. 이 보좌 위에는 <mark>'사람 같은 모습을 지니신 분'</mark>께서 계셨습니다.</p>
+            <p>이 우주 위에는 하나님의 청옥 보좌 위에 한 사람, 곧 부활하고 승천하신 <mark>인자 예수님</mark>이 계십니다. "보라 하늘 보좌 위에 인자 예수 앉았네 / 하나님이 높인 사람 영광의 관 쓰셨네"(찬송가 115장).</p>
+            <div class="sub-point">
+              <p><strong>우리의 체험적 적용:</strong> 영광 안의 그 생명은 이제 우리의 생명이 되었습니다. 사탄이 아무리 우리를 넘어뜨리려 할지라도, 주님은 <mark>부활 안에서 다시 일어나시며</mark> 결코 가라앉지 않으십니다. 우리 또한 그분의 영광스럽고 <mark>떠오르는 생명</mark>을 살아 내어 부활을 통해 다시 일어날 수 있습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub Point 4 -->
+    <div class="accordion" id="point4">
+      <div class="accordion-header" onclick="toggleAcc(this)">
+        <div class="acc-icon-wrap">
+          <div class="acc-icon" style="background:var(--section4);">🪜</div>
+          <div class="acc-num">4</div>
+        </div>
+        <div class="acc-title-wrap">
+          <div class="acc-title">하늘의 문과 사다리</div>
+          <div class="acc-subtitle">우리의 영과 교회 안으로 연결된 실재</div>
+        </div>
+        <svg class="acc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="acc-body">
+        <div class="acc-content">
+          <div class="bible-verse">
+            <div class="bible-ref">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H6zm0 2h12v16H6V4zm2 2v2h8V6H8z"/></svg>
+              창 28:17
+            </div>
+            <div class="bible-text">"이곳이 얼마나 두려운 곳인가! 이곳은 다름 아닌 <mark>하나님의 집이며 하늘의 문</mark>이구나."</div>
+            <div class="bible-ref" style="margin-top:10px;">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H6zm0 2h12v16H6V4zm2 2v2h8V6H8z"/></svg>
+              엡 2:22
+            </div>
+            <div class="bible-text">그분 안에서 여러분 또한 <mark>영 안에 있는 하나님의 거처</mark>로 함께 건축되고 있습니다.</div>
+          </div>
+          <div class="point-content">
+            <p>야곱의 꿈에 나타난 사다리는 진정한 하늘에 속한 사다리이신 <mark>예수 그리스도</mark>이십니다. 그분은 땅과 하늘을 연결하시고 하늘을 땅으로 이끄시는 분이십니다.</p>
+            <p>에베소서 2장 22절은 하나님의 영께서 우리의 영 안에 거하신다고 말합니다. 야곱이 고백한 것처럼 우리의 영과 교회는 다름 아닌 <mark>'하나님의 집(벧엘)'</mark>이자 하늘의 문입니다.</p>
+            <div class="sub-point">
+              <p><strong>우리의 영 안으로의 연결:</strong> 저 멀리 셋째 하늘에만 있는 줄 알았던 그 보좌가, 이제는 사다리이신 그리스도를 통해 우리 안으로 연결되었습니다. <mark>우리는 하늘로 가기 위해 기다릴 필요가 없습니다.</mark> 우리가 우리의 영으로 돌이킬 때마다 하늘의 문을 통과해 들어가, 셋째 하늘에 있는 은혜의 보좌를 직접 만지게 됩니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz -->
+  <section class="quiz-section" id="quiz-sec">
+    <div class="quiz-title">✏️ 이해도 퀴즈</div>
+
+    <div class="quiz-item" id="q1">
+      <div class="quiz-q"><div class="quiz-num">1</div><div class="quiz-question">지문에 따르면, 그리스도인의 영적 체험에서 가장 높은 지점은 무엇을 갖는 것인가?</div></div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(1,this,0)"><div class="quiz-opt-circle">A</div><span>풍성한 성경 지식과 언변</span></div>
+        <div class="quiz-opt" onclick="selectOpt(1,this,1)"><div class="quiz-opt-circle">B</div><span>맑은 하늘과 그 위에 있는 보좌</span></div>
+        <div class="quiz-opt" onclick="selectOpt(1,this,2)"><div class="quiz-opt-circle">C</div><span>외부의 모든 환경적인 평안</span></div>
+        <div class="quiz-opt" onclick="selectOpt(1,this,3)"><div class="quiz-opt-circle">D</div><span>교회 내에서의 높은 직분</span></div>
+      </div>
+      <button class="quiz-hint-btn" onclick="showHint(1)">💡 힌트 보기</button>
+      <div class="quiz-hint" id="hint1">우리의 내면에 갖추어야 할 최고점의 실재를 기억해보세요. 핵심 요점을 참고하세요.</div>
+      <div class="quiz-feedback" id="fb1"></div>
+    </div>
+
+    <div class="quiz-item" id="q2">
+      <div class="quiz-q"><div class="quiz-num">2</div><div class="quiz-question">우리와 하나님 사이의 가로막힘 없는 '맑은 하늘'을 확보하기 위해 반드시 선행되어야 하는 것은?</div></div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(2,this,0)"><div class="quiz-opt-circle">A</div><span>선행과 많은 헌금</span></div>
+        <div class="quiz-opt" onclick="selectOpt(2,this,1)"><div class="quiz-opt-circle">B</div><span>기적을 체험하는 것</span></div>
+        <div class="quiz-opt" onclick="selectOpt(2,this,2)"><div class="quiz-opt-circle">C</div><span>철저한 회개와 자백을 통한 순수한 양심</span></div>
+        <div class="quiz-opt" onclick="selectOpt(2,this,3)"><div class="quiz-opt-circle">D</div><span>성경을 암송하는 것</span></div>
+      </div>
+      <button class="quiz-hint-btn" onclick="showHint(2)">💡 힌트 보기</button>
+      <div class="quiz-hint" id="hint2">"우리의 하늘의 이야기는 우리의 [ ? ]의 이야기이다."</div>
+      <div class="quiz-feedback" id="fb2"></div>
+    </div>
+
+    <div class="quiz-item" id="q3">
+      <div class="quiz-q"><div class="quiz-num">3</div><div class="quiz-question">맑은 하늘 위에 있는 '보좌'가 의미하는 바는 무엇인가?</div></div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(3,this,0)"><div class="quiz-opt-circle">A</div><span>물리적인 화려한 의자</span></div>
+        <div class="quiz-opt" onclick="selectOpt(3,this,1)"><div class="quiz-opt-circle">B</div><span>그리스도의 다스리는 임재 자체</span></div>
+        <div class="quiz-opt" onclick="selectOpt(3,this,2)"><div class="quiz-opt-circle">C</div><span>장차 우리가 죽은 후 앉을 자리</span></div>
+        <div class="quiz-opt" onclick="selectOpt(3,this,3)"><div class="quiz-opt-circle">D</div><span>율법의 심판석</span></div>
+      </div>
+      <button class="quiz-hint-btn" onclick="showHint(3)">💡 힌트 보기</button>
+      <div class="quiz-hint" id="hint3">보좌는 어떤 '사물'이 아니라, 하나님의 권위와 이 지위를 내어드리는 것입니다.</div>
+      <div class="quiz-feedback" id="fb3"></div>
+    </div>
+
+    <div class="quiz-item" id="q4">
+      <div class="quiz-q"><div class="quiz-num">4</div><div class="quiz-question">에스겔서 1장의 계시에서 청옥 보좌 위에는 누가 계시는가?</div></div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(4,this,0)"><div class="quiz-opt-circle">A</div><span>모세와 엘리야</span></div>
+        <div class="quiz-opt" onclick="selectOpt(4,this,1)"><div class="quiz-opt-circle">B</div><span>보이지 않는 거대한 영</span></div>
+        <div class="quiz-opt" onclick="selectOpt(4,this,2)"><div class="quiz-opt-circle">C</div><span>사람 같은 모습을 지니신 분(인자 예수님)</span></div>
+        <div class="quiz-opt" onclick="selectOpt(4,this,3)"><div class="quiz-opt-circle">D</div><span>네 생물 중 하나</span></div>
+      </div>
+      <button class="quiz-hint-btn" onclick="showHint(4)">💡 힌트 보기</button>
+      <div class="quiz-hint" id="hint4">그분은 부활하고 승천하셨으며, 우리에게 떠오르는 생명을 주시는 분입니다. (겔 1:26하)</div>
+      <div class="quiz-feedback" id="fb4"></div>
+    </div>
+
+    <div class="quiz-item" id="q5">
+      <div class="quiz-q"><div class="quiz-num">5</div><div class="quiz-question">셋째 하늘에 있는 보좌가 직접 연결되는 '하늘의 문(벧엘)'이자 '사다리'가 세워진 장소는 오늘날 어디인가?</div></div>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="selectOpt(5,this,0)"><div class="quiz-opt-circle">A</div><span>예루살렘의 통곡의 벽</span></div>
+        <div class="quiz-opt" onclick="selectOpt(5,this,1)"><div class="quiz-opt-circle">B</div><span>특별히 지정된 예배당 건축물</span></div>
+        <div class="quiz-opt" onclick="selectOpt(5,this,2)"><div class="quiz-opt-circle">C</div><span>하나님의 영이 거하시는 우리의 영과 교회</span></div>
+        <div class="quiz-opt" onclick="selectOpt(5,this,3)"><div class="quiz-opt-circle">D</div><span>성지순례를 가는 길</span></div>
+      </div>
+      <button class="quiz-hint-btn" onclick="showHint(5)">💡 힌트 보기</button>
+      <div class="quiz-hint" id="hint5">"우리가 하늘로 가기 위해 기다릴 필요가 없다. 우리의 [ ? ]은 하늘의 문이다."</div>
+      <div class="quiz-feedback" id="fb5"></div>
+    </div>
+
+    <button class="quiz-submit" id="quizSubmit" onclick="submitQuiz()">결과 확인하기</button>
+
+    <div class="quiz-result" id="quizResult">
+      <div class="quiz-score-label">당신의 점수</div>
+      <div class="quiz-score" id="quizScore">0/5</div>
+      <div class="quiz-result-msg" id="quizMsg"></div>
+    </div>
+  </section>
+
+  <!-- Application & Training -->
+  <section class="prayer-section" id="prayer-sec">
+    <div class="prayer-title">🎯 적용 및 훈련</div>
+    <div class="prayer-text">
+      <p>맑은 하늘을 가진다는 것은 우리와 주님 사이에 아무것도 없다는 것을 의미한다. 찬송가 284장 1절은 <mark>“막힘없이 오 막힘없이”</mark>라고 말한다. 이 찬송은 좋은 기도이다. 우리는 주님께 “막힘없이 오, 주님, 저와 주님 사이에 어떤 막힘도 없게 해 주십시오. 주님, 저와 성도들 사이에도 어떤 막힘이 없게 해 주십시오.”라고 기도할 수 있다. 이러한 기도는 주님께 맑은 하늘을 구하는 기도이다.</p>
+      <p>만일 집회에 왔을 때 배우자에게 부적절한 어조로 말했다는 것을 깨달았다면, 배우자에게 연락하여 <mark>“여보, 용서해 주세요. 그런 어조로 말하지 않아야 했어요. 용서해 주세요. 미안해요.”</mark>라고 말해야 한다. 배우자가 “용서합니다.”라고 말하면, 비로소 부부 사이에 아무런 문제가 없게 되고, 주님과 배우자 사이에도 아무런 문제가 없게 된다.</p>
+    </div>
+  </section>
+
+  <div class="footer">에스겔서 1장 · 맑은 하늘과 보좌</div>
+</div>
+
+<script>
+// --- Layer Peeling Logic ---
+function updateSkySlider(value) {
+  // value is between 0 and 100
+  const layer = document.getElementById('skyBeforeLayer');
+  // Update clip-path to reveal the right side (after sky) based on slider value
+  layer.style.clipPath = `polygon(0 0, ${value}% 0, ${value}% 100%, 0 100%)`;
+}
+
+// Panel
+function togglePanel() {
+  document.getElementById('sidepanel').classList.toggle('active');
+  document.getElementById('overlay').classList.toggle('active');
+}
+
+// Font size
+let fontScale = 1;
+function adjustFont(dir) {
+  if (dir === 0) fontScale = 1;
+  else if (dir === 1 && fontScale < 1.4) fontScale += 0.1;
+  else if (dir === -1 && fontScale > 0.7) fontScale -= 0.1;
+  document.documentElement.style.setProperty('--font-scale', fontScale.toFixed(1));
+}
+
+// Accordion
+function toggleAcc(header) {
+  const acc = header.parentElement;
+  const body = acc.querySelector('.acc-body');
+  const content = acc.querySelector('.acc-content');
+  if (acc.classList.contains('open')) {
+    body.style.maxHeight = '0';
+    acc.classList.remove('open');
+  } else {
+    acc.classList.add('open');
+    body.style.maxHeight = content.scrollHeight + 40 + 'px';
+    // Recheck after images/content load
+    setTimeout(() => {
+      if (acc.classList.contains('open')) {
+        body.style.maxHeight = content.scrollHeight + 40 + 'px';
+      }
+    }, 300);
+  }
+}
+
+// Quiz Logic
+const answers = { 1: 1, 2: 2, 3: 1, 4: 2, 5: 2 };
+const selected = {};
+const explanations = {
+  1: { correct: '정답! 영적 체험의 가장 높은 지점은 "맑은 하늘과 그 위에 있는 보좌"를 갖는 것입니다.', wrong: '핵심 요점을 다시 확인해 보세요. 최고 지점은 내면에 "맑은 하늘과 보좌"를 갖는 것입니다.' },
+  2: { correct: '정답! 철저한 자백과 회개를 통해 순수한 양심을 유지해야 맑은 하늘을 확보합니다.', wrong: '우리의 하늘의 이야기는 곧 우리의 "양심"의 이야기입니다.' },
+  3: { correct: '정답! 보좌는 하나님의 권위이며 우리를 통치하시는 "그리스도의 다스리는 임재"입니다.', wrong: '보좌는 어떤 사물이 아니라 "하나님의 다스리는 임재"입니다.' },
+  4: { correct: '정답! 그 청옥 보좌 위에는 사람 같은 모습을 지니신 분(인자 예수님)께서 계십니다.', wrong: '겔 1:26에 따르면 보좌 위에는 "사람 같은 모습을 지니신 분"이 계십니다.' },
+  5: { correct: '정답! 오늘날 하늘의 문(벧엘)은 하나님의 영이 거하시는 "우리의 영과 교회"입니다.', wrong: '사다리이신 그리스도는 우리의 영과 교회 안으로 셋째 하늘의 보좌를 연결하십니다.' }
+};
+
+function selectOpt(q, el, idx) {
+  if (document.getElementById('quizResult').classList.contains('show')) return;
+  const item = document.getElementById('q' + q);
+  item.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selected[q] = idx;
+}
+
+function showHint(q) {
+  const hint = document.getElementById('hint' + q);
+  hint.classList.toggle('show');
+}
+
+function submitQuiz() {
+  if (Object.keys(selected).length < 5) {
+    alert('모든 문제에 답해 주세요!');
+    return;
+  }
+  let score = 0;
+  for (let q = 1; q <= 5; q++) {
+    const item = document.getElementById('q' + q);
+    const opts = item.querySelectorAll('.quiz-opt');
+    const fb = document.getElementById('fb' + q);
+    opts.forEach(o => { o.style.pointerEvents = 'none'; });
+    if (selected[q] === answers[q]) {
+      opts[selected[q]].classList.add('correct');
+      fb.className = 'quiz-feedback correct-fb';
+      fb.textContent = '✅ ' + explanations[q].correct;
+      score++;
+    } else {
+      opts[selected[q]].classList.add('wrong');
+      opts[answers[q]].classList.add('correct');
+      fb.className = 'quiz-feedback wrong-fb';
+      fb.textContent = '❌ ' + explanations[q].wrong;
+    }
+  }
+  document.getElementById('quizScore').textContent = score + '/5';
+  const msgs = [
+    '다시 한번 핵심 요점의 흐름을 읽어보세요!',
+    '조금 더 노력하면 완전히 이해하실 수 있어요!',
+    '좋습니다! 맑은 하늘과 보좌의 흐름을 잘 파악하셨네요.',
+    '훌륭합니다! 거의 완벽하게 이해하셨습니다!',
+    '완벽합니다! 영적 체험의 가장 높은 지점의 실재를 완전히 붙잡으셨습니다!'
+  ];
+  document.getElementById('quizMsg').textContent = msgs[score >= 5 ? 4 : score >= 4 ? 3 : score >= 3 ? 2 : score >= 2 ? 1 : 0];
+  document.getElementById('quizResult').classList.add('show');
+  document.getElementById('quizSubmit').disabled = true;
+}
+
+// Resize observer for open accordions
+const ro = new ResizeObserver(() => {
+  document.querySelectorAll('.accordion.open').forEach(acc => {
+    const body = acc.querySelector('.acc-body');
+    const content = acc.querySelector('.acc-content');
+    body.style.maxHeight = content.scrollHeight + 40 + 'px';
+  });
+});
+ro.observe(document.getElementById('main-content'));
+</script>
+</body>
+</html>
