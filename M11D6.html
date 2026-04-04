@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영광의 무지개: 하나님의 걸작품으로 조성되는 교회</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base-font-size: 17px;
+  --font-scale: 1;
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #333333;
+  --accent-blue: #2563eb;
+  --accent-red: #dc2626;
+  --accent-yellow: #facc15;
+  --accent-green: #16a34a;
+  --highlight-yellow: #fef08a;
+  --highlight-bg: #fef9c3;
+  --border-light: #e5e7eb;
+  --card-bg: #fafafa;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  --section1: #0891b2;
+  --section2: #dc2626;
+  --section3: #2563eb;
+  --section4: #16a34a;
+  --topbar-h: 42px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+  padding-top: var(--topbar-h);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ── Top Bar ── */
+.topbar {
+  position: fixed; top:0; left:0; right:0; z-index: 1000;
+  height: var(--topbar-h);
+  background: #fff;
+  border-bottom: 1px solid var(--border-light);
+  display: flex; align-items: center;
+  padding: 0;
+  font-size: 14px !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.topbar * { font-size: 14px !important; }
+.topbar-left {
+  display: flex; align-items: center; flex-shrink:0;
+  gap: 2px; padding-left: 4px;
+}
+.topbar-btn {
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: none; cursor: pointer;
+  color: var(--text); border-radius: 6px;
+  flex-shrink: 0;
+}
+.topbar-btn:hover { background: #f3f4f6; }
+.topbar-btn svg { width: 18px; height: 18px; }
+.topbar-title {
+  flex: 1; min-width: 0;
+  overflow-x: auto; white-space: nowrap;
+  padding: 0 8px;
+  font-weight: 600; color: var(--text);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.topbar-title::-webkit-scrollbar { display:none; }
+.topbar-right {
+  display: flex; align-items: center; flex-shrink:0;
+  padding-right: 6px; gap: 1px;
+}
+.font-btn {
+  width: 30px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border-light); background: #fff;
+  cursor: pointer; font-weight: 600; color: var(--text);
+  font-size: 13px !important;
+}
+.font-btn:first-child { border-radius: 6px 0 0 6px; }
+.font-btn:nth-child(2) { border-left:none; border-right:none; font-size:11px !important; color:#555; }
+.font-btn:last-child { border-radius: 0 6px 6px 0; }
+.font-btn:hover { background: #f3f4f6; }
+.font-btn:active { background: #e5e7eb; }
+
+/* ── Side Panel ── */
+.overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.3);
+  z-index:1100; opacity:0; pointer-events:none;
+  transition: opacity 0.25s;
+}
+.overlay.open { opacity:1; pointer-events:auto; }
+.side-panel {
+  position:fixed; top:0; left:0; bottom:0;
+  width: 280px; max-width:80vw;
+  background:#fff; z-index:1200;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y:auto;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+}
+.side-panel.open { transform: translateX(0); }
+.side-panel-header {
+  padding: 16px; border-bottom:1px solid var(--border-light);
+  display:flex; align-items:center; justify-content:space-between;
+  font-weight:700; font-size:16px;
+}
+.side-panel-close {
+  width:32px; height:32px; display:flex; align-items:center;justify-content:center;
+  border:none;background:none;cursor:pointer;border-radius:6px;
+}
+.side-panel-close:hover{background:#f3f4f6;}
+.side-nav { padding: 8px 0; }
+.side-nav-item {
+  display:flex;align-items:center;gap:10px;
+  padding:10px 16px; cursor:pointer;
+  color:var(--text); text-decoration:none;
+  font-size:15px; transition:background 0.15s;
+}
+.side-nav-item:hover { background:#f9fafb; }
+.side-nav-item svg { width:18px; height:18px; flex-shrink:0; }
+.side-nav-sub {
+  padding:6px 16px 6px 44px;
+  font-size:14px; color:var(--text-secondary);
+  cursor:pointer; text-decoration:none; display:block;
+  transition:background 0.15s;
+}
+.side-nav-sub:hover{background:#f9fafb;}
+.side-nav-divider{height:1px;background:var(--border-light);margin:4px 16px;}
+
+/* keyword tooltip */
+.kw-tooltip {
+  display:none; background:#fffde7; border:1px solid #fde68a;
+  border-radius:8px; padding:10px 14px; margin:4px 16px 4px 44px;
+  font-size:13px; line-height:1.6; color:#333;
+}
+.kw-tooltip.show { display:block; animation: fadeSlide 0.2s ease; }
+
+/* ── Main Container ── */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+/* ── Hero ── */
+.hero {
+  text-align:center; padding: 32px 12px 24px;
+}
+.hero-icon {
+  width:72px; height:72px; margin:0 auto 16px;
+  background: linear-gradient(135deg, #16a34a 0%, #3b82f6 50%, #8b5cf6 100%);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow: 0 4px 20px rgba(37,99,235,0.15);
+}
+.hero-icon svg { width:36px; height:36px; }
+.hero h1 {
+  font-size: calc(22px * var(--font-scale));
+  font-weight:800; line-height:1.4;
+  color: var(--text);
+  margin-bottom:12px;
+  word-break: keep-all;
+}
+.hero-sub {
+  font-size: calc(15px * var(--font-scale));
+  color: var(--text-secondary);
+  font-weight:500;
+  line-height: 1.6;
+}
+.hero-ref {
+  margin-top:12px;
+  font-size: calc(13px * var(--font-scale));
+  color: #666;
+}
+
+/* ── Dashboard Flow ── */
+#dashboard { scroll-margin-top: calc(var(--topbar-h) + 12px); }
+.dash-flow {
+  display: flex; flex-direction: column; gap: 12px;
+  margin: 24px 0;
+}
+@media(min-width: 600px) {
+  .dash-flow { flex-direction: row; }
+}
+.dash-card {
+  flex: 1;
+  background:#fff;
+  border:1px solid var(--border-light);
+  border-radius:12px;
+  padding:16px;
+  position: relative;
+  box-shadow: var(--card-shadow);
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.dash-card::after {
+  content: '↓';
+  position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+  font-size: 20px; color: #9ca3af;
+  display: block;
+}
+.dash-card:last-child::after { display: none; }
+@media(min-width: 600px) {
+  .dash-card::after {
+    content: '→';
+    bottom: auto; top: 50%; left: auto; right: -20px; transform: translateY(-50%);
+  }
+}
+.dash-step-badge {
+  font-size: 11px; font-weight: 700; color: #fff;
+  padding: 2px 8px; border-radius: 12px;
+  margin-bottom: 8px;
+  background: var(--text-secondary);
+}
+.dash-title {
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 700; color: var(--text);
+  margin-bottom: 6px;
+}
+.dash-desc {
+  font-size: calc(13px * var(--font-scale));
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ── Keywords ── */
+#keywords { scroll-margin-top: calc(var(--topbar-h) + 12px); }
+.keywords-section {
+  margin: 20px 0;
+  padding: 18px;
+  background: #fff;
+  border:1px solid var(--border-light);
+  border-radius: 14px;
+}
+.keywords-title {
+  font-size: calc(15px * var(--font-scale));
+  font-weight:700; margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.keywords-title svg { width:18px;height:18px;color:var(--accent-blue);}
+.keyword-chips {
+  display:flex; flex-wrap:wrap; gap:8px;
+}
+.keyword-chip {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size: calc(13px * var(--font-scale));
+  font-weight:600;
+  cursor:default;
+  border:1px solid;
+  transition: transform 0.15s;
+}
+.keyword-chip:hover { transform: scale(1.04); }
+
+/* ── Accordion Sections ── */
+#points { scroll-margin-top: calc(var(--topbar-h) + 12px); }
+.section-block {
+  margin:16px 0;
+  border-radius:14px;
+  border:1px solid var(--border-light);
+  overflow:hidden;
+  background:#fff;
+  scroll-margin-top: calc(var(--topbar-h) + 12px);
+}
+.section-header {
+  display:flex; align-items:center; gap:10px;
+  padding:14px 16px;
+  cursor:pointer;
+  user-select:none;
+  transition:background 0.15s;
+}
+.section-header:hover { background:#fafafa; }
+.section-num {
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:14px;color:#fff;flex-shrink:0;
+}
+.section-icon {
+  width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.section-icon svg { width:20px;height:20px; }
+.section-title-text {
+  flex:1;
+  font-size: calc(16px * var(--font-scale));
+  font-weight:700; color:var(--text);
+  word-break:keep-all; line-height:1.4;
+}
+.section-chevron {
+  width:24px;height:24px;flex-shrink:0;
+  transition:transform 0.3s;
+  color:#999;
+}
+.section-block.open .section-chevron { transform:rotate(180deg); }
+.section-body {
+  max-height:0; overflow:hidden;
+  transition: max-height 0.4s ease;
+}
+.section-body-inner {
+  padding:0 16px 18px;
+}
+
+/* Bible verse */
+.bible-box {
+  background:#f8fafc;
+  border-left:3px solid var(--text-secondary);
+  border-radius:0 10px 10px 0;
+  padding:12px 14px;
+  margin-bottom:14px;
+}
+.bible-ref {
+  display:flex;align-items:center;gap:6px;
+  font-size: calc(13px * var(--font-scale));
+  font-weight:700; color:var(--text-secondary);
+  margin-bottom:6px;
+}
+.bible-ref svg { width:14px;height:14px; }
+.bible-text {
+  font-size: calc(14.5px * var(--font-scale));
+  color:var(--text-secondary);
+  line-height:1.8;
+  margin-bottom:8px;
+}
+.bible-text:last-child { margin-bottom:0; }
+.bible-text b, .bible-text strong {
+  font-weight:700; color:var(--text);
+  background: var(--highlight-yellow);
+  padding:0 2px; border-radius:2px;
+}
+
+/* Content */
+.point-content {
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height:1.85;
+  color:var(--text);
+}
+.point-content b, .point-content strong {
+  font-weight:700;
+  background: var(--highlight-yellow);
+  padding:0 2px; border-radius:2px;
+}
+.point-content p { margin-bottom:12px; }
+.point-content p:last-child { margin-bottom:0; }
+
+.sub-point {
+  margin:12px 0;
+  padding:12px 14px;
+  background:#fafafa;
+  border-radius:10px;
+  border:1px solid #f0f0f0;
+}
+.sub-point-title {
+  font-weight:700; font-size: calc(15px * var(--font-scale));
+  margin-bottom:6px; color:var(--text);
+  display:flex;align-items:center;gap:6px;
+}
+.sub-point-title .sp-badge {
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:50%;
+  font-size:12px;font-weight:700;color:#fff;flex-shrink:0;
+}
+
+/* ── Matrix for Section 2 ── */
+.matrix-container {
+  display: grid; grid-template-columns: 1fr; gap: 14px;
+  margin: 20px 0;
+}
+@media(min-width: 650px) {
+  .matrix-container { grid-template-columns: repeat(3, 1fr); }
+}
+.matrix-card {
+  border-radius: 12px; border: 1px solid var(--border-light);
+  background: #fff; overflow: hidden; box-shadow: var(--card-shadow);
+}
+.matrix-header {
+  padding: 14px; text-align: center; font-weight: 800;
+  font-size: calc(16px * var(--font-scale)); color: #fff;
+}
+.matrix-header.blue { background: var(--accent-blue); }
+.matrix-header.red { background: var(--accent-red); }
+.matrix-header.yellow { background: var(--accent-yellow); color: #854d0e; }
+.matrix-body { padding: 16px; }
+.matrix-item {
+  margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed #e5e7eb;
+}
+.matrix-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.matrix-label {
+  font-size: calc(12px * var(--font-scale)); color: var(--text-secondary);
+  font-weight: 700; margin-bottom: 4px; display: block;
+}
+.matrix-value {
+  font-size: calc(14.5px * var(--font-scale)); font-weight: 700; color: var(--text);
+  line-height: 1.4;
+}
+.matrix-eng {
+  font-size: calc(12px * var(--font-scale)); font-weight: 400; color: #666; display: block; margin-top: 2px;
+}
+
+/* ── Section 4 Additions ── */
+.poema-flow {
+  display: flex; flex-direction: column; gap: 10px; margin: 20px 0;
+  background: #0f172a; border-radius: 12px; padding: 20px; color: #fff;
+}
+@media(min-width: 650px) { .poema-flow { flex-direction: row; align-items: center; justify-content: space-between; } }
+.poema-step { flex: 1; text-align: center; }
+.poema-step-title { font-size: calc(14px * var(--font-scale)); font-weight: 700; margin-bottom: 8px; color: #cbd5e1; }
+.poema-step-box { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 16px; min-height: 110px; display: flex; flex-direction: column; justify-content: center; align-items: center;}
+.poema-arrow { display: flex; justify-content: center; align-items: center; padding: 10px; color: #94a3b8; }
+.poema-arrow svg { transform: rotate(90deg); transition: transform 0.3s; }
+@media(min-width: 650px) { .poema-arrow { padding: 0 10px; } .poema-arrow svg { transform: none; } }
+
+.exp-box {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-left: 4px solid var(--accent-blue);
+  padding: 18px; margin: 20px 0; border-radius: 0 10px 10px 0;
+}
+.exp-title { font-weight: 800; color: var(--accent-blue); margin-bottom: 10px; font-size: calc(16px * var(--font-scale)); }
+.exp-text { font-size: calc(14.5px * var(--font-scale)); color: var(--text-secondary); line-height: 1.7; word-break: keep-all; }
+.exp-text strong { color: var(--text); background: var(--highlight-yellow); padding: 0 3px; border-radius: 2px; }
+
+.promise-container {
+  display: flex; flex-direction: column; gap: 14px; margin: 24px 0;
+}
+@media(min-width: 600px) { .promise-container { flex-direction: row; } }
+.promise-card {
+  flex: 1; border: 1px solid var(--border-light); border-radius: 12px;
+  padding: 18px; text-align: center; background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04); position: relative; overflow: hidden;
+}
+.promise-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+}
+.promise-card.p1::before { background: #14b8a6; }
+.promise-card.p2::before { background: #8b5cf6; }
+.promise-ref { font-weight: 800; font-size: calc(16px * var(--font-scale)); margin-bottom: 6px; }
+.promise-badge {
+  display: inline-block; padding: 4px 12px; font-size: 12px; font-weight: 700;
+  border-radius: 20px; margin-bottom: 12px; color: #fff;
+}
+.promise-card.p1 .promise-badge { background: #14b8a6; }
+.promise-card.p2 .promise-badge { background: #8b5cf6; }
+.promise-desc { font-size: calc(13.5px * var(--font-scale)); color: var(--text-secondary); line-height: 1.6; word-break: keep-all; }
+
+.final-reversal {
+  background: #0f172a; color: #fff; text-align: center; padding: 28px 20px;
+  border-radius: 12px; margin: 28px 0 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.final-reversal h3 { font-size: calc(19px * var(--font-scale)); font-weight: 800; margin-bottom: 12px; line-height: 1.5; word-break: keep-all; }
+.final-reversal h3 span {
+  background: linear-gradient(90deg, #60a5fa, #facc15, #f43f5e);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.final-reversal p { font-size: calc(13.5px * var(--font-scale)); color: #cbd5e1; line-height: 1.6; word-break: keep-all; }
+
+/* ── Flow Arrow ── */
+.flow-connector {
+  display:flex; justify-content:center; padding:6px 0;
+}
+.flow-connector svg { width:24px; height:24px; color:#bbb; }
+
+/* ── Quiz ── */
+#quiz { scroll-margin-top: calc(var(--topbar-h) + 12px); }
+.quiz-section {
+  margin:28px 0;
+  padding:20px 16px;
+  background:#fff;
+  border:1px solid var(--border-light);
+  border-radius:14px;
+}
+.quiz-header {
+  font-size: calc(18px * var(--font-scale));
+  font-weight:800;
+  text-align:center;
+  margin-bottom:20px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.quiz-header svg { width:22px;height:22px;color:var(--accent-blue);}
+.quiz-item {
+  margin-bottom:20px;
+  padding:16px;
+  background:#fafafa;
+  border-radius:12px;
+  border:1px solid #eee;
+}
+.quiz-q {
+  display:flex;align-items:flex-start;gap:10px;
+  margin-bottom:12px;
+}
+.quiz-badge {
+  width:28px;height:28px;border-radius:50%;
+  background:var(--accent-blue);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:1rem;flex-shrink:0;
+}
+.quiz-q-text {
+  font-size:1rem; font-weight:600;
+  color:var(--text); line-height:1.6;
+  word-break:keep-all;
+}
+.quiz-options { display:flex; flex-direction:column; gap:8px; margin-left:38px; }
+.quiz-opt {
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  background:#fff;
+  cursor:pointer;
+  transition:all 0.2s;
+  font-size:1rem;
+  line-height:1.5;
+  word-break:keep-all;
+}
+.quiz-opt:hover { border-color:#aaa; background:#f9f9f9; }
+.quiz-opt.selected { border-color:var(--accent-blue); background:#eff6ff; }
+.quiz-opt.correct { border-color:#16a34a; background:#f0fdf4; }
+.quiz-opt.wrong { border-color:var(--accent-red); background:#fef2f2; }
+.quiz-opt .opt-circle {
+  width:22px;height:22px;border-radius:50%;
+  border:2px solid #ccc;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;
+}
+.quiz-opt.selected .opt-circle { border-color:var(--accent-blue);background:var(--accent-blue);color:#fff; }
+.quiz-opt.correct .opt-circle { border-color:#16a34a;background:#16a34a;color:#fff; }
+.quiz-opt.wrong .opt-circle { border-color:var(--accent-red);background:var(--accent-red);color:#fff; }
+.quiz-hint-btn {
+  margin: 8px 0 0 38px;
+  padding:6px 14px;
+  border:1px solid #e5e7eb;
+  border-radius:8px;
+  background:#fffde7;
+  cursor:pointer;
+  font-size:0.9rem;
+  color:#92400e;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.quiz-hint-btn:hover { background:#fef9c3; }
+.quiz-hint-text {
+  margin:8px 0 0 38px;
+  padding:10px 14px;
+  background:#fffde7;
+  border-radius:8px;
+  font-size:0.9rem;
+  color:#78350f;
+  line-height:1.6;
+  display:none;
+  animation: fadeSlide 0.2s;
+}
+.quiz-hint-text.show { display:block; }
+.quiz-feedback {
+  margin-top:4px;margin-left:38px;
+  font-size:0.9rem;font-weight:600;
+  display:none;
+}
+.quiz-feedback.show { display:block; animation:fadeSlide 0.2s; }
+.quiz-submit {
+  display:block; width:100%;
+  padding:14px;
+  border:none; border-radius:12px;
+  background:var(--accent-blue);
+  color:#fff; font-size:1rem;
+  font-weight:700; cursor:pointer;
+  margin-top:16px;
+  transition:background 0.2s;
+}
+.quiz-submit:hover { background:#1d4ed8; }
+.quiz-submit:disabled { background:#94a3b8; cursor:default; }
+.quiz-result {
+  display:none;
+  text-align:center;
+  padding:20px;
+  background:#f0fdf4;
+  border-radius:12px;
+  margin-top:16px;
+}
+.quiz-result.show { display:block; animation:fadeSlide 0.3s; }
+.quiz-score { font-size:2rem; font-weight:800; color:var(--accent-blue); }
+.quiz-result-text { margin-top:8px; font-size:1rem; color:var(--text); }
+
+/* ── Prayer ── */
+#prayer { scroll-margin-top: calc(var(--topbar-h) + 12px); }
+.prayer-section {
+  margin:28px 0;
+  padding:24px 18px;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fffbeb 100%);
+  border:1px solid #fde68a;
+  border-radius:14px;
+  text-align:center;
+}
+.prayer-icon { font-size:32px; margin-bottom:12px; }
+.prayer-title {
+  font-size: calc(18px * var(--font-scale));
+  font-weight:800; margin-bottom:16px;
+  color:var(--text);
+}
+.prayer-text {
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  text-align:left;
+  line-height:2;
+  color:var(--text);
+  word-break:keep-all;
+}
+.prayer-text b {
+  font-weight:700;
+  background:var(--highlight-yellow);
+  padding:0 2px;border-radius:2px;
+}
+.prayer-amen {
+  margin-top:16px;
+  font-size:calc(16px * var(--font-scale));
+  font-weight:800;
+  color:var(--accent-blue);
+}
+
+/* ── Animations ── */
+@keyframes fadeSlide {
+  from { opacity:0; transform:translateY(-6px); }
+  to { opacity:1; transform:translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="topbar-btn" onclick="togglePanel()" aria-label="목차">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a class="topbar-btn" href="https://tk-korea.github.io/2025wintertraining/" aria-label="홈">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </a>
+  </div>
+  <div class="topbar-title">영광의 무지개: 하나님의 걸작품으로 조성되는 교회</div>
+  <div class="topbar-right">
+    <button class="font-btn" onclick="adjustFont(-1)">−</button>
+    <button class="font-btn" onclick="adjustFont(0)">가</button>
+    <button class="font-btn" onclick="adjustFont(1)">+</button>
+  </div>
+</div>
+
+<!-- Side Panel Overlay -->
+<div class="overlay" id="overlay" onclick="togglePanel()"></div>
+
+<!-- Side Panel -->
+<div class="side-panel" id="sidePanel">
+  <div class="side-panel-header">
+    <span>목차</span>
+    <button class="side-panel-close" onclick="togglePanel()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <nav class="side-nav">
+    <a class="side-nav-item" href="#hero" onclick="togglePanel()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+      제목
+    </a>
+    <a class="side-nav-item" href="#dashboard" onclick="togglePanel()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      대시보드
+    </a>
+    <div class="side-nav-divider"></div>
+    <a class="side-nav-item" href="#keywords" onclick="togglePanel()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      키워드
+    </a>
+    <div id="kwMenuItems">
+      <a class="side-nav-sub" onclick="toggleKw('kw1')">🌈 무지개</a>
+      <div class="kw-tooltip" id="kw1">타락한 인류를 영원히 멸망시키지 않으시고 구원하시는 하나님의 신실한 언약의 표시.</div>
+      <a class="side-nav-sub" onclick="toggleKw('kw2')">🛑 세 가지 신성한 속성</a>
+      <div class="kw-tooltip" id="kw2">하나님의 의(보좌-파랑), 거룩함(불-빨강), 영광(호박금-노랑). 타락 이후 사람이 생명나무에 접근하는 것을 막았습니다.</div>
+      <a class="side-nav-sub" onclick="toggleKw('kw3')">✝️ 그리스도의 십자가</a>
+      <div class="kw-tooltip" id="kw3">세 가지 속성의 엄격한 요구를 모두 만족시키시고, 생명나무로 나아가는 길을 여신 놀라운 반전의 중심입니다.</div>
+      <a class="side-nav-sub" onclick="toggleKw('kw4')">🏛️ 걸작품 (포이에마)</a>
+      <div class="kw-tooltip" id="kw4">그리스도로 채워져 하나님의 어떠하심을 우주 가운데 반사하는 '살아있는 무지개'가 된 우리(교회)를 뜻합니다.</div>
+    </div>
+    <div class="side-nav-divider"></div>
+    <a class="side-nav-item" href="#points" onclick="togglePanel()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      핵심요점
+    </a>
+    <a class="side-nav-sub" href="#sec1" onclick="togglePanel()">1. 무지개의 의미: 신실한 언약</a>
+    <a class="side-nav-sub" href="#sec2" onclick="togglePanel()">2. 세 가지 색과 신성한 속성</a>
+    <a class="side-nav-sub" href="#sec3" onclick="togglePanel()">3. 놀라운 반전: 그리스도의 구속</a>
+    <a class="side-nav-sub" href="#sec4" onclick="togglePanel()">4. 살아있는 무지개: 걸작품인 교회</a>
+    <div class="side-nav-divider"></div>
+    <a class="side-nav-item" href="#quiz" onclick="togglePanel()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      이해력 퀴즈 (5문제)
+    </a>
+    <a class="side-nav-item" href="#prayer" onclick="togglePanel()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      오늘의 기도
+    </a>
+  </nav>
+</div>
+
+<!-- Main Content -->
+<div class="container" id="mainContent">
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    </div>
+    <div class="hero-ref">2025 겨울훈련 11주 6일</div>
+    <h1>영광의 무지개: 하나님의 걸작품으로 조성되는 교회</h1>
+    <div class="hero-sub">
+      맑은 하늘과 보좌, 불과 호박금을 체험한 최종 결과는<br>
+      구속받은 우리가 <b>하나님의 신실하심과 영광을 반사하는 무지개</b>가 되는 것입니다.
+    </div>
+    
+  </section>
+
+  <!-- Dashboard Flow -->
+  <section id="dashboard">
+    <div class="dash-flow">
+      <!-- Step 1 -->
+      <div class="dash-card">
+        <div class="dash-step-badge" style="background:#dc2626;">과거 : 가로막힘</div>
+        <div class="dash-title">엄격한 심판의 기준</div>
+        <div class="dash-desc">하나님의 속성인 <b>의(파랑), 거룩함(빨강), 영광(노랑)</b>이 타락한 죄인이 생명나무에 나아가는 것을 엄격하게 가로막음.</div>
+      </div>
+      <!-- Step 2 -->
+      <div class="dash-card">
+        <div class="dash-step-badge" style="background:#2563eb;">반전 : 그리스도의 십자가</div>
+        <div class="dash-title">요구를 모두 만족하심</div>
+        <div class="dash-desc">예수님이 죽으심으로 그 엄격한 요구를 만족시키셨고, 이제 <b>이 속성들이 부활 안에서 우리 안으로 들어오심</b>.</div>
+      </div>
+      <!-- Step 3 -->
+      <div class="dash-card">
+        <div class="dash-step-badge" style="background:#16a34a;">완결 : 무지개가 된 우리</div>
+        <div class="dash-title">살아있는 무지개 완결</div>
+        <div class="dash-desc">그리스도로 채워진 우리가 <b>하나님의 신실하심을 증명하는 걸작품(포이에마)</b>이자 영원한 무지개가 됨.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Keywords -->
+  <section id="keywords">
+    <div class="keywords-section">
+      <div class="keywords-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        흐름을 관통하는 키워드
+      </div>
+      <div class="keyword-chips">
+        <span class="keyword-chip" style="background:#f0fdf4;border-color:#bbf7d0;color:#166534;">🌈 무지개</span>
+        <span class="keyword-chip" style="background:#eff6ff;border-color:#bfdbfe;color:#1e40af;">🔵 의 (파랑)</span>
+        <span class="keyword-chip" style="background:#fef2f2;border-color:#fecaca;color:#991b1b;">🔴 거룩함 (빨강)</span>
+        <span class="keyword-chip" style="background:#fefce8;border-color:#fde68a;color:#92400e;">🟡 영광 (노랑)</span>
+        <span class="keyword-chip" style="background:#faf5ff;border-color:#e9d5ff;color:#6b21a8;">✝️ 구속 (반전)</span>
+        <span class="keyword-chip" style="background:#f0fdfa;border-color:#99f6e4;color:#115e59;">🏛️ 걸작품 (포이에마)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Points -->
+  <section id="points">
+
+    <!-- Section 1 -->
+    <div class="section-block" id="sec1">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-num" style="background:var(--section1);">1</div>
+        <div class="section-icon" style="color:var(--section1);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="section-title-text">무지개의 의미 : 하나님의 신실한 언약의 표시</div>
+        <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="section-body-inner">
+          <div class="bible-box">
+            <div class="bible-ref"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H6zm0 2h12v16H6V4zm2 2v2h8V6H8z"/></svg> 창 9:13</div>
+            <div class="bible-text">내가 구름 속에 <b>나의 무지개</b>를 둘 것이니, 이것이 <b>나와 땅 사이에 세우는 언약의 표시</b>가 될 것이다.</div>
+            <div class="bible-ref" style="margin-top:10px;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H6zm0 2h12v16H6V4zm2 2v2h8V6H8z"/></svg> 겔 1:28</div>
+            <div class="bible-text">그 사방에 있는 빛나는 광채의 모습은 비 오는 날 구름 속에 있는 <b>무지개의 모습</b> 같았다.</div>
+          </div>
+          <div class="point-content">
+            <p>무지개의 깊은 의미를 이해하려면, 우리는 <b>노아 시대의 무지개</b>를 기억해야 합니다. 홍수가 이미 온 땅을 멸망시킨 후, 사람들은 하늘에 먹구름만 보아도 다시 멸망당할까 봐 두려워했습니다.</p>
+            <p>그러므로 하나님은 언약을 맺으시어 <b>그분께서 다시는 홍수로 타락한 인류를 영원히 멸망시키지 않으시겠다고 약속</b>하셨고, 구원하시는 증거로서 구름 속에 무지개를 두셨습니다. 따라서 에스겔서 1장에 나타난 이 보좌 주위의 무지개는, <b>우리를 구원하시는 하나님의 변함없는 신실하심의 표시</b>입니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+
+    <!-- Section 2 -->
+    <div class="section-block" id="sec2">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-num" style="background:var(--section2);">2</div>
+        <div class="section-icon" style="color:var(--section2);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+        </div>
+        <div class="section-title-text">세 가지 색과 신성한 속성 : 생명나무를 막은 심판의 기준</div>
+        <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="section-body-inner">
+          <div class="bible-box">
+            <div class="bible-ref"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H6zm0 2h12v16H6V4zm2 2v2h8V6H8z"/></svg> 시 89:14</div>
+            <div class="bible-text"><b>의와 정의</b>가 주님의 <b>보좌의 기초</b>라 / 자애와 진리가 주님 앞에서 나아갑니다.</div>
+            <div class="bible-ref" style="margin-top:10px;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H6zm0 2h12v16H6V4zm2 2v2h8V6H8z"/></svg> 창 3:24</div>
+            <div class="bible-text">에덴동산 동쪽에 <b>그룹들과 사방으로 돌며 불을 뿜어내는 칼</b>을 두시어 <b>생명나무에 이르는 길을 지키게</b> 하셨다.</div>
+          </div>
+          <div class="point-content">
+            <p>무지개는 본질적으로 세 가지 기본색의 결합으로 이루어집니다. 이 세 가지 색은 과거에 죄인들을 하나님에게서 떨어져 있도록 엄격하게 막았던 <b>세 가지 신성한 속성</b>을 상징합니다.</p>
+            
+            <div class="matrix-container">
+              <!-- 파랑 -->
+              <div class="matrix-card">
+                <div class="matrix-header blue">파랑 (Blue)</div>
+                <div class="matrix-body">
+                  <div class="matrix-item">
+                    <span class="matrix-label">요소 (Element)</span>
+                    <span class="matrix-value">청옥 보좌 <span class="matrix-eng">(Sapphire Throne)</span></span>
+                  </div>
+                  <div class="matrix-item">
+                    <span class="matrix-label">속성 (Attribute)</span>
+                    <span class="matrix-value">하나님의 의 <span class="matrix-eng">(Righteousness - 시 89:14)</span></span>
+                  </div>
+                  <div class="matrix-item">
+                    <span class="matrix-label">에덴의 장벽 (Edenic Barrier)</span>
+                    <span class="matrix-value">칼 <span class="matrix-eng">(Sword)</span></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 빨강 -->
+              <div class="matrix-card">
+                <div class="matrix-header red">빨강 (Red)</div>
+                <div class="matrix-body">
+                  <div class="matrix-item">
+                    <span class="matrix-label">요소 (Element)</span>
+                    <span class="matrix-value">태워 버리는 불 <span class="matrix-eng">(Consuming Fire)</span></span>
+                  </div>
+                  <div class="matrix-item">
+                    <span class="matrix-label">속성 (Attribute)</span>
+                    <span class="matrix-value">하나님의 거룩함 <span class="matrix-eng">(Holiness)</span></span>
+                  </div>
+                  <div class="matrix-item">
+                    <span class="matrix-label">에덴의 장벽 (Edenic Barrier)</span>
+                    <span class="matrix-value">불 <span class="matrix-eng">(Fire)</span></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 노랑 -->
+              <div class="matrix-card">
+                <div class="matrix-header yellow">노랑 (Yellow)</div>
+                <div class="matrix-body">
+                  <div class="matrix-item">
+                    <span class="matrix-label">요소 (Element)</span>
+                    <span class="matrix-value">달아오른 호박금 <span class="matrix-eng">(Glowing Electrum)</span></span>
+                  </div>
+                  <div class="matrix-item">
+                    <span class="matrix-label">속성 (Attribute)</span>
+                    <span class="matrix-value">하나님의 영광 <span class="matrix-eng">(Glory)</span></span>
+                  </div>
+                  <div class="matrix-item">
+                    <span class="matrix-label">에덴의 장벽 (Edenic Barrier)</span>
+                    <span class="matrix-value">그룹들 <span class="matrix-eng">(Cherubim)</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p>하나님은 사람이 타락한 본성을 가진 채 생명나무를 먹고 영원히 사는 것을 원치 않으셨기에, 이 <b>의와 거룩함과 영광의 속성들로 생명나무로 나아가는 길을 굳게 지키셨습니다.</b></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+
+    <!-- Section 3 -->
+    <div class="section-block" id="sec3">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-num" style="background:var(--section3);">3</div>
+        <div class="section-icon" style="color:var(--section3);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v8l4-4"/><path d="M12 10l-4-4"/><line x1="12" y1="10" x2="12" y2="22"/><line x1="6" y1="18" x2="18" y2="18"/></svg>
+        </div>
+        <div class="section-title-text">놀라운 반전 : 십자가로 속성들을 만족시키고 우리 안으로 들어오심</div>
+        <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="section-body-inner">
+          <div class="bible-box">
+            <div class="bible-ref"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H6zm0 2h12v16H6V4zm2 2v2h8V6H8z"/></svg> 고전 1:30</div>
+            <div class="bible-text">이 그리스도 예수님은 하나님에게서 나오셔서 우리에게 <b>지혜, 곧 의와 거룩하게 함과 구속</b>이 되셨습니다.</div>
+          </div>
+          <div class="point-content">
+            <p>우리를 멀리 떨어지게 했던 그 막힌 길이 놀라운 반전을 맞이하게 됩니다. 예수님께서 오시어 <b>십자가에서 죽으심으로 하나님의 의와 거룩함과 영광의 엄격한 요구를 온전히 만족시키셨습니다.</b></p>
+            <p>이것은 그저 길이 열린 것만이 아닙니다. 예수님은 부활하시어 이제 우리 자신의 <b>의와 거룩함과 영광</b>이 되셨습니다.</p>
+            <p>가장 놀라운 사실은, 생명나무이신 그분을 먹지 못하게 막았던 바로 그 속성들이 <b>이제 우리 안으로 들어와, 오히려 우리가 생명나무이신 그리스도께 나아갈 수 있게 해 준다</b>는 것입니다. 우리가 그리스도 안에 있기 때문에, 하나님께서 보시기에 우리는 의와 거룩함과 영광의 모습을 지니게 되었습니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+
+    <!-- Section 4 -->
+    <div class="section-block" id="sec4">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-num" style="background:var(--section4);">4</div>
+        <div class="section-icon" style="color:var(--section4);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="section-title-text">걸작품인 교회 : 영원토록 신실하심을 반사하는 '살아있는 무지개'</div>
+        <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="section-body-inner">
+          <div class="bible-box">
+            <div class="bible-ref"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H6zm0 2h12v16H6V4zm2 2v2h8V6H8z"/></svg> 엡 2:10</div>
+            <div class="bible-text">우리는 <b>하나님의 걸작품</b>입니다.</div>
+            <div class="bible-ref" style="margin-top:10px;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2H6zm0 2h12v16H6V4zm2 2v2h8V6H8z"/></svg> 엡 3:10</div>
+            <div class="bible-text">이제 교회를 통하여 하늘들의 영역에 있는 통치자들과 권세자들에게 하나님의 <b>각종 지혜를 알게 하시려는 것</b>입니다.</div>
+          </div>
+          <div class="point-content">
+            <p>맑은 하늘과 보좌, 불과 호박금을 깊이 체험한 최종 결과는 무엇일까요? 바로 구속받은 우리가 <b>하나님의 어떠하심을 반사하는 무지개가 되어야 한다는 것</b>입니다. 이것이 하나님의 걸작품인 교회의 목적입니다.</p>
+
+            <!-- 우주적 전시 (Image 1 반영) -->
+            <div class="poema-flow">
+              <div class="poema-step">
+                <div class="poema-step-title">신성한 속성들</div>
+                <div class="poema-step-box">
+                  <span style="font-size:24px; margin-bottom:8px;">🔵 🔴 🟡</span>
+                  <span style="font-size:12px; color:#94a3b8; line-height:1.4;">우리 안으로 전달된<br>그리스도의 풍성<br>(의, 거룩함, 영광)</span>
+                </div>
+              </div>
+              <div class="poema-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+              <div class="poema-step">
+                <div class="poema-step-title">포이에마 (Poema)</div>
+                <div class="poema-step-box" style="border-color:#fde047; box-shadow: 0 0 15px rgba(253,224,71,0.15);">
+                  <span style="font-size:24px; margin-bottom:8px;">💎</span>
+                  <span style="font-size:12px; color:#fde047; line-height:1.4; font-weight:700;">하나님의 걸작품인 교회.<br>제작자의 무한한 지혜를<br>표현하는 예술 작품.</span>
+                </div>
+              </div>
+              <div class="poema-arrow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+              <div class="poema-step">
+                <div class="poema-step-title">지혜의 우주적 전시</div>
+                <div class="poema-step-box">
+                  <span style="font-size:24px; margin-bottom:8px;">✨👼✨</span>
+                  <span style="font-size:12px; color:#94a3b8; line-height:1.4;">하늘의 통치자들과<br>권세자들에게 하나님의<br>각종 지혜를 알림.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 일상에서의 반사 (Image 2 & 강조 요청 반영) -->
+            <div class="exp-box">
+              <div class="exp-title">일상에서의 반사: 불과 호박금으로 연단되는 삶</div>
+              <div class="exp-text">
+                우리는 마땅히 주님을 이렇게 체험하여 <strong>다른 사람들이 우리를 접촉할 때 의와 거룩함과 영광을 느낄 수 있게</strong> 해야 합니다. 이것은 우리에게 <strong>맑은 하늘</strong>(파랑)이 있고, <strong>보좌</strong>가 있으며, 우리가 어떤 면에서도 의롭고 합당하며 <strong>부주의하거나 느슨하지 않다는 것</strong>을 다른 이들이 느낄 수 있게 해야 한다는 뜻입니다.
+                <br><br>
+                일상에서 거룩함의 불(빨강)로 연단되며 영광의 무게(노랑)를 체험할 때, 우리에게 무지개의 모습이 있게 되고 <strong>천사들과 귀신들과 사탄도 이것을 보게 될 것</strong>입니다. <strong>각 지방에 있는 교회는 그러한 무지개의 증거를 지녀야 합니다.</strong>
+              </div>
+            </div>
+
+            <p>이러한 영광스러운 삶을 살기 위해, 우리는 실패와 어둠을 믿지 않고 우리를 온전케 하시는 <b>새 언약의 약속</b>을 확신하고 의지해야 합니다.</p>
+
+            <!-- 새 언약의 확신 (Image 3 반영) -->
+            <div class="promise-container">
+              <div class="promise-card p1">
+                <div class="promise-ref">살전 5:23-24</div>
+                <div class="promise-badge">완전히 거룩하게 하심</div>
+                <div class="promise-desc">화평의 하나님께서 직접 여러분을 완전히 거룩하게 하셔서, 주님 오실 때에 나무랄 데 없이 온전하게 보존하십니다.</div>
+              </div>
+              <div class="promise-card p2">
+                <div class="promise-ref">유다서 24</div>
+                <div class="promise-badge">승리의 기쁨</div>
+                <div class="promise-desc">여러분을 걸려 넘어지지 않도록 지켜 주시고, 그분의 영광 앞에 흠 없는 사람으로 큰 기쁨을 가지고 서게 하실 것입니다.</div>
+              </div>
+            </div>
+
+            <!-- 최종 반전 (Image 4 반영) -->
+            <div class="final-reversal">
+              <h3>타락한 사람을 철저히 막아섰던 신성한 속성들이,<br><span>이제 우리의 미덕이 되었습니다.</span></h3>
+              <p>할렐루야! 생명나무를 먹고 누림으로써 우리는 하나님의 의로우시고 신실하심을 온 우주에 증명하는 영원한 무지개가 될 것입니다.</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Quiz -->
+  <section id="quiz">
+    <div class="quiz-section">
+      <div class="quiz-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        흐름 파악 퀴즈
+      </div>
+
+      <!-- Q1 -->
+      <div class="quiz-item" data-answer="3">
+        <div class="quiz-q">
+          <div class="quiz-badge">1</div>
+          <div class="quiz-q-text">노아 시대의 구름 속에 둔 '무지개'가 본질적으로 상징하는 것은 무엇인가요?</div>
+        </div>
+        <div class="quiz-options">
+          <div class="quiz-opt" data-idx="0" onclick="selectOpt(this)"><span class="opt-circle">A</span>자연의 아름다움과 조화</div>
+          <div class="quiz-opt" data-idx="1" onclick="selectOpt(this)"><span class="opt-circle">B</span>타락한 인간을 향한 심판의 경고</div>
+          <div class="quiz-opt" data-idx="2" onclick="selectOpt(this)"><span class="opt-circle">C</span>세상의 창조 원리</div>
+          <div class="quiz-opt" data-idx="3" onclick="selectOpt(this)"><span class="opt-circle">D</span>인류를 다시는 멸망시키지 않으시겠다는 하나님의 신실한 언약</div>
+        </div>
+        <button class="quiz-hint-btn" onclick="showHint(this)">💡 힌트 보기</button>
+        <div class="quiz-hint-text">홍수 심판 이후 두려워하는 인간들에게 주신 약속의 증표를 떠올려 보세요.</div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-item" data-answer="1">
+        <div class="quiz-q">
+          <div class="quiz-badge">2</div>
+          <div class="quiz-q-text">무지개의 세 가지 기본색(파랑, 빨강, 노랑)이 각각 상징하는 하나님의 속성으로 바르게 짝지어진 것은?</div>
+        </div>
+        <div class="quiz-options">
+          <div class="quiz-opt" data-idx="0" onclick="selectOpt(this)"><span class="opt-circle">A</span>파랑(은혜), 빨강(사랑), 노랑(평화)</div>
+          <div class="quiz-opt" data-idx="1" onclick="selectOpt(this)"><span class="opt-circle">B</span>파랑(의), 빨강(거룩함), 노랑(영광)</div>
+          <div class="quiz-opt" data-idx="2" onclick="selectOpt(this)"><span class="opt-circle">C</span>파랑(심판), 빨강(은혜), 노랑(지혜)</div>
+          <div class="quiz-opt" data-idx="3" onclick="selectOpt(this)"><span class="opt-circle">D</span>파랑(생명), 빨강(능력), 노랑(거룩함)</div>
+        </div>
+        <button class="quiz-hint-btn" onclick="showHint(this)">💡 힌트 보기</button>
+        <div class="quiz-hint-text">보좌(청옥), 태워버리는 불, 달아오른 호박금이 각각 상징하는 것들입니다.</div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-item" data-answer="2">
+        <div class="quiz-q">
+          <div class="quiz-badge">3</div>
+          <div class="quiz-q-text">인간의 타락 이후 에덴동산에서 사람이 생명나무로 나아가는 것을 막았던 것은 결국 무엇이었나요?</div>
+        </div>
+        <div class="quiz-options">
+          <div class="quiz-opt" data-idx="0" onclick="selectOpt(this)"><span class="opt-circle">A</span>사람의 죄책감과 두려움</div>
+          <div class="quiz-opt" data-idx="1" onclick="selectOpt(this)"><span class="opt-circle">B</span>사탄의 유혹과 방해</div>
+          <div class="quiz-opt" data-idx="2" onclick="selectOpt(this)"><span class="opt-circle">C</span>하나님의 의, 거룩함, 영광이라는 엄격한 신성한 속성들</div>
+          <div class="quiz-opt" data-idx="3" onclick="selectOpt(this)"><span class="opt-circle">D</span>생명나무 자체가 사라졌기 때문에</div>
+        </div>
+        <button class="quiz-hint-btn" onclick="showHint(this)">💡 힌트 보기</button>
+        <div class="quiz-hint-text">칼, 불, 그룹들이 지키고 있었던 것은 하나님 본성의 엄격한 기준들입니다.</div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-item" data-answer="1">
+        <div class="quiz-q">
+          <div class="quiz-badge">4</div>
+          <div class="quiz-q-text">십자가의 구속을 통해 일어난 가장 놀라운 반전의 핵심은 무엇인가요?</div>
+        </div>
+        <div class="quiz-options">
+          <div class="quiz-opt" data-idx="0" onclick="selectOpt(this)"><span class="opt-circle">A</span>하나님의 기준이 낮아져서 우리가 생명나무를 먹기 쉬워졌다.</div>
+          <div class="quiz-opt" data-idx="1" onclick="selectOpt(this)"><span class="opt-circle">B</span>우리를 가로막던 속성들이 그리스도를 통해 우리 안으로 들어와 오히려 생명나무로 이끌어준다.</div>
+          <div class="quiz-opt" data-idx="2" onclick="selectOpt(this)"><span class="opt-circle">C</span>인간의 본성이 스스로 선하게 변하여 심판을 통과하게 되었다.</div>
+          <div class="quiz-opt" data-idx="3" onclick="selectOpt(this)"><span class="opt-circle">D</span>구약의 율법이 모두 사라지고 새로운 규칙이 세워졌다.</div>
+        </div>
+        <button class="quiz-hint-btn" onclick="showHint(this)">💡 힌트 보기</button>
+        <div class="quiz-hint-text">예수님이 그 요구를 만족시키셨고, 이제 부활 안에서 우리 자신의 속성이 되셨습니다.</div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-item" data-answer="0">
+        <div class="quiz-q">
+          <div class="quiz-badge">5</div>
+          <div class="quiz-q-text">맑은 하늘과 보좌, 불과 호박금을 체험한 최종 결과, 우리가 도달하게 되는 완결된 모습은?</div>
+        </div>
+        <div class="quiz-options">
+          <div class="quiz-opt" data-idx="0" onclick="selectOpt(this)"><span class="opt-circle">A</span>하나님의 신실하심을 온 우주에 전시하는 살아있는 무지개(포이에마)</div>
+          <div class="quiz-opt" data-idx="1" onclick="selectOpt(this)"><span class="opt-circle">B</span>세상의 제도를 개혁하는 강력한 조직</div>
+          <div class="quiz-opt" data-idx="2" onclick="selectOpt(this)"><span class="opt-circle">C</span>도덕적으로 완벽해진 개인들의 모임</div>
+          <div class="quiz-opt" data-idx="3" onclick="selectOpt(this)"><span class="opt-circle">D</span>심판을 면제받고 휴식을 취하는 피난처</div>
+        </div>
+        <button class="quiz-hint-btn" onclick="showHint(this)">💡 힌트 보기</button>
+        <div class="quiz-hint-text">에스겔서 1장의 결론이자, 새 예루살렘의 기초석 모습이기도 합니다.</div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <button class="quiz-submit" onclick="submitQuiz()">정답 확인하기</button>
+      <div class="quiz-result" id="quizResult">
+        <div class="quiz-score" id="quizScore"></div>
+        <div class="quiz-result-text" id="quizResultText"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Prayer -->
+  <section id="prayer">
+    <div class="prayer-section">
+      <div class="prayer-title">오늘의 기도</div>
+      <div class="prayer-text">
+        <p>사랑하는 주 예수님, 감사합니다! 과거에는 <b>하나님의 의와 거룩함과 영광</b>이 저희가 생명나무로 가는 길을 가로막는 엄격한 기준이었습니다.</p>
+        <p>하지만 주님, 십자가에서 그 모든 요구를 온전히 만족시키시고 <b>놀라운 일</b>을 성취하신 주님을 찬양합니다! 생명나무를 막았던 바로 그 속성들이 이제 <b>부활하신 주님을 통해 우리 안으로 들어와, 우리를 생명나무로 이끌어가고 있음을 감사합니다.</b></p>
+        <p>주님, 우리가 매일의 교회생활 안에서 <b>맑은 하늘과 보좌, 거룩하게 하는 불과 달아오른 호박금을 깊이 체험하게</b> 하소서. 그렇게 하여 우리가 <b>하나님의 무한한 지혜를 전시하는 걸작품(포이에마)</b>이 되게 하소서.</p>
+        <p>결국 새 예루살렘의 영광스러운 기초석들처럼, 저희 모두가 하나님의 변함없는 신실하심과 어떠하심을 온 우주에 반사하는 <b>'살아있는 무지개'</b>로 완결되게 하십시오!</p>
+      </div>
+      <div class="prayer-amen">아멘!</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// Font size adjustment
+let fontScale = 1;
+function adjustFont(dir) {
+  if (dir === 0) fontScale = 1;
+  else if (dir === 1) fontScale = Math.min(fontScale + 0.08, 1.5);
+  else fontScale = Math.max(fontScale - 0.08, 0.7);
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+}
+
+// Side panel
+function togglePanel() {
+  document.getElementById('sidePanel').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+
+// Keyword tooltips
+function toggleKw(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('show');
+}
+
+// Accordion - independent open/close
+function toggleSection(header) {
+  const block = header.parentElement;
+  const body = block.querySelector('.section-body');
+  if (block.classList.contains('open')) {
+    body.style.maxHeight = '0';
+    block.classList.remove('open');
+  } else {
+    block.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+    // Recalc after images/content load
+    setTimeout(() => {
+      if (block.classList.contains('open')) {
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    }, 350);
+  }
+}
+
+// Quiz
+function selectOpt(el) {
+  const item = el.closest('.quiz-item');
+  if (item.classList.contains('answered')) return;
+  item.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function showHint(btn) {
+  const hint = btn.nextElementSibling;
+  hint.classList.toggle('show');
+  btn.textContent = hint.classList.contains('show') ? '💡 힌트 닫기' : '💡 힌트 보기';
+}
+
+function submitQuiz() {
+  const items = document.querySelectorAll('.quiz-item');
+  let score = 0;
+  let allAnswered = true;
+  items.forEach(item => {
+    const answer = parseInt(item.dataset.answer);
+    const selected = item.querySelector('.quiz-opt.selected');
+    if (!selected) { allAnswered = false; return; }
+    const idx = parseInt(selected.dataset.idx);
+    const fb = item.querySelector('.quiz-feedback');
+    item.classList.add('answered');
+    if (idx === answer) {
+      selected.classList.add('correct');
+      fb.innerHTML = '✅ 정답입니다!';
+      fb.style.color = '#16a34a';
+      score++;
+    } else {
+      selected.classList.add('wrong');
+      const correctOpt = item.querySelectorAll('.quiz-opt')[answer];
+      correctOpt.classList.add('correct');
+      fb.innerHTML = '❌ 오답입니다. 정답을 확인해 보세요.';
+      fb.style.color = '#dc2626';
+    }
+    fb.classList.add('show');
+  });
+  if (!allAnswered) {
+    alert('모든 문제에 답을 선택해 주세요.');
+    return;
+  }
+  const result = document.getElementById('quizResult');
+  const scoreEl = document.getElementById('quizScore');
+  const textEl = document.getElementById('quizResultText');
+  scoreEl.textContent = score + ' / ' + items.length;
+  if (score === 5) textEl.textContent = '🎉 완벽합니다! 무지개 이상과 십자가의 반전을 깊이 이해하셨군요!';
+  else if (score >= 4) textEl.textContent = '👏 훌륭합니다! 핵심 메시지를 아주 잘 파악하셨습니다.';
+  else if (score >= 3) textEl.textContent = '👍 잘하셨어요! 놀라운 반전의 내용을 다시 한번 살펴보세요.';
+  else textEl.textContent = '📖 각 요점의 흐름을 다시 한번 묵상해 보시면 큰 누림이 될 거예요!';
+  result.classList.add('show');
+  document.querySelector('.quiz-submit').disabled = true;
+}
+
+// Recalc open sections on resize
+window.addEventListener('resize', () => {
+  document.querySelectorAll('.section-block.open .section-body').forEach(body => {
+    body.style.maxHeight = body.scrollHeight + 'px';
+  });
+});
+</script>
+</body>
+</html>
