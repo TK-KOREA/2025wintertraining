@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>구원 이후 우리가 마주해야 할 심판대</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base-font-size: 17px;
+  --font-scale: 1;
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #2d2d2d;
+  --accent-1: #2563eb;
+  --accent-2: #0891b2;
+  --accent-3: #7c3aed;
+  --accent-4: #dc2626;
+  --accent-5: #059669;
+  --accent-6: #d97706;
+  --accent-7: #6366f1;
+  --accent-8: #be185d;
+  --highlight: #fef08a;
+  --highlight-strong: #fde047;
+  --border: #e5e7eb;
+  --card-bg: #ffffff;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --verse-bg: #f8fafc;
+  --badge-text: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.75;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ─── TOP BAR ─── */
+.top-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center;
+  height: 42px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  gap: 0;
+  font-size: 13px !important;
+}
+
+.top-bar * { font-size: 13px !important; }
+
+.top-bar-left {
+  display: flex; align-items: center; flex-shrink: 0;
+}
+
+.top-bar-btn {
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer;
+  color: var(--text); flex-shrink: 0;
+}
+
+.top-bar-btn svg { width: 20px; height: 20px; }
+
+.top-bar-title {
+  flex: 1; min-width: 0;
+  overflow-x: auto; overflow-y: hidden;
+  white-space: nowrap;
+  padding: 0 8px;
+  font-weight: 700;
+  color: var(--text);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.top-bar-title::-webkit-scrollbar { display: none; }
+
+.font-controls {
+  display: flex; align-items: center; flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  height: 100%;
+}
+
+.font-btn {
+  width: 36px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer;
+  font-weight: 700; color: var(--text);
+  font-size: 14px !important;
+}
+.font-btn:active { background: #f0f0f0; }
+
+/* ─── SIDE PANEL ─── */
+.side-panel-overlay {
+  position: fixed; inset: 0; z-index: 1100;
+  background: rgba(0,0,0,0.3);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.side-panel-overlay.open { opacity: 1; pointer-events: auto; }
+
+.side-panel {
+  position: fixed; top: 0; left: 0; bottom: 0; z-index: 1200;
+  width: 280px; max-width: 80vw;
+  background: #fff;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+}
+.side-panel.open { transform: translateX(0); }
+
+.side-panel-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  font-size: 15px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.side-panel-close {
+  background: none; border: none; cursor: pointer;
+  font-size: 20px; color: #666; padding: 4px;
+}
+
+.side-menu { list-style: none; padding: 8px 0; }
+
+.side-menu > li > a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+.side-menu > li > a:active,
+.side-menu > li > a:hover { background: #f5f5f5; }
+
+.side-menu .menu-icon {
+  width: 20px; height: 20px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.side-submenu { list-style: none; padding: 0; }
+.side-submenu > li > a {
+  display: block;
+  padding: 8px 20px 8px 50px;
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.side-submenu > li > a:active,
+.side-submenu > li > a:hover { background: #f5f5f5; }
+
+/* ─── KEYWORD TOOLTIP ─── */
+.keyword-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  margin: 4px;
+  border-radius: 20px;
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid var(--border);
+  background: #f8f9fa;
+  color: var(--text);
+}
+.keyword-tag:hover, .keyword-tag:active { background: var(--highlight); border-color: #e5c100; }
+
+.keyword-popup {
+  display: none;
+  position: fixed;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  max-width: 320px;
+  width: 90vw;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  z-index: 2000;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.7;
+}
+.keyword-popup.show { display: block; }
+.keyword-popup-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 1999;
+}
+.keyword-popup-overlay.show { display: block; }
+
+.keyword-popup-title {
+  font-weight: 700;
+  font-size: calc(15px * var(--font-scale));
+  margin-bottom: 8px;
+  color: var(--accent-1);
+}
+
+/* ─── MAIN CONTENT ─── */
+.main-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 58px 16px 40px;
+}
+
+/* ─── HERO ─── */
+.hero {
+  text-align: center;
+  padding: 32px 0 24px;
+}
+
+.hero-label {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: var(--accent-1);
+  color: #fff;
+  font-size: calc(11px * var(--font-scale));
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.hero h1 {
+  font-size: calc(24px * var(--font-scale));
+  font-weight: 900;
+  line-height: 1.4;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.hero-sub {
+  font-size: calc(14px * var(--font-scale));
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.hero-verse {
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: var(--verse-bg);
+  border-left: 3px solid var(--accent-1);
+  border-radius: 0 8px 8px 0;
+  font-size: calc(14px * var(--font-scale));
+  color: var(--text);
+  text-align: left;
+  line-height: 1.7;
+}
+.hero-verse .verse-ref {
+  font-weight: 700;
+  color: var(--accent-1);
+}
+
+/* ─── DASHBOARD ─── */
+#dashboard { margin: 24px 0; }
+
+.dashboard-title {
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.dash-card {
+  padding: 14px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.dash-card-icon {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.dash-card-label {
+  font-size: calc(11px * var(--font-scale));
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.dash-card-value {
+  font-size: calc(14px * var(--font-scale));
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+/* ─── NEW FLOW & CONNECTION STYLES ─── */
+.core-point-box {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-left: 5px solid #22c55e;
+  padding: 18px;
+  border-radius: 8px;
+  margin: 20px 0;
+  font-size: calc(15px * var(--font-scale));
+  line-height: 1.7;
+  color: #166534;
+  box-shadow: var(--card-shadow);
+}
+
+.overall-flow-box {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--card-shadow);
+}
+
+.overall-flow-title {
+  font-weight: 700;
+  color: var(--accent-1);
+  margin-bottom: 12px;
+  font-size: calc(16px * var(--font-scale));
+  display: flex; align-items: center; gap: 8px;
+}
+
+.overall-flow-text {
+  font-size: calc(14.5px * var(--font-scale));
+  line-height: 1.7;
+  color: var(--text-secondary);
+  word-break: keep-all;
+}
+
+.flow-step-header {
+  background: var(--accent-1);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: calc(16px * var(--font-scale));
+  margin: 32px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.step-badge-text {
+  background: rgba(255,255,255,0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  letter-spacing: 0.5px;
+}
+
+.flow-step-desc {
+  font-size: calc(14.5px * var(--font-scale));
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-left: 3px solid var(--border);
+  border-radius: 0 8px 8px 0;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+/* ─── FLOW CONNECTOR ─── */
+.flow-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.flow-line {
+  width: 2px;
+  height: 24px;
+  background: linear-gradient(to bottom, var(--border), var(--accent-1));
+}
+
+.flow-arrow {
+  width: 0; height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid var(--accent-1);
+}
+
+/* ─── KEYWORDS ─── */
+#keywords { margin: 24px 0; }
+
+.keywords-title {
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.keywords-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* ─── ACCORDION SECTIONS ─── */
+.section-group { margin: 16px 0; }
+
+.accordion {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.accordion-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+.accordion-header:hover { background: #fafafa; }
+
+.accordion-number {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px !important;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.accordion-icon {
+  width: 22px; height: 22px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.accordion-title {
+  flex: 1;
+  font-size: calc(15px * var(--font-scale));
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.accordion-chevron {
+  width: 20px; height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.3s;
+  color: #999;
+}
+
+.accordion.open .accordion-chevron { transform: rotate(180deg); }
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.accordion-body-inner {
+  padding: 0 16px 18px;
+}
+
+/* ─── VERSE BOX ─── */
+.verse-box {
+  background: var(--verse-bg);
+  border-left: 3px solid var(--accent-1);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.verse-box-header {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 8px;
+  font-size: calc(12px * var(--font-scale));
+  font-weight: 700;
+  color: var(--accent-1);
+}
+
+.bookmark-icon {
+  width: 14px; height: 14px;
+  flex-shrink: 0;
+}
+
+.verse-item {
+  font-size: calc(14px * var(--font-scale));
+  color: var(--text);
+  line-height: 1.7;
+  margin-bottom: 6px;
+  padding-left: 2px;
+}
+.verse-item:last-child { margin-bottom: 0; }
+
+.verse-item .vref {
+  font-weight: 700;
+  color: var(--accent-1);
+}
+
+/* ─── BODY TEXT ─── */
+.point-body {
+  font-size: calc(15px * var(--font-scale));
+  color: var(--text);
+  line-height: 1.8;
+}
+
+.point-body p { margin-bottom: 10px; }
+.point-body p:last-child { margin-bottom: 0; }
+
+.hl {
+  background: var(--highlight);
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+.point-body .sub-title {
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 14px;
+  margin-bottom: 4px;
+  font-size: calc(14px * var(--font-scale));
+  display: flex; align-items: center; gap: 6px;
+}
+
+.point-body .sub-title::before {
+  content: '';
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* ─── COMPARISON BOX ─── */
+.compare-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.compare-card {
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: calc(13px * var(--font-scale));
+  line-height: 1.6;
+}
+
+.compare-card.positive {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+}
+.compare-card.negative {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.compare-card-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+/* ─── QUIZ ─── */
+#quiz { margin: 32px 0; }
+
+.quiz-title {
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.quiz-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: var(--card-shadow);
+}
+
+.quiz-q-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px;
+}
+
+.quiz-badge {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--accent-1);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem !important;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.quiz-question {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.quiz-options { margin: 0; }
+
+.quiz-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 6px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+  min-height: 44px;
+}
+
+.quiz-option:hover { background: #f8f9fa; }
+.quiz-option:active { background: #f0f0f0; }
+
+.quiz-option.selected {
+  border-color: var(--accent-1);
+  background: #eff6ff;
+}
+
+.quiz-option.correct {
+  border-color: #22c55e;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.quiz-option.wrong {
+  border-color: #ef4444;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.quiz-option-radio {
+  width: 18px; height: 18px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+
+.quiz-option.selected .quiz-option-radio {
+  border-color: var(--accent-1);
+}
+.quiz-option.selected .quiz-option-radio::after {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent-1);
+}
+.quiz-option.correct .quiz-option-radio {
+  border-color: #22c55e;
+  background: #22c55e;
+}
+.quiz-option.correct .quiz-option-radio::after {
+  content: '✓'; color: #fff; font-size: 11px; font-weight: 700;
+  width: auto; height: auto; border-radius: 0; background: none;
+}
+.quiz-option.wrong .quiz-option-radio {
+  border-color: #ef4444;
+  background: #ef4444;
+}
+.quiz-option.wrong .quiz-option-radio::after {
+  content: '✗'; color: #fff; font-size: 11px; font-weight: 700;
+  width: auto; height: auto; border-radius: 0; background: none;
+}
+
+.quiz-hint-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--accent-6);
+  font-weight: 500;
+}
+.quiz-hint-btn:hover { background: #fffbeb; }
+
+.quiz-hint {
+  display: none;
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #92400e;
+  line-height: 1.5;
+}
+.quiz-hint.show { display: block; }
+
+.quiz-feedback {
+  display: none;
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.quiz-feedback.correct-fb {
+  display: block;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+.quiz-feedback.wrong-fb {
+  display: block;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.quiz-submit-area {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.quiz-submit-btn {
+  padding: 12px 32px;
+  background: var(--accent-1);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.quiz-submit-btn:hover { background: #1d4ed8; }
+
+.quiz-result {
+  display: none;
+  text-align: center;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 16px;
+}
+.quiz-result.show { display: block; }
+
+.quiz-result-score {
+  font-size: calc(40px * var(--font-scale));
+  font-weight: 900;
+  color: var(--accent-1);
+}
+
+.quiz-result-text {
+  font-size: calc(15px * var(--font-scale));
+  color: var(--text);
+  margin-top: 8px;
+  line-height: 1.6;
+}
+
+/* ─── PRAYER ─── */
+#prayer { margin: 32px 0; }
+
+.prayer-title {
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.prayer-box {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 20px;
+  font-size: calc(15px * var(--font-scale));
+  line-height: 2;
+  color: var(--text);
+  box-shadow: var(--card-shadow);
+}
+
+.prayer-box p { margin-bottom: 12px; }
+.prayer-box p:last-child { margin-bottom: 0; }
+
+/* ─── FOOTER ─── */
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  font-size: calc(12px * var(--font-scale));
+  color: #888;
+  border-top: 1px solid var(--border);
+  margin-top: 32px;
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 480px) {
+  .main-content { padding: 52px 12px 32px; }
+  .hero h1 { font-size: calc(20px * var(--font-scale)); }
+  .dash-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .compare-box { grid-template-columns: 1fr; }
+  .accordion-header { padding: 12px 14px; }
+  .accordion-body-inner { padding: 0 14px 16px; }
+}
+
+/* ─── ANIMATION ─── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.accordion { animation: fadeInUp 0.4s ease both; }
+.accordion:nth-child(1) { animation-delay: 0.05s; }
+.accordion:nth-child(2) { animation-delay: 0.1s; }
+.accordion:nth-child(3) { animation-delay: 0.15s; }
+.accordion:nth-child(4) { animation-delay: 0.2s; }
+.accordion:nth-child(5) { animation-delay: 0.25s; }
+.accordion:nth-child(6) { animation-delay: 0.3s; }
+.accordion:nth-child(7) { animation-delay: 0.35s; }
+.accordion:nth-child(8) { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <button class="top-bar-btn" id="menuToggle" aria-label="메뉴">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="https://tk-korea.github.io/2025wintertraining/" class="top-bar-btn" aria-label="홈">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1V10"/></svg>
+    </a>
+  </div>
+  <div class="top-bar-title">구원 이후 우리가 마주해야 할 심판대</div>
+  <div class="font-controls">
+    <button class="font-btn" id="fontDecrease" aria-label="축소">−</button>
+    <button class="font-btn" id="fontReset" aria-label="초기화">가</button>
+    <button class="font-btn" id="fontIncrease" aria-label="확대">+</button>
+  </div>
+</div>
+
+<!-- SIDE PANEL -->
+<div class="side-panel-overlay" id="sideOverlay"></div>
+<div class="side-panel" id="sidePanel">
+  <div class="side-panel-header">
+    <span>목차</span>
+    <button class="side-panel-close" id="sideClose">✕</button>
+  </div>
+  <ul class="side-menu">
+    <li><a href="#hero" onclick="closePanel()"><span class="menu-icon">📖</span> 제목</a></li>
+    <li><a href="#dashboard" onclick="closePanel()"><span class="menu-icon">📊</span> 대시보드</a></li>
+    <li>
+      <a href="#keywords" onclick="closePanel()"><span class="menu-icon">🔑</span> 키워드</a>
+    </li>
+    <li>
+      <a href="#sections" onclick="closePanel()"><span class="menu-icon">📋</span> 핵심요점</a>
+      <ul class="side-submenu">
+        <li><a href="#section-1" onclick="closePanel()">1단계: 행위에 따른 상벌</a></li>
+        <li><a href="#section-2" onclick="closePanel()">2단계: 아버지의 뜻과 불법</a></li>
+        <li><a href="#section-3" onclick="closePanel()">3단계: 하나님의 분량과 방식</a></li>
+        <li><a href="#section-4" onclick="closePanel()">4단계: 실행적 봉사의 가치</a></li>
+      </ul>
+    </li>
+    <li><a href="#quiz" onclick="closePanel()"><span class="menu-icon">✏️</span> 퀴즈</a></li>
+    <li><a href="#prayer" onclick="closePanel()">오늘의 기도</a></li>
+  </ul>
+</div>
+
+<!-- KEYWORD POPUP -->
+<div class="keyword-popup-overlay" id="kwOverlay"></div>
+<div class="keyword-popup" id="kwPopup">
+  <div class="keyword-popup-title" id="kwTitle"></div>
+  <div id="kwDesc"></div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content" id="mainContent">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-label">2025 겨울훈련 12주 1일</div>
+    <h1>구원 이후 <br>우리가 마주해야 할 심판대</h1>
+    <p class="hero-sub">주님께서 다시 오실 때, 각 사람에게 그의 일에 따라 갚아 주실 것이다</p>
+    <div class="hero-verse">
+      <span class="verse-ref">[계 22:12]</span> "보아라, 내가 속히 가겠다. 내가 줄 <span class="hl">상벌</span>이 나에게 있으니, <span class="hl">각 사람에게 그의 일에 따라</span> 갚아 주겠다."
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard">
+    <div class="core-point-box">
+      <strong>✨ 핵심 요점:</strong> 주님께서 다시 오실 때 모든 믿는 이는 그리스도의 심판대 앞에 서게 되며, 구원받은 이후 주님의 뜻과 생명으로 어떻게 봉사했는지에 따라 상이나 벌을 받게 됩니다.
+    </div>
+
+    <div class="overall-flow-box">
+      <div class="overall-flow-title">🔗 메시지의 흐름과 연결고리</div>
+      <div class="overall-flow-text">
+        이 지문은 <strong>'그리스도의 심판대와 상벌'</strong>이라는 영적 사실을 먼저 제시하여 경각심을 일깨웁니다. 이어서 우리가 행하는 봉사의 양이나 외적인 능력이 중요한 것이 아니라, 철저히 <strong>'하나님의 뜻과 통치'</strong> 아래서 그분의 방식대로 행했는지를 점검하도록 이끕니다. 마지막으로, 거창한 사역뿐만 아니라 일상적이고 작은 봉사에서도 주님의 생명으로 신실하게 섬겨 <strong>장차 왕국에서 함께 다스리자는 실천적 권면</strong>으로 결론을 맺습니다.
+      </div>
+    </div>
+
+    <div class="dashboard-title">📊 전체 핵심 요약</div>
+    <div class="dash-grid">
+      <div class="dash-card">
+        <div class="dash-card-icon">⚖️</div>
+        <div class="dash-card-label">핵심 주제</div>
+        <div class="dash-card-value">상벌 = 삯<br><span style="font-size:0.8em;font-weight:400;">헬라어 '삯'의 의미</span></div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-icon">🔑</div>
+        <div class="dash-card-label">핵심 구별</div>
+        <div class="dash-card-value">구원 ≠ 보상<br><span style="font-size:0.8em;font-weight:400;">구원은 해결됨, 보상은 미결</span></div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-icon">🏗️</div>
+        <div class="dash-card-label">건축 재료</div>
+        <div class="dash-card-value">금·은·보석<br><span style="font-size:0.8em;font-weight:400;">vs 나무·풀·짚</span></div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-icon">👑</div>
+        <div class="dash-card-label">최종 목표</div>
+        <div class="dash-card-value">공동 왕<br><span style="font-size:0.8em;font-weight:400;">천 년 왕국 다스림</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEYWORDS -->
+  <section id="keywords">
+    <div class="keywords-title">🔑 핵심 키워드</div>
+    <div class="keywords-wrap">
+      <span class="keyword-tag" onclick="showKw('상벌','요한계시록 22장 12절에서 상벌로 번역된 헬라어 단어는 삯을 의미한다. 주님께서 오실 때에 각 사람에게 주실 상과 벌을 가리킨다.')">상벌</span>
+      <span class="keyword-tag" onclick="showKw('구원','영원한 구원은 우리의 행위와 전혀 관련이 없다. 이미 해결된 영원한 생명의 문제이다.')">구원</span>
+      <span class="keyword-tag" onclick="showKw('보상','왕국 보상은 전적으로 우리가 구원받은 후에 주님의 생명으로 행한 행위에 따른 것이다. 구원과 별개의 문제이다.')">보상</span>
+      <span class="keyword-tag" onclick="showKw('온전한 뜻','하나님의 온전한 뜻은 단순히 허락된 뜻과 구별된다. 천국에 들어가려면 반드시 하나님의 온전한 뜻을 행해야 한다 (마 7:21).')">온전한 뜻</span>
+      <span class="keyword-tag" onclick="showKw('허락된 뜻','하나님께서 허락하신 일이지만 하나님의 온전한 뜻은 아닌 것. 선하고 긍정적인 일이라 해도 하나님의 온전한 뜻이 아닐 수 있다.')">허락된 뜻</span>
+      <span class="keyword-tag" onclick="showKw('심판대','그리스도의 심판대에서 모든 믿는 이가 선이든 악이든 자기 몸으로 행한 것에 따라 대갚음을 받을 것이다 (고후 5:10).')">심판대</span>
+      <span class="keyword-tag" onclick="showKw('달란트','마태복음 25장의 비유. 각 사람이 주님에게서 받은 생명과 성령과 영적 은사를 가리킨다. 반드시 합당하게 사용하여 이익을 남겨야 한다.')">달란트</span>
+      <span class="keyword-tag" onclick="showKw('건축','고전 3장의 비유. 금·은·보석으로 건축하거나 나무·풀·짚으로 건축할 수 있다. 불의 시험을 통과하는 일만 남을 것이다.')">건축</span>
+      <span class="keyword-tag" onclick="showKw('분량','하나님께서 각 사람에게 재어 주신 봉사와 사역의 한계. 바울도 분량을 재어 주시는 하나님 아래서 사역했다 (고후 10:13).')">분량</span>
+      <span class="keyword-tag" onclick="showKw('봉사','교회생활 안에서의 실행적이고 실지적인 모든 일. 영적 방면뿐 아니라 의자 배열, 청소, 어린이 돌봄 등 모든 실행적 일을 포함한다.')">봉사</span>
+    </div>
+  </section>
+
+  <!-- SECTIONS -->
+  <section id="sections">
+
+    <!-- STEP 1 -->
+    <div class="flow-step-header" id="section-1">
+      <span class="step-badge-text">1단계</span> 영적 사실 직면: 행위에 따른 상벌
+    </div>
+    <div class="flow-step-desc">
+      영원한 구원과 별개로, 다가올 왕국에서의 보상은 우리가 달란트를 어떻게 활용하여 주님을 섬겼느냐에 달려 있습니다. 이 피할 수 없는 영적 사실을 먼저 제시하여 경각심을 일깨웁니다.
+    </div>
+
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-number" style="background:var(--accent-1);">1</span>
+        <span class="accordion-icon">⚡</span>
+        <span class="accordion-title">주님의 재림과 상벌 선언</span>
+        <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">
+          <div class="verse-box">
+            <div class="verse-box-header">
+              <svg class="bookmark-icon" viewBox="0 0 24 24" fill="var(--accent-1)"><path d="M6 2h12a1 1 0 011 1v18l-7-4-7 4V3a1 1 0 011-1z"/></svg>
+              관련 성경구절
+            </div>
+            <div class="verse-item"><span class="vref">[계 22:12]</span> "보아라, 내가 속히 가겠다. 내가 줄 <span class="hl">상벌</span>이 나에게 있으니, <span class="hl">각 사람에게 그의 일에 따라</span> 갚아 주겠다."</div>
+            <div class="verse-item"><span class="vref">[계 3:11]</span> "내가 속히 갈 것이다. 네가 가진 것을 굳게 붙잡아, 아무도 너의 <span class="hl">면류관</span>을 빼앗지 못하도록 하여라."</div>
+            <div class="verse-item"><span class="vref">[계 22:7]</span> "'보아라, 내가 속히 가겠다.' 이 두루마리에 있는 <span class="hl">예언의 말씀을 지키는 사람은 복이 있습니다.</span>"</div>
+            <div class="verse-item"><span class="vref">[마 16:27]</span> "사람의 아들이 아버지의 영광 안에서 자기 천사들과 함께 올 것인데, 그때에 <span class="hl">각 사람에게 그의 행위대로 갚아 줄 것</span>이기 때문입니다."</div>
+          </div>
+          <div class="point-body">
+            <p>주님은 <span class="hl">"내가 속히 가겠다."</span>(계 3:11, 22:7)라는 경고를 반복하신다. 이것은 주님께서 돌아오실 때 주실 상벌을 우리에게 주의하게 하는 것이다.</p>
+            <p>여기서 '상벌'로 번역된 헬라어 단어는 <span class="hl">'삯'</span>을 의미한다. 주 예수님은 왕국을 소유하러 다시 오실 때, 그분께 속한 <span class="hl">모든 이들</span>에게 상이나 벌을 주실 것이다. '그분께 속한 모든 이들'이라는 말은 모든 믿는 이들을 가리킨다.</p>
+            <p>여기서 <span class="hl">'일'</span>이라는 단어는 하나님의 관점에서 모든 믿는 이는 그분을 누려야 할 뿐 아니라 <span class="hl">해야 할 일이 있음</span>을 가리킨다.</p>
+            <p>어떤 사람들은 벌을 받을 것이다. "상벌이 나에게 있으니"라는 주님의 말씀은 <span class="hl">상뿐 아니라 벌도 있음</span>을 의미한다. 요한계시록에 나오는 예언의 말씀을 지키는 사람은 상을 받을 것이기 때문에 복이 있다.</p>
+            <p class="sub-title">그날 우리가 받는 상벌은 오늘날 우리의 태도와 많은 관계가 있다</p>
+            <p>고린도전서 3장 8절은 우리가 <span class="hl">우리의 수고에 따라 보상</span>을 받을 것이라고 말한다. 마태복음 16장 27절에서 주 예수님은 다시 오실 때 우리의 행위대로 우리에게 갚아 주실 것이라고 말씀하셨다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-number" style="background:var(--accent-5);">2</span>
+        <span class="accordion-icon">🔀</span>
+        <span class="accordion-title">영원한 구원 vs 왕국 보상</span>
+        <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">
+          <div class="verse-box">
+            <div class="verse-box-header">
+              <svg class="bookmark-icon" viewBox="0 0 24 24" fill="var(--accent-1)"><path d="M6 2h12a1 1 0 011 1v18l-7-4-7 4V3a1 1 0 011-1z"/></svg>
+              관련 성경구절
+            </div>
+            <div class="verse-item"><span class="vref">[고후 5:10]</span> "우리 모두가 반드시 <span class="hl">그리스도의 심판대 앞에 나타나</span>, 각 사람이 선이든 악이든 자기 몸으로 행한 것에 따라 그대로 <span class="hl">대갚음</span>을 받기 때문입니다."</div>
+            <div class="verse-item"><span class="vref">[고전 4:5]</span> "때가 이르기 전, 곧 주님께서 오실 때까지 <span class="hl">아무것도 판단하지 마십시오.</span> 그분께서 어둠에 감추어진 것들을 밝혀내시고 마음의 의도들을 나타내실 것이니, 그때에 각 사람은 하나님께 칭찬을 받을 것입니다."</div>
+            <div class="verse-item"><span class="vref">[고전 4:3-4]</span> "내가 여러분에게 판단을 받든지, 사람의 날에 판단을 받든지, 나에게는 아주 작은 일입니다. 나도 나 자신을 판단하지 않습니다. 나를 <span class="hl">판단하시는 분은 주님</span>이십니다."</div>
+          </div>
+          <div class="point-body">
+            <div class="compare-box">
+              <div class="compare-card positive">
+                <div class="compare-card-title" style="color:#059669;">영원한 구원</div>
+                행위와 <span class="hl">전혀 관련 없음</span><br>이미 해결된 문제
+              </div>
+              <div class="compare-card negative" style="background:#eff6ff;border-color:#93c5fd;">
+                <div class="compare-card-title" style="color:#2563eb;">왕국 보상</div>
+                구원 후 <span class="hl">주님의 생명으로 행한 행위</span>에 따름<br>아직 해결되지 않은 문제
+              </div>
+            </div>
+            <p><span class="hl">영원한 구원은 우리의 행위와 전혀 관련이 없지만, 왕국 보상은 전적으로 우리가 구원받은 후에 주님의 생명으로 행한 행위에 따른 것이다.</span> 구원의 문제는 이미 해결되었지만, 보상의 문제는 아직 해결되지 않았다. 이것은 우리가 구원받은 후에 어떻게 주님을 섬기는가에 달려 있다.</p>
+            <p>구원받은 모든 사람이 그리스도의 심판대 앞에 나타나, 각 사람이 선이든 악이든 자기 몸으로 행한 것에 따라 그대로 대갚음을 받을 것이다. 선을 행한 이들은 상을 받을 것이고, 악을 행한 이들은 벌을 받을 것이다.</p>
+            <p>이것으로 인해 <span class="hl">사도 바울조차도 감히 자신을 판단하지 않고</span> 자신을 판단하시는 분은 주님이시라고 말했다.</p>
+            <p class="sub-title">오늘의 적용</p>
+            <p>우리는 자신을 판단하지 말아야 한다. 그 대신 우리는 <span class="hl">마음을 주님께 돌이키고, 우리의 영을 사용하며, 그분의 피의 능력을 적용하고, 새로운 하루를 위해 그분의 분배를 받아들여야 한다.</span> 우리는 매일매일 이렇게 해야 한다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- STEP 2 -->
+    <div class="flow-step-header" id="section-2" style="background:var(--accent-3);">
+      <span class="step-badge-text">2단계</span> 통치 점검: 아버지의 뜻과 불법
+    </div>
+    <div class="flow-step-desc">
+      주님의 이름으로 많은 능력을 행해도, 그분의 통치와 허락 아래서 행한 '온전한 뜻'이 아니라면 결국 주님이 알지 못하시는 '불법'이 될 수 있습니다. 봉사의 양이나 외적인 능력이 아닌, 통치 아래 행했는지 점검하도록 이끕니다.
+    </div>
+
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-number" style="background:var(--accent-3);">3</span>
+        <span class="accordion-icon">⚖️</span>
+        <span class="accordion-title">하나님의 온전한 뜻 vs 허락된 뜻</span>
+        <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">
+          <div class="verse-box">
+            <div class="verse-box-header">
+              <svg class="bookmark-icon" viewBox="0 0 24 24" fill="var(--accent-1)"><path d="M6 2h12a1 1 0 011 1v18l-7-4-7 4V3a1 1 0 011-1z"/></svg>
+              관련 성경구절
+            </div>
+            <div class="verse-item"><span class="vref">[마 7:21]</span> "나에게 '주님, 주님!' 하는 사람이라고 다 <span class="hl">천국에 들어가는 것이 아니고</span>, 다만 하늘에 계신 내 <span class="hl">아버지의 뜻을 행하는 사람</span>이라야 들어갑니다."</div>
+            <div class="verse-item"><span class="vref">[마 7:22]</span> "그날에 많은 사람이 나에게 '주님, 주님! 우리가 주님의 이름으로 예언하였으며, 주님의 이름으로 귀신들을 쫓아냈으며, 주님의 이름으로 많은 능력의 일을 행하지 않았습니까?'라고 할 것이지만,"</div>
+            <div class="verse-item"><span class="vref">[마 7:23]</span> "그때에 내가 그들에게 선언할 것입니다. '<span class="hl">나는 여러분을 도무지 알지 못합니다.</span> 불법을 행하는 사람들이여, 나에게서 떠나가십시오.'"</div>
+          </div>
+          <div class="point-body">
+            <p>어떤 사람이 거듭나기 위해 "주님, 주님!"이라고 말할 수 있지만, 이것만으로는 천국에 들어가지 못한다. 천국에 들어가려면 반드시 <span class="hl">하나님의 온전한 뜻</span>을 행해야 한다.</p>
+
+            <div class="compare-box">
+              <div class="compare-card positive">
+                <div class="compare-card-title" style="color:#059669;">✅ 온전한 뜻</div>
+                하나님께서 직접 원하시고 명하신 것. 주님의 권위 아래 행하는 일.
+              </div>
+              <div class="compare-card negative">
+                <div class="compare-card-title" style="color:#dc2626;">❌ 허락된 뜻</div>
+                하나님께서 허락하셨으나 온전한 뜻이 아닌 것. 선하고 긍정적인 일이라도 해당될 수 있음.
+              </div>
+            </div>
+
+            <p>어떤 이들은 "우리가 주님의 이름으로 예언하였으며, 귀신들을 쫓아냈으며, 많은 능력의 일을 행하지 않았습니까?"라고 말할 것이다. 주님은 그들이 이러한 일들을 한 것을 부인하지 않으셨다. 그러나 그 일들은 단지 <span class="hl">하나님의 허락된 뜻에 따른 것</span>이었다.</p>
+            <p>이러한 이들에게 주님은 <span class="hl">"나는 여러분을 도무지 알지 못합니다."</span>라고 선언하실 것이다. 주님은 이렇게 말씀하실 때, <span class="hl">그들과의 특별한 관계</span>에 대해 말씀하시는 것이다.</p>
+            <p>"나에게서 떠나가십시오."라고 말씀하실 때, 주님은 다가올 천 년을 언급하신 것이다. 이러한 사람들은 주님과 하나가 아닐 것이다. 그들은 하나님의 온전한 뜻을 행하지 않았기 때문에 <span class="hl">공동 왕들이 되지 못할 것</span>이다. 그들은 불법을 행하는 사람들이었다.</p>
+            <p class="sub-title">적용: 기도로 가져감</p>
+            <p>"주님, 제가 당신을 얼굴과 얼굴을 맞대어 뵐 때, 당신에게서 '나는 너를 알지 못한다'라는 말씀을 듣기를 원하지 않습니다." 오히려 우리는 주님에게서 이러한 말씀을 듣기를 원한다. <span class="hl">"신실한 노예야, 네가 내 일을 수행하였다. 와서 나와 함께 천 년 동안 왕으로 다스리자."</span></p>
+            <p>"주님, 당신의 지혜와 당신의 길과 당신의 때 안에서, 저는 오직 <span class="hl">하나님의 온전한 뜻만을 행하기로 결정합니다.</span>"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-number" style="background:var(--accent-4);">4</span>
+        <span class="accordion-icon">💬</span>
+        <span class="accordion-title">무익한 말의 심판</span>
+        <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">
+          <div class="verse-box">
+            <div class="verse-box-header">
+              <svg class="bookmark-icon" viewBox="0 0 24 24" fill="var(--accent-1)"><path d="M6 2h12a1 1 0 011 1v18l-7-4-7 4V3a1 1 0 011-1z"/></svg>
+              관련 성경구절
+            </div>
+            <div class="verse-item"><span class="vref">[마 12:36]</span> "내가 여러분에게 말합니다. 사람들은 자기가 하는 <span class="hl">모든 무익한 말</span>에 대하여 심판 날에 낱낱이 진술해야 할 것입니다."</div>
+            <div class="verse-item"><span class="vref">[마 12:37]</span> "여러분이 <span class="hl">한 말로</span> 여러분이 의롭다는 판결을 받고, 여러분이 한 말로 여러분이 죄 있다는 판결을 받을 것이기 때문입니다."</div>
+          </div>
+          <div class="point-body">
+            <p>'무익한 말'이란 집에서 자녀들이나 아내에게 하는 말이 아니라, 특별히 <span class="hl">내주하시는 그리스도를 근원으로 하지 않고 한 모든 말</span>을 가리킨다.</p>
+            <p>이러한 말은 <span class="hl">기록될 것</span>이며, 어떤 의미에서는 우리에게 재생될 것이다. 이러한 말은 우리가 안다고 생각하는 것에 근거하여, 가볍고 공허한 방식으로 말한 것일지도 모른다.</p>
+            <p>그러나 이 경고 때문에 오늘부터 사람들과 말하는 것을 중단해야 한다는 뜻은 아니다. 오히려 우리는 <span class="hl">우리 존재의 이 방면이 내주하시는 그리스도로 적셔지기를</span> 원한다.</p>
+            <p class="sub-title">적용: 침묵이 아닌 기도</p>
+            <p>침묵으로 일관하거나 스스로 바꾸려고 애쓸 것이 아니라 이렇게 기도해야 한다. <span class="hl">"주님, 저의 말을 포함하여 제 존재의 모든 부분에 당신께서 들어오시도록 허락해 드립니다."</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- STEP 3 -->
+    <div class="flow-step-header" id="section-3" style="background:var(--accent-2);">
+      <span class="step-badge-text">3단계</span> 방식 점검: 하나님의 분량과 방식
+    </div>
+    <div class="flow-step-desc">
+      내 열심이 아닌, 하나님께서 정해주신 분량의 한계 안에서 주님의 길과 방식대로 섬기는 것이 중요합니다. 철저히 그분의 방식대로 행하고 있는지 돌아보게 합니다.
+    </div>
+
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-number" style="background:var(--accent-2);">5</span>
+        <span class="accordion-icon">📐</span>
+        <span class="accordion-title">분량을 재어 주시는 하나님</span>
+        <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">
+          <div class="verse-box">
+            <div class="verse-box-header">
+              <svg class="bookmark-icon" viewBox="0 0 24 24" fill="var(--accent-1)"><path d="M6 2h12a1 1 0 011 1v18l-7-4-7 4V3a1 1 0 011-1z"/></svg>
+              관련 성경구절
+            </div>
+            <div class="verse-item"><span class="vref">[고후 10:13]</span> "우리는 우리의 분량을 벗어나 자랑하지 않고, <span class="hl">분량을 재어 주시는 하나님</span>께서 우리에게 나눠 주신 그 분량의 한계에 따라 자랑하는데, 여러분에게 간 것도 그 분량의 한계에 따른 것입니다."</div>
+            <div class="verse-item"><span class="vref">[롬 15:24]</span> "내가 스페인으로 갈 때에, 지나는 길에 여러분을 만나 보고, 먼저는 여러분과 사귀어 어느 정도 만족을 얻은 후에, 여러분의 전송을 받아 그곳으로 갈 수 있기를 바랍니다."</div>
+          </div>
+          <div class="point-body">
+            <p>하나님은 <span class="hl">분량을 재어 주시는 하나님</span>이시다. 바울은 그의 일에서 적극적이었으나 <span class="hl">하나님의 제한을 받아들였다.</span> 그는 자기가 원하는 곳이면 어디든지 가거나, 가고 싶다고 생각한 곳이면 어디든지 간 것이 아니었다.</p>
+            <p>바울은 스페인으로 가는 길에 성도들을 방문하겠다고 말했고, 스페인에 갔다가 돌아오는 길에 다시 방문할 계획을 세웠다. 그러나 그는 <span class="hl">분량을 재어 주시는 하나님 아래 있었기 때문에, 결국 스페인에는 이르지 못했다.</span></p>
+            <p class="sub-title">실행 적용</p>
+            <p>이 문제는 우리가 하고자 하는 일이나 전하고자 하는 메시지와 관련이 있다. 분량을 재어 주시는 하나님께서 어떤 방식으로 기능하신다면, 섬기는 이는 특별 집회를 열 수 있지만 <span class="hl">오직 정해진 분량까지만 가능하다.</span> 주님은 그분 자신의 판단으로 그 분량을 바꾸실 수도 있다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-number" style="background:var(--accent-8);">6</span>
+        <span class="accordion-icon">🛤️</span>
+        <span class="accordion-title">봉사의 방식 — 주님의 길</span>
+        <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">
+          <div class="verse-box">
+            <div class="verse-box-header">
+              <svg class="bookmark-icon" viewBox="0 0 24 24" fill="var(--accent-1)"><path d="M6 2h12a1 1 0 011 1v18l-7-4-7 4V3a1 1 0 011-1z"/></svg>
+              관련 성경구절
+            </div>
+            <div class="verse-item"><span class="vref">[요일 1:9]</span> "우리가 우리의 죄들을 자백하면, 하나님은 <span class="hl">신실하시고 의로우셔서</span> 우리 죄들을 용서하시고 모든 불의에서 우리를 깨끗하게 하실 것입니다."</div>
+            <div class="verse-item"><span class="vref">[히 8:12]</span> "내가 그들의 불의를 용서하고 그들의 죄들을 <span class="hl">다시는 기억하지 않을 것</span>이기 때문이다."</div>
+          </div>
+          <div class="point-body">
+            <p>주님을 위해 봉사하고 일하는 것과 관련하여, 우리가 <span class="hl">그것을 행하는 방식</span>은 매우 중요하다. 우리가 일하는 방식에서도 신실하기를 원하신다. 주님은 <span class="hl">우리의 방식에서 우리를 구원하셔야 한다.</span></p>
+            <p>우리는 일단 구원받으면 아무 문제가 없을 것이라고 결코 생각해서는 안 된다. 사실상 우리가 구원받은 후에 <span class="hl">어떤 방식으로 주님을 위해 봉사하고 일하는지는 큰 문제이다.</span></p>
+            <p class="sub-title">기도</p>
+            <p>"주님, 저는 당신을 섬기는 것과 관련하여 제 자신을 정직하고도 절대적으로 당신께 헌신했지만, <span class="hl">당신의 길에 따라 당신을 섬기기 원합니다.</span> 제게 당신의 길을 분명히 알려 주십시오. 당신만이 하실 수 있는 일을 하셔서 당신의 길이 제 길이 되게 해 주십시오."</p>
+            <p>주님은 우리가 "좋습니다. 주님, 저는 포기합니다."라고 말하기를 기다리시는 것 같다. 그러면 주님은 이렇게 말씀하실 것이다. <span class="hl">"내가 이것을 돌보도록 허락하겠느냐? 내가 너를 목양하도록 허락하겠느냐? 내가 너를 훈련하도록 허락하겠느냐? 나는 기다려 왔지만 더 기다리는 것도 개의치 않는다."</span></p>
+            <p class="sub-title">용서와 잊으심</p>
+            <p>요한일서 1장 9절에 근거하여 우리가 죄를 범했지만 자백할 때 하나님은 용서하신다. 하나님께서 용서하실 때 <span class="hl">잊으신다</span>는 것을 안다. 우리도 수십 년 전에 일어났던 일들을 기억하지 말아야 한다. 우리는 그것들을 잊어야 한다.</p>
+            <p class="sub-title">최종 목표</p>
+            <p>우리가 그리스도의 심판대 앞에 설 때, 주님께서 우리가 행한 모든 목양과 일을 우리에게 생각나게 하시리라는 것이다. 그분은 <span class="hl">"잘하였다. 나와 함께 왕국에 들어가자."</span>라고 말씀하실지도 모른다. 그때 우리는 <span class="hl">천 년 동안 그분과 함께 공동 왕들로 다스릴 것이다.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- STEP 4 -->
+    <div class="flow-step-header" id="section-4" style="background:var(--accent-5);">
+      <span class="step-badge-text">4단계</span> 실천적 권면: 실행적 봉사의 가치
+    </div>
+    <div class="flow-step-desc">
+      거창한 사역뿐만 아니라 의자 배열, 화장실 청소, 어린이 봉사 등 일상적이고 평범한 교회 내 실무 봉사들을 주님은 소중히 기록하시고 보상하십니다. 신실한 섬김으로 장차 왕국에서 함께 다스리자는 권면으로 결론을 맺습니다.
+    </div>
+
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-number" style="background:var(--accent-7);">7</span>
+        <span class="accordion-icon">💰</span>
+        <span class="accordion-title">달란트 비유 — 신실한 사용</span>
+        <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">
+          <div class="verse-box">
+            <div class="verse-box-header">
+              <svg class="bookmark-icon" viewBox="0 0 24 24" fill="var(--accent-1)"><path d="M6 2h12a1 1 0 011 1v18l-7-4-7 4V3a1 1 0 011-1z"/></svg>
+              관련 성경구절
+            </div>
+            <div class="verse-item"><span class="vref">[마 25:21]</span> "주인이 그에게 '<span class="hl">잘하였다, 착하고 신실한 노예야.</span> 네가 적은 일에 신실하였으니, 내가 많은 일을 너에게 맡길 것이다. <span class="hl">네 주인의 기쁨에 참여하여라.</span>'라고 하였습니다."</div>
+            <div class="verse-item"><span class="vref">[마 25:26-27]</span> "주인이 그에게 대답하였습니다. '<span class="hl">악하고 게으른 노예야</span>, ... 너는 마땅히 내 돈을 돈 바꾸는 사람들에게 맡겼다가, 내가 돌아왔을 때, 본전과 이자를 되찾게 해야 했다.'"</div>
+            <div class="verse-item"><span class="vref">[마 25:30]</span> "'그 쓸모없는 노예를 <span class="hl">바깥 어둠 속으로 내던져라.</span> 거기서 슬피 울며 이를 갈게 될 것이다.'"</div>
+          </div>
+          <div class="point-body">
+            <p>마태복음 25장에 따르면, 우리는 두 달란트나 다섯 달란트를 받지 못했을 수 있지만, 모두 주님에게서 <span class="hl">적어도 한 달란트, 적어도 한 가지 영적 은사는 받았다.</span> 우리는 자신이 구원받지 않았다거나, 자신에게 주님의 생명이 없다거나, 자신에게 성령이 없다고 말할 수 없다.</p>
+            <p>다섯 달란트를 받은 사람은 다섯 달란트를 더 벌었고, 두 달란트를 받은 사람도 두 달란트를 더 벌었다. 그들 모두는 <span class="hl">신실하게 주님을 섬기고 그들의 은사를 최대한으로 사용했다.</span></p>
+            <p>그러나 한 달란트 받은 사람은 그것을 어떤 장소에 숨겨 두었다. 주님은 이 행동에 <span class="hl">강하게 반응</span>하셨다.</p>
+            <p class="sub-title">워치만 니 형제님의 말씀</p>
+            <p><span class="hl">한 달란트 가진 이들이 모두 일어나면 주님께서 온 세상을 차지하실 수 있다.</span> 우리에게 가장 필요한 사람은 평범한 성도들이다. 다섯 달란트 가진 이들은 거의 없고, 두 달란트 가진 이들은 몇몇 있을 수 있지만, 대다수는 한 달란트만 가지고 있다.</p>
+            <p>각 성도가 다른 이들에게는 없는 어떤 달란트가 있다. 우리는 모두 다른 이들에게는 없는 <span class="hl">그리스도의 한 몫</span>이 있다. 우리가 이것을 깨닫는다면, 우리는 우리의 몫을 말해 낼 것이고, 자신을 활짝 열어서 다른 이들의 몫을 받아들일 것이다.</p>
+            <p class="sub-title">실행적인 봉사의 예</p>
+            <p>주일에 집회가 있다면, 누가 의자를 옮기고 배열할 것인가? 어떤 성도들은 주일 아침에 어린이 봉사를 한다. 이것은 <span class="hl">주님 앞에서 소중한 봉사</span>이다. 때때로 집회 후에 화장실을 청소하는 젊은 형제들에게 하나님께서 그들의 실행적인 봉사를 기억하신다. <span class="hl">하나님은 이 모든 일상적인 일들을 기억하신다.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span class="accordion-number" style="background:var(--accent-6);">8</span>
+        <span class="accordion-icon">🏗️</span>
+        <span class="accordion-title">금·은·보석 vs 나무·풀·짚</span>
+        <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">
+          <div class="verse-box">
+            <div class="verse-box-header">
+              <svg class="bookmark-icon" viewBox="0 0 24 24" fill="var(--accent-1)"><path d="M6 2h12a1 1 0 011 1v18l-7-4-7 4V3a1 1 0 011-1z"/></svg>
+              관련 성경구절
+            </div>
+            <div class="verse-item"><span class="vref">[고전 3:14]</span> "<span class="hl">그 기초 위에 건축한 일이 남아 있는 사람은 보상을 받을 것이고,</span>"</div>
+            <div class="verse-item"><span class="vref">[고전 3:8]</span> "심는 이와 물 주는 이는 다 하나이지만, 각각 <span class="hl">자기의 수고에 따라 자기의 보상을 받을 것</span>입니다."</div>
+          </div>
+          <div class="point-body">
+            <p>바울은 "각 사람은 자기가 <span class="hl">어떻게 건축하고 있는지</span> 살펴보십시오."(고전 3:10)라고 말한다. 이것은 우리 모두가 우리의 일에 관해 주의해야 한다는 것을 의미한다.</p>
+
+            <div class="compare-box">
+              <div class="compare-card positive">
+                <div class="compare-card-title" style="color:#059669;">🔥 불에 남음</div>
+                <span class="hl">금 · 은 · 보석</span><br>보상을 받음
+              </div>
+              <div class="compare-card negative">
+                <div class="compare-card-title" style="color:#dc2626;">🔥 불에 탐</div>
+                <span class="hl">나무 · 풀 · 짚</span><br>손해를 봄
+              </div>
+            </div>
+
+            <p>우리가 주님을 섬기며 한 <span class="hl">일의 본성</span>이 어느 날 <span class="hl">불의 시험</span>을 받을 것이다. 오직 금과 은과 보석으로 된 일만이 남아 있을 것이다.</p>
+            <p>오늘 우리의 일과 봉사는 주로 우리가 받은 사역에 근거하는데, 이 사역은 <span class="hl">유일한 신약 사역에 따른 것</span>이다. 이러한 일은 보상을 가져다줄 것이다. 주님의 마음은 징계하는 것을 바라지 않는다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz">
+    <div class="quiz-title">✏️ 이해도 확인 퀴즈</div>
+
+    <!-- Q1 -->
+    <div class="quiz-card" data-answer="2">
+      <div class="quiz-q-header">
+        <span class="quiz-badge">1</span>
+        <span class="quiz-question">요한계시록 22장 12절에서 '상벌'로 번역된 헬라어 단어의 원래 의미는?</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-option" data-idx="0"><span class="quiz-option-radio"></span>선물</div>
+        <div class="quiz-option" data-idx="1"><span class="quiz-option-radio"></span>판결</div>
+        <div class="quiz-option" data-idx="2"><span class="quiz-option-radio"></span>삯</div>
+        <div class="quiz-option" data-idx="3"><span class="quiz-option-radio"></span>유산</div>
+      </div>
+      <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+      <div class="quiz-hint">일한 것에 대해 지불하는 대가와 관련된 단어입니다.</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-card" data-answer="1">
+      <div class="quiz-q-header">
+        <span class="quiz-badge">2</span>
+        <span class="quiz-question">마태복음 7장 21절에 따르면, 천국에 들어가려면 무엇을 해야 하는가?</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-option" data-idx="0"><span class="quiz-option-radio"></span>"주님, 주님!" 부르기</div>
+        <div class="quiz-option" data-idx="1"><span class="quiz-option-radio"></span>하나님의 온전한 뜻을 행하기</div>
+        <div class="quiz-option" data-idx="2"><span class="quiz-option-radio"></span>예언과 능력의 일 행하기</div>
+        <div class="quiz-option" data-idx="3"><span class="quiz-option-radio"></span>많은 봉사 활동 하기</div>
+      </div>
+      <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+      <div class="quiz-hint">"다만 하늘에 계신 내 아버지의 ___을 행하는 사람이라야 들어갑니다."</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-card" data-answer="0">
+      <div class="quiz-q-header">
+        <span class="quiz-badge">3</span>
+        <span class="quiz-question">'영원한 구원'과 '왕국 보상'의 차이를 가장 잘 설명한 것은?</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-option" data-idx="0"><span class="quiz-option-radio"></span>구원은 행위와 관련 없고, 보상은 구원 후 주님의 생명으로 행한 행위에 따른다</div>
+        <div class="quiz-option" data-idx="1"><span class="quiz-option-radio"></span>구원과 보상은 동일한 것이다</div>
+        <div class="quiz-option" data-idx="2"><span class="quiz-option-radio"></span>구원도 행위에 따르고, 보상도 행위에 따른다</div>
+        <div class="quiz-option" data-idx="3"><span class="quiz-option-radio"></span>구원은 행위에 따르지만, 보상은 은혜에 따른다</div>
+      </div>
+      <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+      <div class="quiz-hint">"영원한 구원은 우리의 행위와 전혀 관련이 없지만..."이라는 문장을 떠올려 보세요.</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-card" data-answer="2">
+      <div class="quiz-q-header">
+        <span class="quiz-badge">4</span>
+        <span class="quiz-question">고린도전서 3장에서 불의 시험을 통과하여 남는 건축 재료는?</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-option" data-idx="0"><span class="quiz-option-radio"></span>나무, 풀, 짚</div>
+        <div class="quiz-option" data-idx="1"><span class="quiz-option-radio"></span>철, 동, 놋</div>
+        <div class="quiz-option" data-idx="2"><span class="quiz-option-radio"></span>금, 은, 보석</div>
+        <div class="quiz-option" data-idx="3"><span class="quiz-option-radio"></span>벽돌, 돌, 시멘트</div>
+      </div>
+      <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+      <div class="quiz-hint">불에 타지 않는 귀한 재료 세 가지를 생각해 보세요.</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-card" data-answer="3">
+      <div class="quiz-q-header">
+        <span class="quiz-badge">5</span>
+        <span class="quiz-question">달란트 비유에서 한 달란트를 받은 사람이 한 행동과 그 결과는?</span>
+      </div>
+      <div class="quiz-options">
+        <div class="quiz-option" data-idx="0"><span class="quiz-option-radio"></span>한 달란트를 더 벌어서 칭찬을 받았다</div>
+        <div class="quiz-option" data-idx="1"><span class="quiz-option-radio"></span>한 달란트를 잃어버려서 용서받았다</div>
+        <div class="quiz-option" data-idx="2"><span class="quiz-option-radio"></span>한 달란트를 나누어 주고 상을 받았다</div>
+        <div class="quiz-option" data-idx="3"><span class="quiz-option-radio"></span>한 달란트를 땅에 숨겨서 바깥 어둠에 던져졌다</div>
+      </div>
+      <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+      <div class="quiz-hint">주인은 이 노예를 "악하고 게으른 노예"라고 불렀습니다.</div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz-submit-area">
+      <button class="quiz-submit-btn" onclick="submitQuiz()">결과 확인</button>
+    </div>
+
+    <div class="quiz-result" id="quizResult">
+      <div class="quiz-result-score" id="quizScore"></div>
+      <div class="quiz-result-text" id="quizFeedback"></div>
+    </div>
+  </section>
+
+  <!-- PRAYER -->
+  <section id="prayer">
+    <div class="prayer-title">오늘의 기도</div>
+    <div class="prayer-box">
+      <p>주님, 제가 당신을 얼굴과 얼굴을 맞대어 뵐 때, 당신에게서 '나는 너를 알지 못한다'라는 말씀을 듣기를 원하지 않습니다.</p>
+      <p>주님, 당신의 지혜와 당신의 길과 당신의 때 안에서, 저는 오직 하나님의 온전한 뜻만을 행하기로 결정합니다.</p>
+      <p>주님, 저의 말을 포함하여 제 존재의 모든 부분에 당신께서 들어오시도록 허락해 드립니다.</p>
+      <p>주님, 저는 당신을 섬기는 것과 관련하여 제 자신을 정직하고도 절대적으로 당신께 헌신했지만, 당신의 길에 따라 당신을 섬기기 원합니다. 제게 당신의 길을 분명히 알려 주십시오. 당신만이 하실 수 있는 일을 하셔서 당신의 길이 제 길이 되게 해 주십시오.</p>
+      <p>주님, 매일 제 마음을 당신께 돌이키고, 제 영을 사용하며, 당신의 피의 능력을 적용하고, 새로운 하루를 위해 당신의 분배를 받아들이겠습니다. 아멘.</p>
+    </div>
+  </section>
+
+  <div class="footer">
+    신약의 결론 · 메시지 435 · 그리스도에 대한 체험과 누림과 표현
+  </div>
+
+</div>
+
+<script>
+// ─── SIDE PANEL ───
+const sidePanel = document.getElementById('sidePanel');
+const sideOverlay = document.getElementById('sideOverlay');
+
+document.getElementById('menuToggle').addEventListener('click', () => {
+  sidePanel.classList.add('open');
+  sideOverlay.classList.add('open');
+});
+
+function closePanel() {
+  sidePanel.classList.remove('open');
+  sideOverlay.classList.remove('open');
+}
+
+document.getElementById('sideClose').addEventListener('click', closePanel);
+sideOverlay.addEventListener('click', closePanel);
+
+// ─── ACCORDION ───
+function toggleAccordion(header) {
+  const acc = header.parentElement;
+  const body = acc.querySelector('.accordion-body');
+  if (acc.classList.contains('open')) {
+    body.style.maxHeight = null;
+    acc.classList.remove('open');
+  } else {
+    acc.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+}
+
+// ─── FONT SIZE ───
+let fontScale = 1;
+const mainContent = document.getElementById('mainContent');
+
+document.getElementById('fontDecrease').addEventListener('click', () => {
+  fontScale = Math.max(0.75, fontScale - 0.05);
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+  recalcAccordions();
+});
+
+document.getElementById('fontReset').addEventListener('click', () => {
+  fontScale = 1;
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+  recalcAccordions();
+});
+
+document.getElementById('fontIncrease').addEventListener('click', () => {
+  fontScale = Math.min(1.5, fontScale + 0.05);
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+  recalcAccordions();
+});
+
+function recalcAccordions() {
+  document.querySelectorAll('.accordion.open .accordion-body').forEach(body => {
+    body.style.maxHeight = body.scrollHeight + 'px';
+  });
+}
+
+// ─── KEYWORD POPUP ───
+const kwPopup = document.getElementById('kwPopup');
+const kwOverlay = document.getElementById('kwOverlay');
+
+function showKw(title, desc) {
+  document.getElementById('kwTitle').textContent = title;
+  document.getElementById('kwDesc').textContent = desc;
+  kwPopup.classList.add('show');
+  kwOverlay.classList.add('show');
+}
+
+kwOverlay.addEventListener('click', () => {
+  kwPopup.classList.remove('show');
+  kwOverlay.classList.remove('show');
+});
+
+// ─── QUIZ ───
+function toggleHint(btn) {
+  const hint = btn.nextElementSibling;
+  hint.classList.toggle('show');
+  btn.textContent = hint.classList.contains('show') ? '💡 힌트 숨기기' : '💡 힌트 보기';
+}
+
+document.querySelectorAll('.quiz-option').forEach(opt => {
+  opt.addEventListener('click', function() {
+    const card = this.closest('.quiz-card');
+    if (card.classList.contains('answered')) return;
+    card.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+    this.classList.add('selected');
+  });
+});
+
+function submitQuiz() {
+  const cards = document.querySelectorAll('.quiz-card');
+  let correct = 0;
+  let total = cards.length;
+  let allAnswered = true;
+
+  cards.forEach(card => {
+    const answer = parseInt(card.dataset.answer);
+    const selected = card.querySelector('.quiz-option.selected');
+    const fb = card.querySelector('.quiz-feedback');
+
+    if (!selected) {
+      allAnswered = false;
+      return;
+    }
+
+    card.classList.add('answered');
+    const idx = parseInt(selected.dataset.idx);
+
+    if (idx === answer) {
+      correct++;
+      selected.classList.add('correct');
+      fb.className = 'quiz-feedback correct-fb';
+      fb.textContent = '✅ 정답입니다!';
+    } else {
+      selected.classList.add('wrong');
+      card.querySelectorAll('.quiz-option')[answer].classList.add('correct');
+      fb.className = 'quiz-feedback wrong-fb';
+      fb.textContent = '❌ 틀렸습니다. 정답을 확인해 보세요.';
+    }
+  });
+
+  if (!allAnswered) {
+    alert('모든 문제에 답을 선택해 주세요.');
+    return;
+  }
+
+  const result = document.getElementById('quizResult');
+  const score = document.getElementById('quizScore');
+  const feedback = document.getElementById('quizFeedback');
+
+  score.textContent = correct + ' / ' + total;
+  result.classList.add('show');
+
+  if (correct === total) {
+    feedback.textContent = '🎉 완벽합니다! 모든 요점을 정확히 이해하고 있습니다.';
+    score.style.color = '#059669';
+  } else if (correct >= 3) {
+    feedback.textContent = '👍 잘하셨습니다! 틀린 부분의 요점을 다시 한번 읽어보시면 좋겠습니다.';
+    score.style.color = '#2563eb';
+  } else {
+    feedback.textContent = '📖 핵심 요점을 다시 한번 천천히 읽어보시길 권합니다.';
+    score.style.color = '#dc2626';
+  }
+
+  result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+</body>
+</html>
