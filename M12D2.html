@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>보상과 형벌 — 하나님의 지혜</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base-font-size: 17px;
+  --font-scale: 1;
+  --color-bg: #ffffff;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #333333;
+  --color-highlight: #ffe066;
+  --color-highlight-light: #fff8d6;
+  --color-border: #e0e0e0;
+  --color-accent1: #2563eb;
+  --color-accent2: #059669;
+  --color-accent3: #d97706;
+  --color-accent4: #7c3aed;
+  --color-accent5: #dc2626;
+  --color-accent6: #0891b2;
+  --color-verse-bg: #f8f9fa;
+  --color-verse-border: #cbd5e1;
+  --topbar-h: 44px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 52px; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height: 1.7;
+  color: var(--color-text);
+  background: var(--color-bg);
+  padding-top: var(--topbar-h);
+}
+
+/* TOP BAR */
+.topbar {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  height: var(--topbar-h);
+  background: #fff; border-bottom: 1px solid var(--color-border);
+  display: flex; align-items: center;
+  padding: 0 8px;
+  gap: 4px;
+  font-size: 14px !important;
+}
+.topbar button {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border: none; background: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; color: #555; font-size: 16px !important;
+}
+.topbar button:hover { background: #f0f0f0; }
+.topbar-title {
+  flex: 1; min-width: 0;
+  overflow-x: auto; white-space: nowrap;
+  font-weight: 600; color: var(--color-text);
+  font-size: 14px !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 4px;
+}
+.topbar-title::-webkit-scrollbar { display: none; }
+.font-controls {
+  flex-shrink: 0;
+  display: flex; gap: 2px; align-items: center;
+}
+.font-controls button {
+  width: 28px; height: 28px;
+  border: 1px solid var(--color-border); border-radius: 4px;
+  background: #fff; cursor: pointer; font-size: 13px !important;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text);
+}
+.font-controls button:hover { background: #f5f5f5; }
+
+/* SIDE PANEL */
+.side-panel {
+  position: fixed; top: var(--topbar-h); left: 0; bottom: 0;
+  width: 280px; background: #fff; z-index: 999;
+  border-right: 1px solid var(--color-border);
+  transform: translateX(-100%);
+  transition: transform .25s ease;
+  overflow-y: auto; padding: 16px;
+  font-size: 15px !important;
+}
+.side-panel.open { transform: translateX(0); }
+.side-panel-overlay {
+  position: fixed; inset: 0; top: var(--topbar-h);
+  background: rgba(0,0,0,.2); z-index: 998;
+  display: none;
+}
+.side-panel-overlay.open { display: block; }
+.side-panel h3 {
+  font-size: 13px !important; color: #999; text-transform: uppercase;
+  letter-spacing: 1px; margin: 16px 0 8px; font-weight: 600;
+}
+.side-panel h3:first-child { margin-top: 0; }
+.side-panel a {
+  display: block; padding: 8px 12px; color: var(--color-text);
+  text-decoration: none; border-radius: 6px; margin: 2px 0;
+  font-size: 14px !important;
+}
+.side-panel a:hover { background: #f5f5f5; }
+.side-panel .sub-item { padding-left: 28px; font-size: 13px !important; color: #555; }
+
+/* KEYWORD TOOLTIP */
+.kw-tag {
+  display: inline-block; padding: 4px 12px; margin: 4px;
+  background: #f0f4ff; border: 1px solid #d0d8f0; border-radius: 20px;
+  cursor: pointer; font-size: 14px !important; color: var(--color-accent1);
+  font-weight: 500; transition: all .2s;
+}
+.kw-tag:hover { background: #dde6ff; }
+.kw-tooltip {
+  display: none; background: #fff; border: 1px solid var(--color-border);
+  border-radius: 8px; padding: 12px 16px; margin-top: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  font-size: calc(14px * var(--font-scale)); line-height: 1.6; color: var(--color-text);
+}
+.kw-tooltip.show { display: block; }
+
+/* MAIN */
+.container { max-width: 720px; margin: 0 auto; padding: 24px 16px 40px; }
+
+/* HERO */
+.hero {
+  text-align: center; padding: 32px 0 24px;
+}
+.hero-tag {
+  display: inline-block;
+  background: #eff6ff;
+  color: var(--color-accent1);
+  border: 1px solid #bfdbfe;
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+.hero h1 {
+  font-size: calc(26px * var(--font-scale)); font-weight: 800;
+  color: var(--color-text); line-height: 1.4; margin-bottom: 8px;
+}
+.hero .subtitle {
+  font-size: calc(15px * var(--font-scale)); color: #555; font-weight: 400;
+}
+
+/* CORE MESSAGE BOX */
+.core-message-box {
+  background: #fff;
+  border: 1px solid var(--color-accent1);
+  border-left: 5px solid var(--color-accent1);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.06);
+}
+.core-message-title {
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 800; color: var(--color-accent1);
+  margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.core-message-text {
+  font-size: calc(17px * var(--font-scale)); font-weight: 700;
+  color: var(--color-text); line-height: 1.6; word-break: keep-all;
+}
+
+/* DASHBOARD */
+.dashboard {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin: 0 0 32px 0;
+}
+.dash-card {
+  background: #fff; border: 1px solid var(--color-border);
+  border-radius: 12px; padding: 16px; text-align: center;
+  border-top: 3px solid var(--color-accent1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+.dash-card:nth-child(2) { border-top-color: var(--color-accent2); }
+.dash-card:nth-child(3) { border-top-color: var(--color-accent3); }
+.dash-card:nth-child(4) { border-top-color: var(--color-accent4); }
+.dash-icon { font-size: 28px; margin-bottom: 4px; }
+.dash-label {
+  font-size: calc(12px * var(--font-scale)); color: #888; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+.dash-value {
+  font-size: calc(15px * var(--font-scale)); font-weight: 700;
+  color: var(--color-text); margin-top: 4px; word-break: keep-all;
+}
+
+/* FLOW SUMMARY */
+.flow-summary {
+  background: #f8fafc; border: 1px solid var(--color-border);
+  border-radius: 12px; padding: 24px; margin-bottom: 32px;
+}
+.flow-summary-title {
+  font-size: calc(15px * var(--font-scale)); font-weight: 800;
+  color: var(--color-text); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+}
+.flow-summary-text {
+  font-size: calc(15px * var(--font-scale)); color: var(--color-text-secondary);
+  line-height: 1.7; margin-bottom: 24px; word-break: keep-all;
+  background: #fff; padding: 16px; border-radius: 8px; border: 1px dashed #cbd5e1;
+}
+.flow-core-title {
+  font-size: calc(14px * var(--font-scale)); font-weight: 800;
+  color: var(--color-text); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+}
+.flow-sub-list {
+  display: flex; flex-direction: column; gap: 12px;
+}
+.flow-sub-item {
+  background: #fff; border-left: 3px solid var(--color-accent2);
+  padding: 14px 16px; border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+.flow-sub-item:nth-child(2) { border-left-color: var(--color-accent3); }
+.flow-sub-item:nth-child(3) { border-left-color: var(--color-accent4); }
+
+.flow-sub-header {
+  font-size: calc(14px * var(--font-scale)); font-weight: 800;
+  color: var(--color-text); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;
+}
+.flow-sub-desc {
+  font-size: calc(14.5px * var(--font-scale)); color: var(--color-text-secondary);
+  line-height: 1.6; word-break: keep-all;
+}
+
+/* SECTION LABEL */
+.section-label {
+  font-size: calc(12px * var(--font-scale)); text-transform: uppercase;
+  letter-spacing: 2px; color: #888; font-weight: 800;
+  margin: 40px 0 20px; text-align: center;
+  position: relative;
+}
+.section-label::before, .section-label::after {
+  content: ''; position: absolute; top: 50%; width: 40px; height: 1px; background: #e2e8f0;
+}
+.section-label::before { margin-left: -50px; }
+.section-label::after { margin-left: 10px; }
+
+/* KEYWORDS */
+.keywords-wrap {
+  text-align: center; margin-bottom: 24px;
+}
+
+/* ACCORDION */
+.accordion {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  border-left: 4px solid var(--color-accent1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+.accordion[data-step="1"] { border-left-color: var(--color-accent2); }
+.accordion[data-step="2"] { border-left-color: var(--color-accent1); }
+.accordion[data-step="3"] { border-left-color: var(--color-accent3); }
+.accordion[data-step="4"] { border-left-color: var(--color-accent4); }
+.accordion[data-step="5"] { border-left-color: var(--color-accent5); }
+.accordion[data-step="6"] { border-left-color: var(--color-accent6); }
+.acc-header {
+  padding: 16px; cursor: pointer;
+  display: flex; align-items: center; gap: 12px;
+  background: #fff; user-select: none;
+  transition: background .15s;
+}
+.acc-header:hover { background: #fafafa; }
+.acc-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0; color: #fff;
+}
+.acc-title {
+  flex: 1; font-weight: 800;
+  font-size: calc(16.5px * var(--font-scale));
+  color: var(--color-text);
+}
+.acc-step {
+  font-size: calc(11.5px * var(--font-scale));
+  color: #888; font-weight: 700;
+  margin-bottom: 2px;
+}
+.acc-chevron {
+  transition: transform .25s; font-size: 14px; color: #bbb; flex-shrink:0;
+}
+.accordion.open .acc-chevron { transform: rotate(180deg); }
+.acc-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height .4s ease;
+  background: #fff;
+}
+.acc-body-inner { padding: 0 16px 20px; }
+
+/* STEP CONNECTORS (SMOOTH FLOW) */
+.step-connector {
+  display: flex; flex-direction: column; align-items: center;
+  margin: 8px 0;
+}
+.step-connector-line {
+  width: 2px; height: 20px; background: #cbd5e1;
+}
+.step-connector-badge {
+  background: #f1f5f9; border: 1px solid #cbd5e1;
+  border-radius: 8px; padding: 10px 16px;
+  font-size: calc(14px * var(--font-scale)); font-weight: 600;
+  color: var(--color-text-secondary); text-align: center;
+  max-width: 90%; line-height: 1.6; word-break: keep-all;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.step-connector-badge span { color: var(--color-accent1); font-size: 18px; }
+
+/* VERSE BLOCK */
+.verse-block {
+  background: var(--color-verse-bg);
+  border-left: 3px solid var(--color-verse-border);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 16px; margin-bottom: 16px;
+}
+.verse-ref {
+  display: flex; align-items: center; gap: 6px;
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 800; color: var(--color-accent1); margin-bottom: 6px;
+}
+.verse-text {
+  font-size: calc(15px * var(--font-scale));
+  color: var(--color-text-secondary); line-height: 1.7;
+  margin-bottom: 8px;
+}
+.verse-text:last-child { margin-bottom: 0; }
+
+/* CONTENT */
+.point-content {
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  color: var(--color-text); line-height: 1.8;
+}
+.point-content p { margin-bottom: 14px; }
+.point-content p:last-child { margin-bottom: 0; }
+.hl { background: var(--color-highlight); padding: 1px 4px; border-radius: 3px; font-weight: 700; color: #111; }
+
+/* QUIZ */
+.quiz-section { margin-top: 40px; }
+.quiz-card {
+  background: #fff; border: 1px solid var(--color-border);
+  border-radius: 12px; padding: 20px; margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+.quiz-q {
+  display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px;
+}
+.quiz-badge {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--color-accent1); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px !important; font-weight: 800; flex-shrink: 0;
+}
+.quiz-q-text {
+  font-size: 1.05rem; font-weight: 700; color: var(--color-text); line-height: 1.5;
+}
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opt {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; border: 1px solid var(--color-border);
+  border-radius: 8px; cursor: pointer; font-size: 1rem;
+  color: var(--color-text); transition: all .15s;
+  line-height: 1.5; background: #fafafa;
+}
+.quiz-opt:hover { background: #f0f4ff; border-color: #cbd5e1; }
+.quiz-opt.selected { border-color: var(--color-accent1); background: #eff6ff; }
+.quiz-opt.correct { border-color: var(--color-accent2); background: #ecfdf5; }
+.quiz-opt.wrong { border-color: var(--color-accent5); background: #fef2f2; }
+.quiz-opt-radio {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid #ccc; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: #fff;
+}
+.quiz-opt.selected .quiz-opt-radio { border-color: var(--color-accent1); }
+.quiz-opt.selected .quiz-opt-radio::after {
+  content: ''; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--color-accent1);
+}
+.quiz-hint-btn {
+  background: none; border: 1px solid #e2e8f0; border-radius: 6px;
+  padding: 8px 14px; font-size: 13px; font-weight: 600; color: #64748b;
+  cursor: pointer; margin-top: 12px; transition: background .2s;
+}
+.quiz-hint-btn:hover { background: #f1f5f9; }
+.quiz-hint {
+  display: none; padding: 12px 14px; margin-top: 10px;
+  background: var(--color-highlight-light); border-radius: 6px; border: 1px solid #fef08a;
+  font-size: calc(14px * var(--font-scale)); color: #451a03; line-height: 1.6;
+}
+.quiz-hint.show { display: block; }
+.quiz-feedback {
+  display: none; padding: 12px 14px; margin-top: 10px; font-weight: 500;
+  border-radius: 8px; font-size: calc(14.5px * var(--font-scale)); line-height: 1.6;
+}
+.quiz-result-box {
+  display: none; text-align: center; padding: 32px 24px;
+  background: #f0fdf4; border: 2px solid var(--color-accent2);
+  border-radius: 12px; margin-top: 24px;
+}
+.quiz-result-box .score {
+  font-size: calc(44px * var(--font-scale)); font-weight: 900;
+  color: var(--color-accent2); margin-bottom: 8px;
+}
+.quiz-result-box .feedback {
+  font-size: calc(17px * var(--font-scale)); font-weight: 600;
+  color: #064e3b;
+}
+.quiz-submit-btn {
+  display: block; width: 100%; padding: 16px;
+  background: var(--color-accent1); color: #fff;
+  border: none; border-radius: 10px; font-size: 1.1rem;
+  font-weight: 800; cursor: pointer; margin-top: 24px;
+  transition: background .2s;
+}
+.quiz-submit-btn:hover { background: #1d4ed8; }
+
+/* PRAYER */
+.prayer-section {
+  margin-top: 40px; padding: 32px 24px;
+  background: #fffdf5; border: 1px solid #fde68a;
+  border-radius: 16px; text-align: center;
+}
+.prayer-section h2 {
+  font-size: calc(20px * var(--font-scale)); font-weight: 800;
+  margin-bottom: 20px; color: #92400e;
+}
+.prayer-text {
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height: 2; color: #451a03; font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .dashboard { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .dash-card { padding: 12px 8px; }
+  .container { padding: 16px 12px 32px; }
+  .side-panel { width: 260px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <button id="menuBtn" aria-label="목차">☰</button>
+  <a href="https://tk-korea.github.io/2025wintertraining/" style="display:flex"><button aria-label="홈">🏠</button></a>
+  <div class="topbar-title">보상과 형벌 — 하나님의 지혜</div>
+  <div class="font-controls">
+    <button onclick="adjustFont(-1)">−</button>
+    <button onclick="adjustFont(0)">가</button>
+    <button onclick="adjustFont(1)">+</button>
+  </div>
+</div>
+
+<!-- SIDE PANEL -->
+<div class="side-panel-overlay" id="overlay"></div>
+<div class="side-panel" id="sidePanel">
+  <h3>목차</h3>
+  <a href="#hero" onclick="closePanel()">보상과 형벌 — 하나님의 지혜</a>
+  <a href="#dashboard" onclick="closePanel()">📊 핵심 대시보드</a>
+  <a href="#message-flow" onclick="closePanel()">🔗 흐름과 연결고리</a>
+
+  <h3>키워드</h3>
+  <a href="#keywords" onclick="closePanel()">키워드 보기</a>
+
+  <h3>핵심 요점</h3>
+  <a class="sub-item" href="#pt1" onclick="closePanel()">1. 두 심판대</a>
+  <a class="sub-item" href="#pt2" onclick="closePanel()">2. 구원과 보상의 차이</a>
+  <a class="sub-item" href="#pt3" onclick="closePanel()">3. 형벌의 실체</a>
+  <a class="sub-item" href="#pt4" onclick="closePanel()">4. 보상 — 동기 부여</a>
+  <a class="sub-item" href="#pt5" onclick="closePanel()">5. 형벌 — 강권</a>
+  <a class="sub-item" href="#pt6" onclick="closePanel()">6. 하나님의 의를 나타냄</a>
+
+  <h3>퀴즈</h3>
+  <a href="#quiz" onclick="closePanel()">퀴즈 풀기</a>
+
+  <h3>오늘의 기도</h3>
+  <a href="#prayer" onclick="closePanel()">기도문</a>
+</div>
+
+<div class="container">
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-tag">2025 겨울훈련 12주 2일</div>
+  <h1>보상과 형벌<br><span style="font-size:calc(20px * var(--font-scale));font-weight:500;color:#555;">— 하나님의 지혜와 의</span></h1>
+  <p class="subtitle">구원받은 후에도 살펴야 할 중대한 문제</p>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard">
+  <div class="section-label">핵심 대시보드</div>
+  
+  <!-- 전체 맥락 요약 핵심 메시지 박스 -->
+  <div class="core-message-box">
+    <div class="core-message-title">🎯 전체 맥락 요약 (Core Message)</div>
+    <div class="core-message-text">
+      구원받은 모든 믿는 이는 반드시 그리스도의 심판대 앞에 서게 되며, 그곳에서 자신의 행위와 일에 따라 다가올 왕국에서 보상을 받을지 형벌을 받을지 결정됩니다.
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <div class="dash-card">
+      <div class="dash-icon">⚖️</div>
+      <div class="dash-label">핵심 주제</div>
+      <div class="dash-value">보상과 형벌</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">🎯</div>
+      <div class="dash-label">하나님의 의도</div>
+      <div class="dash-value">동기 부여와 강권</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">👑</div>
+      <div class="dash-label">이기는 이의 보상</div>
+      <div class="dash-value">천 년 동안 왕 노릇</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">🔥</div>
+      <div class="dash-label">손실의 결과</div>
+      <div class="dash-value">불을 통과하는 것 같음</div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW SUMMARY -->
+<section id="message-flow">
+  <div class="section-label">전체 흐름과 연결고리</div>
+  <div class="flow-summary">
+    <div class="flow-summary-title">🔗 메시지의 연결고리</div>
+    <div class="flow-summary-text">
+      본문은 불신자들을 향한 심판과 구별되는 <b>'믿는 이들을 위한 그리스도의 심판대'</b>를 먼저 제시하여 영적인 경각심을 일깨웁니다. 이어서, 이 심판의 결과가 영원한 멸망을 의미하지는 않으나 다가올 왕국에서 겪게 될 <b>엄중한 상벌과 손실</b>로 이어짐을 분명하게 경고합니다. 궁극적으로 이러한 상벌 제도는 단순한 두려움을 주기 위함이 아닙니다. 오히려 우리를 깨어 있게 하여 <b>주님의 구원에 적극적으로 협력하게 만들고, 온 우주 가운데 하나님의 공의를 온전히 나타내려는 깊고 놀라운 지혜</b>라는 결론으로 우리를 이끕니다.
+    </div>
+    
+    <div class="flow-core-title">✨ 하위 요점 (3단계 전개)</div>
+    <div class="flow-sub-list">
+      <div class="flow-sub-item">
+        <div class="flow-sub-header">🛡️ 1. 구원과 심판의 구분</div>
+        <div class="flow-sub-desc">합당치 않은 일로 인해 손실을 입더라도 영원한 구원을 잃는 것은 아닙니다. 하지만 마치 불을 통과하는 것 같은 가혹한 형벌을 천년왕국 때에 겪을 수 있습니다.</div>
+      </div>
+      <div class="flow-sub-item">
+        <div class="flow-sub-header">🤝 2. 동기 부여와 협력</div>
+        <div class="flow-sub-desc">보상과 형벌의 제도는 우리가 자아를 내려놓고 주님과 적극적으로 협력하도록 동기를 부여하기 위한 하나님의 지혜입니다.</div>
+      </div>
+      <div class="flow-sub-item">
+        <div class="flow-sub-header">⚖️ 3. 하나님의 의의 나타남</div>
+        <div class="flow-sub-desc">하나님은 맹목적으로 은혜만 베푸시는 것이 아니라, 자녀들의 삶과 봉사의 차이를 분명히 판정하심으로써 그분의 공의로움을 나타내십니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEYWORDS -->
+<section id="keywords">
+  <div class="section-label">주요 키워드</div>
+  <div class="keywords-wrap">
+    <span class="kw-tag" onclick="toggleKw(this)" data-def="주 예수님께서 다시 오실 때, 그분의 믿는 이들 모두를 심판하시어 상벌(왕국에서의 누림 또는 형벌)을 결정하시는 곳입니다.">그리스도의 심판대</span>
+    <span class="kw-tag" onclick="toggleKw(this)" data-def="천 년 뒤에 믿지 않는 이들이 심판을 받게 되는 장소입니다.">크고 흰 보좌</span>
+    <span class="kw-tag" onclick="toggleKw(this)" data-def="믿는 이가 기초 위에 건축한 일이 남아 있을 때 받는 장차 올 왕국에서의 누림입니다.">보상</span>
+    <span class="kw-tag" onclick="toggleKw(this)" data-def="구원받은 후 주님을 위해 신실하게 일하지 않거나 죄 가운데 머물 때 입게 되는, 불을 통과하는 것 같은 가혹한 경험입니다.">손실 (형벌)</span>
+    <span class="kw-tag" onclick="toggleKw(this)" data-def="대가를 지불하여 주님을 추구하고 신실하게 일함으로 천 년 동안 왕으로서 다스리게 될 자들입니다.">이기는 이들</span>
+    <span class="kw-tag" onclick="toggleKw(this)" data-def="습관적으로 죄를 짓고 쾌락 안에 머물 때, 죄와 악의 세균이 제거되도록 겪게 되는 가혹한 과정입니다.">불에 절여짐</span>
+    <span class="kw-tag" onclick="toggleKw(this)" data-def="우리를 구원에 협력하게 하려고 보상과 형벌을 결정하시고 안배하신 하나님의 사상입니다.">하나님의 지혜</span>
+    <span class="kw-tag" onclick="toggleKw(this)" data-def="자녀들의 생활과 일에 존재하는 차이에 대한 분명하고 냉철한 판정을 통해 온 우주에 나타나는 하나님의 공의입니다.">하나님의 의</span>
+    <span class="kw-tag" onclick="toggleKw(this)" data-def="하나님께서 보상을 사용하시어, 우리가 자아를 제쳐 놓고 모든 것을 버리게 매혹하시는 것입니다.">동기를 부여하다</span>
+    <span class="kw-tag" onclick="toggleKw(this)" data-def="하나님께서 형벌을 경고로 사용하시어, 우리가 모든 죄와 악을 벗어 버리게 이끄시는 것입니다.">강권하다</span>
+    <span class="kw-tag" onclick="toggleKw(this)" data-def="하나님께서 우리 안으로 그분 자신을 일해 넣으실 수 있도록 자아를 제쳐놓고 힘을 합하는 것입니다.">협력하다</span>
+    <span class="kw-tag" onclick="toggleKw(this)" data-def="장차 형벌을 받을 가능성에 대한 경고로 말미암아 지속적으로 영적 주의를 기울이는 상태를 유지하는 것입니다.">깨어 있다</span>
+    <span class="kw-tag" onclick="toggleKw(this)" data-def="하나님께서 자녀들의 생활과 일에 존재하는 차이에 대한 분명하고 뚜렷한 인식에 근거하여 심판하시는 것입니다.">판정하다</span>
+  </div>
+  <div id="kwTooltip" class="kw-tooltip"></div>
+</section>
+
+<!-- POINTS -->
+<section id="points">
+<div class="section-label">메시지 본문 상세 전개</div>
+
+<!-- PT1 -->
+<div class="accordion" id="pt1" data-step="1">
+  <div class="acc-header" onclick="toggleAcc(this)">
+    <div class="acc-icon" style="background:var(--color-accent2)">⚖️</div>
+    <div>
+      <div class="acc-step">STEP 1. 영적 경각심 일깨우기</div>
+      <div class="acc-title">두 심판대 — 믿는 이 vs 믿지 않는 이</div>
+    </div>
+    <span class="acc-chevron">▼</span>
+  </div>
+  <div class="acc-body"><div class="acc-body-inner">
+    <div class="verse-block">
+      <div class="verse-ref">🔖 고후 5:10</div>
+      <div class="verse-text">왜냐하면 우리 모두가 반드시 <b class="hl">그리스도의 심판대</b> 앞에 나타나, 각 사람이 선이든 악이든 <b class="hl">자기 몸으로 행한 것</b>에 따라 그대로 대갚음을 받기 때문입니다.</div>
+      <div class="verse-ref">🔖 계 20:11-12</div>
+      <div class="verse-text">또 나는 <b class="hl">크고 흰 보좌</b>와 거기에 앉으신 분을 보았습니다... 죽은 사람들은 이 두루마리들에 기록된 대로 자기들의 행위에 따라 심판을 받았습니다.</div>
+    </div>
+    <div class="point-content">
+      <p>믿지 않는 이들은 <b class="hl">천 년 뒤</b>에 <b class="hl">크고 흰 보좌</b>에서 심판을 받겠지만(계 20:11-15), 주 예수님은 <b class="hl">심판대</b>에서 그분의 믿는 이들 모두를 심판하실 것이다(고후 5:10).</p>
+      <p>그곳에서 그들이 받을 상벌, 곧 장차 올 <b class="hl">왕국에서의 누림</b>이냐 아니면 어떤 <b class="hl">형벌</b>이냐에 관한 결정이 내려질 것이다.</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- STEP CONNECTOR 1 -> 2 -->
+<div class="step-connector">
+  <div class="step-connector-line"></div>
+  <div class="step-connector-badge"><span>💡</span> 심판대 앞에서의 결과는 영원한 멸망일까요? 성경은 구원과 장차 올 상벌의 차이를 엄격히 구분합니다.</div>
+  <div class="step-connector-line"></div>
+</div>
+
+<!-- PT2 -->
+<div class="accordion" id="pt2" data-step="2">
+  <div class="acc-header" onclick="toggleAcc(this)">
+    <div class="acc-icon" style="background:var(--color-accent1)">🛡️</div>
+    <div>
+      <div class="acc-step">STEP 2. 구원과 심판의 구분</div>
+      <div class="acc-title">구원과 보상의 차이</div>
+    </div>
+    <span class="acc-chevron">▼</span>
+  </div>
+  <div class="acc-body"><div class="acc-body-inner">
+    <div class="verse-block">
+      <div class="verse-ref">🔖 고전 3:14</div>
+      <div class="verse-text">그 기초 위에 건축한 일이 남아 있는 사람은 <b class="hl">보상을 받을 것</b>이고,</div>
+      <div class="verse-ref">🔖 고전 3:15</div>
+      <div class="verse-text">그 일이 불타 버린 사람은 <b class="hl">손실을 입게 될 것</b>입니다. 그러나 그 사람 자신은 <b class="hl">구원을 받지만</b>, 불을 통과하여 받는 것과 같을 것입니다.</div>
+    </div>
+    <div class="point-content">
+      <p>어떤 사람들은 고린도전서 3장 15절에 언급된 손실을 입게 되는 것이 구원을 잃는 것, 즉 멸망하는 것이라고 생각한다. 그러나 진리에 따르면, 우리는 여전히 <b class="hl">구원을 받지만</b> '불을 통과하여 받는 것과 같을 것'이다.</p>
+      <p>구원받은 후에도 살펴야 할 <b class="hl">중대한 문제</b>들이 여전히 있다. 우리의 행동이 문제가 되고, 우리의 일도 문제가 된다. 주님께서 다시 오실 때 심판이 있을 것이다. 그 심판에서 주님은 우리가 <b class="hl">상을 받을지 벌을 받을지</b>를 정하실 것이다.</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- STEP CONNECTOR 2 -> 3 -->
+<div class="step-connector">
+  <div class="step-connector-line"></div>
+  <div class="step-connector-badge"><span>⚠️</span> 구원을 잃는 것은 아니지만, 합당치 않은 자가 겪게 될 가혹한 손실의 실제가 분명히 존재합니다.</div>
+  <div class="step-connector-line"></div>
+</div>
+
+<!-- PT3 -->
+<div class="accordion" id="pt3" data-step="3">
+  <div class="acc-header" onclick="toggleAcc(this)">
+    <div class="acc-icon" style="background:var(--color-accent3)">🔥</div>
+    <div>
+      <div class="acc-step">STEP 3. 손실에 대한 경고</div>
+      <div class="acc-title">형벌의 실체 — 불에 절여짐</div>
+    </div>
+    <span class="acc-chevron">▼</span>
+  </div>
+  <div class="acc-body"><div class="acc-body-inner">
+    <div class="verse-block">
+      <div class="verse-ref">🔖 막 9:49</div>
+      <div class="verse-text">사람마다 <b class="hl">소금에 절여지듯 불에 절여지게</b> 될 것입니다.</div>
+    </div>
+    <div class="point-content">
+      <p>대가를 지불하여 이기는 것을 추구하고 주님을 위해 신실하게 일하지 않는다면 결국 <b class="hl">손실</b>을 입게 될 것이고, 그 손실은 매우 가혹하여 마치 <b class="hl">불을 통과하는 것과 같은 느낌</b>일 것이다.</p>
+      <p>또한 성경은 우리가 습관적으로 죄를 짓고 죄의 쾌락 안에 머문다면, 우리에게서 <b class="hl">죄와 악의 세균이 제거</b>되도록 소금에 절여지듯 불에 절여질 것임을 계시한다.</p>
+      <p>성경은 이기는 이들이 <b class="hl">천 년 동안 왕으로서 다스릴 것</b>임을 계시하지만, 믿는 이들에 대한 형벌이 얼마나 오래 지속될 것인지는 말하지 않는다. 그러나 형벌을 받는 것도 틀림없이 <b class="hl">천년왕국 때</b>에 일어날 것이라고 추정할 수 있다.</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- STEP CONNECTOR 3 -> 4 -->
+<div class="step-connector">
+  <div class="step-connector-line"></div>
+  <div class="step-connector-badge"><span>✨</span> 이러한 엄중한 경고는 우리를 두렵게 하기 위함이 아니라, 자아를 내려놓고 주님과 협력하도록 이끄시는 깊은 지혜입니다.</div>
+  <div class="step-connector-line"></div>
+</div>
+
+<!-- PT4 -->
+<div class="accordion" id="pt4" data-step="4">
+  <div class="acc-header" onclick="toggleAcc(this)">
+    <div class="acc-icon" style="background:var(--color-accent4)">🌟</div>
+    <div>
+      <div class="acc-step">STEP 4. 지혜의 첫째 의도 (보상)</div>
+      <div class="acc-title">보상 — 동기 부여와 매혹</div>
+    </div>
+    <span class="acc-chevron">▼</span>
+  </div>
+  <div class="acc-body"><div class="acc-body-inner">
+    <div class="verse-block">
+      <div class="verse-ref">🔖 고전 3:14</div>
+      <div class="verse-text">그 기초 위에 건축한 일이 남아 있는 사람은 <b class="hl">보상을 받을 것</b>이고,</div>
+    </div>
+    <div class="point-content">
+      <p>보상과 형벌은 <b class="hl">하나님의 사상과 지혜</b>에 따라 결정된 것이다. 하나님의 지혜에 따른 이러한 결정은 주로 우리에게 <b class="hl">동기를 부여</b>하고 우리를 강권하여 그분께 <b class="hl">협력</b>하도록 하기 위한 것이다.</p>
+      <p>이것은 하나님의 구원에 그분께서 우리 안으로 그분 자신을 일해 넣으실 수 있도록 우리가 <b class="hl">자아를 제쳐 놓고 모든 것을 버리고</b> 그분께 협력하기를 요구하는 부분이 있기 때문이다.</p>
+      <p>하나님은 <b class="hl">보상을 사용하심으로 동기를 부여하시고 우리를 매혹</b>하시어, 우리가 자아를 제쳐 놓고 모든 것을 버리게 하신다. 이것이 하나님의 의도의 <b class="hl">첫째 방면</b>이다.</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- STEP CONNECTOR 4 -> 5 -->
+<div class="step-connector">
+  <div class="step-connector-line"></div>
+  <div class="step-connector-badge"><span>🛡️</span> 보상으로 우리를 매혹하실 뿐 아니라, 두려운 형벌의 경고를 통해 우리를 깨어있게 강권하십니다.</div>
+  <div class="step-connector-line"></div>
+</div>
+
+<!-- PT5 -->
+<div class="accordion" id="pt5" data-step="5">
+  <div class="acc-header" onclick="toggleAcc(this)">
+    <div class="acc-icon" style="background:var(--color-accent5)">⚡</div>
+    <div>
+      <div class="acc-step">STEP 5. 지혜의 첫째 의도 (형벌)</div>
+      <div class="acc-title">형벌 — 강권하심</div>
+    </div>
+    <span class="acc-chevron">▼</span>
+  </div>
+  <div class="acc-body"><div class="acc-body-inner">
+    <div class="verse-block">
+      <div class="verse-ref">🔖 마 5:1</div>
+      <div class="verse-text">예수님께서 무리를 보시고, 산에 올라가시어 앉으시니, 제자들이 그분께 나아왔다.</div>
+      <div class="verse-ref">🔖 마 13:36</div>
+      <div class="verse-text">그 후에 예수님께서 무리를 떠나시어 집으로 들어가시자, 제자들이 나아와 "밭의 가라지에 관한 비유를 우리에게 분명하게 설명하여 주십시오."라고 하니,</div>
+    </div>
+    <div class="point-content">
+      <p>그분은 또한 <b class="hl">형벌을 사용하심으로 우리를 강권</b>하시어, 우리가 모든 것을 버리고 <b class="hl">모든 죄와 악을 벗어 버리게</b> 하신다.</p>
+      <p>장차 형벌을 받을 가능성은 우리를 계속 <b class="hl">깨어 있게</b> 하고 우리에게 <b class="hl">경고</b>가 되어야 한다.</p>
+      <p>원칙적으로, 주님은 우리가 <b class="hl">동기를 부여받아 그분께 협력하기를</b> 원하시고, 그분께 협력하지 않아 입게 될 손실을 우리에게 경고하기를 원하신다.</p>
+      <p>우리는 부주의하게 이러한 말을 다른 사람들에게 해서는 안 된다. 그보다 먼저 그들이 추구를 위해 <b class="hl">배고프고 목마른 마음</b>을 갖도록 도와야 한다. 그들의 마음이 분발되어 주님을 추구하고자 할 때, 우리는 주님께서 산과 집에서 하신 말씀들을 그들에게 말해 줄 수 있다.</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- STEP CONNECTOR 5 -> 6 -->
+<div class="step-connector">
+  <div class="step-connector-line"></div>
+  <div class="step-connector-badge"><span>⚖️</span> 결론적으로, 이 상벌 제도는 맹목적인 은혜가 아니라 자녀들의 삶을 냉철하게 판정하시어 온 우주에 그분의 공의를 나타내기 위함입니다.</div>
+  <div class="step-connector-line"></div>
+</div>
+
+<!-- PT6 -->
+<div class="accordion" id="pt6" data-step="6">
+  <div class="acc-header" onclick="toggleAcc(this)">
+    <div class="acc-icon" style="background:var(--color-accent6)">👁️</div>
+    <div>
+      <div class="acc-step">STEP 6. 지혜의 둘째 의도</div>
+      <div class="acc-title">하나님의 의를 나타냄</div>
+    </div>
+    <span class="acc-chevron">▼</span>
+  </div>
+  <div class="acc-body"><div class="acc-body-inner">
+    <div class="verse-block">
+      <div class="verse-ref">🔖 고후 5:10</div>
+      <div class="verse-text">왜냐하면 우리 모두가 반드시 <b class="hl">그리스도의 심판대</b> 앞에 나타나, 각 사람이 선이든 악이든 자기 몸으로 행한 것에 따라 그대로 대갚음을 받기 때문입니다.</div>
+    </div>
+    <div class="point-content">
+      <p>보상과 형벌에 대한 하나님의 의도의 <b class="hl">둘째 방면</b>은 그분의 자녀들을 통해 <b class="hl">그분의 의를 나타내시는 것</b>이다.</p>
+      <p>우리는 구원받은 후에 자신이 하나님의 자녀이므로 어떤 문제도 없을 것이라고 생각해서는 안 된다. 만일 그렇다면, 하나님께서 우리에게 은혜를 주실 때 <b class="hl">냉철함과 의에 대한 의식</b>도 없으시고 그분의 자녀들의 생활과 일에 존재하는 차이도 전혀 고려하지 않으시는 것처럼 보일 것이다.</p>
+      <p>그러나 <b class="hl">하나님은 판단이 흐릿한 분이 아니시다</b>. 하나님은 그러한 차이에 대한 분명하고 뚜렷한 인식에 근거하여 그분의 자녀들을 판정하신다. 그러므로 하나님께서 장차 보상과 형벌이 있도록 정하신 것은 우리를 통해 <b class="hl">그분의 냉철함과 의</b>가 나타나도록 하기 위한 것이다.</p>
+    </div>
+  </div></div>
+</div>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz-section" id="quiz">
+  <div class="section-label">이해를 돕는 퀴즈</div>
+  <div id="quizContainer"></div>
+  <button class="quiz-submit-btn" onclick="submitQuiz()">결과 확인하기</button>
+  <div class="quiz-result-box" id="quizResult">
+    <div class="score" id="quizScore"></div>
+    <div class="feedback" id="quizFeedback"></div>
+  </div>
+</section>
+
+<!-- PRAYER -->
+<section class="prayer-section" id="prayer">
+  <h2>오늘의 기도</h2>
+  <div class="prayer-text">
+    <p>주님, 저를 구원해 주셔서 감사합니다.</p>
+    <br>
+    <p>그러나 구원받은 후에도 <b class="hl">여전히 살펴야 할 중대한 문제</b>들이 있음을 보여주셔서 감사합니다.</p>
+    <br>
+    <p>보상의 문제를 통해 <b class="hl">동기를 부여</b>하시고 우리를 매혹하시어 <b class="hl">자아를 제쳐 놓고 모든 것을 버리게</b> 하시는 주님의 지혜에 감사드립니다. 형벌의 문제를 통해 우리를 <b class="hl">강권</b>하시어 <b class="hl">모든 죄와 악을 벗어 버리게</b> 하시는 주님의 의에도 감사드립니다.</p>
+    <br>
+    <p>우리가 <b class="hl">대가를 지불하여 이기는 것을 추구</b>하고 주님을 위해 <b class="hl">신실하게 일하게</b> 하소서.<br><b class="hl">배고프고 목마른 마음</b>으로 주님을 추구하며 <b class="hl">주님께 협력하는 삶</b>을 살게 하소서.</p>
+  </div>
+</section>
+
+</div><!-- container -->
+
+<script>
+// QUIZ DATA
+const quizData = [
+  {
+    q: "고전 3:15에서 '손실을 입게 되는 것'은 무엇을 의미하는가?",
+    opts: ["구원을 잃는 것", "멸망하는 것", "구원은 받지만 불을 통과하여 받는 것과 같음", "천국에 가지 못하는 것"],
+    ans: 2,
+    hint: "진리에 따르면, 우리는 여전히 구원을 받지만...",
+    explain: "진리에 따르면, 우리는 여전히 구원을 받지만 '불을 통과하여 받는 것과 같을 것'입니다."
+  },
+  {
+    q: "믿지 않는 이들은 어디에서 심판을 받는가?",
+    opts: ["그리스도의 심판대", "크고 흰 보좌", "천년왕국", "생명책"],
+    ans: 1,
+    hint: "계시록 20장 11절을 참고하세요.",
+    explain: "믿지 않는 이들은 천 년 뒤에 크고 흰 보좌에서 심판을 받습니다(계 20:11-15)."
+  },
+  {
+    q: "하나님께서 보상을 사용하시는 목적은?",
+    opts: ["우리를 강권하시기 위해", "동기를 부여하시고 매혹하시기 위해", "심판하시기 위해", "구원하시기 위해"],
+    ans: 1,
+    hint: "하나님은 보상을 사용하심으로...",
+    explain: "하나님은 보상을 사용하심으로 동기를 부여하시고 우리를 매혹하시어, 자아를 제쳐 놓고 모든 것을 버리게 하십니다."
+  },
+  {
+    q: "막 9:49에서 '불에 절여진다'는 것은 무엇을 위한 것인가?",
+    opts: ["구원을 잃기 위해", "죄와 악의 세균이 제거되도록", "영원한 형벌을 위해", "새로운 은혜를 받기 위해"],
+    ans: 1,
+    hint: "소금에 절여지듯...",
+    explain: "우리에게서 죄와 악의 세균이 제거되도록 소금에 절여지듯 불에 절여질 것입니다."
+  },
+  {
+    q: "보상과 형벌에 대한 하나님의 의도의 '둘째 방면'은?",
+    opts: ["우리에게 동기를 부여하는 것", "우리를 강권하는 것", "그분의 자녀들을 통해 그분의 의를 나타내시는 것", "구원을 확증하시는 것"],
+    ans: 2,
+    hint: "하나님은 판단이 흐릿한 분이 아니시다.",
+    explain: "둘째 방면은 그분의 자녀들을 통해 그분의 의를 나타내시는 것입니다."
+  }
+];
+
+// RENDER QUIZ
+const qc = document.getElementById('quizContainer');
+quizData.forEach((item, i) => {
+  let optsHtml = item.opts.map((o, j) =>
+    `<div class="quiz-opt" data-q="${i}" data-o="${j}" onclick="selectOpt(this)">
+      <div class="quiz-opt-radio"></div><span>${o}</span>
+    </div>`
+  ).join('');
+  qc.innerHTML += `
+    <div class="quiz-card" data-qi="${i}">
+      <div class="quiz-q">
+        <div class="quiz-badge">${i+1}</div>
+        <div class="quiz-q-text">${item.q}</div>
+      </div>
+      <div class="quiz-options">${optsHtml}</div>
+      <button class="quiz-hint-btn" onclick="showHint(this,${i})">💡 힌트 보기</button>
+      <div class="quiz-hint" id="hint${i}">${item.hint}</div>
+      <div class="quiz-feedback" id="fb${i}"></div>
+    </div>`;
+});
+
+function selectOpt(el) {
+  const q = el.dataset.q;
+  document.querySelectorAll(`.quiz-opt[data-q="${q}"]`).forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function showHint(btn, i) {
+  const h = document.getElementById('hint'+i);
+  h.classList.toggle('show');
+  btn.textContent = h.classList.contains('show') ? '💡 힌트 닫기' : '💡 힌트 보기';
+}
+function submitQuiz() {
+  let score = 0;
+  quizData.forEach((item, i) => {
+    const sel = document.querySelector(`.quiz-opt.selected[data-q="${i}"]`);
+    const fb = document.getElementById('fb'+i);
+    document.querySelectorAll(`.quiz-opt[data-q="${i}"]`).forEach(o => {
+      o.classList.remove('correct','wrong');
+      if(parseInt(o.dataset.o) === item.ans) o.classList.add('correct');
+    });
+    if(sel) {
+      if(parseInt(sel.dataset.o) === item.ans) {
+        score++;
+        fb.style.background = '#ecfdf5'; fb.style.color = '#059669';
+        fb.textContent = '✅ 정답! ' + item.explain;
+      } else {
+        sel.classList.add('wrong');
+        fb.style.background = '#fef2f2'; fb.style.color = '#dc2626';
+        fb.textContent = '❌ ' + item.explain;
+      }
+    } else {
+      fb.style.background = '#fffbeb'; fb.style.color = '#d97706';
+      fb.textContent = '⚠️ 선택하지 않았습니다. ' + item.explain;
+    }
+    fb.style.display = 'block';
+  });
+  const rb = document.getElementById('quizResult');
+  rb.style.display = 'block';
+  document.getElementById('quizScore').textContent = score + ' / ' + quizData.length;
+  const pct = score / quizData.length;
+  let msg = pct === 1 ? '🎉 완벽합니다! 핵심을 정확히 이해하고 계시네요.' :
+            pct >= 0.6 ? '👍 잘 하셨습니다! 틀린 문제를 다시 확인해 보세요.' :
+            '📖 다시 한 번 핵심 요점을 읽어보시길 권합니다.';
+  document.getElementById('quizFeedback').textContent = msg;
+  rb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ACCORDION
+function toggleAcc(header) {
+  const acc = header.parentElement;
+  const body = acc.querySelector('.acc-body');
+  if(acc.classList.contains('open')) {
+    body.style.maxHeight = null;
+    acc.classList.remove('open');
+  } else {
+    acc.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+}
+
+// KEYWORD TOOLTIP
+function toggleKw(el) {
+  const tip = document.getElementById('kwTooltip');
+  if(tip.dataset.active === el.dataset.def && tip.classList.contains('show')) {
+    tip.classList.remove('show'); tip.dataset.active = ''; return;
+  }
+  tip.textContent = el.dataset.def;
+  tip.dataset.active = el.dataset.def;
+  tip.classList.add('show');
+}
+
+// SIDE PANEL
+function closePanel() {
+  document.getElementById('sidePanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+document.getElementById('menuBtn').addEventListener('click', () => {
+  const p = document.getElementById('sidePanel');
+  const o = document.getElementById('overlay');
+  p.classList.toggle('open');
+  o.classList.toggle('open');
+});
+document.getElementById('overlay').addEventListener('click', closePanel);
+
+// FONT SIZE
+function adjustFont(dir) {
+  const r = document.documentElement;
+  let s = parseFloat(getComputedStyle(r).getPropertyValue('--font-scale')) || 1;
+  if(dir === 0) s = 1;
+  else s = Math.max(0.7, Math.min(1.5, s + dir * 0.05));
+  r.style.setProperty('--font-scale', s);
+}
+</script>
+</body>
+</html>
