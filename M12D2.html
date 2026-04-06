@@ -34,6 +34,63 @@ body {
   color: var(--color-text);
   background: var(--color-bg);
   padding-top: var(--topbar-h);
+  /* 인트로 레이어가 있을 때는 스크롤 방지 */
+  overflow: hidden; 
+}
+body.intro-cleared {
+  overflow: auto;
+}
+
+/* INTRO OVERLAY (레이어 벗기기) */
+.intro-layer {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #0f172a; color: #fff;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+  overflow: hidden;
+}
+.intro-layer.peeled {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.intro-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 30%, #1e293b 0%, #0f172a 100%);
+  z-index: 1; opacity: 0.8;
+}
+.intro-content {
+  position: relative; z-index: 2; padding: 24px; max-width: 440px; width: 100%;
+  text-align: center;
+}
+.intro-title {
+  font-size: 28px; font-weight: 900; line-height: 1.4; margin-bottom: 12px; letter-spacing: -0.5px;
+}
+.intro-title .text-highlight { color: #facc15; }
+.intro-sub {
+  font-size: 16px; color: #94a3b8; margin-bottom: 40px; font-weight: 500;
+}
+.intro-steps { display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; }
+.intro-step {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px; padding: 18px 20px; display: flex; align-items: center; gap: 18px;
+  text-align: left; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.is-icon { font-size: 28px; line-height: 1; }
+.is-text { font-size: 14px; line-height: 1.4; color: #cbd5e1; word-break: keep-all;}
+.is-text b { color: #fff; display: block; font-size: 17px; margin-bottom: 4px; }
+
+.intro-btn {
+  background: #fff; color: #0f172a; border: none; padding: 18px 24px;
+  border-radius: 30px; font-size: 17px; font-weight: 800; width: 100%;
+  cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px;
+  transition: all 0.2s; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.intro-btn:hover { transform: scale(1.02); background: #f8fafc; }
+.btn-arrow { display: inline-block; animation: bounceUp 1.5s infinite; font-size: 18px;}
+@keyframes bounceUp {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 }
 
 /* TOP BAR */
@@ -174,7 +231,7 @@ body {
 /* DASHBOARD */
 .dashboard {
   display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-  margin: 0 0 32px 0;
+  margin: 0 0 16px 0;
 }
 .dash-card {
   background: #fff; border: 1px solid var(--color-border);
@@ -193,6 +250,57 @@ body {
 .dash-value {
   font-size: calc(15px * var(--font-scale)); font-weight: 700;
   color: var(--color-text); margin-top: 4px; word-break: keep-all;
+}
+
+/* TIMELINE (상벌의 기간) */
+.timeline-box {
+  background: #fff; border: 1px solid var(--color-border);
+  border-radius: 12px; padding: 28px 24px; margin-top: 12px; margin-bottom: 32px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  border-top: 4px solid #1e293b;
+}
+.timeline-header { text-align: center; margin-bottom: 32px; }
+.timeline-title { font-size: calc(16px * var(--font-scale)); font-weight: 800; color: var(--color-text); display: flex; align-items: center; justify-content: center; gap: 6px;}
+.timeline-subtitle { font-size: calc(14.5px * var(--font-scale)); color: var(--color-text-secondary); margin-top: 6px; word-break: keep-all;}
+
+.timeline-wrapper { position: relative; display: flex; justify-content: space-between; margin: 32px 0 24px; }
+.timeline-line { position: absolute; top: 70px; left: 5%; right: 5%; height: 2px; background: #cbd5e1; z-index: 1; }
+.timeline-item { position: relative; z-index: 2; width: 19%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
+
+.timeline-content-top {
+  height: 50px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+  text-align: center; margin-bottom: 12px; font-size: calc(13.5px * var(--font-scale));
+  font-weight: 800; color: var(--color-text); line-height: 1.3;
+}
+.timeline-content-top small { font-size: 0.85em; font-weight: 500; color: #64748b; margin-top: 4px; }
+
+.timeline-point { width: 16px; height: 16px; border-radius: 50%; background: #fff; border: 3px solid #94a3b8; }
+
+.timeline-content-bottom {
+  margin-top: 12px; text-align: center; font-size: calc(12.5px * var(--font-scale));
+  color: #64748b; line-height: 1.4; font-weight: 500; word-break: keep-all;
+}
+.timeline-content-bottom small { font-size: 0.85em; display: block; margin-top: 4px; }
+
+/* Active Timeline (Millennium) */
+.timeline-item.active { width: 26%; }
+.timeline-item.active .timeline-content-top { color: var(--color-accent3); }
+.timeline-item.active .timeline-content-top small { color: var(--color-accent3); }
+.timeline-item.active .timeline-point {
+  width: 24px; height: 24px; border-color: var(--color-accent3); background: var(--color-highlight);
+  box-shadow: 0 0 0 5px rgba(217, 119, 6, 0.15); margin-top: -4px; margin-bottom: -4px;
+}
+.timeline-item.active .timeline-content-bottom {
+  background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 12px;
+  color: var(--color-text); font-weight: 600; text-align: left; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+.timeline-active-list { display: flex; flex-direction: column; gap: 8px; }
+.timeline-active-list b { color: var(--color-accent3); }
+
+.timeline-note {
+  font-size: calc(13px * var(--font-scale)); color: #64748b; text-align: center;
+  padding: 12px 16px; background: #f8fafc; border-radius: 6px; border: 1px dashed #cbd5e1;
+  margin-top: 24px; word-break: keep-all; line-height: 1.5;
 }
 
 /* FLOW SUMMARY */
@@ -221,8 +329,8 @@ body {
   padding: 14px 16px; border-radius: 6px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.03);
 }
-.flow-sub-item:nth-child(2) { border-left-color: var(--color-accent3); }
-.flow-sub-item:nth-child(3) { border-left-color: var(--color-accent4); }
+.flow-sub-item:nth-child(2) { border-left-color: var(--color-accent4); }
+.flow-sub-item:nth-child(3) { border-left-color: var(--color-accent6); }
 
 .flow-sub-header {
   font-size: calc(14px * var(--font-scale)); font-weight: 800;
@@ -251,7 +359,7 @@ body {
   text-align: center; margin-bottom: 24px;
 }
 
-/* ACCORDION */
+/* ACCORDION (CSS Grid로 변경하여 폰트 크기 변경시 짤림 방지) */
 .accordion {
   border: 1px solid var(--color-border);
   border-radius: 12px;
@@ -263,8 +371,8 @@ body {
 .accordion[data-step="2"] { border-left-color: var(--color-accent1); }
 .accordion[data-step="3"] { border-left-color: var(--color-accent3); }
 .accordion[data-step="4"] { border-left-color: var(--color-accent4); }
-.accordion[data-step="5"] { border-left-color: var(--color-accent5); }
-.accordion[data-step="6"] { border-left-color: var(--color-accent6); }
+.accordion[data-step="5"] { border-left-color: var(--color-accent6); }
+
 .acc-header {
   padding: 16px; cursor: pointer;
   display: flex; align-items: center; gap: 12px;
@@ -288,15 +396,26 @@ body {
   margin-bottom: 2px;
 }
 .acc-chevron {
-  transition: transform .25s; font-size: 14px; color: #bbb; flex-shrink:0;
+  transition: transform .3s ease; font-size: 14px; color: #bbb; flex-shrink:0;
 }
 .accordion.open .acc-chevron { transform: rotate(180deg); }
+
+/* Grid 방식으로 아코디언 구현 (폰트 커져도 안짤림) */
 .acc-body {
-  max-height: 0; overflow: hidden;
-  transition: max-height .4s ease;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease-in-out;
   background: #fff;
 }
-.acc-body-inner { padding: 0 16px 20px; }
+.accordion.open .acc-body {
+  grid-template-rows: 1fr;
+}
+.acc-body-wrapper {
+  overflow: hidden;
+}
+.acc-body-inner {
+  padding: 0 16px 20px;
+}
 
 /* STEP CONNECTORS (SMOOTH FLOW) */
 .step-connector {
@@ -344,6 +463,51 @@ body {
 .point-content p { margin-bottom: 14px; }
 .point-content p:last-child { margin-bottom: 0; }
 .hl { background: var(--color-highlight); padding: 1px 4px; border-radius: 3px; font-weight: 700; color: #111; }
+
+/* NEW INTENTION STYLES (STEP 4 & 5) */
+.ultimate-goal {
+  background: #fffdf5; border: 1px solid #fcd34d; padding: 16px; text-align: center;
+  font-weight: 800; color: #92400e; border-radius: 8px; margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02); word-break: keep-all; line-height: 1.6;
+}
+.ultimate-goal b { color: var(--color-accent3); }
+
+.intention-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;
+}
+.intention-card {
+  background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
+  padding: 20px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+.intention-card.reward { border-top: 4px solid var(--color-accent1); }
+.intention-card.punishment { border-top: 4px solid var(--color-accent5); }
+.intention-icon { font-size: 36px; margin-bottom: 12px; }
+.intention-title { font-weight: 800; font-size: calc(16px * var(--font-scale)); margin-bottom: 12px; }
+.intention-title.reward { color: var(--color-accent1); }
+.intention-title.punishment { color: var(--color-accent5); }
+.intention-list { text-align: left; font-size: calc(14px * var(--font-scale)); color: #475569; padding-left: 20px; }
+.intention-list li { margin-bottom: 8px; padding-left: 4px; line-height: 1.5; word-break: keep-all; }
+.intention-list li::marker { color: #94a3b8; }
+.intention-list b { color: var(--color-text); }
+
+.misunderstanding-box {
+  background: #fef2f2; border: 1px solid #fca5a5; padding: 16px 20px;
+  border-radius: 8px; border-left: 4px solid #ef4444; margin-bottom: 20px;
+}
+.misunderstanding-title {
+  font-weight: 800; color: #991b1b; margin-bottom: 6px; font-size: calc(15px * var(--font-scale));
+}
+.misunderstanding-desc { font-weight: 800; color: #dc2626; display: flex; align-items: center; gap: 6px;}
+
+.justice-list {
+  display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;
+}
+.justice-item {
+  display: flex; gap: 14px; align-items: flex-start;
+  background: #f8fafc; border: 1px solid #e2e8f0; padding: 16px; border-radius: 8px;
+}
+.justice-icon { color: var(--color-accent2); font-size: 20px; flex-shrink: 0; line-height: 1; margin-top: 2px;}
+.justice-text { font-size: calc(15px * var(--font-scale)); color: var(--color-text); line-height: 1.6; word-break: keep-all; }
 
 /* QUIZ */
 .quiz-section { margin-top: 40px; }
@@ -440,15 +604,58 @@ body {
   line-height: 2; color: #451a03; font-weight: 500;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .dashboard { grid-template-columns: 1fr 1fr; gap: 8px; }
   .dash-card { padding: 12px 8px; }
   .container { padding: 16px 12px 32px; }
   .side-panel { width: 260px; }
+
+  /* Timeline Mobile */
+  .timeline-wrapper { flex-direction: column; margin: 24px 0 16px; position: relative; }
+  .timeline-line { top: 12px; bottom: 12px; left: 107px; width: 2px; height: auto; transform: none; }
+  .timeline-item { width: 100%; flex-direction: row; align-items: flex-start; margin-bottom: 28px; }
+  .timeline-item.active { width: 100%; }
+  .timeline-content-top { width: 85px; height: auto; align-items: flex-end; text-align: right; margin: 0 14px 0 0; }
+  .timeline-point { margin-top: 4px; z-index: 2; margin-right: 16px; flex-shrink: 0;}
+  .timeline-item.active .timeline-point { margin-top: 0px; margin-right: 12px; margin-left: -4px; }
+  .timeline-content-bottom { flex: 1; height: auto; margin-top: 2px; text-align: left; }
+  .timeline-item.active .timeline-content-bottom { margin-top: -6px; }
+
+  /* Intention Grid Mobile */
+  .intention-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
+
+<!-- INTRO OVERLAY (레이어 벗기기) -->
+<div id="introLayer" class="intro-layer">
+  <div class="intro-bg"></div>
+  <div class="intro-content">
+    <h2 class="intro-title">구원받은 우리는<br><span class="text-highlight">심판을 피할 수 있을까요?</span></h2>
+    <p class="intro-sub">장차 올 심판대 앞에 서기 위한 3가지 태도</p>
+    
+    <div class="intro-steps">
+      <div class="intro-step">
+        <div class="is-icon">👁️</div>
+        <div class="is-text"><b>경각심</b> 형벌과 손실의 가능성을 인지하고 영적인 안일함에서 깨어나십시오.</div>
+      </div>
+      <div class="intro-step">
+        <div class="is-icon">🏃‍♂️</div>
+        <div class="is-text"><b>추구</b> 기꺼이 대가를 지불하여, 다가올 왕국에서 '이기는 자'가 되기를 갈망하십시오.</div>
+      </div>
+      <div class="intro-step">
+        <div class="is-icon">🧱</div>
+        <div class="is-text"><b>신실함</b> 은혜를 핑계 삼지 말고, 주님을 위해 끝까지 신실하게 행하십시오.</div>
+      </div>
+    </div>
+
+    <button class="intro-btn" onclick="peelLayer()">
+      <span>진리의 말씀 열어보기</span>
+      <span class="btn-arrow">👆</span>
+    </button>
+  </div>
+</div>
 
 <!-- TOP BAR -->
 <div class="topbar">
@@ -477,9 +684,8 @@ body {
   <a class="sub-item" href="#pt1" onclick="closePanel()">1. 두 심판대</a>
   <a class="sub-item" href="#pt2" onclick="closePanel()">2. 구원과 보상의 차이</a>
   <a class="sub-item" href="#pt3" onclick="closePanel()">3. 형벌의 실체</a>
-  <a class="sub-item" href="#pt4" onclick="closePanel()">4. 보상 — 동기 부여</a>
-  <a class="sub-item" href="#pt5" onclick="closePanel()">5. 형벌 — 강권</a>
-  <a class="sub-item" href="#pt6" onclick="closePanel()">6. 하나님의 의를 나타냄</a>
+  <a class="sub-item" href="#pt4" onclick="closePanel()">4. 첫째 의도 — 자발적 협력</a>
+  <a class="sub-item" href="#pt5" onclick="closePanel()">5. 둘째 의도 — 공의로운 판정</a>
 
   <h3>퀴즈</h3>
   <a href="#quiz" onclick="closePanel()">퀴즈 풀기</a>
@@ -530,6 +736,55 @@ body {
       <div class="dash-label">손실의 결과</div>
       <div class="dash-value">불을 통과하는 것 같음</div>
     </div>
+  </div>
+
+  <!-- TIMELINE (상벌의 기간) -->
+  <div class="timeline-box">
+    <div class="timeline-header">
+      <div class="timeline-title">⏱️ 상벌의 기간: 천년왕국</div>
+      <div class="timeline-subtitle">형벌과 보상의 판정은 천년왕국 기간 동안 구체화됩니다.</div>
+    </div>
+    
+    <div class="timeline-wrapper">
+      <div class="timeline-line"></div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content-top">십자가<br><small>(구원)</small></div>
+        <div class="timeline-point"></div>
+        <div class="timeline-content-bottom">영원한<br>생명의 시작</div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content-top">그리스도의<br>심판대</div>
+        <div class="timeline-point"></div>
+        <div class="timeline-content-bottom">행위와 일에<br>대한 평가<br><small>(주님 다시 오실 때)</small></div>
+      </div>
+      
+      <div class="timeline-item active">
+        <div class="timeline-content-top">천년왕국<br><small>(상벌의 기간)</small></div>
+        <div class="timeline-point"></div>
+        <div class="timeline-content-bottom">
+          <div class="timeline-active-list">
+            <div><b>- 이기는 이들:</b><br>왕으로서 다스림 (보상)</div>
+            <div><b>- 손실을 입은 자들:</b><br>형벌과 징계의 시간</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content-top">크고<br>흰 보좌</div>
+        <div class="timeline-point"></div>
+        <div class="timeline-content-bottom">불신자들에 대한<br>최종 심판<br><small>(계 20:12)</small></div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content-top">영원</div>
+        <div class="timeline-point"></div>
+        <div class="timeline-content-bottom">새 하늘과<br>새 땅</div>
+      </div>
+    </div>
+    
+    <div class="timeline-note">성경은 믿는 이들에 대한 형벌의 정확한 기간을 명시하지 않으나, 이 형벌은 틀림없이 천년왕국 때에 일어날 것임을 추정할 수 있습니다.</div>
   </div>
 </section>
 
@@ -595,7 +850,7 @@ body {
     </div>
     <span class="acc-chevron">▼</span>
   </div>
-  <div class="acc-body"><div class="acc-body-inner">
+  <div class="acc-body"><div class="acc-body-wrapper"><div class="acc-body-inner">
     <div class="verse-block">
       <div class="verse-ref">🔖 고후 5:10</div>
       <div class="verse-text">왜냐하면 우리 모두가 반드시 <b class="hl">그리스도의 심판대</b> 앞에 나타나, 각 사람이 선이든 악이든 <b class="hl">자기 몸으로 행한 것</b>에 따라 그대로 대갚음을 받기 때문입니다.</div>
@@ -606,7 +861,7 @@ body {
       <p>믿지 않는 이들은 <b class="hl">천 년 뒤</b>에 <b class="hl">크고 흰 보좌</b>에서 심판을 받겠지만(계 20:11-15), 주 예수님은 <b class="hl">심판대</b>에서 그분의 믿는 이들 모두를 심판하실 것이다(고후 5:10).</p>
       <p>그곳에서 그들이 받을 상벌, 곧 장차 올 <b class="hl">왕국에서의 누림</b>이냐 아니면 어떤 <b class="hl">형벌</b>이냐에 관한 결정이 내려질 것이다.</p>
     </div>
-  </div></div>
+  </div></div></div>
 </div>
 
 <!-- STEP CONNECTOR 1 -> 2 -->
@@ -626,7 +881,7 @@ body {
     </div>
     <span class="acc-chevron">▼</span>
   </div>
-  <div class="acc-body"><div class="acc-body-inner">
+  <div class="acc-body"><div class="acc-body-wrapper"><div class="acc-body-inner">
     <div class="verse-block">
       <div class="verse-ref">🔖 고전 3:14</div>
       <div class="verse-text">그 기초 위에 건축한 일이 남아 있는 사람은 <b class="hl">보상을 받을 것</b>이고,</div>
@@ -637,7 +892,7 @@ body {
       <p>어떤 사람들은 고린도전서 3장 15절에 언급된 손실을 입게 되는 것이 구원을 잃는 것, 즉 멸망하는 것이라고 생각한다. 그러나 진리에 따르면, 우리는 여전히 <b class="hl">구원을 받지만</b> '불을 통과하여 받는 것과 같을 것'이다.</p>
       <p>구원받은 후에도 살펴야 할 <b class="hl">중대한 문제</b>들이 여전히 있다. 우리의 행동이 문제가 되고, 우리의 일도 문제가 된다. 주님께서 다시 오실 때 심판이 있을 것이다. 그 심판에서 주님은 우리가 <b class="hl">상을 받을지 벌을 받을지</b>를 정하실 것이다.</p>
     </div>
-  </div></div>
+  </div></div></div>
 </div>
 
 <!-- STEP CONNECTOR 2 -> 3 -->
@@ -657,7 +912,7 @@ body {
     </div>
     <span class="acc-chevron">▼</span>
   </div>
-  <div class="acc-body"><div class="acc-body-inner">
+  <div class="acc-body"><div class="acc-body-wrapper"><div class="acc-body-inner">
     <div class="verse-block">
       <div class="verse-ref">🔖 막 9:49</div>
       <div class="verse-text">사람마다 <b class="hl">소금에 절여지듯 불에 절여지게</b> 될 것입니다.</div>
@@ -667,7 +922,7 @@ body {
       <p>또한 성경은 우리가 습관적으로 죄를 짓고 죄의 쾌락 안에 머문다면, 우리에게서 <b class="hl">죄와 악의 세균이 제거</b>되도록 소금에 절여지듯 불에 절여질 것임을 계시한다.</p>
       <p>성경은 이기는 이들이 <b class="hl">천 년 동안 왕으로서 다스릴 것</b>임을 계시하지만, 믿는 이들에 대한 형벌이 얼마나 오래 지속될 것인지는 말하지 않는다. 그러나 형벌을 받는 것도 틀림없이 <b class="hl">천년왕국 때</b>에 일어날 것이라고 추정할 수 있다.</p>
     </div>
-  </div></div>
+  </div></div></div>
 </div>
 
 <!-- STEP CONNECTOR 3 -> 4 -->
@@ -677,91 +932,106 @@ body {
   <div class="step-connector-line"></div>
 </div>
 
-<!-- PT4 -->
+<!-- PT4 (FIRST INTENTION) -->
 <div class="accordion" id="pt4" data-step="4">
   <div class="acc-header" onclick="toggleAcc(this)">
     <div class="acc-icon" style="background:var(--color-accent4)">🌟</div>
     <div>
-      <div class="acc-step">STEP 4. 지혜의 첫째 의도 (보상)</div>
-      <div class="acc-title">보상 — 동기 부여와 매혹</div>
+      <div class="acc-step">STEP 4. 지혜의 첫째 의도</div>
+      <div class="acc-title">자발적 협력을 이끌어내는 동력 (보상과 형벌)</div>
     </div>
     <span class="acc-chevron">▼</span>
   </div>
-  <div class="acc-body"><div class="acc-body-inner">
+  <div class="acc-body"><div class="acc-body-wrapper"><div class="acc-body-inner">
+    
+    <div class="ultimate-goal">
+      궁극적 목적은 하나님의 구원 안에서 그분 자신을 우리 안으로 일해 넣으실 수 있도록,<br>우리의 절대적인 <b>'협력'</b>을 얻어내기 위함입니다.
+    </div>
+
+    <div class="intention-grid">
+      <!-- 보상 카드 -->
+      <div class="intention-card reward">
+        <div class="intention-icon">🧲</div>
+        <div class="intention-title reward">보상 (Reward)</div>
+        <ul class="intention-list">
+          <li><b>기능:</b> 우리를 매혹하고 강력한 동기를 부여함.</li>
+          <li><b>결과:</b> 자아를 제쳐놓고 모든 것을 기꺼이 버리게 함.</li>
+        </ul>
+      </div>
+      <!-- 형벌 카드 -->
+      <div class="intention-card punishment">
+        <div class="intention-icon">🛡️</div>
+        <div class="intention-title punishment">형벌 (Punishment)</div>
+        <ul class="intention-list">
+          <li><b>기능:</b> 우리를 강권하고 엄중히 경고함.</li>
+          <li><b>결과:</b> 안일함을 깨고 모든 죄와 악을 벗어 버리게 함.</li>
+        </ul>
+      </div>
+    </div>
+
     <div class="verse-block">
       <div class="verse-ref">🔖 고전 3:14</div>
       <div class="verse-text">그 기초 위에 건축한 일이 남아 있는 사람은 <b class="hl">보상을 받을 것</b>이고,</div>
+      <div class="verse-ref">🔖 마 5:1, 마 13:36</div>
+      <div class="verse-text">예수님께서 무리를 보시고 산에 올라가시어... (산과 집에서 하신 심판의 경고)</div>
     </div>
     <div class="point-content">
-      <p>보상과 형벌은 <b class="hl">하나님의 사상과 지혜</b>에 따라 결정된 것이다. 하나님의 지혜에 따른 이러한 결정은 주로 우리에게 <b class="hl">동기를 부여</b>하고 우리를 강권하여 그분께 <b class="hl">협력</b>하도록 하기 위한 것이다.</p>
-      <p>이것은 하나님의 구원에 그분께서 우리 안으로 그분 자신을 일해 넣으실 수 있도록 우리가 <b class="hl">자아를 제쳐 놓고 모든 것을 버리고</b> 그분께 협력하기를 요구하는 부분이 있기 때문이다.</p>
-      <p>하나님은 <b class="hl">보상을 사용하심으로 동기를 부여하시고 우리를 매혹</b>하시어, 우리가 자아를 제쳐 놓고 모든 것을 버리게 하신다. 이것이 하나님의 의도의 <b class="hl">첫째 방면</b>이다.</p>
+      <p>보상과 형벌은 단순한 율법이 아니라 <b class="hl">하나님의 사상과 지혜</b>에 따라 결정된 것이다. 하나님은 보상을 사용하심으로 동기를 부여하시고 우리를 매혹하시며, 또한 형벌을 사용하심으로 우리를 강권하신다.</p>
+      <p>이 지혜로운 결정은 우리가 깨어 있게 하고, 대가를 지불하여 <b class="hl">이기는 것을 추구</b>하도록 우리를 분발시킨다. 주님은 우리가 동기를 부여받아 그분께 협력하기를 원하신다.</p>
     </div>
-  </div></div>
+  </div></div></div>
 </div>
 
 <!-- STEP CONNECTOR 4 -> 5 -->
 <div class="step-connector">
   <div class="step-connector-line"></div>
-  <div class="step-connector-badge"><span>🛡️</span> 보상으로 우리를 매혹하실 뿐 아니라, 두려운 형벌의 경고를 통해 우리를 깨어있게 강권하십니다.</div>
+  <div class="step-connector-badge"><span>⚖️</span> 또한, 이 상벌 제도는 맹목적인 은혜가 아니라 자녀들의 삶을 냉철하게 판정하시어 온 우주에 그분의 공의를 나타내기 위함입니다.</div>
   <div class="step-connector-line"></div>
 </div>
 
-<!-- PT5 -->
+<!-- PT5 (SECOND INTENTION) -->
 <div class="accordion" id="pt5" data-step="5">
-  <div class="acc-header" onclick="toggleAcc(this)">
-    <div class="acc-icon" style="background:var(--color-accent5)">⚡</div>
-    <div>
-      <div class="acc-step">STEP 5. 지혜의 첫째 의도 (형벌)</div>
-      <div class="acc-title">형벌 — 강권하심</div>
-    </div>
-    <span class="acc-chevron">▼</span>
-  </div>
-  <div class="acc-body"><div class="acc-body-inner">
-    <div class="verse-block">
-      <div class="verse-ref">🔖 마 5:1</div>
-      <div class="verse-text">예수님께서 무리를 보시고, 산에 올라가시어 앉으시니, 제자들이 그분께 나아왔다.</div>
-      <div class="verse-ref">🔖 마 13:36</div>
-      <div class="verse-text">그 후에 예수님께서 무리를 떠나시어 집으로 들어가시자, 제자들이 나아와 "밭의 가라지에 관한 비유를 우리에게 분명하게 설명하여 주십시오."라고 하니,</div>
-    </div>
-    <div class="point-content">
-      <p>그분은 또한 <b class="hl">형벌을 사용하심으로 우리를 강권</b>하시어, 우리가 모든 것을 버리고 <b class="hl">모든 죄와 악을 벗어 버리게</b> 하신다.</p>
-      <p>장차 형벌을 받을 가능성은 우리를 계속 <b class="hl">깨어 있게</b> 하고 우리에게 <b class="hl">경고</b>가 되어야 한다.</p>
-      <p>원칙적으로, 주님은 우리가 <b class="hl">동기를 부여받아 그분께 협력하기를</b> 원하시고, 그분께 협력하지 않아 입게 될 손실을 우리에게 경고하기를 원하신다.</p>
-      <p>우리는 부주의하게 이러한 말을 다른 사람들에게 해서는 안 된다. 그보다 먼저 그들이 추구를 위해 <b class="hl">배고프고 목마른 마음</b>을 갖도록 도와야 한다. 그들의 마음이 분발되어 주님을 추구하고자 할 때, 우리는 주님께서 산과 집에서 하신 말씀들을 그들에게 말해 줄 수 있다.</p>
-    </div>
-  </div></div>
-</div>
-
-<!-- STEP CONNECTOR 5 -> 6 -->
-<div class="step-connector">
-  <div class="step-connector-line"></div>
-  <div class="step-connector-badge"><span>⚖️</span> 결론적으로, 이 상벌 제도는 맹목적인 은혜가 아니라 자녀들의 삶을 냉철하게 판정하시어 온 우주에 그분의 공의를 나타내기 위함입니다.</div>
-  <div class="step-connector-line"></div>
-</div>
-
-<!-- PT6 -->
-<div class="accordion" id="pt6" data-step="6">
   <div class="acc-header" onclick="toggleAcc(this)">
     <div class="acc-icon" style="background:var(--color-accent6)">👁️</div>
     <div>
-      <div class="acc-step">STEP 6. 지혜의 둘째 의도</div>
-      <div class="acc-title">하나님의 의를 나타냄</div>
+      <div class="acc-step">STEP 5. 지혜의 둘째 의도</div>
+      <div class="acc-title">자녀들의 차이를 공의롭게 판정하심</div>
     </div>
     <span class="acc-chevron">▼</span>
   </div>
-  <div class="acc-body"><div class="acc-body-inner">
+  <div class="acc-body"><div class="acc-body-wrapper"><div class="acc-body-inner">
+    
+    <div class="misunderstanding-box">
+      <div class="misunderstanding-title">🚨 '하나님의 자녀이므로 아무 문제 없을 것이다?'</div>
+      <div class="misunderstanding-desc">➔ 매우 위험한 오해입니다. 하나님은 판단이 흐릿한 분이 아니십니다.</div>
+    </div>
+
+    <div class="justice-list">
+      <div class="justice-item">
+        <div class="justice-icon">◼</div>
+        <div class="justice-text">하나님은 은혜를 주실 때 <b class="hl">냉철함과 공의에 대한 의식</b>을 결코 잃지 않으십니다.</div>
+      </div>
+      <div class="justice-item">
+        <div class="justice-icon">◼</div>
+        <div class="justice-text">그분은 자녀들의 생활과 일에 존재하는 <b class="hl">'차이'를 분명하고 뚜렷하게 인식</b>하십니다.</div>
+      </div>
+      <div class="justice-item">
+        <div class="justice-icon">◼</div>
+        <div class="justice-text">그러므로 이 상벌 제도는 곧 하나님의 <b class="hl">냉철함과 의를 온 우주에 명백히 나타내는 수단</b>입니다.</div>
+      </div>
+    </div>
+
     <div class="verse-block">
       <div class="verse-ref">🔖 고후 5:10</div>
       <div class="verse-text">왜냐하면 우리 모두가 반드시 <b class="hl">그리스도의 심판대</b> 앞에 나타나, 각 사람이 선이든 악이든 자기 몸으로 행한 것에 따라 그대로 대갚음을 받기 때문입니다.</div>
     </div>
     <div class="point-content">
-      <p>보상과 형벌에 대한 하나님의 의도의 <b class="hl">둘째 방면</b>은 그분의 자녀들을 통해 <b class="hl">그분의 의를 나타내시는 것</b>이다.</p>
-      <p>우리는 구원받은 후에 자신이 하나님의 자녀이므로 어떤 문제도 없을 것이라고 생각해서는 안 된다. 만일 그렇다면, 하나님께서 우리에게 은혜를 주실 때 <b class="hl">냉철함과 의에 대한 의식</b>도 없으시고 그분의 자녀들의 생활과 일에 존재하는 차이도 전혀 고려하지 않으시는 것처럼 보일 것이다.</p>
-      <p>그러나 <b class="hl">하나님은 판단이 흐릿한 분이 아니시다</b>. 하나님은 그러한 차이에 대한 분명하고 뚜렷한 인식에 근거하여 그분의 자녀들을 판정하신다. 그러므로 하나님께서 장차 보상과 형벌이 있도록 정하신 것은 우리를 통해 <b class="hl">그분의 냉철함과 의</b>가 나타나도록 하기 위한 것이다.</p>
+      <p>보상과 형벌에 대한 하나님의 의도의 <b class="hl">둘째 방면</b>은 그분의 자녀들을 통해 그분의 의를 나타내시는 것이다.</p>
+      <p>우리는 구원받은 후에 자신이 하나님의 자녀이므로 어떤 문제도 없을 것이라고 생각해서는 안 된다. 만일 그렇다면, 하나님께서 우리에게 은혜를 주실 때 그분의 자녀들의 생활과 일에 존재하는 차이도 전혀 고려하지 않으시는 것처럼 보일 것이다. 그러나 하나님은 분명한 인식에 근거하여 그분의 자녀들을 판정하신다.</p>
     </div>
-  </div></div>
+  </div></div></div>
 </div>
+
 </section>
 
 <!-- QUIZ -->
@@ -792,6 +1062,13 @@ body {
 </div><!-- container -->
 
 <script>
+// PEEL LAYER (인트로 오버레이)
+function peelLayer() {
+  const intro = document.getElementById('introLayer');
+  intro.classList.add('peeled');
+  document.body.classList.add('intro-cleared');
+}
+
 // QUIZ DATA
 const quizData = [
   {
@@ -898,17 +1175,10 @@ function submitQuiz() {
   rb.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-// ACCORDION
+// ACCORDION (이제 JS로 높이를 계산하지 않고, CSS Grid에 의존하므로 class toggle만 수행)
 function toggleAcc(header) {
   const acc = header.parentElement;
-  const body = acc.querySelector('.acc-body');
-  if(acc.classList.contains('open')) {
-    body.style.maxHeight = null;
-    acc.classList.remove('open');
-  } else {
-    acc.classList.add('open');
-    body.style.maxHeight = body.scrollHeight + 'px';
-  }
+  acc.classList.toggle('open');
 }
 
 // KEYWORD TOOLTIP
