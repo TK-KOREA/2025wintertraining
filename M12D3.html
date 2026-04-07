@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>어두운 곳을 비추는 등불 — 벧후 1:19</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base-font-size: 17px;
+  --font-scale: 1;
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-light: #3a3a3a;
+  --highlight: #ffe066;
+  --highlight-light: #fff8cc;
+  --accent1: #2563eb;
+  --accent2: #059669;
+  --accent3: #d97706;
+  --accent4: #7c3aed;
+  --accent5: #dc2626;
+  --accent6: #0891b2;
+  --border: #e5e7eb;
+  --card-bg: #fafafa;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+  padding-top: 44px;
+}
+
+/* Top Bar */
+.top-bar {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  height: 44px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 8px;
+  font-size: 14px !important;
+  gap: 4px;
+}
+.top-bar button {
+  flex-shrink: 0;
+  background: none; border: none; cursor: pointer;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 16px !important;
+}
+.top-bar button:hover { background: #f3f4f6; }
+.top-bar-title {
+  flex: 1; min-width: 0;
+  overflow-x: auto; white-space: nowrap;
+  font-size: 14px !important;
+  font-weight: 500;
+  color: var(--text);
+  scrollbar-width: none;
+  padding: 0 4px;
+}
+.top-bar-title::-webkit-scrollbar { display:none; }
+.font-controls {
+  flex-shrink: 0;
+  display: flex; gap: 2px;
+}
+.font-controls button {
+  width: 28px; height: 28px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 13px !important;
+  font-weight: 600;
+  background: #fff;
+  color: var(--text);
+}
+
+/* Side Panel */
+.side-overlay {
+  position: fixed; top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1100;
+  display: none;
+}
+.side-overlay.open { display: block; }
+.side-panel {
+  position: fixed; top:0; left:-280px; bottom:0;
+  width: 280px; background: #fff;
+  z-index: 1200;
+  transition: left 0.25s ease;
+  overflow-y: auto;
+  padding: 16px 0;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+}
+.side-panel.open { left: 0; }
+.side-panel-header {
+  padding: 8px 16px 16px;
+  font-weight: 700;
+  font-size: 16px !important;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.side-panel-header button {
+  background: none; border: none; cursor: pointer; font-size: 18px !important; color: var(--text-light);
+}
+.nav-item {
+  display: block;
+  padding: 10px 20px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 15px !important;
+  font-weight: 500;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+.nav-item:hover { background: #f9fafb; border-left-color: var(--accent1); }
+.nav-sub {
+  padding: 8px 20px 8px 36px;
+  font-size: 14px !important;
+  font-weight: 400;
+  color: var(--text-light);
+}
+.nav-divider { height: 1px; background: var(--border); margin: 8px 16px; }
+
+/* Main Container */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+
+/* Title Section */
+.title-section {
+  text-align: center;
+  padding: 32px 0 24px;
+}
+.title-badge {
+  display: inline-block;
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 700;
+  color: var(--accent1);
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+.title-section h1 {
+  font-size: calc(24px * var(--font-scale));
+  font-weight: 900;
+  line-height: 1.4;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.title-verse {
+  font-size: calc(14px * var(--font-scale));
+  color: var(--text-light);
+  margin-bottom: 16px;
+}
+.title-desc {
+  font-size: calc(15px * var(--font-scale));
+  color: var(--text-light);
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Dashboard Core Message & Flow */
+.dashboard-section {
+  margin: 24px 0;
+}
+.core-message-box {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+.core-message-box::before {
+  content: '💡 핵심 메시지';
+  display: inline-block;
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 700;
+  color: var(--accent1);
+  background: #dbeafe;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+.core-message-text {
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 500;
+  color: #1e3a8a;
+  line-height: 1.6;
+}
+.flow-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--card-bg);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.flow-step {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--border);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: calc(15px * var(--font-scale));
+}
+.flow-arrow {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 20px;
+  line-height: 1;
+}
+
+@media (min-width: 640px) {
+  .flow-diagram {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .flow-step { flex: 1; justify-content: center; text-align: center; font-size: calc(14px * var(--font-scale)); padding: 12px 8px;}
+  .flow-arrow { transform: rotate(-90deg); margin: 0 4px; }
+}
+
+/* Keywords section */
+.keywords-section {
+  margin: 24px 0;
+  padding: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.keywords-section h2 {
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.keyword-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.keyword-tag {
+  padding: 6px 14px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: calc(14px * var(--font-scale));
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+.keyword-tag:hover, .keyword-tag.active {
+  background: var(--highlight-light);
+  border-color: var(--highlight);
+}
+.keyword-desc-box {
+  display: none;
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: var(--highlight-light);
+  border-radius: 8px;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.7;
+}
+.keyword-desc-box.show { display: block; }
+
+/* Accordion & Connectors */
+.accordion-section { margin: 32px 0; }
+.accordion-section h2 {
+  font-size: calc(20px * var(--font-scale));
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--text);
+}
+.accordion-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  transition: box-shadow 0.2s;
+  margin-bottom: 0; /* Handled by connectors */
+}
+.accordion-item:hover { box-shadow: var(--shadow); }
+.accordion-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  cursor: pointer;
+  user-select: none;
+}
+.acc-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  color: #fff;
+}
+.acc-title-wrap { flex: 1; min-width: 0; }
+.acc-num {
+  font-size: calc(12px * var(--font-scale));
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+.acc-title {
+  font-size: calc(17px * var(--font-scale));
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+}
+.acc-chevron {
+  flex-shrink: 0;
+  font-size: 16px;
+  color: #999;
+  transition: transform 0.25s;
+}
+.accordion-item.open .acc-chevron { transform: rotate(180deg); }
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.accordion-content {
+  padding: 0 16px 20px;
+}
+
+/* Connector ( 흐름과 연결고리 ) */
+.flow-connector {
+  position: relative;
+  margin: 16px 0 16px 18px; /* Left alignment for visual flow */
+  padding: 16px 20px 16px 32px;
+  background: #f8fafc;
+  border-left: 3px dashed #cbd5e1;
+  border-radius: 0 12px 12px 0;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.65;
+  color: #475569;
+}
+.flow-connector::before {
+  content: '🔗 흐름 연결';
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  background: #cbd5e1;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* Bible verse block */
+.bible-block {
+  background: #f0f7ff;
+  border-left: 3px solid var(--accent1);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+.bible-ref {
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 700;
+  color: var(--accent1);
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 6px;
+}
+.bible-text {
+  font-size: calc(15px * var(--font-scale));
+  line-height: 1.7;
+  color: var(--text);
+}
+.hl { background: var(--highlight); padding: 1px 3px; border-radius: 2px; font-weight: 700; }
+
+/* Content blocks */
+.content-block {
+  margin-bottom: 16px;
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height: 1.8;
+  color: var(--text);
+}
+.content-block p { margin-bottom: 12px; }
+.sub-label {
+  display: inline-block;
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 700;
+  color: #fff;
+  background: var(--text-light);
+  padding: 2px 10px;
+  border-radius: 12px;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+/* Quiz */
+.quiz-section {
+  margin: 32px 0;
+  padding: 28px 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.quiz-section h2 {
+  font-size: calc(20px * var(--font-scale));
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.quiz-item {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.quiz-item:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.quiz-q {
+  display: flex; gap: 12px; align-items: flex-start;
+  margin-bottom: 14px;
+}
+.quiz-badge {
+  width: 28px; height: 28px;
+  background: var(--accent1);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.quiz-q-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.6;
+  padding-top: 2px;
+}
+.quiz-options { display: flex; flex-direction: column; gap: 8px; margin-left: 40px; }
+.quiz-opt {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: all 0.15s;
+  background: #fff;
+  color: var(--text);
+}
+.quiz-opt:hover { background: #f9fafb; }
+.quiz-opt.selected { border-color: var(--accent1); background: #eff6ff; }
+.quiz-opt.correct { border-color: var(--accent2); background: #ecfdf5; font-weight: 600;}
+.quiz-opt.wrong { border-color: var(--accent5); background: #fef2f2; }
+.quiz-opt input { display: none; }
+.quiz-radio {
+  width: 18px; height: 18px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+.quiz-opt.selected .quiz-radio { border-color: var(--accent1); }
+.quiz-opt.selected .quiz-radio::after {
+  content: ''; position: absolute;
+  top: 3px; left: 3px;
+  width: 8px; height: 8px;
+  background: var(--accent1);
+  border-radius: 50%;
+}
+.quiz-hint-btn {
+  margin: 12px 0 0 40px;
+  background: none; border: none; cursor: pointer;
+  font-size: 0.95rem; color: var(--accent3);
+  font-weight: 600;
+}
+.quiz-hint {
+  display: none;
+  margin: 8px 0 0 40px;
+  padding: 10px 14px;
+  background: #fffbeb;
+  border-left: 3px solid var(--accent3);
+  border-radius: 0 6px 6px 0;
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.quiz-hint.show { display: block; }
+.quiz-feedback {
+  margin: 8px 0 0 40px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: none;
+}
+.quiz-submit-area { text-align: center; margin-top: 24px; }
+.btn-primary {
+  padding: 12px 32px;
+  background: var(--accent1);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+}
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+.quiz-result {
+  display: none;
+  text-align: center;
+  margin-top: 20px;
+  padding: 20px;
+  background: #f0f7ff;
+  border-radius: 12px;
+  border: 1px solid #bfdbfe;
+}
+.quiz-score {
+  font-size: calc(32px * var(--font-scale));
+  font-weight: 900;
+  color: var(--accent1);
+  margin-bottom: 8px;
+}
+.quiz-msg {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* Prayer */
+.prayer-section {
+  margin: 32px 0;
+  padding: 32px 24px;
+  background: #fefce8;
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  text-align: center;
+}
+.prayer-section h2 {
+  font-size: calc(20px * var(--font-scale));
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: var(--accent3);
+}
+.prayer-text {
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  line-height: 1.9;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* --- Visual Panels (Image Replacements for Step 1) --- */
+.v-panel {
+  background: #18181b;
+  border: 1px solid #3f3f46;
+  border-radius: 12px;
+  padding: 32px 20px;
+  margin-bottom: 24px;
+  color: #e4e4e7;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+.v-panel:last-child { margin-bottom: 0; }
+.v-title {
+  color: #fcd34d;
+  font-size: calc(19px * var(--font-scale));
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 32px;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+.v-box {
+  background: rgba(24, 24, 27, 0.8);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: inset 0 0 20px rgba(251, 191, 36, 0.05);
+  position: relative;
+  z-index: 2;
+}
+.v-box-title {
+  color: #fde68a;
+  font-size: calc(17px * var(--font-scale));
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+}
+.v-box-body {
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.6;
+  text-align: center;
+}
+.v-box-body strong { color: #fff; display: block; margin-bottom: 8px; font-weight: 600;}
+
+/* Panel 1: Split */
+.v-split { display: flex; flex-direction: column; gap: 24px; }
+@media (min-width: 640px) {
+  .v-split { flex-direction: row; }
+  .v-split > div { flex: 1; }
+  .v-divider { width: 2px; background: linear-gradient(to bottom, transparent, #fbbf24, transparent); margin: 0 16px; box-shadow: 0 0 8px #fbbf24;}
+}
+.v-img-ph { height: 140px; margin-bottom: 16px; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: center; align-items: center; }
+.v-img-clouds { background: linear-gradient(180deg, #1f2937 0%, #111827 100%); position:relative;}
+.v-img-clouds::after { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.03) 10px, rgba(255,255,255,0.03) 20px); }
+.v-img-cave { background: radial-gradient(circle at center, #000 0%, #1f2937 50%, #374151 100%); box-shadow: inset 0 0 30px #000;}
+
+/* Panel 2: Rays */
+.v-rays-wrap { position: relative; padding-bottom: 30px; }
+.v-rays-grid { display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 2; }
+@media (min-width: 640px) {
+  .v-rays-grid { flex-direction: row; align-items: flex-end; }
+  .v-rays-grid .v-box { flex: 1; }
+  .v-rays-grid .v-box:nth-child(2) { transform: translateY(-40px); }
+}
+.v-book { text-align: center; color: #fbbf24; margin-top: 24px; filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.6)); position: relative; z-index: 2; }
+.v-rays-bg { position: absolute; bottom: 30px; left: 0; right: 0; height: 250px; background: radial-gradient(circle at bottom center, rgba(251, 191, 36, 0.15) 0%, transparent 70%); z-index: 1; pointer-events: none; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+.v-ray-lines { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: 100%; height: 250px; background: repeating-conic-gradient(from 260deg at 50% 100%, transparent 0deg, rgba(251,191,36,0.1) 5deg, transparent 10deg); z-index: 1; }
+
+/* Panel 3: Circles & Sword */
+.v-target-wrap { display: flex; flex-direction: column; align-items: center; gap: 32px; }
+@media (min-width: 768px) {
+  .v-target-wrap { flex-direction: row; justify-content: space-between; align-items: stretch;}
+  .v-target-wrap .v-box { width: 32%; z-index: 2; display: flex; flex-direction: column; justify-content: center; }
+  .v-circles-container { width: 30%; display: flex; justify-content: center; align-items: center; position: relative; }
+  .v-link-line { display: block; position: absolute; top: 50%; width: 40px; height: 2px; background: #fbbf24; box-shadow: 0 0 8px #fbbf24; z-index: 1; }
+  .v-link-line.left { left: -30px; }
+  .v-link-line.right { right: -30px; }
+}
+.v-link-line { display: none; }
+.v-circles { position: relative; width: 200px; height: 200px; margin: 0 auto; display: flex; justify-content: center; align-items: center; }
+.tc { position: absolute; border-radius: 50%; border: 1px solid rgba(251, 191, 36, 0.4); display: flex; justify-content: center; color: #9ca3af; font-size: 11px; padding-top: 8px;}
+.tc-body { width: 200px; height: 200px; }
+.tc-soul { width: 130px; height: 130px; }
+.tc-spirit { width: 50px; height: 50px; background: radial-gradient(circle, #fff 0%, #fbbf24 40%, transparent 80%); box-shadow: 0 0 30px #fbbf24; border: none; color: #000; font-weight: 800; font-size: 13px; align-items: center; padding-top: 0; }
+.t-sword { position: absolute; top: -15px; left: -10px; width: 110px; height: 110px; color: #fcd34d; filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.8)); z-index: 3; transform: rotate(-15deg); }
+
+/* Panel 4: Process Orbs (Step 2) */
+.v-process-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 24px; }
+@media (min-width: 640px) {
+  .v-process-wrap { flex-direction: row; align-items: flex-start; justify-content: space-between; }
+  .v-proc-step { width: 22%; }
+  .v-proc-arrow { transform: rotate(0deg); margin-top: 20px; }
+}
+.v-proc-step { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.v-proc-arrow { color: #fbbf24; font-size: 20px; transform: rotate(90deg); margin: 8px 0; font-weight: bold; }
+.v-orb { width: 64px; height: 64px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: 800; margin-bottom: 16px; color: #18181b; position: relative; z-index: 2; }
+.orb-1 { background: radial-gradient(circle at 30% 30%, #4b5563, #18181b); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.4); box-shadow: 0 0 15px rgba(251, 191, 36, 0.1); }
+.orb-2 { background: radial-gradient(circle at 30% 30%, #fcd34d, #d97706); box-shadow: 0 0 25px rgba(217, 119, 6, 0.5); }
+.orb-3 { background: radial-gradient(circle at 30% 30%, #fef08a, #eab308); box-shadow: 0 0 35px rgba(234, 179, 8, 0.6); }
+.orb-4 { background: radial-gradient(circle at 30% 30%, #ffffff, #fde047); box-shadow: 0 0 45px rgba(253, 224, 71, 0.8), 0 0 80px rgba(255,255,255,0.4); }
+.orb-4::after { content:''; position:absolute; top:-10px; left:-10px; right:-10px; bottom:-10px; background: repeating-conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.3) 15deg, transparent 30deg); border-radius: 50%; z-index:-1; animation: orbSpin 12s linear infinite; }
+@keyframes orbSpin { 100% { transform: rotate(360deg); } }
+
+/* Highlight Box for Step 2 Emphasis */
+.v-highlight-box {
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.5);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-top: 32px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  text-align: left;
+}
+.v-highlight-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+.v-highlight-box p {
+  margin: 0;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.6;
+  color: #e4e4e7;
+}
+.v-highlight-box strong {
+  color: #fbbf24;
+  font-size: calc(16px * var(--font-scale));
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Panel 5: Comparison Table */
+.v-comp-table { display: grid; grid-template-columns: 80px 1fr 1fr; gap: 1px; background: rgba(251,191,36,0.2); border: 1px solid rgba(251,191,36,0.4); border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
+.v-comp-cell { background: #18181b; padding: 12px 8px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: calc(13px * var(--font-scale)); line-height: 1.4; word-break: keep-all; }
+.v-comp-header { background: rgba(24,24,27,0.9); font-weight: 700; color: #fbbf24; }
+.v-comp-top { flex-direction: column; gap: 8px; padding: 16px 8px; }
+.v-comp-icon { font-size: 28px; color: #fde047; text-shadow: 0 0 15px rgba(253,224,71,0.8); }
+.v-comp-footer { background: linear-gradient(90deg, #fcd34d, #d97706); color: #18181b; font-weight: 800; text-align: center; padding: 14px; border-radius: 6px; font-size: calc(15px * var(--font-scale)); text-shadow: 0 1px 1px rgba(255,255,255,0.3); margin-top: 16px; }
+@media (max-width: 639px) {
+   .v-comp-table { grid-template-columns: 50px 1fr 1fr; }
+   .v-comp-cell { padding: 10px 4px; font-size: calc(11px * var(--font-scale)); }
+   .v-comp-header { font-size: calc(11px * var(--font-scale)); }
+   .v-comp-icon { font-size: 22px; }
+}
+
+/* Panel 6: Rapture Illustration */
+.v-rapture-wrap { display: flex; flex-direction: column; gap: 32px; align-items: center; }
+@media (min-width: 768px) {
+    .v-rapture-wrap { flex-direction: row; align-items: stretch; }
+    .v-rapture-ill { width: 45%; }
+    .v-rapture-content { width: 55%; display: flex; flex-direction: column; justify-content: center; }
+}
+.v-rapture-ill { position: relative; height: 240px; width: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; border-radius: 8px; }
+.v-rapture-grid { position: absolute; bottom: -20px; left: -20%; width: 140%; height: 140px; background-image: linear-gradient(rgba(251,191,36,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(251,191,36,0.15) 1px, transparent 1px); background-size: 30px 30px; transform: perspective(300px) rotateX(70deg); }
+.v-beam { position: absolute; right: 10%; bottom: 0px; width: 110px; height: 200px; background: linear-gradient(to top, rgba(253,224,71,0.3), transparent); filter: blur(5px); box-shadow: inset 0 0 30px rgba(253,224,71,0.5); }
+.v-person { width: 60px; height: 100px; position: absolute; bottom: 30px; }
+.v-person-left { left: 15%; color: #52525b; }
+.v-person-right { right: 15%; color: #fef08a; filter: drop-shadow(0 0 15px #fef08a); z-index: 2; }
+
+.v-rapture-item { border-left: 2px solid rgba(251,191,36,0.6); padding-left: 16px; margin-bottom: 24px; }
+.v-rapture-item:last-child { margin-bottom: 0; }
+.v-rapture-title { font-size: calc(16px * var(--font-scale)); color: #fde68a; font-weight: 700; margin-bottom: 6px; }
+.v-rapture-desc { font-size: calc(14px * var(--font-scale)); line-height: 1.6; color: #e4e4e7;}
+
+/* Panel 7: Bible Reading Accumulation */
+.v-reading-wrap { display: flex; flex-direction: column; gap: 24px; }
+@media (min-width: 768px) {
+  .v-reading-wrap { flex-direction: row; align-items: stretch; }
+  .v-reading-left { width: 50%; }
+  .v-reading-right { width: 50%; display: flex; align-items: center; }
+}
+.v-chart-box { background: rgba(251,191,36,0.05); border: 1px solid rgba(251,191,36,0.2); border-radius: 8px; padding: 20px; position: relative; margin-bottom: 16px; }
+.v-chart-grid { position: absolute; inset: 20px; background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 20% 25%; }
+.v-chart-line { position: relative; width: 100%; height: 120px; }
+.v-checklist { list-style: none; padding: 0; margin: 0; }
+.v-checklist li { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: calc(14.5px * var(--font-scale)); color: #e4e4e7; }
+.v-checklist li:last-child { margin-bottom: 0; }
+.v-check-icon { color: #fde047; font-weight: bold; font-size: 18px; }
+.v-quote-box { position: relative; padding: 24px 32px; background: rgba(24,24,27,0.6); border: 1px solid rgba(251,191,36,0.4); border-radius: 12px; }
+.v-quote-mark { position: absolute; font-family: serif; font-size: 60px; color: rgba(251,191,36,0.3); line-height: 1; }
+.v-quote-mark.open { top: 10px; left: 10px; }
+.v-quote-mark.close { bottom: -10px; right: 16px; }
+.v-quote-text { font-size: calc(16px * var(--font-scale)); line-height: 1.7; color: #fde68a; font-weight: 500; text-align: justify; position: relative; z-index: 2; }
+
+/* Panel 8: Pray-Reading */
+.v-pr-icon-wrap { display: flex; justify-content: center; margin-bottom: 32px; position: relative; }
+.v-pr-icon-bg { position: absolute; width: 150px; height: 150px; background: radial-gradient(circle, rgba(251,191,36,0.15) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 0; }
+.v-pr-icon { color: #fde047; z-index: 1; position: relative; filter: drop-shadow(0 0 10px rgba(253,224,71,0.5)); }
+.v-pr-steps { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 640px) { .v-pr-steps { grid-template-columns: repeat(3, 1fr); } }
+.v-pr-step { background: rgba(24,24,27,0.8); border: 1px solid rgba(251,191,36,0.3); border-radius: 8px; padding: 24px 16px; text-align: center; position: relative; }
+.v-pr-num { font-size: 40px; font-weight: 300; color: rgba(251,191,36,0.5); font-family: serif; line-height: 1; margin-bottom: 8px; }
+.v-pr-title { font-size: calc(16px * var(--font-scale)); font-weight: 700; color: #fde68a; margin-bottom: 12px; }
+.v-pr-desc { font-size: calc(13.5px * var(--font-scale)); line-height: 1.6; color: #d4d4d8; }
+
+/* Panel 9: Timeline */
+.v-timeline { padding: 16px 0 16px 24px; border-left: 2px solid rgba(251,191,36,0.4); margin-left: 16px; position: relative; }
+.v-tl-item { position: relative; margin-bottom: 32px; }
+.v-tl-item:last-child { margin-bottom: 0; }
+.v-tl-dot { position: absolute; left: -39px; top: 0; width: 28px; height: 28px; background: #18181b; border: 2px solid #fbbf24; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 0 10px rgba(251,191,36,0.4); z-index: 2; }
+.v-tl-content { padding-left: 8px; }
+.v-tl-title { font-size: calc(16px * var(--font-scale)); font-weight: 700; color: #fde68a; margin-bottom: 6px; }
+.v-tl-desc { font-size: calc(14px * var(--font-scale)); line-height: 1.6; color: #e4e4e7; }
+
+/* Dashboard */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 24px 0;
+}
+.dash-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 12px;
+  text-align: center;
+}
+.dash-icon { font-size: 24px; margin-bottom: 6px; }
+.dash-label {
+  font-size: calc(12px * var(--font-scale));
+  color: var(--text-light);
+  margin-bottom: 2px;
+}
+.dash-value {
+  font-size: calc(14px * var(--font-scale));
+  font-weight: 700;
+  color: var(--text);
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar" id="topBar">
+  <button onclick="togglePanel()" title="목차">☰</button>
+  <a href="https://tk-korea.github.io/2025wintertraining/" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;text-decoration:none;flex-shrink:0;border-radius:6px;color:var(--text);font-size:16px" title="홈">🏠</a>
+  <div class="top-bar-title">어두운 곳을 비추는 등불 — 벧후 1:19</div>
+  <div class="font-controls">
+    <button onclick="adjustFont(-1)" title="축소">-</button>
+    <button onclick="adjustFont(0)" title="초기화">가</button>
+    <button onclick="adjustFont(1)" title="확대">+</button>
+  </div>
+</div>
+
+<!-- Side Panel -->
+<div class="side-overlay" id="sideOverlay" onclick="togglePanel()"></div>
+<div class="side-panel" id="sidePanel">
+  <div class="side-panel-header">
+    <span>목차</span>
+    <button onclick="togglePanel()">✕</button>
+  </div>
+  <a class="nav-item" onclick="goTo('titleSection')">📖 제목</a>
+  <a class="nav-item" onclick="goTo('dashboardSection')">📊 대시보드</a>
+  <div class="nav-divider"></div>
+  <a class="nav-item" onclick="goTo('keywordsSection')">🔑 키워드</a>
+  <div id="navKeywords"></div>
+  <div class="nav-divider"></div>
+  <a class="nav-item" onclick="goTo('accordionSection')">📌 핵심요점 (4 Steps)</a>
+  <a class="nav-item nav-sub" onclick="goTo('step-1')">Step 1. 어두운 시대와 등불</a>
+  <a class="nav-item nav-sub" onclick="goTo('step-2')">Step 2. 마음속에 떠오르는 샛별</a>
+  <a class="nav-item nav-sub" onclick="goTo('step-3')">Step 3. 비밀한 오심과 휴거</a>
+  <a class="nav-item nav-sub" onclick="goTo('step-4')">Step 4. 실지적인 적용</a>
+  <div class="nav-divider"></div>
+  <a class="nav-item" onclick="goTo('quizSection')">✏️ 확인 퀴즈</a>
+  <a class="nav-item" onclick="goTo('prayerSection')">🙏 오늘의 기도</a>
+</div>
+
+<div class="container">
+
+<!-- Title -->
+<section class="title-section" id="titleSection">
+  <div class="title-badge">2025 겨울훈련 12주 3일</div>
+  <h1>어두운 곳을 비추는 <span style="color:var(--accent3)">등불</span></h1>
+  <div class="title-verse">벧후 1:19</div>
+  <div class="title-desc">"우리에게는 신언자가 말한 더 확실한 말씀이 있습니다. 어두운 곳을 비추는 등불에 주의를 기울이는 것처럼, 여러분은 <span class="hl">날이 밝고 샛별이 여러분의 마음속에 떠오를 때까지</span>, 이 말씀에 주의를 기울이는 것이 좋습니다."</div>
+</section>
+
+<!-- Dashboard (요약 및 흐름) -->
+<section class="dashboard-section" id="dashboardSection">
+  <div class="core-message-box">
+    <div class="core-message-text">
+      갈수록 어두워지는 이 시대 속에서 우리가 성경의 예언의 말씀(등불)에 주의를 기울일 때, 주님께서 다시 오시기 전 우리 마음속에 먼저 '샛별'로 떠오르시며 우리를 빛으로 충만하게 하신다는 것입니다.
+    </div>
+  </div>
+</section>
+<!-- Dashboard -->
+<section id="dashboardSection">
+  <div class="dashboard">
+    <div class="dash-card">
+      <div class="dash-icon">🌑</div>
+      <div class="dash-label">이 시대</div>
+      <div class="dash-value">어두운 밤</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">🪔</div>
+      <div class="dash-label">말씀의 역할</div>
+      <div class="dash-value">비추는 등불</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">⭐</div>
+      <div class="dash-label">결과</div>
+      <div class="dash-value">샛별이 떠오름</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">💡</div>
+      <div class="dash-label">빛의 성격</div>
+      <div class="dash-value">영적인 빛</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">❤️</div>
+      <div class="dash-label">방식</div>
+      <div class="dash-value">사랑의 비춤</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">☀️</div>
+      <div class="dash-label">장래의 날</div>
+      <div class="dash-value">왕국 시대</div>
+    </div>
+  </div>
+  <div style="text-align:center; padding:8px 0;">
+    <div style="font-size:calc(13px * var(--font-scale)); color:var(--text-light);">🌑 어둠 → 🪔 등불(말씀) → 💡 비춤 → ⭐ 샛별 → ☀️ 날이 밝음</div>
+  </div>
+</section>
+<!-- Keywords -->
+<section id="keywordsSection" class="keywords-section">
+  <h2>🔑 핵심 키워드</h2>
+  <div class="keyword-tags" id="keywordTags"></div>
+  <div class="keyword-desc-box" id="kwDescBox"></div>
+</section>
+
+<!-- Accordion (4 Steps) -->
+<section class="accordion-section" id="accordionSection">
+  <h2>📌 말씀의 흐름과 핵심 요점</h2>
+
+  <!-- Step 1 -->
+  <div class="accordion-item" id="step-1">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      <div class="acc-icon" style="background:var(--accent1)">🪔</div>
+      <div class="acc-title-wrap">
+        <div class="acc-num" style="color:var(--accent1)">Step 1</div>
+        <div class="acc-title">어두운 시대와 등불</div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        
+        <!-- 관련 성경 구절 유지 -->
+        <div class="bible-block">
+          <div class="bible-ref">🔖 롬 13:12</div>
+          <div class="bible-text"><span class="hl">밤이 깊었고 낮이 가까웠습니다.</span> 그러므로 어둠의 일들을 벗어 버리고, 빛의 무기로 무장합시다.</div>
+        </div>
+        <div class="bible-block">
+          <div class="bible-ref">🔖 벧후 1:19</div>
+          <div class="bible-text">또한 우리에게는 신언자가 말한 <span class="hl">더 확실한 말씀</span>이 있습니다. <span class="hl">어두운 곳을 비추는 등불</span>에 주의를 기울이는 것처럼...</div>
+        </div>
+        <div class="bible-block">
+          <div class="bible-ref">🔖 히 4:12</div>
+          <div class="bible-text">왜냐하면 하나님의 말씀은 <span class="hl">살아 있고 효력이 있으며</span>... <span class="hl">혼과 영</span> 그리고 관절과 골수까지 찔러 쪼개고, 심지어 마음의 생각과 의도도 분별해 낼 수 있기 때문입니다.</div>
+        </div>
+
+        <!-- 시각화 1: 두 가지 차원의 어둠 -->
+        <div class="v-panel mt-4">
+          <div class="v-title">우리가 직면한 어둠은 시대와 존재의<br>두 가지 차원으로 존재합니다</div>
+          <div class="v-split">
+            <div class="v-box" style="padding:0; background:transparent; border:none; box-shadow:none;">
+              <div class="v-img-ph v-img-clouds">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><path d="M12 22v-3"/><path d="M8 22v-3"/><path d="M16 22v-3"/></svg>
+              </div>
+              <div class="v-box-title">시대적 어둠</div>
+              <div class="v-box-body">
+                <strong>롬 13:12: 밤이 깊었고 낮이 가까웠습니다.</strong>
+                이 세상은 20년 전보다 전체적인 상황이 훨씬 더 어두워진 캄캄한 밤입니다. 모든 사람이 어둠 속에서 움직이고 있습니다.
+              </div>
+            </div>
+            <div class="v-divider"></div>
+            <div class="v-box" style="padding:0; background:transparent; border:none; box-shadow:none;">
+              <div class="v-img-ph v-img-cave">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              </div>
+              <div class="v-box-title">존재적 어둠</div>
+              <div class="v-box-body">
+                <strong>우리 혼의 가장 어두운 부분(음부, 가장 깊은 곳)입니다.</strong>
+                주님께서 반드시 직접 방문하셔서 빛을 비추시고 처리하셔야 하는 내면의 장소입니다.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 시각화 2: 영적인 빛을 전달하는 등불 -->
+        <div class="v-panel">
+          <div class="v-title">확실한 예언의 말씀은 지식이 아닌<br>영적인 빛을 전달하는 등불입니다</div>
+          <div class="v-rays-wrap">
+            <div class="v-rays-bg"></div>
+            <div class="v-ray-lines"></div>
+            <div class="v-rays-grid">
+              <div class="v-box">
+                <div class="v-box-title">문자에 머물지 않음</div>
+                <div class="v-box-body">단순한 정신적 이해나 지식이 아닙니다.</div>
+              </div>
+              <div class="v-box" style="border-color: #fbbf24; box-shadow: inset 0 0 25px rgba(251, 191, 36, 0.15);">
+                <div class="v-box-title" style="color: #fff;">영적 빛의 전달</div>
+                <div class="v-box-body">이단과 변절의 어둠을 뚫고 우리의 발걸음을 비춥니다.</div>
+              </div>
+              <div class="v-box">
+                <div class="v-box-title">목양의 통로</div>
+                <div class="v-box-body">주님의 모든 것을 포함한 부드러운 돌봄이 빛을 통해 우리 내면을 안내합니다.</div>
+              </div>
+            </div>
+            <div class="v-book">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto; background:#18181b; border-radius: 50%; padding: 4px;">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 시각화 3: 혼과 영의 분리와 기도 -->
+        <div class="v-panel">
+          <div class="v-title">말씀의 빛은 가장 깊은 곳을 찔러 쪼개어<br>혼과 영을 분리합니다</div>
+          <div class="v-target-wrap">
+            <div class="v-box">
+              <div class="v-box-title">히브리서 4:12</div>
+              <div class="v-box-body">
+                하나님의 말씀은 살아 있고 효력이 있어 혼과 영을 찔러 쪼갭니다.
+              </div>
+            </div>
+            <div class="v-circles-container">
+              <div class="v-link-line left"></div>
+              <div class="v-link-line right"></div>
+              <div class="v-circles">
+                <div class="tc tc-body"><span>몸 (Body)</span></div>
+                <div class="tc tc-soul"><span>혼 (Soul)</span></div>
+                <div class="tc tc-spirit">영 (Spirit)</div>
+                <svg class="t-sword" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                   <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"></polyline>
+                   <line x1="13" y1="19" x2="19" y2="13"></line>
+                   <line x1="16" y1="16" x2="20" y2="20"></line>
+                   <line x1="19" y1="21" x2="21" y2="19"></line>
+                </svg>
+              </div>
+            </div>
+            <div class="v-box" style="border-color: #fbbf24;">
+              <div class="v-box-title">우리의 기도</div>
+              <div class="v-box-body" style="text-align: left;">
+                우리는 존재를 완전히 열어드려야 합니다. 주님께서 들어오시면, 우리는 마침내 빛 자체가 될 것입니다.<br><br>
+                <em style="color:#fcd34d;">"주님, 아무것도 붙잡지 않습니다. 제 존재의 깊은 부분에 오시고, 어둠을 빛으로 바꾸어 주십시오."</em>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Connector 1 -->
+  <div class="flow-connector">
+    이 지문은 갈수록 어두워지는 세상과 우리 내면의 '어둠'을 먼저 진단하고, 그 유일한 해결책으로 성경 말씀이라는 '등불'을 제시합니다. <strong>이 말씀의 등불에 지속적으로 주의를 기울이면...</strong>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="accordion-item" id="step-2">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      <div class="acc-icon" style="background:var(--accent3)">⭐</div>
+      <div class="acc-title-wrap">
+        <div class="acc-num" style="color:var(--accent3)">Step 2</div>
+        <div class="acc-title">마음속에 떠오르는 샛별</div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <div class="bible-block">
+          <div class="bible-ref">🔖 말 4:2</div>
+          <div class="bible-text">그러나 내 이름을 경외하는 너희에게는 <span class="hl">의의 해</span>가 치료하는 날개를 지니고 떠오르리니...</div>
+        </div>
+        <div class="bible-block">
+          <div class="bible-ref">🔖 계 22:16</div>
+          <div class="bible-text">...나는 다윗의 뿌리이고 자손이며, <span class="hl">빛나는 샛별</span>이다.</div>
+        </div>
+        <div class="bible-block">
+          <div class="bible-ref">🔖 벧후 1:19 하반절</div>
+          <div class="bible-text">...여러분은 <span class="hl">날이 밝고 샛별이 여러분의 마음속에 떠오를 때까지</span>, 이 말씀에 주의를 기울이는 것이 좋습니다.</div>
+        </div>
+        <div class="content-block">
+          <div class="sub-label">마음속에서 일어나는 비유</div>
+          <p>'날이 밝고'라는 표현은 빛으로 충만하게 될 장차 오는 왕국 시대를 설명하지만, 그전에 동트기 전 샛별이 떠오르는 것처럼 <span class="hl">샛별이 믿는 이들의 마음속에 떠오르는 것</span>을 가리킨다. 샛별은 장차 올 사건이기 전에, 빛이신 주님께 우리 존재의 깊은 부분을 열어드릴 때 우리 내면에서 먼저 떠오르는 주관적인 체험이다.</p>
+          <div class="sub-label">빛으로 충만해지는 과정</div>
+          <p>빛이 우리의 깊은 부분을 적시고 한 단계씩 증가할 것이다. 비록 어둠이 있지만 낙심하지 말라. 해가 떠오르는 것을 보려면 어두울 때 일찍 일어나는 것처럼, 영적인 방면에서도 빛이 나타나 점점 더 밝아져 결국 우리에게서 비치게 될 것이다. <span class="hl">빛을 두려워하지 말고 열려 있으라.</span></p>
+        </div>
+
+        <!-- 시각화 4: 빛으로 충만해지는 영적 과정 -->
+        <div class="v-panel" style="margin-top: 16px;">
+          <div class="v-title">빛으로 충만해지는 것은 말씀에 주의함으로<br>시작되는 영적 과정입니다</div>
+          <div class="v-process-wrap">
+            <div class="v-proc-step">
+              <div class="v-orb orb-1">1</div>
+              <div class="v-box-title" style="border:none; padding-bottom:4px; margin-bottom:8px; color:#fbbf24;">말씀에 주의함</div>
+              <div class="v-box-body">어둠 속에서 빛을 비추는 예언의 말씀에 집중하고 주의를 기울입니다.</div>
+            </div>
+            <div class="v-proc-arrow">➔</div>
+            <div class="v-proc-step">
+              <div class="v-orb orb-2">2</div>
+              <div class="v-box-title" style="border:none; padding-bottom:4px; margin-bottom:8px; color:#fcd34d;">비춤과 폭로</div>
+              <div class="v-box-body">빛이 내면을 폭로합니다. 두려워하지 마십시오. 이 빛은 사랑과 함께 오며, 우리는 자백을 통해 빛을 받아들입니다.</div>
+            </div>
+            <div class="v-proc-arrow">➔</div>
+            <div class="v-proc-step">
+              <div class="v-orb orb-3">3</div>
+              <div class="v-box-title" style="border:none; padding-bottom:4px; margin-bottom:8px; color:#fef08a;">날이 밝아옴</div>
+              <div class="v-box-body">어둠이 물러가고 영적인 낮이 우리 속에서 밝아 오기 시작합니다.</div>
+            </div>
+            <div class="v-proc-arrow">➔</div>
+            <div class="v-proc-step">
+              <div class="v-orb orb-4">4</div>
+              <div class="v-box-title" style="border:none; padding-bottom:4px; margin-bottom:8px; color:#ffffff;">샛별이 떠오름</div>
+              <div class="v-box-body">햇빛이신 주님이 공개적으로 오시기 전, 우리 마음속에 먼저 그리스도께서 떠오르십니다.</div>
+            </div>
+          </div>
+          
+          <!-- 강조 박스 추가 -->
+          <div class="v-highlight-box">
+             <span class="v-highlight-icon">✨</span>
+             <p><strong>빛을 두려워하지 말고 활짝 열려 있으십시오!</strong><br>
+             빛이 우리의 어두운 부분을 폭로할 때 낙심하거나 숨지 마십시오. 주님의 빛은 항상 사랑과 함께 옵니다. 마음을 활짝 열고 빛을 환영할 때, 샛별이 떠오르고 우리는 마침내 빛 자체가 될 것입니다.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Connector 2 -->
+  <div class="flow-connector">
+    이것은 단순한 깨달음을 넘어 우리 내면 깊은 곳을 밝히는 '샛별의 떠오름'으로 발전합니다. <strong>결국 이 내면의 빛 비춤이 성도를 깨어있게 만들어...</strong>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="accordion-item" id="step-3">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      <div class="acc-icon" style="background:var(--accent4)">👁️</div>
+      <div class="acc-title-wrap">
+        <div class="acc-num" style="color:var(--accent4)">Step 3</div>
+        <div class="acc-title">비밀한 오심(파루시아)과 휴거</div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <div class="bible-block">
+          <div class="bible-ref">🔖 마 24:40-42</div>
+          <div class="bible-text">그때에 두 남자가 밭에 있는데, 한 사람은 데려가고, 한 사람은 남겨 둡니다. 두 여자가 맷돌질을 하고 있는데, 한 사람은 데려가고, 한 사람은 남겨 둡니다. 그러므로 <span class="hl">깨어 있도록</span> 하십시오...</div>
+        </div>
+        <div class="bible-block">
+          <div class="bible-ref">🔖 딤후 4:8</div>
+          <div class="bible-text">...나에게만 아니라 <span class="hl">그분께서 나타나시기를 사모하는 모든 사람</span>에게 주실 것입니다.</div>
+        </div>
+        <div class="bible-block">
+          <div class="bible-ref">🔖 요일 2:28</div>
+          <div class="bible-text">이제, 어린 자녀 여러분, <span class="hl">그분 안에 거하십시오.</span> 그러면 그분께서 나타나실 때에 우리가 담대함을 가질 수 있으며...</div>
+        </div>
+        
+        <!-- 시각화 5: 샛별과 의의 해 비교 -->
+        <div class="v-panel mt-4">
+          <div class="v-title">그리스도의 나타나심은 비밀한 샛별과<br>공개적인 의의 해로 구별됩니다</div>
+          
+          <div class="v-comp-table">
+            <!-- Header Row -->
+            <div class="v-comp-cell v-comp-header" style="background: transparent;"></div>
+            <div class="v-comp-cell v-comp-header v-comp-top">
+              <div class="v-comp-icon">✨</div>
+              샛별 (계 22:16)
+            </div>
+            <div class="v-comp-cell v-comp-header v-comp-top">
+              <div class="v-comp-icon">☀️</div>
+              의의 해 (말 4:2)
+            </div>
+            
+            <!-- Row 1 -->
+            <div class="v-comp-cell v-comp-header">성격</div>
+            <div class="v-comp-cell">파루시아의 비밀한 방면</div>
+            <div class="v-comp-cell">오는 왕국 시대의<br>공개적 방면</div>
+            
+            <!-- Row 2 -->
+            <div class="v-comp-cell v-comp-header">시기</div>
+            <div class="v-comp-cell">밤이 가장 깊었을 때<br>(동트기 전)</div>
+            <div class="v-comp-cell">캄캄한 밤을 뚫고<br>날이 밝을 때</div>
+            
+            <!-- Row 3 -->
+            <div class="v-comp-cell v-comp-header">대상</div>
+            <div class="v-comp-cell">깨어서 그분을 사모하는<br>믿는 이들</div>
+            <div class="v-comp-cell">온 세상과 모든 사람</div>
+          </div>
+          
+          <div class="v-comp-footer">
+            주님은 세상을 비추는 해로 오시기 전에,<br>깨어 있는 자들의 마음에 샛별로 먼저 오십니다.
+          </div>
+        </div>
+
+        <!-- 시각화 6: 도둑같이 오시는 주님 (휴거) -->
+        <div class="v-panel">
+          <div class="v-title">주님은 도둑같이 오셔서 깨어 있는<br>믿는 이들을 영광 안으로 이끄십니다</div>
+          <div class="v-rapture-wrap">
+            <div class="v-rapture-ill">
+              <div class="v-rapture-grid"></div>
+              <div class="v-beam"></div>
+              <!-- Left Person (Left behind) -->
+              <svg class="v-person v-person-left" viewBox="0 0 48 64" fill="currentColor">
+                <circle cx="24" cy="10" r="5"/>
+                <path d="M24 18c-5 0-9 4-9 9v13h5v20h8V40h5V27c0-5-4-9-9-9z"/>
+                <!-- 일하는 도구(괭이) -->
+                <path d="M14 34 L4 50" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <!-- Right Person (Raptured/Glowing) -->
+              <svg class="v-person v-person-right" viewBox="0 0 48 64" fill="currentColor" style="transform: translateY(-10px);">
+                <circle cx="24" cy="10" r="5"/>
+                <path d="M24 18c-5 0-9 4-9 9v13h5v20h8V40h5V27c0-5-4-9-9-9z"/>
+                <!-- 떨어지는 도구 -->
+                <path d="M34 40 L44 56" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="v-rapture-content">
+              <div class="v-rapture-item">
+                <div class="v-rapture-title">깜짝 놀라게 하시는 휴거</div>
+                <div class="v-rapture-desc">주님은 재산을 훔치는 것이 아니라, 가장 보배로운 성도들을 데려가기 위해 비밀스럽게 오십니다.</div>
+              </div>
+              <div class="v-rapture-item">
+                <div class="v-rapture-title">마태복음 24장</div>
+                <div class="v-rapture-desc">밭에 있는 두 사람, 맷돌질하는 두 사람.<br>겉모습은 같으나 성숙도에 따라 한 사람은 데려감을 당합니다.</div>
+              </div>
+              <div class="v-rapture-item">
+                <div class="v-rapture-title">요일 2:28</div>
+                <div class="v-rapture-desc">그분께서 나타나실 때 수치를 당하지 않으려면, 자아가 아닌 그분 안에 거해야 합니다.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Connector 3 -->
+  <div class="flow-connector">
+    장차 도둑처럼 임하실 주님의 비밀스러운 휴거(파루시아)를 온전히 맞이하도록 준비시킨다는 자연스러운 흐름으로 연결됩니다. <strong>그렇다면 빛이신 주님께 내면을 열어드리기 위해, 오늘 우리는 구체적으로 어떻게 실행해야 할까요?</strong>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="accordion-item" id="step-4">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      <div class="acc-icon" style="background:var(--accent2)">📖</div>
+      <div class="acc-title-wrap">
+        <div class="acc-num" style="color:var(--accent2)">Step 4</div>
+        <div class="acc-title">실지적인 적용</div>
+      </div>
+      <span class="acc-chevron">▼</span>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <div class="bible-block">
+          <div class="bible-ref">🔖 요 12:24</div>
+          <div class="bible-text">내가 진실로 진실로 여러분에게 말합니다. 한 알의 밀이 땅에 떨어져 죽지 않으면 한 알 그대로 남아 있지만, 죽으면 <span class="hl">많은 열매를 맺습니다.</span></div>
+        </div>
+        
+        <!-- 시각화 7: 성경 통독의 위력 -->
+        <div class="v-panel mt-4">
+          <div class="v-title" style="margin-bottom: 24px;">생명을 가꾸는 실제적 실행:<br>2026년 성경 통독의 누적된 위력</div>
+          <div class="v-reading-wrap">
+            <div class="v-reading-left">
+              <div class="v-chart-box">
+                <div class="v-chart-grid"></div>
+                <div class="v-chart-line">
+                  <svg viewBox="0 0 100 50" preserveAspectRatio="none" style="width:100%; height:100%; overflow:visible;">
+                    <path d="M 0 50 C 20 40, 40 40, 60 25 S 80 10, 100 0" fill="none" stroke="url(#lineGradient)" stroke-width="4" stroke-linecap="round"/>
+                    <defs>
+                      <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#d97706" />
+                        <stop offset="100%" stop-color="#fef08a" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+              </div>
+              <ul class="v-checklist">
+                <li><span class="v-check-icon">☑</span> 시작일: 2026년 1월 1일</li>
+                <li><span class="v-check-icon">☑</span> 목표: 매일 구약 3장, 신약 1장 통독</li>
+                <li><span class="v-check-icon">☑</span> 지속: 2027년에도 일 년 일독 반복</li>
+              </ul>
+            </div>
+            <div class="v-reading-right">
+              <div class="v-quote-box">
+                <div class="v-quote-mark open">“</div>
+                <div class="v-quote-text">우리가 계속해서 성경을 읽어 나간다면, 연말쯤 서로를 바라볼 때 우리 안에 그리스도가 훨씬 더 많이 증가해 있음을 깨닫게 될 것입니다. 최상의 것은 아직 우리 앞에 있습니다.</div>
+                <div class="v-quote-mark close">”</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 시각화 8: 기도로 읽기 (Pray-Reading) -->
+        <div class="v-panel">
+          <div class="v-title" style="margin-bottom: 16px;">매일의 빛 비춤:<br>기도로 읽기(Pray-Reading)를 통해 존재를 엽니다</div>
+          <div class="v-pr-icon-wrap">
+            <div class="v-pr-icon-bg"></div>
+            <svg class="v-pr-icon" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <!-- 성경 -->
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              <!-- 빛 / 하트 형상화 -->
+              <path d="M12 7c-2-3-7-2-7 2 0 4 7 8 7 8s7-4 7-8c0-4-5-5-7-2z" stroke="#fcd34d" fill="rgba(251,191,36,0.2)"></path>
+              <path d="M12 2v2M8 4l2 2M16 4l-2 2" stroke="#fef08a"></path>
+            </svg>
+          </div>
+          <div class="v-pr-steps">
+            <div class="v-pr-step">
+              <div class="v-pr-num">1</div>
+              <div class="v-pr-title">안내 구하기</div>
+              <div class="v-pr-desc">개인적인 시간에 주님께 어떤 책을 읽을지 묻고 안내를 받으십시오.</div>
+            </div>
+            <div class="v-pr-step">
+              <div class="v-pr-num">2</div>
+              <div class="v-pr-title">기도로 읽기</div>
+              <div class="v-pr-desc">하루 중 단 몇 분이라도 한두 구절을 선택해 기도로 읽으십시오.</div>
+            </div>
+            <div class="v-pr-step">
+              <div class="v-pr-num">3</div>
+              <div class="v-pr-title">목양의 통로</div>
+              <div class="v-pr-desc">이 짧은 시간의 비춤이 주님께서 우리 존재의 여러 방면을 부드럽게 목양하실 수 있는 길을 엽니다.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 시각화 9: 자매들의 숨겨진 기도 -->
+        <div class="v-panel">
+          <div class="v-title">주님의 나타나심을 사모하는<br>숨겨진 기도가 이 시대를 끝냅니다</div>
+          
+          <div class="v-timeline">
+            <div class="v-tl-item">
+              <div class="v-tl-dot">🌾</div>
+              <div class="v-tl-content">
+                <div class="v-tl-title">바버 자매님 (M.E. Barber)</div>
+                <div class="v-tl-desc">주님의 나타나심을 사모하며 중국에 떨어져 죽은 한 알의 밀알(요 12:24)</div>
+              </div>
+            </div>
+            <div class="v-tl-item">
+              <div class="v-tl-dot" style="background:#fbbf24; border-color:#fbbf24; color:#18181b;">👥</div>
+              <div class="v-tl-content">
+                <div class="v-tl-title">워치만 니 & 위트니스 리</div>
+                <div class="v-tl-desc">바버 자매님의 기도를 통해 온전하게 된 시대의 사역자들</div>
+              </div>
+            </div>
+            <div class="v-tl-item">
+              <div class="v-tl-dot">🔥</div>
+              <div class="v-tl-content">
+                <div class="v-tl-title">오늘날의 소그룹</div>
+                <div class="v-tl-desc">온 땅에서 기도로 연합된 두세 자매의 숨겨진 간구</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="v-highlight-box" style="justify-content: center; text-align: center;">
+             <p style="margin: 0; width: 100%;">
+               겉보기엔 형제들의 외적인 사역이 눈에 띄지만, 이 시대를 끝내는 것은<br>
+               <strong style="font-size: calc(17px * var(--font-scale)); margin-top: 8px;">주님 오시옵소서라고 부르짖는 자매들의 깊고 끊임없는 기도입니다.</strong>
+             </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- Quiz -->
+<section class="quiz-section" id="quizSection">
+  <h2>✏️ 이해도 확인 퀴즈</h2>
+  <div id="quizContainer"></div>
+  <div class="quiz-submit-area">
+    <button class="btn-primary" onclick="submitQuiz()">결과 확인하기</button>
+  </div>
+  <div class="quiz-result" id="quizResult">
+    <div class="quiz-score" id="quizScore"></div>
+    <div class="quiz-msg" id="quizMsg"></div>
+  </div>
+</section>
+
+<!-- Prayer -->
+<section class="prayer-section" id="prayerSection">
+  <h2>오늘의 기도</h2>
+  <div class="prayer-text">
+    <p>"주님, 아무것도 붙잡지 않습니다.<br>
+    제 존재의 각 부분에 들어오십시오.</p>
+    <br>
+    <p>저는 장래 어느 때가 아니라,<br>
+    이 시대에 주님께서 이 일을 하시기를 간구합니다.</p>
+    <br>
+    <p>제 존재의 깊은 부분에 오시고,<br>
+    어둠을 빛으로 바꾸어 주십시오.</p>
+    <br>
+    <p>주님, 온 땅에서 자매들이 쉬지 않고 이처럼 기도하게 해 주십시오."</p>
+  </div>
+</section>
+
+</div>
+
+<script>
+// Keywords data updated with new requested content
+const keywords = [
+  {word:'어둠', desc:'갈수록 어두워지는 이 시대 전체를 의미하며, 동시에 우리 혼의 가장 깊고 어두운 부분을 가리킵니다.'},
+  {word:'등불', desc:'단순한 지식이 아닌, 영적인 빛을 전달하여 우리의 어둠을 밝히고 발걸음을 인도하는 성경의 예언의 말씀입니다.'},
+  {word:'샛별', desc:'장차 올 사건이기 전에, 빛이신 주님께 우리 존재의 깊은 부분을 열어드릴 때 내면에서 먼저 떠오르는 주관적인 체험입니다.'},
+  {word:'주의를 기울이다', desc:'말씀을 기도로 읽으며 내면을 열어, 주님의 비춤을 적극적으로 받아들이는 구체적인 실행입니다.'},
+  {word:'파루시아 (오심)', desc:'가장 어두운 밤에 주님께서 도둑같이 비밀스럽게 오시어 깨어 있는 성도들을 휴거하시는 영광스러운 사건입니다.'},
+  {word:'사모하다', desc:'주님의 임재를 간절히 추구하며 깨어 기도하는 상태로, 의의 면류관을 얻기 위한 믿는 이들의 온전한 태도입니다.'}
+];
+
+// Render keywords
+const kwTags = document.getElementById('keywordTags');
+const kwDesc = document.getElementById('kwDescBox');
+const navKw = document.getElementById('navKeywords');
+keywords.forEach((k,i)=>{
+  const tag = document.createElement('span');
+  tag.className='keyword-tag'; tag.textContent=k.word;
+  tag.onclick=()=>{
+    document.querySelectorAll('.keyword-tag').forEach(t=>t.classList.remove('active'));
+    if(kwDesc.dataset.idx==i && kwDesc.classList.contains('show')){
+      kwDesc.classList.remove('show'); kwDesc.dataset.idx='';
+    } else {
+      tag.classList.add('active');
+      kwDesc.innerHTML='<strong>'+k.word+'</strong>: '+k.desc;
+      kwDesc.classList.add('show'); kwDesc.dataset.idx=i;
+    }
+  };
+  kwTags.appendChild(tag);
+  
+  // Nav keywords
+  const navItem = document.createElement('a');
+  navItem.className='nav-item nav-sub';
+  navItem.textContent=k.word;
+  navItem.style.cursor='pointer';
+  navItem.onclick=()=>{togglePanel(); goTo('keywordsSection'); setTimeout(()=>tag.click(),300);};
+  navKw.appendChild(navItem);
+});
+
+// Quiz data (Aligned with the 4 steps logic)
+const quizData = [
+  {q:'베드로는 현시대의 어둠 속에서 우리의 발걸음을 비추는 영적인 빛을 무엇에 비유했습니까?',
+   opts:['빛나는 별','어두운 곳을 비추는 등불','치료하는 날개','양날이 선 칼'],
+   ans:1, hint:'단순한 지식이 아니라 영적인 빛을 전달하여 어둠을 비추는 성경 말씀을 가리킵니다.'},
+  {q:'말씀의 등불에 주의를 기울일 때 우리 내면에서 주관적으로 떠오르는 체험은 무엇입니까?',
+   opts:['환상 체험','의의 해','샛별','번개'],
+   ans:2, hint:'장차 올 사건이기 전에 믿는 이들의 마음속 깊은 곳에서 먼저 떠오르는 빛입니다.'},
+  {q:'비밀한 오심(파루시아)을 온전히 맞이하기 위해 성도들이 취해야 할 태도는 무엇입니까?',
+   opts:['세상과 완전히 단절하기','모든 율법을 행위로 지키기','주님의 나타나심을 사모하며 깨어 있기','외적인 일을 많이 하기'],
+   ans:2, hint:'말씀의 비춤으로 깊고도 사랑스러운 주님의 임재를 추구하는 태도입니다.'},
+  {q:'지문에서 실지적인 적용으로 제안된 방법이 아닌 것은 무엇입니까?',
+   opts:['매일 성경을 통독하기','말씀을 단순히 문자적 지식으로만 암기하기','성경을 기도로 읽기','두세 자매가 함께 모여 깨어 기도하기'],
+   ans:1, hint:'성경은 지식 축적이 아닌, 영적인 빛을 누리고 존재를 여는 데 목적이 있습니다.'},
+  {q:'주님의 오심을 사모하며 한 알의 밀처럼 죽어 놀라운 결과를 가져온 사례로 언급된 분은 누구입니까?',
+   opts:['베드로 사도','바울 사도','마리아 자매','바버(M.E. Barber) 자매님'],
+   ans:3, hint:'영국에서 중국으로 이주하여 주님을 섬기며 주님의 나타나심을 간절히 사모했던 분입니다.'}
+];
+
+const qc = document.getElementById('quizContainer');
+quizData.forEach((q,i)=>{
+  let html = `<div class="quiz-item" id="qi${i}">
+    <div class="quiz-q"><span class="quiz-badge">${i+1}</span><span class="quiz-q-text">${q.q}</span></div>
+    <div class="quiz-options">`;
+  q.opts.forEach((o,j)=>{
+    html+=`<label class="quiz-opt" onclick="selectOpt(${i},${j},this)"><span class="quiz-radio"></span><span>${o}</span></label>`;
+  });
+  html+=`</div><button class="quiz-hint-btn" onclick="showHint(${i})">💡 힌트 확인하기</button>
+    <div class="quiz-hint" id="hint${i}">${q.hint}</div>
+    <div class="quiz-feedback" id="fb${i}"></div></div>`;
+  qc.innerHTML+=html;
+});
+
+const userAns = {};
+function selectOpt(qi,oi,el){
+  if(document.getElementById('quizResult').style.display==='block') return;
+  el.closest('.quiz-options').querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  userAns[qi]=oi;
+}
+function showHint(i){
+  document.getElementById('hint'+i).classList.toggle('show');
+}
+function submitQuiz(){
+  let score=0;
+  quizData.forEach((q,i)=>{
+    const opts = document.querySelectorAll(`#qi${i} .quiz-opt`);
+    const fb = document.getElementById('fb'+i);
+    opts.forEach(o=>o.classList.remove('correct','wrong'));
+    
+    if(userAns[i]===undefined){
+      fb.textContent='⚠ 답을 선택해 주세요.'; 
+      fb.style.color='var(--accent3)'; 
+      fb.style.display='block'; 
+      return;
+    }
+    
+    if(userAns[i]===q.ans){
+      score++; opts[q.ans].classList.add('correct');
+      fb.textContent='✅ 정답입니다!'; 
+      fb.style.color='var(--accent2)';
+    } else {
+      opts[userAns[i]].classList.add('wrong'); 
+      opts[q.ans].classList.add('correct');
+      fb.textContent='❌ 오답입니다. 정답: '+q.opts[q.ans]; 
+      fb.style.color='var(--accent5)';
+    }
+    fb.style.display='block';
+  });
+  
+  // 만약 모든 문제를 풀지 않았다면 채점 결과를 보여주지 않음
+  if(Object.keys(userAns).length < quizData.length) return;
+
+  const r=document.getElementById('quizResult');
+  r.style.display='block';
+  document.getElementById('quizScore').textContent=score+' / '+quizData.length;
+  const pct=score/quizData.length;
+  document.getElementById('quizMsg').textContent=
+    pct===1?'만점입니다! 말씀의 흐름을 완벽하게 이해하고 계십니다. 샛별이 떠오를 때까지 말씀을 누려보세요.':
+    pct>=0.6?'훌륭합니다! 전반적인 흐름을 잘 파악하고 계십니다. 틀린 부분을 다시 한번 확인해보세요.':
+    '조금 더 주의를 기울여 보세요! 각 Step별 요점을 천천히 다시 읽어보시는 것을 추천합니다.';
+}
+
+// Accordion Logic (Independent Open/Close)
+function toggleAcc(header){
+  const item=header.parentElement;
+  const body=item.querySelector('.accordion-body');
+  if(item.classList.contains('open')){
+    body.style.maxHeight='0'; 
+    item.classList.remove('open');
+  } else {
+    body.style.maxHeight=body.scrollHeight+'px'; 
+    item.classList.add('open');
+  }
+}
+
+// Side panel Logic
+function togglePanel(){
+  document.getElementById('sidePanel').classList.toggle('open');
+  document.getElementById('sideOverlay').classList.toggle('open');
+}
+function goTo(id){
+  togglePanel();
+  setTimeout(()=>{
+    const el = document.getElementById(id);
+    const y = el.getBoundingClientRect().top + window.scrollY - 60; // adjust for top bar
+    window.scrollTo({top: y, behavior: 'smooth'});
+  }, 200);
+}
+
+// Font size Logic
+let fontScale=1;
+function adjustFont(dir){
+  if(dir===0) fontScale=1;
+  else fontScale=Math.max(0.7,Math.min(1.5,fontScale+dir*0.05));
+  document.documentElement.style.setProperty('--font-scale',fontScale);
+  
+  // 열려있는 아코디언 높이 재계산
+  document.querySelectorAll('.accordion-item.open').forEach(item => {
+      const body = item.querySelector('.accordion-body');
+      body.style.maxHeight = 'none'; // 잠시 풀어서 실제 높이 측정
+      const newHeight = body.scrollHeight;
+      body.style.maxHeight = newHeight + 'px';
+  });
+}
+</script>
+</body>
+</html>
