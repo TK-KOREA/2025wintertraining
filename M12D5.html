@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>빛나는 샛별이신 그리스도</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --base-font-size: 17px;
+  --font-scale: 1;
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #333333;
+  --accent-yellow: #ffe066;
+  --highlight-yellow: #fff3b0;
+  --border: #e0e0e0;
+  --card-bg: #fafafa;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --radius: 12px;
+  --c1: #1565C0;
+  --c2: #F57F17;
+  --c3: #2E7D32;
+  --c4: #6A1B9A;
+  --c5: #C62828;
+  --c6: #00838F;
+  --c7: #4E342E;
+  --c8: #283593;
+  --c9: #E65100;
+  --step-bg: #f0f4f8;
+  --topbar-h: 44px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: calc(var(--base-font-size) * var(--font-scale));
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.75;
+  padding-top: var(--topbar-h);
+}
+
+/* TOP BAR */
+.topbar {
+  position: fixed; top:0; left:0; right:0;
+  height: var(--topbar-h);
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  padding: 0;
+  font-size: 14px !important;
+}
+.topbar * { font-size: 14px !important; }
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  padding-left: 8px;
+}
+.topbar-btn {
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: none; cursor: pointer;
+  border-radius: 6px;
+  color: #444;
+  flex-shrink: 0;
+}
+.topbar-btn:hover { background: #f0f0f0; }
+.topbar-btn svg { width:20px; height:20px; }
+.topbar-title-wrap {
+  flex: 1;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0 8px;
+}
+.topbar-title-wrap::-webkit-scrollbar { display: none; }
+.topbar-title-text {
+  font-weight: 700;
+  color: var(--text);
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding-right: 8px;
+  gap: 2px;
+}
+.font-btn {
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: 700;
+  color: #444;
+  font-size: 14px !important;
+}
+.font-btn:hover { background: #f5f5f5; }
+
+/* SIDE NAV */
+.side-overlay {
+  position: fixed; top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+.side-overlay.open { opacity:1; pointer-events:auto; }
+.side-nav {
+  position: fixed; top:0; left:-300px; bottom:0;
+  width: 280px;
+  background: #fff;
+  z-index: 1200;
+  transition: left .3s ease;
+  overflow-y: auto;
+  box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+}
+.side-nav.open { left: 0; }
+.side-nav-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  font-size: 16px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.side-nav-close { background: none; border:none; cursor:pointer; font-size:20px !important; color:#888; }
+.side-nav ul { list-style: none; padding: 8px 0; }
+.side-nav li a {
+  display: block;
+  padding: 10px 20px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 15px !important;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+.side-nav li a:hover { background: #f5f5f5; border-left-color: var(--c1); }
+.side-nav .sub-menu { padding-left: 20px; }
+.side-nav .sub-menu a { font-size: 14px !important; color: var(--text-secondary); padding: 7px 20px; }
+.keyword-item {
+  cursor: pointer;
+  position: relative;
+}
+.keyword-def {
+  display: none;
+  padding: 6px 20px 10px 40px;
+  font-size: 13px !important;
+  color: #555;
+  line-height: 1.6;
+  background: #fafafa;
+}
+.keyword-def.show { display: block; }
+
+/* MAIN CONTENT */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px 60px;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 40px 16px 30px;
+  position: relative;
+}
+.training-tag {
+  display: inline-block;
+  background: var(--c1);
+  color: #fff;
+  font-size: calc(12px * var(--font-scale));
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+.hero-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+.hero h1 {
+  font-size: calc(24px * var(--font-scale));
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+.hero .hero-verse {
+  font-size: calc(14px * var(--font-scale));
+  color: #555;
+  margin-top: 4px;
+}
+
+/* DASHBOARD & CORE MESSAGE */
+.core-message-box {
+  background: linear-gradient(135deg, #f8f9fa 0%, #eef2f3 100%);
+  border-left: 5px solid var(--c2);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 24px 0;
+  box-shadow: var(--shadow);
+}
+.core-message-title {
+  font-size: calc(14px * var(--font-scale));
+  color: var(--c2);
+  font-weight: 900;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.core-message-text {
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--text);
+  word-break: keep-all;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 24px 0;
+}
+.dash-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 10px;
+  text-align: center;
+}
+.dash-card .dash-icon { font-size: 24px; margin-bottom: 6px; }
+.dash-card .dash-label {
+  font-size: calc(12px * var(--font-scale));
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+.dash-card .dash-value {
+  font-size: calc(14px * var(--font-scale));
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 2px;
+}
+
+/* SECTION LABEL & STEPS */
+.section-label {
+  font-size: calc(12px * var(--font-scale));
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #999;
+  font-weight: 700;
+  text-align: center;
+  margin: 40px 0 24px;
+}
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 40px 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--item-color, var(--c1));
+}
+.step-badge {
+  background: var(--item-color, var(--c1));
+  color: #fff;
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+.step-title {
+  font-size: calc(18px * var(--font-scale));
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* --- INFOGRAPHIC VISUALS (STEP 1) --- */
+
+/* Timeline Graphic */
+.tl-graphic {
+  background: linear-gradient(145deg, #161b22, #0d1117, #21262d);
+  border-radius: 12px;
+  padding: 24px 16px;
+  color: #fff;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  position: relative;
+  overflow: hidden;
+}
+.tl-graphic::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 80% 50%, rgba(255,235,59,0.1), transparent 60%);
+  pointer-events: none;
+}
+.tl-title {
+  text-align: center;
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #e6edf3;
+  letter-spacing: 0.5px;
+}
+.tl-track-wrap {
+  position: relative;
+  margin: 40px 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  min-height: 120px;
+}
+.tl-track-line {
+  position: absolute;
+  top: 50%; left: 5%; right: 5%;
+  height: 2px;
+  background: linear-gradient(to right, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.8) 70%, #ffeb3b 100%);
+  z-index: 1;
+}
+.tl-node {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.tl-dot {
+  width: 12px; height: 12px;
+  background: #8b949e;
+  border-radius: 50%;
+  margin-bottom: 8px;
+  box-shadow: 0 0 8px rgba(255,255,255,0.3);
+}
+.tl-node.dark .tl-dot { background: #484f58; box-shadow: 0 0 0 4px rgba(0,0,0,0.6); }
+.tl-node.star .tl-icon { font-size: 26px; text-shadow: 0 0 15px #fff; margin-bottom: 2px; }
+.tl-node.sun .tl-icon { font-size: 32px; text-shadow: 0 0 20px #ffeb3b; margin-bottom: -2px; }
+.tl-label {
+  font-size: calc(12px * var(--font-scale));
+  color: #8b949e;
+  line-height: 1.4;
+  margin-top: 8px;
+  word-break: keep-all;
+}
+.tl-node.dark .tl-label { color: #8b949e; }
+.tl-node.star .tl-label { color: #fff; font-weight: 700; }
+.tl-node.sun .tl-label { color: #ffeb3b; font-weight: 700; }
+
+.tl-caption {
+  margin-top: 30px;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  background: rgba(0,0,0,0.3);
+  font-size: calc(13px * var(--font-scale));
+  color: #c9d1d9;
+  text-align: center;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+/* Comparison Table Graphic */
+.comp-graphic {
+  background: #1d2330;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  color: #fff;
+}
+.comp-title {
+  text-align: center;
+  padding: 18px;
+  font-size: calc(17px * var(--font-scale));
+  font-weight: 700;
+  color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  letter-spacing: 0.5px;
+}
+.comp-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+  font-size: calc(13px * var(--font-scale));
+}
+.comp-table th, .comp-table td {
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 14px 12px;
+  text-align: center;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+.comp-table th {
+  background: rgba(255,255,255,0.03);
+  font-weight: 700;
+  padding: 20px 12px;
+}
+.comp-table thead th:first-child { width: 18%; background: rgba(0,0,0,0.2); }
+.comp-table thead th:nth-child(2) { color: #fff; width: 41%; }
+.comp-table thead th:nth-child(3) { color: #fef08a; width: 41%; }
+.th-main { display: block; font-size: calc(15px * var(--font-scale)); margin: 4px 0; }
+.th-sub { display: block; font-size: calc(11px * var(--font-scale)); font-weight: 400; color: #8b949e; }
+.comp-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+.comp-table tbody td:first-child {
+  background: rgba(0,0,0,0.2);
+  color: #8b949e;
+  font-weight: 700;
+}
+.comp-table tbody td:nth-child(2) { color: #e6edf3; }
+.comp-table tbody td:nth-child(3) { color: #e6edf3; }
+
+/* REWARD GRAPHIC (STEP 2) */
+.reward-graphic {
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 12px;
+  padding: 32px 20px;
+  color: #fff;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.reward-graphic::before {
+  content: '✨';
+  position: absolute;
+  top: -10px; right: 20px;
+  font-size: 80px;
+  opacity: 0.1;
+  pointer-events: none;
+}
+.reward-title {
+  font-size: calc(21px * var(--font-scale));
+  font-weight: 900;
+  margin-bottom: 8px;
+  color: #f1f5f9;
+  word-break: keep-all;
+  line-height: 1.4;
+}
+.reward-highlight {
+  color: #fbbf24;
+}
+.reward-subtitle {
+  font-size: calc(14px * var(--font-scale));
+  color: #94a3b8;
+  margin-bottom: 28px;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 16px;
+  display: inline-block;
+  letter-spacing: 0.5px;
+}
+.reward-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.rcard {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+  transition: transform 0.2s, background 0.2s;
+}
+.rcard:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-2px);
+}
+.rcard-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.rcard-text {
+  font-size: calc(14px * var(--font-scale));
+  color: #e2e8f0;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+/* --- INFOGRAPHIC VISUALS (STEP 3) --- */
+
+/* SCALE GRAPHIC (STEP 3 - Trap) */
+.scale-graphic {
+  background: linear-gradient(145deg, #1f2937, #111827);
+  border-radius: 12px;
+  padding: 28px 16px;
+  color: #fff;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+}
+.scale-header { text-align: center; margin-bottom: 24px; }
+.scale-title { font-size: calc(18px * var(--font-scale)); font-weight: 700; color: #facc15; margin-bottom: 12px; }
+.scale-desc { font-size: calc(14px * var(--font-scale)); color: #d1d5db; line-height: 1.65; word-break: keep-all; }
+.scale-desc strong { color: #fff; }
+
+.scale-container {
+  display: flex; justify-content: center; align-items: center; position: relative;
+  margin-top: 50px; height: 160px;
+}
+.scale-beam {
+  position: absolute; width: 85%; height: 6px; background: #9ca3af; border-radius: 3px;
+  transform: rotate(10deg); /* 왼쪽이 무겁게 */
+  top: 50%; left: 7.5%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  transition: transform 1s ease-in-out;
+}
+.scale-pivot {
+  position: absolute; width: 24px; height: 24px; background: #e5e7eb; border-radius: 50%;
+  top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;
+  border: 5px solid #4b5563;
+}
+.scale-base {
+  position: absolute; width: 6px; height: 70px; background: #4b5563; border-radius: 3px;
+  top: 50%; left: 50%; transform: translateX(-50%); z-index: 9;
+}
+.scale-pan {
+  position: absolute; width: 140px; display: flex; flex-direction: column; align-items: center;
+}
+.pan-left { top: 0px; left: 5%; }
+.pan-right { top: -45px; right: 5%; }
+.pan-line { width: 2px; height: 45px; background: #9ca3af; }
+.pan-plate { width: 90px; height: 8px; background: #9ca3af; border-radius: 0 0 10px 10px; margin-top: 0px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+.pan-content { text-align: center; margin-bottom: 5px; }
+.pan-icon { font-size: 36px; margin-bottom: 6px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+.pan-text { font-size: calc(12px * var(--font-scale)); color: #e5e7eb; font-weight: 700; line-height: 1.3; }
+.pan-sub { font-size: calc(11px * var(--font-scale)); color: #9ca3af; display: block; margin-top: 4px; font-weight: 400; }
+.pan-right .pan-icon { color: #facc15; text-shadow: 0 0 20px rgba(250, 204, 21, 0.6); }
+
+/* FUNNEL GRAPHIC (STEP 3 - Filter) */
+.funnel-graphic {
+  background: linear-gradient(145deg, #1e1b4b, #312e81);
+  border-radius: 12px;
+  padding: 28px 16px;
+  color: #fff;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+}
+.funnel-header { text-align: center; margin-bottom: 30px; }
+.funnel-title { font-size: calc(18px * var(--font-scale)); font-weight: 700; color: #a5b4fc; margin-bottom: 12px; }
+.funnel-desc { font-size: calc(14px * var(--font-scale)); color: #c7d2fe; line-height: 1.65; word-break: keep-all; }
+.funnel-desc strong { color: #fff; }
+
+.funnel-container {
+  display: flex; flex-direction: column; align-items: center; margin-top: 10px;
+}
+.funnel-inputs {
+  display: flex; justify-content: center; gap: 10px; width: 100%; margin-bottom: 15px; flex-wrap: wrap;
+}
+.f-input {
+  font-size: calc(12px * var(--font-scale)); color: #c7d2fe; background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: 6px; border: 1px solid rgba(165, 180, 252, 0.3); text-align: center;
+}
+.funnel-arrows {
+  display: flex; justify-content: space-around; width: 85%; color: #6366f1; margin-bottom: 5px; font-size: 18px; opacity: 0.8;
+}
+.funnel-body {
+  width: 260px;
+  height: 90px;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid #818cf8;
+  border-top-width: 0;
+  clip-path: polygon(0 0, 100% 0, 70% 100%, 30% 100%);
+  display: flex; justify-content: center; align-items: center;
+  position: relative;
+  box-shadow: inset 0 0 30px rgba(129, 140, 248, 0.15);
+}
+.funnel-filter-text {
+  font-size: calc(14px * var(--font-scale)); font-weight: 700; color: #fff; text-align: center; line-height: 1.4;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5); z-index: 2;
+}
+.funnel-filter-text span { display: block; font-size: 0.85em; color: #a5b4fc; font-weight: 400; margin-top: 2px; }
+.funnel-glow {
+  position: absolute; width: 100%; height: 2px; background: #fff; top: 50%; box-shadow: 0 0 20px 4px rgba(255,255,255,0.8); opacity: 0.8;
+}
+.funnel-neck {
+  width: 90px; height: 40px; background: rgba(255,255,255,0.05); border-left: 2px solid #818cf8; border-right: 2px solid #818cf8;
+  display: flex; justify-content: space-evenly; padding-top: 8px; color: #818cf8; font-size: 14px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(255,255,255,0.2));
+}
+.funnel-output {
+  margin-top: 0; text-align: center;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.15), transparent);
+  padding: 20px; border-radius: 0 0 8px 8px; width: 100%;
+}
+.funnel-output-text {
+  font-size: calc(16px * var(--font-scale)); font-weight: 700; color: #fff;
+  text-shadow: 0 0 15px rgba(255,255,255,0.8);
+}
+
+
+/* FLOW CONNECTOR (Text) */
+.flow-connector-text {
+  position: relative;
+  margin: 20px 0 30px 16px;
+  padding: 16px 20px;
+  background: #fdfdfd;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  color: #555;
+  font-size: calc(15px * var(--font-scale));
+  line-height: 1.6;
+  word-break: keep-all;
+}
+.flow-connector-text::before {
+  content: '🔗 연결고리';
+  position: absolute;
+  top: -12px;
+  left: 16px;
+  background: #fff;
+  padding: 0 8px;
+  font-size: calc(12px * var(--font-scale));
+  font-weight: 700;
+  color: #888;
+}
+.flow-arrow-down {
+  text-align: center;
+  color: #ccc;
+  margin: 10px 0;
+  font-size: 20px;
+}
+
+/* ACCORDION */
+.accordion-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+  background: #fff;
+  transition: box-shadow .3s;
+}
+.accordion-item:hover { box-shadow: var(--shadow); }
+.accordion-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  border-left: 4px solid var(--item-color, var(--c1));
+}
+.accordion-header .acc-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--item-color, var(--c1)) 12%, white);
+}
+.accordion-header .acc-title {
+  flex: 1;
+  font-weight: 700;
+  font-size: calc(16px * var(--font-scale));
+  color: var(--text);
+}
+.accordion-header .acc-chevron {
+  transition: transform .3s;
+  color: #aaa;
+  flex-shrink: 0;
+}
+.accordion-item.open .acc-chevron { transform: rotate(180deg); }
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease;
+}
+.accordion-content {
+  padding: 0 16px 20px 58px;
+}
+
+/* BIBLE VERSE BOX */
+.bible-box {
+  background: #f8f9fa;
+  border-left: 3px solid var(--item-color, var(--c1));
+  border-radius: 0 8px 8px 0;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+.bible-box .bible-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: calc(12px * var(--font-scale));
+  font-weight: 700;
+  color: var(--item-color, var(--c1));
+  margin-bottom: 8px;
+}
+.bible-box .bible-ref {
+  font-size: calc(15px * var(--font-scale));
+  color: var(--text);
+  line-height: 1.7;
+  margin-bottom: 6px;
+}
+.bible-box .bible-ref:last-child { margin-bottom: 0; }
+.bible-ref-tag {
+  font-weight: 700;
+  color: var(--item-color, var(--c1));
+  font-size: calc(13px * var(--font-scale));
+}
+
+mark {
+  background: var(--accent-yellow);
+  color: var(--text);
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+.point-block {
+  margin-bottom: 14px;
+}
+.point-block p {
+  margin-bottom: 8px;
+  color: var(--text);
+  line-height: 1.8;
+}
+.point-sub-title {
+  font-weight: 700;
+  font-size: calc(15px * var(--font-scale));
+  color: var(--text);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* QUIZ */
+.quiz-section {
+  margin-top: 50px;
+}
+.quiz-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  margin-bottom: 14px;
+  background: #fff;
+}
+.quiz-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--c1);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+.quiz-q {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+  font-size: 1rem;
+  line-height: 1.5;
+  min-height: 44px;
+}
+.quiz-opt:hover { background: #f5f5f5; }
+.quiz-opt.selected { border-color: var(--c1); background: color-mix(in srgb, var(--c1) 8%, white); }
+.quiz-opt.correct { border-color: #2E7D32; background: #e8f5e9; }
+.quiz-opt.wrong { border-color: #C62828; background: #ffebee; }
+.quiz-opt .opt-circle {
+  width: 20px; height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+.quiz-opt.selected .opt-circle { border-color: var(--c1); background: var(--c1); color: #fff; }
+.quiz-opt.correct .opt-circle { border-color: #2E7D32; background: #2E7D32; color: #fff; }
+.quiz-opt.wrong .opt-circle { border-color: #C62828; background: #C62828; color: #fff; }
+.quiz-hint-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: var(--highlight-yellow);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #7a6500;
+  font-weight: 500;
+}
+.quiz-hint {
+  display: none;
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: #fffde7;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #5d4e00;
+  line-height: 1.6;
+}
+.quiz-hint.show { display: block; }
+.quiz-result {
+  display: none;
+  border: 2px solid var(--c1);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+  margin-top: 16px;
+}
+.quiz-result.show { display: block; }
+.quiz-result .score {
+  font-size: calc(36px * var(--font-scale));
+  font-weight: 900;
+  color: var(--c1);
+}
+.quiz-result .feedback {
+  font-size: calc(15px * var(--font-scale));
+  color: var(--text-secondary);
+  margin-top: 8px;
+}
+.quiz-submit-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: var(--c1);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 16px;
+}
+.quiz-submit-btn:hover { opacity: 0.9; }
+
+/* PRAYER */
+.prayer-section {
+  margin-top: 40px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+}
+.prayer-section h2 {
+  font-size: calc(20px * var(--font-scale));
+  font-weight: 900;
+  margin-bottom: 16px;
+  text-align: center;
+  color: var(--text);
+}
+.prayer-text {
+  font-size: calc(16px * var(--font-scale));
+  line-height: 2;
+  color: var(--text);
+  white-space: pre-line;
+}
+
+/* MISC */
+.bookmark-icon { display:inline; vertical-align: middle; }
+
+@media (min-width: 600px) {
+  .reward-cards {
+    flex-direction: row;
+  }
+  .rcard {
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .rcard-icon {
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard { grid-template-columns: repeat(2, 1fr); }
+  .accordion-content { padding-left: 20px; padding-right: 12px; }
+  .container { padding: 16px 12px 50px; }
+  .tl-label { font-size: calc(11px * var(--font-scale)); }
+  .tl-node.sun .tl-icon { font-size: 24px; }
+  .tl-node.star .tl-icon { font-size: 20px; }
+  .comp-table th, .comp-table td { padding: 10px 8px; }
+  
+  /* STEP 3 Graphics Mobile Adjustments */
+  .scale-container { transform: scale(0.85); margin-top: 30px; }
+  .pan-text { font-size: calc(11px * var(--font-scale)); }
+  .funnel-inputs { gap: 6px; }
+  .f-input { font-size: calc(11px * var(--font-scale)); padding: 4px 8px; }
+  .funnel-body { width: 200px; height: 80px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="topbar-btn" onclick="toggleNav()" aria-label="목차">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a class="topbar-btn" href="https://tk-korea.github.io/2025wintertraining/" aria-label="홈">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </a>
+  </div>
+  <div class="topbar-title-wrap">
+    <span class="topbar-title-text">빛나는 샛별이신 그리스도</span>
+  </div>
+  <div class="topbar-right">
+    <button class="font-btn" onclick="adjustFont(-1)">−</button>
+    <button class="font-btn" onclick="adjustFont(0)">가</button>
+    <button class="font-btn" onclick="adjustFont(1)">+</button>
+  </div>
+</div>
+
+<!-- SIDE NAV -->
+<div class="side-overlay" id="sideOverlay" onclick="toggleNav()"></div>
+<nav class="side-nav" id="sideNav">
+  <div class="side-nav-header">
+    <span>목차</span>
+    <button class="side-nav-close" onclick="toggleNav()">✕</button>
+  </div>
+  <ul>
+    <li><a href="#hero" onclick="toggleNav()">📖 제목</a></li>
+    <li><a href="#dashboard" onclick="toggleNav()">📊 대시보드</a></li>
+    <li>
+      <a href="#keywords" onclick="toggleNav()">🔑 키워드</a>
+      <ul class="sub-menu" id="keywordMenu">
+        <li class="keyword-item"><a onclick="toggleKeyDef(this)">샛별</a><div class="keyword-def">동트기 전 가장 어두운 시간에 나타나는 별. 그리스도께서 이기는 이들에게 은밀히 나타나시는 것을 상징함.</div></li>
+        <li class="keyword-item"><a onclick="toggleKeyDef(this)">해</a><div class="keyword-def">왕국 시대에 모든 백성에게 공개적으로 나타나시는 그리스도를 상징함 (말 4:2).</div></li>
+        <li class="keyword-item"><a onclick="toggleKeyDef(this)">이기는 이</a><div class="keyword-def">깨어서 그리스도의 오심을 기다리며 영을 사용하는 신자. 샛별이신 그리스도를 보상으로 받음.</div></li>
+        <li class="keyword-item"><a onclick="toggleKeyDef(this)">휴거</a><div class="keyword-def">대환난 전에 이기는 이들이 그리스도께로 들려 올라가는 것. 샛별의 은밀한 나타남과 관련됨.</div></li>
+        <li class="keyword-item"><a onclick="toggleKeyDef(this)">깨어 있음</a><div class="keyword-def">내적으로 영을 사용하며, 어느 때든지 샛별이 내적으로 나타날 수 있음을 인식하는 것.</div></li>
+        <li class="keyword-item"><a onclick="toggleKeyDef(this)">사모함</a><div class="keyword-def">주님의 나타나심을 간절히 기다리고 그분의 오심을 갈망하는 마음의 태도.</div></li>
+        <li class="keyword-item"><a onclick="toggleKeyDef(this)">어리석은 부자</a><div class="keyword-def">자신을 위해 이 땅에 재물을 쌓아두며 주님의 오심을 망각한 사람을 일컫는 비유.</div></li>
+        <li class="keyword-item"><a onclick="toggleKeyDef(this)">분리</a><div class="keyword-def">사람의 방면에서 일상생활을 하면서도 내적으로는 주님 안에 거하며 세상을 초월하는 상태.</div></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#points" onclick="toggleNav()">📌 핵심 단계별 요점</a>
+      <ul class="sub-menu">
+        <li><a href="#step1" onclick="toggleNav()">Step 1. 두 가지 나타나심</a></li>
+        <li><a href="#step2" onclick="toggleNav()">Step 2. 이기는 이의 보상</a></li>
+        <li><a href="#step3" onclick="toggleNav()">Step 3. 땅에 소망을 두지 않음</a></li>
+        <li><a href="#step4" onclick="toggleNav()">Step 4. 나타나심을 사모함</a></li>
+      </ul>
+    </li>
+    <li><a href="#quiz" onclick="toggleNav()">✏️ 퀴즈</a></li>
+    <li><a href="#prayer" onclick="toggleNav()">오늘의 기도</a></li>
+  </ul>
+</nav>
+
+<!-- CONTENT -->
+<div class="container">
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <span class="training-tag">2025 겨울훈련 12주 5일</span>
+  <div class="hero-icon">⭐</div>
+  <h1>빛나는 샛별이신 그리스도</h1>
+  <p class="hero-verse">계 22:16 — "나는 다윗의 뿌리이고 자손이며, 빛나는 샛별이다."</p>
+</section>
+
+<!-- CORE MESSAGE & DASHBOARD -->
+<section id="dashboard">
+  <div class="core-message-box">
+    <div class="core-message-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> 핵심 메시지</div>
+    <div class="core-message-text">
+      주님은 다시 오실 때 모든 사람에게 공개적인 '해'로 나타나시지만, 깨어 기다리는 이기는 자들에게는 대환난 전에 은밀한 '샛별'로 먼저 오십니다. 우리는 이 땅에 소망을 두지 않고 그분의 오심을 간절히 사모해야 합니다.
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <div class="dash-card">
+      <div class="dash-icon">🌟</div>
+      <div class="dash-label">샛별</div>
+      <div class="dash-value">은밀한 나타남</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">☀️</div>
+      <div class="dash-label">해</div>
+      <div class="dash-value">공개적 나타남</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">⛪</div>
+      <div class="dash-label">교회</div>
+      <div class="dash-value">휴거와 관련</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">👁️</div>
+      <div class="dash-label">깨어 있음</div>
+      <div class="dash-value">내적 떠오름</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">🚫</div>
+      <div class="dash-label">세상 분리</div>
+      <div class="dash-value">소망을 하늘에</div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-icon">🙏</div>
+      <div class="dash-label">갈망</div>
+      <div class="dash-value">오십시오!</div>
+    </div>
+  </div>
+</section>
+
+<!-- KEYWORDS -->
+<section id="keywords"></section>
+
+<!-- POINTS IN STEPS -->
+<section id="points">
+  <div class="section-label">핵심 전개 과정</div>
+
+  <!-- STEP 1 -->
+  <div class="step-header" id="step1" style="--item-color: var(--c1);">
+    <div class="step-badge">Step 1</div>
+    <div class="step-title">그리스도의 두 가지 나타나심</div>
+  </div>
+
+  <div class="tl-graphic">
+    <div class="tl-title">밤에서 새벽으로: 구속사의 타임라인</div>
+    <div class="tl-track-wrap">
+      <div class="tl-track-line"></div>
+      
+      <div class="tl-node">
+        <div class="tl-dot"></div>
+        <div class="tl-label">교회 시대</div>
+      </div>
+      
+      <div class="tl-node dark">
+        <div class="tl-dot"></div>
+        <div class="tl-label">가장 어두운 시간:<br>대환난<br><small>(칠십 번째 이레)</small></div>
+      </div>
+      
+      <div class="tl-node star">
+        <div class="tl-icon">✨</div>
+        <div class="tl-label">샛별의<br>은밀한 나타남</div>
+      </div>
+      
+      <div class="tl-node sun">
+        <div class="tl-icon">☀️</div>
+        <div class="tl-label">왕국의 새날<br><small>(의의 해의 공개적 나타남)</small></div>
+      </div>
+    </div>
+    <div class="tl-caption">
+      샛별은 동트기 전 가장 어두운 환난의 때에, 왕국의 새날이 밝기 전 이기는 이들에게 은밀히 나타납니다.
+    </div>
+  </div>
+
+  <div class="comp-graphic">
+    <div class="comp-title">두 가지 나타나심의 본질적 차이</div>
+    <div class="comp-table-wrap">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th><span style="font-size: 20px;">✨</span><br><span class="th-main">빛나는 샛별</span><span class="th-sub">(The Bright Morning Star)</span></th>
+            <th><span style="font-size: 24px;">☀️</span><br><span class="th-main">의의 해</span><span class="th-sub">(The Sun of Righteousness)</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>시기 (Timing)</td>
+            <td>동트기 전 가장 어두운 대환난 이전</td>
+            <td>대환난 이후 왕국의 새날이 동틀 때</td>
+          </tr>
+          <tr>
+            <td>성격 (Nature)</td>
+            <td>은밀한 나타남 (도둑같이)</td>
+            <td>공개적인 나타남 (모든 눈이 보도록)</td>
+          </tr>
+          <tr>
+            <td>관련 영역 (Sphere)</td>
+            <td>교회와 이기는 이들의 휴거</td>
+            <td>이스라엘과 땅의 왕국</td>
+          </tr>
+          <tr>
+            <td>대상 (Target)</td>
+            <td>그분의 오심을 깨어 기다리는 연인들</td>
+            <td>잠자는 믿는 이들을 포함한 모든 백성</td>
+          </tr>
+          <tr>
+            <td>의미 (Meaning)</td>
+            <td>특별한 '보상'으로서 주어짐 (계 2:28)</td>
+            <td>보편적인 구원과 치료로 주어짐</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="accordion-item" style="--item-color: var(--c1);">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      <div class="acc-icon">🌟</div>
+      <span class="acc-title">빛나는 샛별이신 그리스도</span>
+      <svg class="acc-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <div class="bible-box">
+          <div class="bible-label">
+            <svg class="bookmark-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h12a1 1 0 011 1v18.5a.5.5 0 01-.8.4L12 17.5 5.8 21.9a.5.5 0 01-.8-.4V3a1 1 0 011-1z"/></svg>
+            관련 성경구절
+          </div>
+          <p class="bible-ref"><span class="bible-ref-tag">[계 22:16]</span> 나 예수는 교회들을 위하여 나의 천사를 보내어, 이것들을 너희에게 증언하게 하였다. 나는 <mark>다윗의 뿌리</mark>이고 자손이며, <mark>빛나는 샛별</mark>이다.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">💡 의미</div>
+          <p>하늘에 속한 광체들, 빛들로 상징되시는 그리스도는 <mark>빛나는 샛별</mark>이시다. 그리스도는 오늘날 우리 안에서 빛나는 샛별이시다. 우리는 그분께서 우리 안의 어디에 계시는지 찾으려고 하지 말아야 하며, 그 대신 <mark>그분께 초점을 맞추어야</mark> 한다.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">📖 구체적 사례</div>
+          <p>내주하는 밝은 이 샛별이 우리 안에서 떠오를 때가 올 것이다. 주님은 <mark>외적으로 오실 것</mark>이고, 또한 우리 안에서부터 <mark>내적으로 오실 것</mark>이다. 그리스도께서 오실 때는 기쁜 순간일 것이다. 우리는 그분을 얼굴을 맞대고 뵐 날을 기다리고 있다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item" style="--item-color: var(--c2);">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      <div class="acc-icon">☀️</div>
+      <span class="acc-title">샛별 vs 해 — 은밀함과 공개적 나타남</span>
+      <svg class="acc-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <div class="bible-box">
+          <div class="bible-label">
+            <svg class="bookmark-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h12a1 1 0 011 1v18.5a.5.5 0 01-.8.4L12 17.5 5.8 21.9a.5.5 0 01-.8-.4V3a1 1 0 011-1z"/></svg>
+            관련 성경구절
+          </div>
+          <p class="bible-ref"><span class="bible-ref-tag">[말 4:2]</span> 그러나 내 이름을 경외하는 너희에게는 <mark>의의 해</mark>가 치료하는 날개를 지니고 떠오르리니, 너희가 나아가 잘 먹인 송아지처럼 뛸 것이다.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">💡 의미</div>
+          <p>그리스도는 다시 오실 때 백성에게 일반적으로 <mark>돋는 해</mark>로서 나타나실 것이지만, 깨어서 그분을 사랑하는 이들에게는 특별하게 <mark>샛별</mark>로서 나타나실 것이다. 해가 공개적으로 떠오르는 것이라면, 샛별이 나타나는 것은 <mark>은밀한 것</mark>이다.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">📖 구체적 사례</div>
+          <p>그리스도께서 처음 나타나셨을 때 유대 종교인들이 아닌 <mark>박사들이 그분의 별을 보았다</mark>(마 2:2, 9-10). 그분은 대환난 끝에 돋는 해로서 나타내실 것이지만, 그 전에 샛별이 특별한 방식으로 그분의 연인들 안에 내적으로 오실 것이다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item" style="--item-color: var(--c3);">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      <div class="acc-icon">⛪</div>
+      <span class="acc-title">교회·휴거 vs 이스라엘·왕국</span>
+      <svg class="acc-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <div class="bible-box">
+          <div class="bible-label">
+            <svg class="bookmark-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h12a1 1 0 011 1v18.5a.5.5 0 01-.8.4L12 17.5 5.8 21.9a.5.5 0 01-.8-.4V3a1 1 0 011-1z"/></svg>
+            관련 성경구절
+          </div>
+          <p class="bible-ref"><span class="bible-ref-tag">[계 22:16]</span> 나는 <mark>다윗의 뿌리</mark>이고 자손이며, <mark>빛나는 샛별</mark>이다.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">💡 의미</div>
+          <p>그리스도께서 다윗의 뿌리이시요 다윗의 자손이신 것은 <mark>이스라엘과 왕국</mark>과 관련되지만, 그분께서 <mark>빛나는 샛별이신 것</mark>은 <mark>교회와 휴거</mark>와 관련된다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow-down"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+  <div class="flow-connector-text">
+    이 지문은 주님께서 '샛별'로 오신다는 요한계시록의 약속을 바탕으로, 이 샛별이 대환난이라는 가장 어두운 시기 이전에 깨어 있는 자들에게만 주어지는 특별한 보상임을 설명하며 전개됩니다.
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step-header" id="step2" style="--item-color: var(--c4);">
+    <div class="step-badge">Step 2</div>
+    <div class="step-title">가장 어두운 시간과 이기는 이의 보상</div>
+  </div>
+
+  <div class="reward-graphic">
+    <div class="reward-title">샛별은 자동적인 결과가 아닌 <span class="reward-highlight">'보상'</span>입니다</div>
+    <div class="reward-subtitle">나는 또 그에게 샛별을 줄 것이다. — 요한계시록 2:28</div>
+    
+    <div class="reward-cards">
+      <div class="rcard">
+        <div class="rcard-icon">🌟</div>
+        <div class="rcard-text">그리스도의 첫 번째 오심 때, 종교인들이 아닌 별을 찾던 박사들만이 그분을 보았습니다.</div>
+      </div>
+      <div class="rcard">
+        <div class="rcard-icon">💤</div>
+        <div class="rcard-text">두 번째 오심에서도 잠자는 믿는 이들은 샛별을 보지 못합니다.</div>
+      </div>
+      <div class="rcard">
+        <div class="rcard-icon">🔥</div>
+        <div class="rcard-text">오직 영을 사용하며 깨어 있는 이들만이 주님의 임재의 신선함을 가장 먼저 맛보는 특권을 얻습니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item" style="--item-color: var(--c4);">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      <div class="acc-icon">🌑</div>
+      <span class="acc-title">가장 어두운 시간에 나타나는 샛별</span>
+      <svg class="acc-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <div class="bible-box">
+          <div class="bible-label">
+            <svg class="bookmark-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h12a1 1 0 011 1v18.5a.5.5 0 01-.8.4L12 17.5 5.8 21.9a.5.5 0 01-.8-.4V3a1 1 0 011-1z"/></svg>
+            관련 성경구절
+          </div>
+          <p class="bible-ref"><span class="bible-ref-tag">[히 4:12]</span> 하나님의 말씀은 살아 있고 효력이 있으며 ... <mark>혼과 영</mark> 그리고 관절과 골수까지 찔러 쪼개고...</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">💡 의미</div>
+          <p>샛별은 <mark>동트기 전인 가장 어두운 시간</mark>에 나타난다. <mark>대환난</mark>은 이렇게 가장 어두운 기간일 것이며, 그 후에 <mark>왕국의 새날</mark>이 동틀 것이다. 주님은 이 가장 어두운 기간 전에 빛나는 샛별로 나타나실 것이다.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">📖 구체적 사례</div>
+          <p>온 땅의 상황은 점점 더 어두워질 것이다. 그러나 <mark>내적으로 우리는 점점 더 밝아질 것</mark>이다. 우리는 평범한 인간 생활을 계속해 나가면서도 내적으로 당신 안에 거하도록 "영과 혼을 분리해 주소서"라고 기도해야 한다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item" style="--item-color: var(--c5);">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      <div class="acc-icon">🏆</div>
+      <span class="acc-title">이기는 이에게 주시는 보상과 휴거</span>
+      <svg class="acc-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <div class="bible-box">
+          <div class="bible-label">
+            <svg class="bookmark-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h12a1 1 0 011 1v18.5a.5.5 0 01-.8.4L12 17.5 5.8 21.9a.5.5 0 01-.8-.4V3a1 1 0 011-1z"/></svg>
+            관련 성경구절
+          </div>
+          <p class="bible-ref"><span class="bible-ref-tag">[계 2:28]</span> 나는 또 그에게 <mark>샛별을 줄 것이다</mark>.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">💡 의미</div>
+          <p>대환난 전에 주님은 그분의 이기는 이들에게 샛별로서 은밀히 나타나셔서 그들을 <mark>휴거</mark>시키실 것이다. 그리스도께서 샛별로 나타나시는 것은 <mark>이기는 이들에게 주시는 보상</mark>이며, 그분 자신을 우리에게 주실 것임을 의미한다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow-down"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+  <div class="flow-connector-text">
+    샛별은 외적인 사건이기 전에 우리 내면 깊은 곳에서 먼저 떠오르며, 이렇게 깨어 있는 성도들을 결국 휴거로 이끌게 됩니다. 그렇다면 우리는 이 땅에서 어떠한 삶의 태도를 지녀야 할까요?
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step-header" id="step3" style="--item-color: var(--c6);">
+    <div class="step-badge">Step 3</div>
+    <div class="step-title">땅에 소망을 두지 않는 깨어 있는 삶</div>
+  </div>
+
+  <!-- [NEW] Scale Graphic (Trap) -->
+  <div class="scale-graphic">
+    <div class="scale-header">
+      <div class="scale-title">주의해야 할 함정: 안일함과 소유의 유혹</div>
+      <div class="scale-desc">
+        누가복음 12장은 우리에게 경고합니다. 세상의 누림과 즐거움을 위해 곳간을 헐고 더 크게 짓는 일에 몰두하는 것은 <strong>어리석은 일</strong>입니다. 우리에게 주어진 <strong>'오늘'</strong>은 <strong>재물을 쌓는 시간</strong>이 아니라, 허리에 <strong>띠</strong>를 띠고 <strong>등불</strong>을 켜 둔 채 주님을 사모해야 하는 은혜의 시간입니다.
+      </div>
+    </div>
+    <div class="scale-container">
+      <div class="scale-base"></div>
+      <div class="scale-pivot"></div>
+      <div class="scale-beam"></div>
+      
+      <div class="scale-pan pan-left">
+        <div class="pan-content">
+          <div class="pan-icon">🏚️</div>
+          <div class="pan-text">자신을 위해<br>재물을 쌓는 삶<span class="pan-sub">(오늘 밤 네 혼을 도로 찾으리니)</span></div>
+        </div>
+        <div class="pan-line"></div>
+        <div class="pan-plate"></div>
+      </div>
+      
+      <div class="scale-pan pan-right">
+        <div class="pan-content">
+          <div class="pan-icon">🪔🪢</div>
+          <div class="pan-text">하늘에 보물을 쌓고<br>주인을 기다리는 삶</div>
+        </div>
+        <div class="pan-line"></div>
+        <div class="pan-plate"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- [NEW] Funnel Graphic (Filter) -->
+  <div class="funnel-graphic">
+    <div class="funnel-header">
+      <div class="funnel-title">'없는 사람처럼' 행하는 삶의 여과기</div>
+      <div class="funnel-desc">
+        고린도전서 7장에서 바울은 세상의 모든 기쁨과 슬픔, 소유를 <strong>'없는 사람처럼'</strong> 대하라고 권면합니다. 그리스도만이 우리의 영원한 운명이시기에, 우리의 생활은 이 땅에 <strong>다른 소망이 없음</strong>을 증명해야 합니다.
+      </div>
+    </div>
+    <div class="funnel-container">
+      <div class="funnel-inputs">
+        <div class="f-input">아내 있는 것</div>
+        <div class="f-input">우는 것</div>
+        <div class="f-input">기뻐하는 것</div>
+        <div class="f-input">물건을 사는 것</div>
+        <div class="f-input">세상 것을 사용하는 것</div>
+      </div>
+      <div class="funnel-arrows">
+        <span>↓</span><span>↓</span><span>↓</span><span>↓</span><span>↓</span>
+      </div>
+      <div class="funnel-body">
+        <div class="funnel-glow"></div>
+        <div class="funnel-filter-text">
+          때가 단축되었으니<br><span>(이 세상의 형태는 사라져 감)</span>
+        </div>
+      </div>
+      <div class="funnel-neck">
+        <span>↓</span><span>↓</span><span>↓</span>
+      </div>
+      <div class="funnel-output">
+        <div class="funnel-output-text">✨ 오직 주님의 나타나심을 사모함</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item" style="--item-color: var(--c6);">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      <div class="acc-icon">👁️</div>
+      <span class="acc-title">깨어 있는 이들의 특권</span>
+      <svg class="acc-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <div class="bible-box">
+          <div class="bible-label">
+            <svg class="bookmark-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h12a1 1 0 011 1v18.5a.5.5 0 01-.8.4L12 17.5 5.8 21.9a.5.5 0 01-.8-.4V3a1 1 0 011-1z"/></svg>
+            관련 성경구절
+          </div>
+          <p class="bible-ref"><span class="bible-ref-tag">[살전 1:10]</span> 하나님께서 죽은 사람들 가운데서 살리신 그분의 아들, 곧 다가올 진노에서 우리를 구출하시는 예수님께서 <mark>하늘들에서 오시는 것을 여러분이 어떻게 기다리는지</mark>에 대하여 알려 주기 때문입니다.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">💡 의미</div>
+          <p><mark>깨어 있는 이들</mark>은 내적으로 그들의 <mark>영을 사용</mark>하며, 어느 때든지 샛별이 내적으로 나타날 수 있음을 인식하고 있는 이들이다. 잠자는 자들은 일반적인 해로서만 그분을 볼 것이다.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">🏆 특권</div>
+          <p>깨어 있는 이들은 주님께서 돌아오실 때, <mark>그분의 임재의 신선함을 가장 먼저 맛보는 특권</mark>을 얻게 될 것이다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item" style="--item-color: var(--c7);">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      <div class="acc-icon">⚖️</div>
+      <span class="acc-title">어리석은 부자의 비유와 경외하는 삶</span>
+      <svg class="acc-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <div class="bible-box">
+          <div class="bible-label">
+            <svg class="bookmark-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h12a1 1 0 011 1v18.5a.5.5 0 01-.8.4L12 17.5 5.8 21.9a.5.5 0 01-.8-.4V3a1 1 0 011-1z"/></svg>
+            관련 성경구절
+          </div>
+          <p class="bible-ref"><span class="bible-ref-tag">[눅 12:20]</span> 하나님께서 그에게 '<mark>어리석은 사람아</mark>, 오늘 밤에 너에게서 너의 혼을 도로 찾아갈 것이다. 그러면 네가 장만해 둔 것이 누구의 것이 되겠느냐?'라고 하셨습니다.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">💡 의미</div>
+          <p>주님께서 돌아오시는 것을 기다리는 동안, 우리는 <mark>그분을 경외하기를 배워야</mark> 한다. 자신을 위해 이 땅에 재물을 쌓아둔 어리석은 부자처럼 세상에 취해 살지 말아야 한다.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">✅ 적용</div>
+          <p>바울의 권면처럼 우리는 이 세상의 것들에 얽매이지 않고, 세상 것을 사용하는 사람들은 전혀 쓰지 않는 사람처럼 해야 한다. <mark>이 세상의 형태는 사라져 가고 있기 때문</mark>이다. 우리에게 있는 '오늘'이 주님의 은혜임을 알고 항상 오심을 기다리며 격려받아야 한다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow-down"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+  <div class="flow-connector-text">
+    이처럼 바울의 권면과 누가복음의 어리석은 부자 비유는 우리가 일상에서 세상의 재물이나 환경에 얽매이지 않고, 매 순간 주님의 오심을 간절히 사모해야 한다는 실천적인 방향으로 우리를 이끌어 줍니다.
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step-header" id="step4" style="--item-color: var(--c8);">
+    <div class="step-badge">Step 4</div>
+    <div class="step-title">주님의 나타나심을 간절히 사모함</div>
+  </div>
+
+  <div class="accordion-item" style="--item-color: var(--c8);">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      <div class="acc-icon">💕</div>
+      <span class="acc-title">나타나심을 열렬히 기다림</span>
+      <svg class="acc-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <div class="bible-box">
+          <div class="bible-label">
+            <svg class="bookmark-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h12a1 1 0 011 1v18.5a.5.5 0 01-.8.4L12 17.5 5.8 21.9a.5.5 0 01-.8-.4V3a1 1 0 011-1z"/></svg>
+            관련 성경구절
+          </div>
+          <p class="bible-ref"><span class="bible-ref-tag">[빌 3:20]</span> 우리의 국적은 하늘들에 있으므로, 우리는 거기에서 오실 구주, 곧 <mark>주 예수 그리스도를 간절히 기다립니다</mark>.</p>
+          <p class="bible-ref"><span class="bible-ref-tag">[딤후 4:8]</span> ... 그분께서 <mark>나타나시기를 사모하는 모든 사람</mark>에게 주실 것입니다.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">💡 의미</div>
+          <p>우리는 주님의 나타나심을 사모하므로 그분의 오심을 <mark>간절히 기다려야</mark> 한다. 우리의 생활을 통해 우리에게 <mark>이 땅에서 다른 소망이 없다</mark>는 것이 나타나야 한다. 그분께서 우리의 <mark>영원한 운명</mark>이시다.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">📖 구체적 사례</div>
+          <p>바울은 사도들처럼 주님의 오심을 굳게 믿었을 뿐 아니라 준비하는 삶을 살았다. 온 가족이 재회를 기다리듯, 결혼을 앞둔 처녀처럼 바울은 그러한 태도로 <mark>주님의 나타나심을 사모하는 사람</mark>이었다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item" style="--item-color: var(--c9);">
+    <div class="accordion-header" onclick="toggleAcc(this)">
+      <div class="acc-icon">📜</div>
+      <span class="acc-title">성경의 마지막 기도 — 주 예수님, 오십시오!</span>
+      <svg class="acc-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        <div class="bible-box">
+          <div class="bible-label">
+            <svg class="bookmark-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h12a1 1 0 011 1v18.5a.5.5 0 01-.8.4L12 17.5 5.8 21.9a.5.5 0 01-.8-.4V3a1 1 0 011-1z"/></svg>
+            관련 성경구절
+          </div>
+          <p class="bible-ref"><span class="bible-ref-tag">[계 22:20]</span> 이것들을 증언하신 분께서 말씀하십니다. <mark>"그렇다. 내가 속히 가겠다."</mark> 아멘. <mark>주 예수님, 오십시오!</mark></p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">💡 의미</div>
+          <p><mark>성경 전체는 주님께서 오시는 것에 대한 갈망을 표현하는 하나의 기도로 끝맺는다.</mark> 요한계시록 22장 20절에 나오는 요한의 기도는 성경에 있는 <mark>마지막 기도</mark>이다.</p>
+        </div>
+        <div class="point-block">
+          <div class="point-sub-title">✅ 적용</div>
+          <p>우리가 주님을 사랑한다면 분명 <mark>"아멘. 주 예수님, 오십시오!"</mark>라고 반응할 것이다. 우리는 항상 그분께 오시도록 요구해야 한다. "주 예수님, 저는 주님을 사랑하므로 <mark>주님의 나타나심을 사모</mark>합니다."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- QUIZ -->
+<section class="quiz-section" id="quiz">
+  <div class="section-label">퀴즈</div>
+
+  <div class="quiz-card" data-correct="2">
+    <div class="quiz-num">1</div>
+    <div class="quiz-q">그리스도께서 샛별로 나타나시는 것은 누구에게 주시는 보상인가?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>모든 믿는 이들</div>
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>이기는 이들</div>
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>이스라엘 백성</div>
+    </div>
+    <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+    <div class="quiz-hint">계시록 2장 28절에서 "나는 또 그에게 ___을 줄 것이다"라고 약속하신 대상을 생각해 보세요.</div>
+  </div>
+
+  <div class="quiz-card" data-correct="1">
+    <div class="quiz-num">2</div>
+    <div class="quiz-q">샛별이 나타나는 것과 해가 나타나는 것의 차이는?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>샛별은 은밀, 해는 공개적</div>
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>샛별은 공개적, 해는 은밀</div>
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>둘 다 공개적</div>
+    </div>
+    <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+    <div class="quiz-hint">샛별은 동트기 전 가장 어두운 시간에 조용히 나타납니다.</div>
+  </div>
+
+  <div class="quiz-card" data-correct="2">
+    <div class="quiz-num">3</div>
+    <div class="quiz-q">그리스도께서 빛나는 샛별이신 것은 무엇과 관련되는가?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>이스라엘과 왕국</div>
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>교회와 휴거</div>
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>구약과 율법</div>
+    </div>
+    <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+    <div class="quiz-hint">다윗의 뿌리/자손은 이스라엘·왕국과 관련되고, 빛나는 샛별은 다른 것과 관련됩니다.</div>
+  </div>
+
+  <div class="quiz-card" data-correct="3">
+    <div class="quiz-num">4</div>
+    <div class="quiz-q">깨어 있는 이들은 어떤 특권을 얻게 되는가?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>이 땅의 재물을 누림</div>
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>대환난에서 면제</div>
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>주님의 임재의 신선함을 가장 먼저 맛봄</div>
+    </div>
+    <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+    <div class="quiz-hint">주님께서 오랫동안 이 땅에 계시지 않다가 돌아오실 때 가장 먼저 경험하는 것입니다.</div>
+  </div>
+
+  <div class="quiz-card" data-correct="1">
+    <div class="quiz-num">5</div>
+    <div class="quiz-q">성경에 있는 마지막 기도는 무엇인가?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>"아멘. 주 예수님, 오십시오!"</div>
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>"하나님, 저를 용서하소서"</div>
+      <div class="quiz-opt" onclick="selectOpt(this)"><span class="opt-circle"></span>"주님, 감사합니다"</div>
+    </div>
+    <button class="quiz-hint-btn" onclick="toggleHint(this)">💡 힌트 보기</button>
+    <div class="quiz-hint">요한계시록 22장 20절을 참고하세요.</div>
+  </div>
+
+  <button class="quiz-submit-btn" onclick="submitQuiz()">결과 확인</button>
+  <div class="quiz-result" id="quizResult">
+    <div class="score" id="quizScore"></div>
+    <div class="feedback" id="quizFeedback"></div>
+  </div>
+</section>
+
+<!-- PRAYER -->
+<section class="prayer-section" id="prayer">
+  <h2>오늘의 기도</h2>
+  <div class="prayer-text">주 예수님, 저는 주님을 사랑하고 주님의 나타나심을 사모합니다.
+저는 주님을 사랑하므로 주님의 나타나심을 사모합니다.
+
+주님, 당신의 방식에 따라 저의 영과 혼을 분리해 주셔서,
+제가 두 영역에 동시에 있을 수 있게 해 주십시오.
+제가 사람의 방면에서 어떤 일을 하는 동안
+내적으로 당신 안에 거하고 당신께서 제 안에 거하실 수 있게 해 주십시오.
+
+주님, 당신의 사랑스러운 돌봄과 목양으로 말미암아
+당신은 무엇보다도 제가 휴거될 준비가 되어 있게 하십니다.
+
+아멘. 주 예수님, 오십시오!</div>
+</section>
+
+</div>
+
+<script>
+// FONT SIZE
+let fontScale = 1;
+function adjustFont(dir) {
+  if (dir === 0) fontScale = 1;
+  else fontScale = Math.max(0.75, Math.min(1.5, fontScale + dir * 0.05));
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+}
+
+// SIDE NAV
+function toggleNav() {
+  document.getElementById('sideNav').classList.toggle('open');
+  document.getElementById('sideOverlay').classList.toggle('open');
+}
+
+// KEYWORD DEF
+function toggleKeyDef(el) {
+  const def = el.parentElement.querySelector('.keyword-def');
+  def.classList.toggle('show');
+}
+
+// ACCORDION
+function toggleAcc(header) {
+  const item = header.parentElement;
+  const body = item.querySelector('.accordion-body');
+  if (item.classList.contains('open')) {
+    body.style.maxHeight = '0';
+    item.classList.remove('open');
+  } else {
+    item.classList.add('open');
+    body.style.maxHeight = body.scrollHeight + 'px';
+  }
+}
+
+// QUIZ
+function selectOpt(el) {
+  const card = el.closest('.quiz-card');
+  if (card.dataset.answered) return;
+  card.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function toggleHint(btn) {
+  const hint = btn.nextElementSibling;
+  hint.classList.toggle('show');
+  btn.textContent = hint.classList.contains('show') ? '💡 힌트 닫기' : '💡 힌트 보기';
+}
+
+function submitQuiz() {
+  const cards = document.querySelectorAll('.quiz-card');
+  let score = 0;
+  cards.forEach(card => {
+    card.dataset.answered = 'true';
+    const correct = parseInt(card.dataset.correct);
+    const opts = card.querySelectorAll('.quiz-opt');
+    const selected = card.querySelector('.quiz-opt.selected');
+    if (selected) {
+      const idx = Array.from(opts).indexOf(selected) + 1;
+      if (idx === correct) {
+        selected.classList.add('correct');
+        score++;
+      } else {
+        selected.classList.add('wrong');
+        opts[correct - 1].classList.add('correct');
+      }
+    } else {
+      opts[correct - 1].classList.add('correct');
+    }
+  });
+  const result = document.getElementById('quizResult');
+  document.getElementById('quizScore').textContent = score + ' / ' + cards.length;
+  const msgs = [
+    '다시 한번 핵심 요점을 복습해 보세요!',
+    '좋은 시작입니다! 조금 더 살펴보세요.',
+    '잘하셨습니다! 거의 다 맞추셨어요.',
+    '잘하셨습니다! 핵심을 잘 이해하고 있습니다.',
+    '잘하셨습니다! 핵심을 잘 파악하고 있습니다.',
+    '완벽합니다! 빛나는 샛별의 의미를 정확히 이해하셨습니다!'
+  ];
+  document.getElementById('quizFeedback').textContent = msgs[score];
+  result.classList.add('show');
+}
+</script>
+</body>
+</html>
